@@ -28,6 +28,5 @@ namespace ClassLibrary1.Entities
         {
             Positions = new List<Position>();
         }
-
     }
 }

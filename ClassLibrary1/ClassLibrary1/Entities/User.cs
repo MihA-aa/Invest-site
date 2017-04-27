@@ -14,12 +14,6 @@ namespace ClassLibrary1
         public string Login { get; set; }
         public string PasswordHash { get; set; }
         public virtual Customer Customer { get; set; }
-
-        public virtual ICollection<UserRole> UserRoles { get; set; }
-        public User()
-        {
-            UserRoles = new List<UserRole>();
-        }
-
+        public Roles Role { get; set; }
     }
 }
