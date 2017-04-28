@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary1
 {
-    class User
+    public class User
     {
         public int Id { get; set; }
         public string UserName { get; set; }

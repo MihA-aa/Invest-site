@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary1.Entities
 {
-    class Position
+    public class Position
     {
         public int Id { get; set; }
         public int SymbolId { get; set; }

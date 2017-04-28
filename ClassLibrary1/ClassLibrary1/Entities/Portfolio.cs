@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary1.Entities
 {
-    class Portfolio
+    public class Portfolio
     {
         public int Id { get; set; }
         public virtual Customer Customer { get; set; }
