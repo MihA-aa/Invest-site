@@ -15,6 +15,6 @@ namespace ClassLibrary1.Entities
         public DateFormats DateFormat { get; set; }
         public virtual ViewTemplate ViewTemplate { get; set; }
         public int MoneyPrecision { get; set; }
-        public int PercentPrecision { get; set; }
+        public int PercentyPrecision { get; set; }
     }
 }

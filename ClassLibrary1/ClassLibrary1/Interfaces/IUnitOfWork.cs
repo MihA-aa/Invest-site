@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary1.Interfaces
 {
-    interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IRepository<Customer> Customers { get; }
         IRepository<Portfolio> Portfolios { get; }
