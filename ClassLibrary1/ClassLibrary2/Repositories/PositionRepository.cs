@@ -8,43 +8,10 @@ using System.Data.Entity;
 
 namespace ClassLibrary2.Repositories
 {
-    public class PositionRepository : IRepository<Position>
+    public class PositionRepository : GenericRepository<Position>
     {
-        ApplicationContext db;
-        public PositionRepository(ApplicationContext context)
+        public PositionRepository(ApplicationContext context) : base(context)
         {
-            this.db = context;
-        }
-        public void Create(Position position)
-        {
-            db.Positions.Add(position);
-        }
-
-        public void Delete(int id)
-        {
-            Position position = db.Positions.Find(id);
-            if (position != null)
-                db.Positions.Remove(position);
-        }
-
-        public IEnumerable<Position> Find(Func<Position, bool> predicate)
-        {
-            return db.Positions.Where(predicate).ToList();
-        }
-
-        public Position Get(int id)
-        {
-            return db.Positions.Find(id);
-        }
-
-        public IEnumerable<Position> GetAll()
-        {
-            return db.Positions;
-        }
-
-        public void Update(Position position)
-        {
-            db.Entry(position).State = EntityState.Modified;
         }
     }
 }

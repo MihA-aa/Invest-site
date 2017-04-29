@@ -8,43 +8,10 @@ using System.Data.Entity;
 
 namespace ClassLibrary2.Repositories
 {
-    class SymbolRepository : IRepository<Symbol>
+    class SymbolRepository : GenericRepository<Symbol>
     {
-        ApplicationContext db;
-        public SymbolRepository(ApplicationContext context)
+        public SymbolRepository(ApplicationContext context) : base(context)
         {
-            this.db = context;
-        }
-        public void Create(Symbol symbol)
-        {
-            db.Symbols.Add(symbol);
-        }
-
-        public void Delete(int id)
-        {
-            Symbol symbol = db.Symbols.Find(id);
-            if (symbol != null)
-                db.Symbols.Remove(symbol);
-        }
-
-        public IEnumerable<Symbol> Find(Func<Symbol, bool> predicate)
-        {
-            return db.Symbols.Where(predicate).ToList();
-        }
-
-        public Symbol Get(int id)
-        {
-            return db.Symbols.Find(id);
-        }
-
-        public IEnumerable<Symbol> GetAll()
-        {
-            return db.Symbols;
-        }
-
-        public void Update(Symbol symbol)
-        {
-            db.Entry(symbol).State = EntityState.Modified;
         }
     }
 }

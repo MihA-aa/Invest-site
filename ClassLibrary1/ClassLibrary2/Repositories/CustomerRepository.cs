@@ -10,43 +10,10 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary2.Repositories
 {
-    class CustomerRepository : IRepository<Customer>
+    class CustomerRepository : GenericRepository<Customer>
     {
-        ApplicationContext db;
-        public CustomerRepository(ApplicationContext context)
+        public CustomerRepository(ApplicationContext context) : base(context)
         {
-            this.db = context;
-        }
-        public void Create(Customer customer)
-        {
-            db.Customers.Add(customer);
-        }
-
-        public void Delete(int id)
-        {
-            Customer customer = db.Customers.Find(id);
-            if (customer != null)
-                db.Customers.Remove(customer);
-        }
-
-        public IEnumerable<Customer> Find(Func<Customer, bool> predicate)
-        {
-            return db.Customers.Where(predicate).ToList();
-        }
-
-        public Customer Get(int id)
-        {
-            return db.Customers.Find(id);
-        }
-
-        public IEnumerable<Customer> GetAll()
-        {
-            return db.Customers;
-        }
-
-        public void Update(Customer portfolio)
-        {
-            db.Entry(portfolio).State = EntityState.Modified;
         }
     }
 }

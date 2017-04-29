@@ -8,8 +8,8 @@ namespace ClassLibrary1
 {
     public enum ColumnFormats
     {
-        Percent,
-        Automatic,
-        Decimal
+        Percent = 1,
+        Automatic = 2,
+        Decimal = 3
     }
 }

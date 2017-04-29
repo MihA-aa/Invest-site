@@ -1,52 +1,17 @@
 ﻿using ClassLibrary1.Entities;
-using ClassLibrary1.Interfaces;
-using ClassLibrary2.EF;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
+using ClassLibrary2.EF;
 
 namespace ClassLibrary2.Repositories
 {
-    class PortfolioRepository : IRepository<Portfolio>
+    public class PortfolioRepository : GenericRepository<Portfolio>
     {
-        ApplicationContext db;
-        public PortfolioRepository(ApplicationContext context)
+        public PortfolioRepository(ApplicationContext context) : base(context)
         {
-            this.db = context;
-        }
-        public void Create(Portfolio portfolio)
-        {
-            db.Portfolios.Add(portfolio);
-        }
-
-        public void Delete(int id)
-        {
-            Portfolio portfolio = db.Portfolios.Find(id);
-            if (portfolio != null)
-                db.Portfolios.Remove(portfolio);
-        }
-
-        public IEnumerable<Portfolio> Find(Func<Portfolio, bool> predicate)
-        {
-            return db.Portfolios.Where(predicate).ToList();
-        }
-
-        public Portfolio Get(int id)
-        {
-            return db.Portfolios.Find(id);
-        }
-
-        public IEnumerable<Portfolio> GetAll()
-        {
-            return db.Portfolios;
-        }
-
-        public void Update(Portfolio portfolio)
-        {
-            db.Entry(portfolio).State = EntityState.Modified;
         }
     }
 }
