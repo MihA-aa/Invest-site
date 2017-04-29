@@ -12,9 +12,6 @@ namespace ClassLibrary1.Entities
         public string Name { get; set; }
         public TemplatePositions Positions { get; set; }
         public bool ShowPortfolioStats { get; set; }
-        public bool CollapsedGroups { get; set; }
-        public bool SymbolClickCharts { get; set; }
-        public bool GroupTrades { get; set; }
         public Sorting SortOrder { get; set; }
 
         public virtual ICollection<ViewTemplateColumn> Columns { get; set; }
