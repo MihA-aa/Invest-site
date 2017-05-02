@@ -1,0 +1,14 @@
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\TestConsoleProj.exe.config
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\TestConsoleProj.exe
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\TestConsoleProj.pdb
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\ClassLibrary1.dll
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\ClassLibrary2.dll
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\EntityFramework.dll
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\ClassLibrary1.pdb
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\ClassLibrary2.pdb
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\EntityFramework.xml
+D:\Project\git\ClassLibrary1\TestConsoleProj\obj\Debug\TestConsoleProj.csprojResolveAssemblyReference.cache
+D:\Project\git\ClassLibrary1\TestConsoleProj\obj\Debug\TestConsoleProj.exe
+D:\Project\git\ClassLibrary1\TestConsoleProj\obj\Debug\TestConsoleProj.pdb
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\EntityFramework.SqlServer.dll
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\EntityFramework.SqlServer.xml

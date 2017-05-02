@@ -18,9 +18,13 @@ namespace ClassLibrary2.Repositories
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
         private UserRepository userRepository;
-        public EFUnitOfWork(string connectionString)
+        //public EFUnitOfWork(string connectionString)
+        //{
+        //    db = new ApplicationContext(connectionString);
+        //}
+        public EFUnitOfWork()
         {
-            db = new ApplicationContext(connectionString);
+            db = new ApplicationContext();
         }
         public IRepository<Symbol> Symbols
         {

@@ -15,5 +15,6 @@ namespace ClassLibrary1.Entities
         public virtual ViewTemplate ViewTemplate { get; set; }
         public int MoneyPrecision { get; set; }
         public int PercentyPrecision { get; set; }
+        public virtual Portfolio Portfolio { get; set; }
     }
 }
