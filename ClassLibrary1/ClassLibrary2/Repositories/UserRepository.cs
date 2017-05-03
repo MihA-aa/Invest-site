@@ -1,12 +1,7 @@
-﻿using ClassLibrary1.Interfaces;
-using ClassLibrary2.EF;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using ClassLibrary1;
+﻿using DAL.Entities;
+using DALEF.EF;
 
-namespace ClassLibrary2.Repositories
+namespace DALEF.Repositories
 {
     class UserRepository : GenericRepository<User>
     {

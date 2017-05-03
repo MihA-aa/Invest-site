@@ -1,17 +1,14 @@
-﻿using ClassLibrary1;
-using ClassLibrary1.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL.Entities;
+using DAL.Enums;
 
-namespace ClassLibrary2.EF
+namespace DALEF.EF
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext() : base("DefaultConnection") { }
+        public ApplicationContext(string connectionString) : base(connectionString) { }
         static ApplicationContext()
         {
             Database.SetInitializer<ApplicationContext>(new StoreDbInitializer());

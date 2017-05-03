@@ -1,10 +1,10 @@
-﻿using ClassLibrary1.Entities;
-using ClassLibrary2.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Entities;
+using DALEF.Repositories;
 
 namespace TestConsoleProj
 {
@@ -12,7 +12,7 @@ namespace TestConsoleProj
     {
         static void Main(string[] args)
         {
-            EFUnitOfWork db = new EFUnitOfWork();
+            EFUnitOfWork db = new EFUnitOfWork("DefaultConnection");
             var portfolios = db.Portfolios.GetAll().ToList();
             var positions = db.Positions.GetAll().ToList();
             var symbols = db.Symbols.GetAll().ToList();

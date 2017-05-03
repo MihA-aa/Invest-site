@@ -12,7 +12,5 @@ namespace BLL.Interfaces
         PositionDTO GetPosition(int? id);
         IEnumerable<PositionDTO> GetPositions();
         IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId);
-
-        void Dispose();
     }
 }

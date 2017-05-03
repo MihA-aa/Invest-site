@@ -1,14 +1,9 @@
-﻿using ClassLibrary1.Interfaces;
-using ClassLibrary2.EF;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.Entity;
-using ClassLibrary1;
-using ClassLibrary1.Entities;
-using ClassLibrary2.Repositories;
+﻿using System;
+using DAL.Entities;
+using DAL.Interfaces;
+using DALEF.EF;
 
-namespace ClassLibrary2.Repositories
+namespace DALEF.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
@@ -18,14 +13,14 @@ namespace ClassLibrary2.Repositories
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
         private UserRepository userRepository;
-        //public EFUnitOfWork(string connectionString)
-        //{
-        //    db = new ApplicationContext(connectionString);
-        //}
-        public EFUnitOfWork()
+        public EFUnitOfWork(string connectionString)
         {
-            db = new ApplicationContext();
+            db = new ApplicationContext(connectionString);
         }
+        //public EFUnitOfWork()
+        //{
+        //    db = new ApplicationContext();
+        //}
         public IRepository<Symbol> Symbols
         {
             get

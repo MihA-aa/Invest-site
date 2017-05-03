@@ -1,12 +1,7 @@
-﻿using ClassLibrary1.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ClassLibrary2.EF;
+﻿using DAL.Entities;
+using DALEF.EF;
 
-namespace ClassLibrary2.Repositories
+namespace DALEF.Repositories
 {
     public class PortfolioRepository : GenericRepository<Portfolio>
     {

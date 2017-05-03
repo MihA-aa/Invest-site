@@ -1,0 +1,12 @@
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\DALEF.dll.config
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\DALEF.dll
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\DALEF.pdb
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\DAL.dll
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.dll
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.SqlServer.dll
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\DAL.pdb
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.xml
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.SqlServer.xml
+D:\Project\git\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csprojResolveAssemblyReference.cache
+D:\Project\git\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
+D:\Project\git\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb

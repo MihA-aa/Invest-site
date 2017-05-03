@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{5CC7B26B-6E20-477B-8DEA-082BE73F7F84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "ClassLibrary1\DAL.csproj", "{5CC7B26B-6E20-477B-8DEA-082BE73F7F84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary2", "ClassLibrary2\ClassLibrary2.csproj", "{257C9A9D-5143-4752-8FD3-CF729DED20E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DALEF", "ClassLibrary2\DALEF.csproj", "{257C9A9D-5143-4752-8FD3-CF729DED20E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleProj", "TestConsoleProj\TestConsoleProj.csproj", "{3D686A43-9873-4D47-9344-75B64A0C2D2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{6CB2A215-BFC7-4B82-B68E-679C21D4D98E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{3D686A43-9873-4D47-9344-75B64A0C2D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D686A43-9873-4D47-9344-75B64A0C2D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D686A43-9873-4D47-9344-75B64A0C2D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CB2A215-BFC7-4B82-B68E-679C21D4D98E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CB2A215-BFC7-4B82-B68E-679C21D4D98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CB2A215-BFC7-4B82-B68E-679C21D4D98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CB2A215-BFC7-4B82-B68E-679C21D4D98E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

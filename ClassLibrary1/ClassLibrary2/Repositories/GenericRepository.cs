@@ -1,13 +1,11 @@
-﻿using ClassLibrary1.Interfaces;
-using ClassLibrary2.EF;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DAL.Interfaces;
+using DALEF.EF;
 
-namespace ClassLibrary2.Repositories
+namespace DALEF.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {

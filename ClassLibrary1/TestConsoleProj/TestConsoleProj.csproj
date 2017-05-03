@@ -62,13 +62,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary1\ClassLibrary1.csproj">
+    <ProjectReference Include="..\ClassLibrary1\DAL.csproj">
       <Project>{5cc7b26b-6e20-477b-8dea-082be73f7f84}</Project>
-      <Name>ClassLibrary1</Name>
+      <Name>DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ClassLibrary2\ClassLibrary2.csproj">
+    <ProjectReference Include="..\ClassLibrary2\DALEF.csproj">
       <Project>{257c9a9d-5143-4752-8fd3-cf729ded20e3}</Project>
-      <Name>ClassLibrary2</Name>
+      <Name>DALEF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

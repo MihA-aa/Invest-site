@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.DTO;
-using ClassLibrary1.Interfaces;
 using BLL.Infrastructure;
 using AutoMapper;
-using ClassLibrary1.Entities;
+using DAL.Entities;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
@@ -48,10 +48,6 @@ namespace BLL.Services
                 throw new ValidationException("Position not found", "");
             Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
             return Mapper.Map<Position, PositionDTO>(position);
-        }
-        public void Dispose()
-        {
-            db.Dispose();
         }
     }
 }
