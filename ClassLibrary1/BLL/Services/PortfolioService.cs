@@ -12,7 +12,7 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    class PortfolioService : IPortfolioService
+    public class PortfolioService : IPortfolioService
     {
         IUnitOfWork db { get; set; }
 

@@ -1,0 +1,15 @@
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\BLL.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\BLL.pdb
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\Autofac.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\AutoMapper.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\DAL.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\DALEF.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\EntityFramework.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\DAL.pdb
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\DALEF.pdb
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\Autofac.xml
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\AutoMapper.xml
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\EntityFramework.xml
+D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.dll
+D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.pdb

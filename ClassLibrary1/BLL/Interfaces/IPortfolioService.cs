@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    interface IPortfolioService
+    public interface IPortfolioService
     {
         PositionDTO GetPosition(int? id);
         IEnumerable<PositionDTO> GetPositions();

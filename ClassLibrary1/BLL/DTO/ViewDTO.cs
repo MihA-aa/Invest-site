@@ -7,7 +7,7 @@ using DAL.Enums;
 
 namespace BLL.DTO
 {
-    class ViewDTO
+    public class ViewDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
