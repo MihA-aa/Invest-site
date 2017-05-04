@@ -58,10 +58,14 @@
     <Compile Include="DTO\ViewTemplateDTO.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Infrastructure\ValidationException.cs" />
+    <Compile Include="Interfaces\ICalculationService.cs" />
     <Compile Include="Interfaces\IPortfolioService.cs" />
+    <Compile Include="Interfaces\IPositionService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CalculationService.cs" />
     <Compile Include="Services\PortfolioService.cs" />
+    <Compile Include="Services\PositionService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClassLibrary1\DAL.csproj">

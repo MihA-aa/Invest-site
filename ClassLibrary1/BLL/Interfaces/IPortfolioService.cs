@@ -9,10 +9,12 @@ namespace BLL.Interfaces
 {
     public interface IPortfolioService
     {
-        PositionDTO GetPosition(int? id);
         PortfolioDTO GetPortfolio(int? id);
-        IEnumerable<PositionDTO> GetPositions();
         IEnumerable<PortfolioDTO> GetPortfolios();
         IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId);
+        void CreatePortfolio(PortfolioDTO portfolio);
+        void DeletePortfolio(int? id);
+        void UpdatePortfolio(PortfolioDTO portfolio);
+        void AddPositionToPortfolio(PositionDTO position, int portfolioId);
     }
 }

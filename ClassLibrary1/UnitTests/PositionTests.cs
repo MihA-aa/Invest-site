@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using BLL.DTO;
-using DAL.Entities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BLL.Interfaces;
 using BLL.Services;
-using Moq;
+using DAL.Entities;
 using DAL.Enums;
 using DAL.Interfaces;
-using DALEF.Repositories;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace UnitTests
 {
     [TestClass]
-    public class PortfolioTests
+    public class PositionTests
     {
         private Mock<IUnitOfWork> UnitOfWork;
         private PortfolioService portfolioService;
+        private PositionService positionService;
         private Mock<IRepository<Position>> positionRepository;
         private Mock<IRepository<Portfolio>> portfolioRepository;
         List<Position> ListPositions;
@@ -130,7 +129,7 @@ namespace UnitTests
                 Positions = new List<Position> { position3 }
             };
 
-            ListPortfolios = new List<Portfolio> { portfolio1 , portfolio2 };
+            ListPortfolios = new List<Portfolio> { portfolio1, portfolio2 };
             #endregion 
 
             UnitOfWork = new Mock<IUnitOfWork>();
@@ -138,50 +137,76 @@ namespace UnitTests
             portfolioRepository = new Mock<IRepository<Portfolio>>();
 
         }
+
         [TestMethod]
-        public void CanGetAllPortfolios()
+        public void CanGetAllPositions()
         {
-            portfolioRepository.Setup(m => m.GetAll()).Returns(ListPortfolios);
-            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object);
+            positionRepository.Setup(m => m.GetAll()).Returns(ListPositions);
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
 
-            IEnumerable<PortfolioDTO> result = portfolioService.GetPortfolios();
+            IEnumerable<PositionDTO> result = positionService.GetPositions();
 
-            List<PortfolioDTO> positions = result.ToList();
-            Assert.IsTrue(positions.Count == 2);
-            Assert.AreEqual(positions[0].Name, "Strategic Investment Open Portfolio");
-            Assert.AreEqual(positions[1].Name, "Strategic Investment Income Portfolio");
+            List<PositionDTO> positions = result.ToList();
+            Assert.IsTrue(positions.Count == 3);
+            Assert.AreEqual(positions[0].Name, "Pulse Biosciences CS");
+            Assert.AreEqual(positions[1].Name, "Witwatersrand Gold Rsrcs Ltd");
+            Assert.AreEqual(positions[2].Name, "AAT Corporation Limited");
         }
 
         [TestMethod]
-        public void CanGetPortfolioById()
+        public void CanGetPositionById()
         {
-            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
-            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object);
+            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.Single(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
 
-            PortfolioDTO portfolio1 = portfolioService.GetPortfolio(1);
-            PortfolioDTO portfolio2 = portfolioService.GetPortfolio(2);
+            PositionDTO position1 = positionService.GetPosition(1);
+            PositionDTO position2 = positionService.GetPosition(2);
+            PositionDTO position3 = positionService.GetPosition(3);
 
-            Assert.AreEqual(portfolio1.Name, "Strategic Investment Open Portfolio");
-            Assert.AreEqual(portfolio2.Name, "Strategic Investment Income Portfolio");
+            Assert.AreEqual(position1.Name, "Pulse Biosciences CS");
+            Assert.AreEqual(position2.Name, "Witwatersrand Gold Rsrcs Ltd");
+            Assert.AreEqual(position3.Name, "AAT Corporation Limited");
         }
 
         [TestMethod]
-        public void CanGetPortfolioPositionsByPortfolioId()
+        public void CanCreatePosition()
         {
-            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
-            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object);
+            positionRepository.Setup(m => m.GetAll()).Returns(ListPositions);
+            positionRepository.Setup(m => m.Create(It.IsAny<Position>()));
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
 
-            IEnumerable<PositionDTO> positions1 = portfolioService.GetPortfolioPositions(1);
-            IEnumerable<PositionDTO> positions2 = portfolioService.GetPortfolioPositions(2);
+            #region
+            PositionDTO Newposition = new PositionDTO
+            {
+                Id = 5,
+                SymbolId = 3,
+                SymbolType = Symbols.Option,
+                SymbolName = "PLSE",
+                Name = "Pulse Biosciences CS",
+                OpenDate = new DateTime(2015, 7, 20),
+                OpenPrice = 128.32m,
+                OpenWeight = 40,
+                TradeType = TradeTypes.Long,
+                TradeStatus = TradeStatuses.Open,
+                Dividends = 57.3m,
+                CloseDate = new DateTime(2016, 1, 12),
+                ClosePrice = 218.32m,
+                CurrentPrice = 99.53m,
+                Gain = 87.12m,
+                AbsoluteGain = 110.34m,
+                MaxGain = 154.34m
+            };
+            #endregion
 
-            Assert.IsTrue(positions1.Count() == 2);
-            Assert.IsTrue(positions2.Count() == 1);
-            Assert.AreEqual(positions1.ToList()[0].Name, "Pulse Biosciences CS");
-            Assert.AreEqual(positions1.ToList()[1].Name, "Witwatersrand Gold Rsrcs Ltd");
-            Assert.AreEqual(positions2.ToList()[0].Name, "AAT Corporation Limited");
+            positionService.CreatePosition(Newposition);
+
+            IEnumerable<Position> positions = positionRepository.Object.GetAll();
+
+            Assert.IsTrue(positions.Count() == 4);
         }
+
     }
 }

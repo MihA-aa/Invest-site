@@ -20,12 +20,7 @@ namespace BLL.Services
         {
             db = uow;
         }
-
-        public IEnumerable<PositionDTO> GetPositions()
-        {
-            Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
-            return Mapper.Map<IEnumerable<Position>, List<PositionDTO>>(db.Positions.GetAll());
-        }
+        
         public IEnumerable<PortfolioDTO> GetPortfolios()
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Portfolio, PortfolioDTO>());
@@ -54,15 +49,38 @@ namespace BLL.Services
             return Mapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
 
-        public PositionDTO GetPosition(int? id)
+        public void CreatePortfolio(PortfolioDTO portfolio)
+        {
+            //Validation!!!!!!!!!
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
+            Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
+            db.Portfolios.Create(newPortfolio);
+        }
+        public void DeletePortfolio(int? id)
         {
             if (id == null)
-                throw new ValidationException("Not set id of position", "");
-            var position = db.Positions.Get(id.Value);
-            if (position == null)
-                throw new ValidationException("Position not found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
-            return Mapper.Map<Position, PositionDTO>(position);
+                throw new ValidationException("Not set id of portfolio", "");
+            var portfolio = db.Portfolios.Get(id.Value);
+            if (portfolio == null)
+                throw new ValidationException("Portfolio not found", "");
+            db.Portfolios.Delete(id.Value);
+        }
+
+        public void UpdatePortfolio(PortfolioDTO portfolio)
+        {
+            if (portfolio == null)
+                throw new ValidationException("Portfolio is null reference", "");
+            var portfolio1 = db.Portfolios.Get(portfolio.Id);
+            if (portfolio1 == null)
+                throw new ValidationException("Portfolio not found", "");
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
+            Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
+            db.Portfolios.Update(newPortfolio);
+        }
+
+        public void AddPositionToPortfolio(PositionDTO position, int portfolioId)
+        {
+            
         }
     }
 }
