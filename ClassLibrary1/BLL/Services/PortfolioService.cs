@@ -26,17 +26,32 @@ namespace BLL.Services
             Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
             return Mapper.Map<IEnumerable<Position>, List<PositionDTO>>(db.Positions.GetAll());
         }
+        public IEnumerable<PortfolioDTO> GetPortfolios()
+        {
+            Mapper.Initialize(cfg => cfg.CreateMap<Portfolio, PortfolioDTO>());
+            return Mapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(db.Portfolios.GetAll());
+        }
 
         public IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId)
         {
             if (portfolioId == null)
-                throw new ValidationException("Not set id of position", "");
+                throw new ValidationException("Not set id of portfolio", "");
             var portfolio = db.Portfolios.Get(portfolioId.Value);
             if (portfolio == null)
                 throw new ValidationException("Portfolio not found", "");
-
             Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
             return Mapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());
+        }
+
+        public PortfolioDTO GetPortfolio(int? id)
+        {
+            if (id == null)
+                throw new ValidationException("Not set id of portfolio", "");
+            var portfolio = db.Portfolios.Get(id.Value);
+            if (portfolio == null)
+                throw new ValidationException("Position not found", "");
+            Mapper.Initialize(cfg => cfg.CreateMap<Portfolio, PortfolioDTO>());
+            return Mapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
 
         public PositionDTO GetPosition(int? id)

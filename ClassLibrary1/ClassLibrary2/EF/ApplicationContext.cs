@@ -90,7 +90,7 @@ namespace DALEF.EF
                 SymbolId = 1,
                 SymbolType = Symbols.Option,
                 SymbolName = "AAT",
-                Name = "AAT",
+                Name = "AAT Corporation Limited",
                 OpenDate = new DateTime(2017, 4, 28),
                 OpenPrice = 43.20m,
                 OpenWeight = 113,

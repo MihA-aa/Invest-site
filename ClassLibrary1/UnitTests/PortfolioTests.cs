@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BLL.DTO;
 using DAL.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BLL.Interfaces;
@@ -18,13 +19,14 @@ namespace UnitTests
         private Mock<IUnitOfWork> UnitOfWork;
         private PortfolioService portfolioService;
         private Mock<IRepository<Position>> positionRepository;
+        private Mock<IRepository<Portfolio>> portfolioRepository;
         List<Position> ListPositions;
         List<Portfolio> ListPortfolios;
 
         [TestInitialize]
         public void Initialize()
         {
-            #region
+            #region positions initialize
             Position position1 = new Position
             {
                 Id = 1,
@@ -51,7 +53,7 @@ namespace UnitTests
                 SymbolId = 2,
                 SymbolType = Symbols.Stock,
                 SymbolName = "WIWTY",
-                Name = "Witwatersrand Gold Rsrcs Ltd ",
+                Name = "Witwatersrand Gold Rsrcs Ltd",
                 OpenDate = new DateTime(2009, 2, 24),
                 OpenPrice = 4.00m,
                 OpenWeight = 125,
@@ -71,7 +73,7 @@ namespace UnitTests
                 SymbolId = 1,
                 SymbolType = Symbols.Option,
                 SymbolName = "AAT",
-                Name = "AAT",
+                Name = "AAT Corporation Limited",
                 OpenDate = new DateTime(2017, 4, 28),
                 OpenPrice = 43.20m,
                 OpenWeight = 113,
@@ -91,23 +93,128 @@ namespace UnitTests
             };
             #endregion
 
+            #region portfolio inizialize
+            Portfolio portfolio1 = new Portfolio
+            {
+                Id = 1,
+                Name = "Strategic Investment Open Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 1,
+                LastUpdateDate = new DateTime(2017, 4, 28),
+                Visibility = false,
+                Quantity = 2,
+                PercentWins = 73.23m,
+                BiggestWinner = 234.32m,
+                BiggestLoser = 12.65m,
+                AvgGain = 186.65m,
+                MonthAvgGain = 99.436m,
+                PortfolioValue = 1532.42m,
+                Positions = new List<Position> { position1, position2 }
+            };
+
+            Portfolio portfolio2 = new Portfolio
+            {
+                Id = 2,
+                Name = "Strategic Investment Income Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 2,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+                Positions = new List<Position> { position3 }
+            };
+
+            ListPortfolios = new List<Portfolio> { portfolio1 , portfolio2 };
+            #endregion 
+
             UnitOfWork = new Mock<IUnitOfWork>();
             positionRepository = new Mock<IRepository<Position>>();
+            portfolioRepository = new Mock<IRepository<Portfolio>>();
 
         }
-
-
+        
         [TestMethod]
-        public void TestMethod1()
+        public void CanGetAllPositions()
         {
-
             positionRepository.Setup(m => m.GetAll()).Returns(ListPositions);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object);
 
-            var result = portfolioService.GetPositions();
+            IEnumerable<PositionDTO> result = portfolioService.GetPositions();
 
-            Assert.AreEqual(result.Count(), 3);
+            List<PositionDTO> positions = result.ToList();
+            Assert.IsTrue(positions.Count == 3);
+            Assert.AreEqual(positions[0].Name, "Pulse Biosciences CS");
+            Assert.AreEqual(positions[1].Name, "Witwatersrand Gold Rsrcs Ltd");
+            Assert.AreEqual(positions[2].Name, "AAT Corporation Limited");
+        }
+
+        [TestMethod]
+        public void CanGetAllPortfolios()
+        {
+            portfolioRepository.Setup(m => m.GetAll()).Returns(ListPortfolios);
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            IEnumerable<PortfolioDTO> result = portfolioService.GetPortfolios();
+
+            List<PortfolioDTO> positions = result.ToList();
+            Assert.IsTrue(positions.Count == 2);
+            Assert.AreEqual(positions[0].Name, "Strategic Investment Open Portfolio");
+            Assert.AreEqual(positions[1].Name, "Strategic Investment Income Portfolio");
+        }
+
+        [TestMethod]
+        public void CanGetPortfolioById()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            PortfolioDTO portfolio1 = portfolioService.GetPortfolio(1);
+            PortfolioDTO portfolio2 = portfolioService.GetPortfolio(2);
+
+            Assert.AreEqual(portfolio1.Name, "Strategic Investment Open Portfolio");
+            Assert.AreEqual(portfolio2.Name, "Strategic Investment Income Portfolio");
+        }
+
+        [TestMethod]
+        public void CanGetPositionById()
+        {
+            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.Single(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            PositionDTO position1 = portfolioService.GetPosition(1);
+            PositionDTO position2 = portfolioService.GetPosition(2);
+            PositionDTO position3 = portfolioService.GetPosition(3);
+
+            Assert.AreEqual(position1.Name, "Pulse Biosciences CS");
+            Assert.AreEqual(position2.Name, "Witwatersrand Gold Rsrcs Ltd");
+            Assert.AreEqual(position3.Name, "AAT Corporation Limited");
+        }
+
+        [TestMethod]
+        public void CanGetPortfolioPositionsByPortfolioId()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            IEnumerable<PositionDTO> positions1 = portfolioService.GetPortfolioPositions(1);
+            IEnumerable<PositionDTO> positions2 = portfolioService.GetPortfolioPositions(2);
+
+            Assert.IsTrue(positions1.Count() == 2);
+            Assert.IsTrue(positions2.Count() == 1);
+            Assert.AreEqual(positions1.ToList()[0].Name, "Pulse Biosciences CS");
+            Assert.AreEqual(positions1.ToList()[1].Name, "Witwatersrand Gold Rsrcs Ltd");
+            Assert.AreEqual(positions2.ToList()[0].Name, "AAT Corporation Limited");
         }
     }
 }
