@@ -18,6 +18,7 @@ namespace UnitTests
         private Mock<IUnitOfWork> UnitOfWork;
         private PortfolioService portfolioService;
         private PositionService positionService;
+        private ValidateService validateService;
         private Mock<IRepository<Position>> positionRepository;
         private Mock<IRepository<Portfolio>> portfolioRepository;
         List<Position> ListPositions;
@@ -223,6 +224,19 @@ namespace UnitTests
             Assert.IsTrue(positions.Count() == 4);
         }
 
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+            "Open Weight of position cannot be less than zero")]
+        public void CanNotCreatePositionWithOpenWeightLessThanZero()
+        {
+            positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); ;
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
+
+            PositionDTO unCorrectPosition = new PositionDTO { OpenWeight = -1 };
+
+            positionService.CreatePosition(unCorrectPosition);
+        }
         [TestMethod]
         public void CanDeletePosition()
         {

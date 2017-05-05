@@ -15,6 +15,7 @@ namespace BLL.Services
     public class PositionService : IPositionService
     {
         IUnitOfWork db { get; set; }
+        private ValidateService validateService = new ValidateService();
 
         public PositionService(IUnitOfWork uow)
         {
@@ -41,6 +42,7 @@ namespace BLL.Services
         public void CreatePosition(PositionDTO position)
         {
             //Validation!!!!!!!!!
+            validateService.IsValid(position);
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
             Position newPosition =  Mapper.Map<PositionDTO, Position>(position);
             db.Positions.Create(newPosition);
