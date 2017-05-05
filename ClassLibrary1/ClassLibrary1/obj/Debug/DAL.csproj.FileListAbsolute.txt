@@ -7,4 +7,3 @@ D:\Project\git\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework.xml
 D:\Project\git\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.xml
 D:\Project\git\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.dll
 D:\Project\git\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.pdb
-D:\Project\git\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.csprojResolveAssemblyReference.cache

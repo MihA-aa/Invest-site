@@ -78,9 +78,18 @@ namespace BLL.Services
             db.Portfolios.Update(newPortfolio);
         }
 
-        public void AddPositionToPortfolio(PositionDTO position, int portfolioId)
+        public void AddPositionToPortfolio(PositionDTO position, int? portfolioId)
         {
-            
+            if (position == null)
+                throw new ValidationException("Portfolio is null reference", "");
+            if (portfolioId == null)
+                throw new ValidationException("Not set id of portfolio", "");
+            var portfolio1 = db.Portfolios.Get(portfolioId.Value);
+            if (portfolio1 == null)
+                throw new ValidationException("Portfolio not found", "");
+            Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
+            Position newPosition = Mapper.Map<PositionDTO, Position>(position);
+            db.Portfolios.AddPositionToPortfolio(newPosition, portfolioId.Value);
         }
     }
 }

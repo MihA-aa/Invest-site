@@ -65,6 +65,7 @@
     <Compile Include="Enums\TemplatePositions.cs" />
     <Compile Include="Enums\TradeStatuses.cs" />
     <Compile Include="Enums\TradeTypes.cs" />
+    <Compile Include="Interfaces\IPortfolioRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

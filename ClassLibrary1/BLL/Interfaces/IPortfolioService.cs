@@ -15,6 +15,6 @@ namespace BLL.Interfaces
         void CreatePortfolio(PortfolioDTO portfolio);
         void DeletePortfolio(int? id);
         void UpdatePortfolio(PortfolioDTO portfolio);
-        void AddPositionToPortfolio(PositionDTO position, int portfolioId);
+        void AddPositionToPortfolio(PositionDTO position, int? portfolioId);
     }
 }

@@ -9,8 +9,8 @@ namespace DALEF.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-        ApplicationContext db;
-        DbSet<T> dbSet;
+        protected ApplicationContext db;
+        protected DbSet<T> dbSet;
         public GenericRepository(ApplicationContext context)
         {
             this.db = context;

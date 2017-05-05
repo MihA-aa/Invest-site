@@ -39,7 +39,7 @@ namespace DALEF.Repositories
                 return customerRepository;
             }
         }
-        public IRepository<Portfolio> Portfolios
+        public IPortfolioRepository Portfolios
         {
             get
             {
