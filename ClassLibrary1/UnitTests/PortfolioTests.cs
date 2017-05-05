@@ -10,6 +10,7 @@ using Moq;
 using DAL.Enums;
 using DAL.Interfaces;
 using DALEF.Repositories;
+using BLL.Infrastructure;
 
 namespace UnitTests
 {
@@ -171,7 +172,8 @@ namespace UnitTests
         [TestMethod]
         public void CanGetPortfolioById()
         {
-            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object);
 
@@ -183,9 +185,34 @@ namespace UnitTests
         }
 
         [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Not set id of portfolio")]
+        public void CanNotGetPortfolioByNullId()
+        {
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.GetPortfolio(null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Portfolio not found")]
+        public void CanNotGetNonexistentPortfolioByPortfolioId()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.GetPortfolio(5);
+        }
+
+        [TestMethod]
         public void CanGetPortfolioPositionsByPortfolioId()
         {
-            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object);
 
@@ -200,10 +227,35 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void CanCreatePosition()
+        [MyExpectedException(typeof(ValidationException),
+         "Not set id of portfolio")]
+        public void CanNotGetPortfolioPositionsByNullId()
+        {
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.GetPortfolioPositions(null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Portfolio not found")]
+        public void CanNotGetPositionsNonexistentPortfolio()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.GetPortfolio(5);
+        }
+
+        [TestMethod]
+        public void CanCreatePortfolio()
         {
             portfolioRepository.Setup(m => m.GetAll()).Returns(ListPortfolios);
-            portfolioRepository.Setup(m => m.Create(It.IsAny<Portfolio>())).Callback<Portfolio>(ListPortfolios.Add); ;
+            portfolioRepository.Setup(m => m.Create(It.IsAny<Portfolio>()))
+                .Callback<Portfolio>(ListPortfolios.Add); ;
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object);
 
@@ -234,10 +286,12 @@ namespace UnitTests
         [TestMethod]
         public void CanAddPositionToPortfolio()
         {
-            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
-            portfolioRepository.Setup(c =>c.AddPositionToPortfolio(It.IsAny<Position>(), It.IsAny<int>())).Callback((Position p, int i) =>
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            portfolioRepository.Setup(c =>c.AddPositionToPortfolio(It.IsAny<Position>(), It.IsAny<int>()))
+                .Callback((Position p, int i) =>
             {
-                var portfolio = ListPortfolios.Single(c => c.Id == i);
+                var portfolio = ListPortfolios.FirstOrDefault(c => c.Id == i);
                 portfolio.Positions.Add(p);
             });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
@@ -248,11 +302,47 @@ namespace UnitTests
             
             Assert.IsTrue(positions1.Count() == 3);
         }
+        
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Position is null reference")]
+        public void CanNotAddNonexistentPositionToPortfolio()
+        {
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.AddPositionToPortfolio(null, 1);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Not set id of portfolio")]
+        public void CanNotAddPositionWithNullPortfolioId()
+        {
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.AddPositionToPortfolio(newPosition, null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Portfolio not found")]
+        public void CanNotAddPositionInNonexistentPortfolio()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.AddPositionToPortfolio(newPosition, 5);
+        }
 
         [TestMethod]
         public void CanDeletePortfolio()
         {
-            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             portfolioRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListPortfolios.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
@@ -264,10 +354,36 @@ namespace UnitTests
         }
 
         [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Not set id of portfolio")]
+        public void CanNotDeletePortfolioByNullId()
+        {
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.DeletePortfolio(null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Portfolio not found")]
+        public void CanNotDeleteNonexistPortfolio()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.DeletePortfolio(5);
+        }
+
+        [TestMethod]
         public void CanUpdatePortfolio()
         {
-            portfolioRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPortfolios.Single(c => c.Id == i));
-            portfolioRepository.Setup(m => m.Update(It.IsAny<Portfolio>())).Callback<Portfolio>(p =>
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            portfolioRepository.Setup(m => m.Update(It.IsAny<Portfolio>()))
+                .Callback<Portfolio>(p =>
             {
                 int index = ListPortfolios.IndexOf(ListPortfolios.FirstOrDefault(c => c.Id == p.Id));
                 ListPortfolios[index] = p;
@@ -296,6 +412,30 @@ namespace UnitTests
             portfolioService.UpdatePortfolio(updatePortfolio);
 
             Assert.IsTrue(ListPortfolios.FirstOrDefault(c => c.Id == 1).Name == "Update Portfolio");
+        }
+        
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Portfolio is null reference")]
+        public void CanNotUpdateNullReferencePortfolio()
+        {
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+
+            portfolioService.UpdatePortfolio(null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Portfolio not found")]
+        public void CanNotUpdateeNonexistPortfolio()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            portfolioService = new PortfolioService(UnitOfWork.Object);
+            
+            portfolioService.UpdatePortfolio(new PortfolioDTO { Id = 5 });
         }
     }
 }

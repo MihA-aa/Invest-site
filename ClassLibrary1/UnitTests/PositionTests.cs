@@ -8,6 +8,7 @@ using DAL.Enums;
 using DAL.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using BLL.Infrastructure;
 
 namespace UnitTests
 {
@@ -151,7 +152,6 @@ namespace UnitTests
             UnitOfWork = new Mock<IUnitOfWork>();
             positionRepository = new Mock<IRepository<Position>>();
             portfolioRepository = new Mock<IRepository<Portfolio>>();
-
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace UnitTests
         [TestMethod]
         public void CanGetPositionById()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.Single(c => c.Id == i));
+            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             positionService = new PositionService(UnitOfWork.Object);
 
@@ -186,6 +186,29 @@ namespace UnitTests
             Assert.AreEqual(position3.Name, "AAT Corporation Limited");
         }
 
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Not set id of position")]
+        public void CanNotGetPositionByNullId()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
+
+            positionService.GetPosition(null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Position not found")]
+        public void CanNotGetNonexistentPositionByPositionId()
+        {
+            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
+
+            positionService.GetPosition(5);
+        }
         [TestMethod]
         public void CanCreatePosition()
         {
@@ -203,7 +226,7 @@ namespace UnitTests
         [TestMethod]
         public void CanDeletePosition()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.Single(c => c.Id == i));
+            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             positionRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListPositions.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
@@ -215,9 +238,33 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public void CanUpdatePortfolio()
+        [MyExpectedException(typeof(ValidationException),
+         "Not set id of position")]
+        public void CanNotDeletePositionByNullId()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.Single(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
+
+            positionService.DeletePosition(null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Position not found")]
+        public void CanNotDeleteNonexistPosition()
+        {
+            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
+
+            positionService.DeletePosition(5);
+        }
+
+        [TestMethod]
+        public void CanUpdatePosition()
+        {
+            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
             {
                 int index = ListPositions.IndexOf(ListPositions.FirstOrDefault(c => c.Id == p.Id));
@@ -253,6 +300,28 @@ namespace UnitTests
             Assert.IsTrue(ListPositions.FirstOrDefault(c => c.Id == 1).Name == "New update position");
         }
 
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Position is null reference")]
+        public void CanNotUpdateNullReferencePosition()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
 
+            positionService.UpdatePosition(null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Position not found")]
+        public void CanNotUpdateeNonexistPosition()
+        {
+            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object);
+
+            positionService.UpdatePosition(new PositionDTO { Id = 5 });
+        }
     }
 }
