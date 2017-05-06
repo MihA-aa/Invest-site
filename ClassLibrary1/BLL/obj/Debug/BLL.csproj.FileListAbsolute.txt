@@ -13,3 +13,5 @@ D:\Project\git\ClassLibrary1\BLL\bin\Debug\EntityFramework.xml
 D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.dll
 D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.pdb
+D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.Resource.Resource.resources
+D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.csproj.GenerateResource.Cache

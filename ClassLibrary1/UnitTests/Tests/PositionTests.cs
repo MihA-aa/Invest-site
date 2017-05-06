@@ -9,8 +9,9 @@ using DAL.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using BLL.Infrastructure;
+using UnitTests.Attributes;
 
-namespace UnitTests
+namespace UnitTests.Tests
 {
     [TestClass]
     public class PositionTests

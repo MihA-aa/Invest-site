@@ -69,9 +69,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MyExpectedException.cs" />
-    <Compile Include="PortfolioTests.cs" />
-    <Compile Include="PositionTests.cs" />
+    <Compile Include="Attributes\MyExpectedException.cs" />
+    <Compile Include="Tests\CalculationTests.cs" />
+    <Compile Include="Tests\PortfolioTests.cs" />
+    <Compile Include="Tests\PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,8 @@ namespace DAL.Interfaces
         IRepository<Position> Positions { get; }
         IRepository<Symbol> Symbols { get; }
         IRepository<User> Users { get; }
-
+        IRepository<Dividend> Dividends { get; }
+        
         void Save();
     }
 }

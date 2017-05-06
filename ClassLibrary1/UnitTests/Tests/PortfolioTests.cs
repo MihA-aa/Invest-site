@@ -4,15 +4,14 @@ using System.Linq;
 using BLL.DTO;
 using DAL.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BLL.Interfaces;
 using BLL.Services;
 using Moq;
 using DAL.Enums;
 using DAL.Interfaces;
-using DALEF.Repositories;
 using BLL.Infrastructure;
+using UnitTests.Attributes;
 
-namespace UnitTests
+namespace UnitTests.Tests
 {
     [TestClass]
     public class PortfolioTests
@@ -245,7 +244,7 @@ namespace UnitTests
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object, validateService);
 
-            portfolioService.GetPortfolio(5);
+            portfolioService.GetPortfolioPositions(5);
         }
 
         [TestMethod]
@@ -255,26 +254,8 @@ namespace UnitTests
                 .Callback<Portfolio>(ListPortfolios.Add); ;
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object, validateService);
-
-            #region
-            PortfolioDTO newPortfolio = new PortfolioDTO
-            {
-                Id = 4,
-                Name = "New Portfolio",
-                Notes = "A portfolio is a grouping of financial assets such as stocks,",
-                DisplayIndex = 1,
-                LastUpdateDate = new DateTime(2017, 4, 28),
-                Visibility = false,
-                Quantity = 2,
-                PercentWins = 73.23m,
-                BiggestWinner = 234.32m,
-                BiggestLoser = 12.65m,
-                AvgGain = 186.65m,
-                MonthAvgGain = 99.436m,
-                PortfolioValue = 1532.42m
-            };
-            #endregion
-            portfolioService.CreatePortfolio(newPortfolio);
+            
+            portfolioService.CreatePortfolio(new PortfolioDTO());
 
             Assert.IsTrue(ListPortfolios.Count() == 3);
         }

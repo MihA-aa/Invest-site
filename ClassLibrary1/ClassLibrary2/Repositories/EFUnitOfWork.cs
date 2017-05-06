@@ -13,6 +13,7 @@ namespace DALEF.Repositories
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
         private UserRepository userRepository;
+        private DividendRepository dividendRepository;
         public EFUnitOfWork(string connectionString)
         {
             db = new ApplicationContext(connectionString);
@@ -21,6 +22,15 @@ namespace DALEF.Repositories
         //{
         //    db = new ApplicationContext();
         //}
+        public IRepository<Dividend> Dividends
+        {
+            get
+            {
+                if (dividendRepository == null)
+                    dividendRepository = new DividendRepository(db);
+                return dividendRepository;
+            }
+        }
         public IRepository<Symbol> Symbols
         {
             get

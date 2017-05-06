@@ -9,6 +9,7 @@ using BLL.Infrastructure;
 using AutoMapper;
 using DAL.Entities;
 using DAL.Interfaces;
+using Resources;
 
 namespace BLL.Services
 {
@@ -32,10 +33,10 @@ namespace BLL.Services
         public IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId)
         {
             if (portfolioId == null)
-                throw new ValidationException("Not set id of portfolio", "");
+                throw new ValidationException(Resource.PortfolioIdNotSet, "");
             var portfolio = db.Portfolios.Get(portfolioId.Value);
             if (portfolio == null)
-                throw new ValidationException("Portfolio not found", "");
+                throw new ValidationException(Resource.PortfolioNotFound, "");
             Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
             return Mapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());
         }
@@ -43,10 +44,10 @@ namespace BLL.Services
         public PortfolioDTO GetPortfolio(int? id)
         {
             if (id == null)
-                throw new ValidationException("Not set id of portfolio", "");
+                throw new ValidationException(Resource.PortfolioIdNotSet, "");
             var portfolio = db.Portfolios.Get(id.Value);
             if (portfolio == null)
-                throw new ValidationException("Portfolio not found", "");
+                throw new ValidationException(Resource.PortfolioNotFound, "");
             Mapper.Initialize(cfg => cfg.CreateMap<Portfolio, PortfolioDTO>());
             return Mapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
@@ -61,21 +62,21 @@ namespace BLL.Services
         public void DeletePortfolio(int? id)
         {
             if (id == null)
-                throw new ValidationException("Not set id of portfolio", "");
+                throw new ValidationException(Resource.PortfolioIdNotSet, "");
             var portfolio = db.Portfolios.Get(id.Value);
             if (portfolio == null)
-                throw new ValidationException("Portfolio not found", "");
+                throw new ValidationException(Resource.PortfolioNotFound, "");
             db.Portfolios.Delete(id.Value);
         }
 
         public void UpdatePortfolio(PortfolioDTO portfolio)
         {
             if (portfolio == null)
-                throw new ValidationException("Portfolio is null reference", "");
+                throw new ValidationException(Resource.PortfolioNullReference, "");
             validateService.Validate(portfolio);
             var portfolio1 = db.Portfolios.Get(portfolio.Id);
             if (portfolio1 == null)
-                throw new ValidationException("Portfolio not found", "");
+                throw new ValidationException(Resource.PortfolioNotFound, "");
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
             Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             db.Portfolios.Update(newPortfolio);
@@ -84,12 +85,12 @@ namespace BLL.Services
         public void AddPositionToPortfolio(PositionDTO position, int? portfolioId)
         {
             if (position == null)
-                throw new ValidationException("Position is null reference", "");
+                throw new ValidationException(Resource.PositionNullReference, "");
             if (portfolioId == null)
-                throw new ValidationException("Not set id of portfolio", "");
+                throw new ValidationException(Resource.PortfolioIdNotSet, "");
             var portfolio1 = db.Portfolios.Get(portfolioId.Value);
             if (portfolio1 == null)
-                throw new ValidationException("Portfolio not found", "");
+                throw new ValidationException(Resource.PortfolioNotFound, "");
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
             Position newPosition = Mapper.Map<PositionDTO, Position>(position);
             db.Portfolios.AddPositionToPortfolio(newPosition, portfolioId.Value);
