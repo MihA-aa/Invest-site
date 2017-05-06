@@ -20,11 +20,11 @@ namespace BLL.Infrastructure
         }
         protected override void Load(ContainerBuilder builder)
         {
-            //builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>().
-            //    WithParameter("DefaultConnection", connectionString).
-            //    InstancePerRequest();
-            //builder.RegisterType<PortfolioService>().As<IPortfolioService>().
-            //    InstancePerRequest();
+            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>().
+                WithParameter("DefaultConnection", connectionString).
+                InstancePerRequest();
+            builder.RegisterType<PortfolioService>().As<IPortfolioService>().
+                InstancePerRequest();
 
             base.Load(builder);
         }

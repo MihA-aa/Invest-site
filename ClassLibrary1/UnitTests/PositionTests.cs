@@ -20,9 +20,7 @@ namespace UnitTests
         private PositionService positionService;
         private ValidateService validateService;
         private Mock<IRepository<Position>> positionRepository;
-        private Mock<IRepository<Portfolio>> portfolioRepository;
         List<Position> ListPositions;
-        List<Portfolio> ListPortfolios;
 
         #region positions initialize
         Position position1 = new Position
@@ -110,49 +108,10 @@ namespace UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            #region portfolio inizialize
-            Portfolio portfolio1 = new Portfolio
-            {
-                Id = 1,
-                Name = "Strategic Investment Open Portfolio",
-                Notes = "A portfolio is a grouping of financial assets such as stocks,",
-                DisplayIndex = 1,
-                LastUpdateDate = new DateTime(2017, 4, 28),
-                Visibility = false,
-                Quantity = 2,
-                PercentWins = 73.23m,
-                BiggestWinner = 234.32m,
-                BiggestLoser = 12.65m,
-                AvgGain = 186.65m,
-                MonthAvgGain = 99.436m,
-                PortfolioValue = 1532.42m,
-                Positions = new List<Position> { position1, position2 }
-            };
-
-            Portfolio portfolio2 = new Portfolio
-            {
-                Id = 2,
-                Name = "Strategic Investment Income Portfolio",
-                Notes = "A portfolio is a grouping of financial assets such as stocks,",
-                DisplayIndex = 2,
-                LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-                Positions = new List<Position> { position3 }
-            };
-            #endregion
-
             ListPositions = new List<Position> { position1, position2, position3 };
-            ListPortfolios = new List<Portfolio> { portfolio1, portfolio2 };
             UnitOfWork = new Mock<IUnitOfWork>();
             positionRepository = new Mock<IRepository<Position>>();
-            portfolioRepository = new Mock<IRepository<Portfolio>>();
+            validateService = new ValidateService();
         }
 
         [TestMethod]
@@ -160,7 +119,7 @@ namespace UnitTests
         {
             positionRepository.Setup(m => m.GetAll()).Returns(ListPositions);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             IEnumerable<PositionDTO> result = positionService.GetPositions();
 
@@ -176,7 +135,7 @@ namespace UnitTests
         {
             positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             PositionDTO position1 = positionService.GetPosition(1);
             PositionDTO position2 = positionService.GetPosition(2);
@@ -193,7 +152,7 @@ namespace UnitTests
         public void CanNotGetPositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             positionService.GetPosition(null);
         }
@@ -206,22 +165,20 @@ namespace UnitTests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             positionService.GetPosition(5);
         }
         [TestMethod]
         public void CanCreatePosition()
         {
-            positionRepository.Setup(m => m.GetAll()).Returns(ListPositions);
             positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); ;
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
             
             positionService.CreatePosition(newPosition);
-            IEnumerable<Position> positions = positionRepository.Object.GetAll();
 
-            Assert.IsTrue(positions.Count() == 4);
+            Assert.IsTrue(ListPositions.Count() == 4);
         }
 
         [TestMethod]
@@ -229,26 +186,24 @@ namespace UnitTests
             "Open Weight of position cannot be less than zero")]
         public void CanNotCreatePositionWithOpenWeightLessThanZero()
         {
-            positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); ;
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
-
-            PositionDTO unCorrectPosition = new PositionDTO { OpenWeight = -1 };
-
-            positionService.CreatePosition(unCorrectPosition);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
+            
+            positionService.CreatePosition(new PositionDTO { OpenWeight = -1 });
         }
         [TestMethod]
         public void CanDeletePosition()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             positionRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListPositions.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             positionService.DeletePosition(1);
 
-            Assert.IsTrue(ListPortfolios.Count() == 2);
+            Assert.IsTrue(ListPositions.Count() == 2);
         }
 
         [TestMethod]
@@ -257,7 +212,7 @@ namespace UnitTests
         public void CanNotDeletePositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             positionService.DeletePosition(null);
         }
@@ -270,7 +225,7 @@ namespace UnitTests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             positionService.DeletePosition(5);
         }
@@ -278,14 +233,15 @@ namespace UnitTests
         [TestMethod]
         public void CanUpdatePosition()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
             {
                 int index = ListPositions.IndexOf(ListPositions.FirstOrDefault(c => c.Id == p.Id));
                 ListPositions[index] = p;
             });
            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-           positionService = new PositionService(UnitOfWork.Object);
+           positionService = new PositionService(UnitOfWork.Object, validateService);
 
             #region
             PositionDTO updatePosition = new PositionDTO
@@ -316,11 +272,22 @@ namespace UnitTests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
+         "Open Weight of position cannot be less than zero")]
+        public void CanNotUpdateePositionWithOpenWeightLessThanZero()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
+
+            positionService.UpdatePosition(new PositionDTO { OpenWeight = -1 });
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
          "Position is null reference")]
         public void CanNotUpdateNullReferencePosition()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             positionService.UpdatePosition(null);
         }
@@ -333,7 +300,7 @@ namespace UnitTests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService);
 
             positionService.UpdatePosition(new PositionDTO { Id = 5 });
         }

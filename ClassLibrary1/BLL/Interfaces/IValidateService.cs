@@ -8,9 +8,9 @@ using DAL.Entities;
 
 namespace BLL.Interfaces
 {
-    interface IValidateService
+    public interface IValidateService
     {
-        bool IsValid(PositionDTO position);
-        bool IsValid(PortfolioDTO portfolio);
+        void Validate(PositionDTO position);
+        void Validate(PortfolioDTO portfolio);
     }
 }

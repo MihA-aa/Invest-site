@@ -14,11 +14,13 @@ namespace BLL.Services
 {
     public class PortfolioService : IPortfolioService
     {
-        IUnitOfWork db { get; set; }
+        IUnitOfWork db { get; }
+        IValidateService validateService { get; }
 
-        public PortfolioService(IUnitOfWork uow)
+        public PortfolioService(IUnitOfWork uow, IValidateService vd)
         {
             db = uow;
+            validateService = vd;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()
@@ -51,7 +53,7 @@ namespace BLL.Services
 
         public void CreatePortfolio(PortfolioDTO portfolio)
         {
-            //Validation!!!!!!!!!
+            validateService.Validate(portfolio);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
             Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             db.Portfolios.Create(newPortfolio);
@@ -68,9 +70,9 @@ namespace BLL.Services
 
         public void UpdatePortfolio(PortfolioDTO portfolio)
         {
-            //Validation!!!!!!!!!
             if (portfolio == null)
                 throw new ValidationException("Portfolio is null reference", "");
+            validateService.Validate(portfolio);
             var portfolio1 = db.Portfolios.Get(portfolio.Id);
             if (portfolio1 == null)
                 throw new ValidationException("Portfolio not found", "");

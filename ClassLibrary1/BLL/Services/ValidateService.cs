@@ -12,18 +12,16 @@ namespace BLL.Services
 {
     public class ValidateService : IValidateService
     {
-        public bool IsValid(PositionDTO position)
+        public void Validate(PositionDTO position)
         {
             if (position.OpenWeight < 0)
                 throw new ValidationException("Open Weight of position cannot be less than zero", "");
-            return true;
         }
 
-        public bool IsValid(PortfolioDTO portfolio)
+        public void Validate(PortfolioDTO portfolio)
         {
             if (portfolio.PercentWins < 0)
-                throw new ValidationException("Percen Wins of portfolio cannot be less than zero", "");
-            return true;
+                throw new ValidationException("Percent Wins of portfolio cannot be less than zero", "");
         }
 
 

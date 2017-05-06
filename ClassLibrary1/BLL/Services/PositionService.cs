@@ -14,12 +14,13 @@ namespace BLL.Services
 {
     public class PositionService : IPositionService
     {
-        IUnitOfWork db { get; set; }
-        private ValidateService validateService = new ValidateService();
+        IUnitOfWork db { get; }
+        IValidateService validateService { get; }
 
-        public PositionService(IUnitOfWork uow)
+        public PositionService(IUnitOfWork uow, IValidateService vd)
         {
             db = uow;
+            validateService = vd;
         }
 
         public PositionDTO GetPosition(int? id)
@@ -41,8 +42,7 @@ namespace BLL.Services
 
         public void CreatePosition(PositionDTO position)
         {
-            //Validation!!!!!!!!!
-            validateService.IsValid(position);
+            validateService.Validate(position);
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
             Position newPosition =  Mapper.Map<PositionDTO, Position>(position);
             db.Positions.Create(newPosition);
@@ -60,6 +60,7 @@ namespace BLL.Services
         {
             if (position == null)
                 throw new ValidationException("Position is null reference", "");
+            validateService.Validate(position);
             var position1 = db.Positions.Get(position.Id);
             if (position1 == null)
                 throw new ValidationException("Position not found", "");
