@@ -11,7 +11,7 @@ using DALEF.Repositories;
 
 namespace BLL.Infrastructure
 {
-    class ServiceModule: Module
+    public class ServiceModule : Module
     {
         private string connectionString;
         public ServiceModule(string connection)
@@ -21,9 +21,15 @@ namespace BLL.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>().
-                WithParameter("DefaultConnection", connectionString).
+                WithParameter("connectionString", connectionString).
                 InstancePerRequest();
             builder.RegisterType<PortfolioService>().As<IPortfolioService>().
+                InstancePerRequest();
+            builder.RegisterType<PositionService>().As<IPositionService>().
+                InstancePerRequest();
+            builder.RegisterType<ValidateService>().As<IValidateService>().
+                InstancePerRequest();
+            builder.RegisterType<CalculationService>().As<ICalculationService>().
                 InstancePerRequest();
 
             base.Load(builder);

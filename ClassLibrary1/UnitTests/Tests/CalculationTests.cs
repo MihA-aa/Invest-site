@@ -15,7 +15,7 @@ namespace UnitTests.Tests
     {
         private Mock<CalculationService> mockCalculationService;
         private CalculationService calculationService;
-        private decimal[] dividends = {2.21m, 3.002m, 1.023m, 0.231m, 0.769m, 1.432m };
+        private readonly decimal[] dividends = {2.21m, 3.002m, 1.023m, 0.231m, 0.769m, 1.432m };
         [TestInitialize]
         public void Initialize()
         {
