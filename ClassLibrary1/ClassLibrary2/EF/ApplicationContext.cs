@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using DAL.Entities;
 using DAL.Enums;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DALEF.EF
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
         public ApplicationContext(string connectionString) : base(connectionString) { }
         static ApplicationContext()
@@ -18,7 +19,7 @@ namespace DALEF.EF
         public virtual DbSet<Portfolio> Portfolios { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Symbol> Symbols { get; set; }
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Dividend> Dividends { get; set; }
 
     }
 

@@ -1,14 +1,13 @@
 ﻿using DAL.Enums;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DAL.Entities
 {
-    public class User
+    public class User: IdentityUser
     {
-        public int Id { get; set; }
-        public string UserName { get; set; }
-        public string Login { get; set; }
-        public string PasswordHash { get; set; }
+        //public int Id { get; set; }
+        //public string Name { get; set; }
         public virtual Customer Customer { get; set; }
-        public Roles Role { get; set; }
+        //public Roles Role { get; set; }
     }
 }

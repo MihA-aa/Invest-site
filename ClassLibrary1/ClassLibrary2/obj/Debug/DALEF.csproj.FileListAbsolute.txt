@@ -10,3 +10,7 @@ D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.SqlServer.x
 D:\Project\git\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csprojResolveAssemblyReference.cache
 D:\Project\git\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
 D:\Project\git\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Project\git\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml

@@ -12,3 +12,7 @@ D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\DAL.dll
 D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\DALEF.dll
 D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\DAL.pdb
 D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\DALEF.pdb
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Project\git\ClassLibrary1\TestConsoleProj\bin\Debug\Microsoft.AspNet.Identity.Core.xml

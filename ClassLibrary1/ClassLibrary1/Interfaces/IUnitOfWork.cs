@@ -1,4 +1,5 @@
 ﻿using System;
+using DAL.ApplicationManager;
 using DAL.Entities;
 
 namespace DAL.Interfaces
@@ -9,9 +10,10 @@ namespace DAL.Interfaces
         IPortfolioRepository Portfolios { get; }
         IRepository<Position> Positions { get; }
         IRepository<Symbol> Symbols { get; }
-        IRepository<User> Users { get; }
         IRepository<Dividend> Dividends { get; }
-        
+        ApplicationUserManager UserManager { get; }
+        ApplicationRoleManager RoleManager { get; }
+
         void Save();
     }
 }

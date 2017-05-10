@@ -15,3 +15,10 @@ D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.dll
 D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.pdb
 D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.Resource.Resource.resources
 D:\Project\git\ClassLibrary1\BLL\obj\Debug\BLL.csproj.GenerateResource.Cache
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\BLL.dll.config
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\EntityFramework.SqlServer.dll
+D:\Project\git\ClassLibrary1\BLL\bin\Debug\EntityFramework.SqlServer.xml

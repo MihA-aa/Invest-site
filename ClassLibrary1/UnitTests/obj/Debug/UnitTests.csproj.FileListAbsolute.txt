@@ -22,3 +22,7 @@ D:\Project\git\ClassLibrary1\UnitTests\obj\Debug\UnitTests.pdb
 D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\UnitTests.dll.config
 D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\EntityFramework.SqlServer.dll
 D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\EntityFramework.SqlServer.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.Core.xml

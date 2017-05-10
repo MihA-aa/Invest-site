@@ -17,7 +17,6 @@ namespace UnitTests.Tests
     public class PositionTests
     {
         private Mock<IUnitOfWork> UnitOfWork;
-        private PortfolioService portfolioService;
         private PositionService positionService;
         private ValidateService validateService;
         private Mock<IRepository<Position>> positionRepository;

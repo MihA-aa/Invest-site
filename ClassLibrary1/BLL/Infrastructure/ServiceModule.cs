@@ -31,7 +31,8 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<CalculationService>().As<ICalculationService>().
                 InstancePerRequest();
-
+            builder.RegisterType<UserService>().As<IUserService>().
+                InstancePerRequest();
             base.Load(builder);
         }
     }

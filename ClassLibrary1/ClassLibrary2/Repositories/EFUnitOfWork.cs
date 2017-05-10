@@ -1,7 +1,9 @@
 ﻿using System;
+using DAL.ApplicationManager;
 using DAL.Entities;
 using DAL.Interfaces;
 using DALEF.EF;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DALEF.Repositories
 {
@@ -12,8 +14,9 @@ namespace DALEF.Repositories
         private CustomerRepository customerRepository;
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
-        private UserRepository userRepository;
         private DividendRepository dividendRepository;
+        private ApplicationUserManager userManager;
+        private ApplicationRoleManager roleManager;
         public EFUnitOfWork(string connectionString)
         {
             db = new ApplicationContext(connectionString);
@@ -22,6 +25,26 @@ namespace DALEF.Repositories
         //{
         //    db = new ApplicationContext();
         //}
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                if (userManager == null)
+                    userManager = new ApplicationUserManager(new UserStore<User>(db));
+                return userManager;
+            }
+        }
+        
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                if (roleManager == null)
+                    roleManager = new ApplicationRoleManager(new RoleStore<Role>(db));
+                return roleManager;
+            }
+        }
+
         public IRepository<Dividend> Dividends
         {
             get
@@ -67,15 +90,6 @@ namespace DALEF.Repositories
                 return positionRepository;
             }
         }
-        public IRepository<User> Users
-        {
-            get
-            {
-                if (userRepository == null)
-                    userRepository = new UserRepository(db);
-                return userRepository;
-            }
-        }
         public void Save()
         {
             db.SaveChanges();
@@ -90,6 +104,8 @@ namespace DALEF.Repositories
                 if (disposing)
                 {
                     db.Dispose();
+                    //userManager.Dispose();
+                    //roleManager.Dispose();
                 }
                 this.disposed = true;
             }
