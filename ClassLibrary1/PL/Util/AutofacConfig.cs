@@ -7,6 +7,8 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Integration.Mvc;
 using BLL.Infrastructure;
+using BLL.Interfaces;
+using BLL.Services;
 
 namespace PL.Util
 {
@@ -18,7 +20,6 @@ namespace PL.Util
             
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModule(new ServiceModule("DefaultConnection"));
-
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }

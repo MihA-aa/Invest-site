@@ -8,6 +8,7 @@ namespace BLL.DTO
 {
     public class CustomerDTO
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -63,7 +63,7 @@ namespace DALEF.Repositories
                 return symbolRepository;
             }
         }
-        public IRepository<Customer> Customers
+        public ICustomerRepository Customers
         {
             get
             {

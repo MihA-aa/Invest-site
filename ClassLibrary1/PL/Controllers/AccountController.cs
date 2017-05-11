@@ -5,23 +5,26 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Autofac;
 using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PL.Models;
+using BLL.Infrastructure;
 
 namespace PL.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserService UserService
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().GetUserManager<IUserService>();
-            }
-        }
+        private IUserService UserService;
+        //private IUserService UserService
+        //{
+        //    get
+        //    {
+        //        return HttpContext.GetOwinContext().GetUserManager<IUserService>();
+        //    }
+        //}
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -30,7 +33,10 @@ namespace PL.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
-
+        public AccountController(IUserService UserService)
+        {
+            this.UserService = UserService;
+        }
         public ActionResult Login()
         {
             return View();
@@ -40,11 +46,11 @@ namespace PL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginModel model)
         {
-            await SetInitialDataAsync();
+            //await SetInitialDataAsync();
             if (ModelState.IsValid)
             {
                 UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
-                ClaimsIdentity claim = await UserService.Authenticate(userDto);
+                ClaimsIdentity claim = await UserService.AuthenticateAsync(userDto);
                 if (claim == null)
                 {
                     ModelState.AddModelError("", "Неверный логин или пароль.");
@@ -77,7 +83,8 @@ namespace PL.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterModel model)
         {
-            await SetInitialDataAsync();
+            //await SetInitialDataAsync();
+            //SetInitialDataAsync();
             if (ModelState.IsValid)
             {
                 UserDTO userDto = new UserDTO
@@ -87,11 +94,12 @@ namespace PL.Controllers
                     Name = model.Name,
                     Role = "user"
                 };
-                //OperationDetails operationDetails = await UserService.Create(userDto);
-                //if (operationDetails.Succedeed)
-                //    return View("SuccessRegister");
-                //else
-                //    ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
+                //UserService.Create(userDto);
+                ValidationException operationDetails = await UserService.CreateAsync(userDto);
+                if (operationDetails.Message == "Регистрация успешно пройдена")
+                    return RedirectToAction("Index", "Home");
+                else
+                    ModelState.AddModelError(operationDetails.Property, operationDetails.Message);
             }
             return View(model);
         }

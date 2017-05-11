@@ -79,7 +79,6 @@
     <Compile Include="Interfaces\ICalculationService.cs" />
     <Compile Include="Interfaces\IPortfolioService.cs" />
     <Compile Include="Interfaces\IPositionService.cs" />
-    <Compile Include="Interfaces\IServiceCreator.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IValidateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -91,7 +90,6 @@
     <Compile Include="Services\CalculationService.cs" />
     <Compile Include="Services\PortfolioService.cs" />
     <Compile Include="Services\PositionService.cs" />
-    <Compile Include="Services\ServiceCreator.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidateService.cs" />
   </ItemGroup>

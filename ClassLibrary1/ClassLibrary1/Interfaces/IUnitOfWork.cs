@@ -6,7 +6,7 @@ namespace DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Customer> Customers { get; }
+        ICustomerRepository Customers { get; }
         IPortfolioRepository Portfolios { get; }
         IRepository<Position> Positions { get; }
         IRepository<Symbol> Symbols { get; }

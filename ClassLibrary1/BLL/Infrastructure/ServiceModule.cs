@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BLL.Interfaces;
 using BLL.Services;
+using DAL.Entities;
 using DAL.Interfaces;
 using DALEF.Repositories;
 
