@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using DAL.Interfaces;
 using DALEF.EF;
+using System.Threading.Tasks;
 
 namespace DALEF.Repositories
 {
@@ -25,23 +26,32 @@ namespace DALEF.Repositories
         public void Delete(int id)
         {
             T item = dbSet.Find(id);
-            if (item != null)
-                dbSet.Remove(item);
+            dbSet.Remove(item);
         }
 
         public IEnumerable<T> Find(Func<T, bool> predicate)
         {
             return dbSet.Where(predicate).ToList();
         }
-
+        
         public T Get(int id)
         {
             return dbSet.Find(id);
         }
 
+        public async Task<T> GetAsync(int id)
+        {
+            return await dbSet.FindAsync(id);
+        }
+
         public IEnumerable<T> GetAll()
         {
-            return dbSet;
+            return dbSet.ToList(); ;
+        }
+
+        public async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await dbSet.ToListAsync(); ;
         }
 
         public void Update(T item)

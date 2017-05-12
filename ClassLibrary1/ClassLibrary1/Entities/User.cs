@@ -7,7 +7,7 @@ namespace DAL.Entities
     {
         //public int Id { get; set; }
         //public string Name { get; set; }
-        public virtual Customer Customer { get; set; }
+        public virtual Profile Profile { get; set; }
         //public Roles Role { get; set; }
     }
 }

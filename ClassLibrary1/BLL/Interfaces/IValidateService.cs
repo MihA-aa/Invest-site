@@ -12,5 +12,6 @@ namespace BLL.Interfaces
     {
         void Validate(PositionDTO position);
         void Validate(PortfolioDTO portfolio);
+        void Validate(UserDTO userDto);
     }
 }

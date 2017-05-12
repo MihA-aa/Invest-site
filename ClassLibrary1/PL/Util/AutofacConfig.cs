@@ -9,6 +9,7 @@ using Autofac.Integration.Mvc;
 using BLL.Infrastructure;
 using BLL.Interfaces;
 using BLL.Services;
+using Microsoft.Owin.Security;
 
 namespace PL.Util
 {
@@ -20,6 +21,9 @@ namespace PL.Util
             
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModule(new ServiceModule("DefaultConnection"));
+            builder.Register(c => HttpContext.Current.GetOwinContext().Authentication)
+                .As<IAuthenticationManager>();
+
             var container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }

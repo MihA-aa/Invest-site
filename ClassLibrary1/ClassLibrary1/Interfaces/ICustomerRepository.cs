@@ -9,7 +9,5 @@ namespace DAL.Interfaces
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
-        void Delete(string id);
-        Customer Get(string id);
     }
 }

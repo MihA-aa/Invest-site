@@ -61,6 +61,51 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email.
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^[A-Za-z0-9_]{3,16}$.
+        /// </summary>
+        public static string loginPattern {
+            get {
+                return ResourceManager.GetString("loginPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login must be at least 3 characters and no more than 16 characters. Can contain any letter, number, underscore and hyphen..
+        /// </summary>
+        public static string LoginValidateMessage {
+            get {
+                return ResourceManager.GetString("LoginValidateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&amp;*_-])[\S].{8,}$.
+        /// </summary>
+        public static string passwordPattern {
+            get {
+                return ResourceManager.GetString("passwordPattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must be at least 8 characters and contain uppercase letters, lowercase letters, numbers, special characters..
+        /// </summary>
+        public static string PasswordValidateMessage {
+            get {
+                return ResourceManager.GetString("PasswordValidateMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not set id of portfolio.
         /// </summary>
         public static string PortfolioIdNotSet {
@@ -111,6 +156,24 @@ namespace Resources {
         public static string PositionNullReference {
             get {
                 return ResourceManager.GetString("PositionNullReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User with such login already exist.
+        /// </summary>
+        public static string UserAlreadyExists {
+            get {
+                return ResourceManager.GetString("UserAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wrong login or password.
+        /// </summary>
+        public static string WrongLogOrPass {
+            get {
+                return ResourceManager.GetString("WrongLogOrPass", resourceCulture);
             }
         }
     }

@@ -12,10 +12,11 @@ namespace DALEF.EF
         public ApplicationContext(string connectionString) : base(connectionString) { }
         static ApplicationContext()
         {
-            Database.SetInitializer<ApplicationContext>(new StoreDbInitializer());
+            Database.SetInitializer(new StoreDbInitializer());
         }
 
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Portfolio> Portfolios { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Symbol> Symbols { get; set; }
@@ -27,6 +28,21 @@ namespace DALEF.EF
     {
         protected override void Seed(ApplicationContext db)
         {
+            Role user = new Role { Name = "user" };
+            Role admin = new Role { Name = "admin" };
+
+            db.Roles.Add(user);
+            db.Roles.Add(admin);
+
+            User firstUser = new User
+            {
+                UserName = "firstUser",
+                Email = "firstUser@gmail.com",
+                PasswordHash = "Password"
+            };
+
+            db.Users.Add(firstUser);
+
             Dividend dividend1 = new Dividend { Id = 1, ShareholderName = "Shareholder1", Price = 23.12m};
             Dividend dividend2 = new Dividend { Id = 2, ShareholderName = "Shareholder2", Price = 234.34m };
             Dividend dividend3 = new Dividend { Id = 3, ShareholderName = "Shareholder3", Price = 56.12m };

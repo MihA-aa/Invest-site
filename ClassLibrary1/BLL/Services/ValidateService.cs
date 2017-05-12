@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BLL.DTO;
 using BLL.Infrastructure;
 using BLL.Interfaces;
 using DAL.Entities;
+using Resources;
 
 namespace BLL.Services
 {
@@ -23,7 +25,13 @@ namespace BLL.Services
             if (portfolio.PercentWins < 0)
                 throw new ValidationException("Percent Wins of portfolio cannot be less than zero", "");
         }
-
+        public void Validate(UserDTO userDto)
+        {
+            if (!Regex.IsMatch(userDto.Password, Resource.passwordPattern))
+                throw new ValidationException(Resource.PasswordValidateMessage, "Password");
+            if (!Regex.IsMatch(userDto.Name, Resource.loginPattern))
+                throw new ValidationException(Resource.PasswordValidateMessage, "Password");
+        }
 
     }
 }

@@ -26,3 +26,16 @@ D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.Entit
 D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Security.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Newtonsoft.Json.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Owin.dll
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Security.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+D:\Project\git\ClassLibrary1\UnitTests\bin\Debug\Newtonsoft.Json.xml

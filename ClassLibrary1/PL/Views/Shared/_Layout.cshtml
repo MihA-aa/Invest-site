@@ -6,6 +6,31 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <style>
+        .field-validation-error {
+    color: #b94a48;
+}
+  
+.field-validation-valid {
+    display: none;
+}
+  
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+  
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+  
+.validation-summary-errors {
+    color: #b94a48;
+}
+  
+.validation-summary-valid {
+    display: none;
+}
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -37,6 +62,7 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
     @RenderSection("scripts", required: false)
 </body>
 </html>

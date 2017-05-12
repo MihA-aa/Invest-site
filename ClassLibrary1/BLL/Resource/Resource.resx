@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="loginPattern" xml:space="preserve">
+    <value>^[A-Za-z0-9_]{3,16}$</value>
+  </data>
+  <data name="LoginValidateMessage" xml:space="preserve">
+    <value>Login must be at least 3 characters and no more than 16 characters. Can contain any letter, number, underscore and hyphen.</value>
+  </data>
+  <data name="passwordPattern" xml:space="preserve">
+    <value>^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&amp;*_-])[\S].{8,}$</value>
+  </data>
+  <data name="PasswordValidateMessage" xml:space="preserve">
+    <value>Password must be at least 8 characters and contain uppercase letters, lowercase letters, numbers, special characters.</value>
+  </data>
   <data name="PortfolioIdNotSet" xml:space="preserve">
     <value>Not set id of portfolio</value>
   </data>
@@ -134,5 +149,11 @@
   </data>
   <data name="PositionNullReference" xml:space="preserve">
     <value>Position is null reference</value>
+  </data>
+  <data name="UserAlreadyExists" xml:space="preserve">
+    <value>User with such login already exist</value>
+  </data>
+  <data name="WrongLogOrPass" xml:space="preserve">
+    <value>Wrong login or password</value>
   </data>
 </root>

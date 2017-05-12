@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ApplicationManager\ApplicationRoleManager.cs" />
     <Compile Include="ApplicationManager\ApplicationUserManager.cs" />
+    <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Dividend.cs" />
@@ -79,7 +80,10 @@
     <Compile Include="Enums\TradeTypes.cs" />
     <Compile Include="Interfaces\ICustomerRepository.cs" />
     <Compile Include="Interfaces\IPortfolioRepository.cs" />
+    <Compile Include="Interfaces\IPositionRepository.cs" />
+    <Compile Include="Interfaces\IProfileRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Interfaces\ISymbolRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />

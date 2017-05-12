@@ -65,6 +65,7 @@
     <Compile Include="Repositories\GenericRepository.cs" />
     <Compile Include="Repositories\PortfolioRepository.cs" />
     <Compile Include="Repositories\PositionRepository.cs" />
+    <Compile Include="Repositories\ProfileRepository.cs" />
     <Compile Include="Repositories\SymbolRepository.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@ using DAL.Entities;
 using DAL.Interfaces;
 using DALEF.EF;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Threading.Tasks;
 
 namespace DALEF.Repositories
 {
@@ -15,6 +16,7 @@ namespace DALEF.Repositories
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
         private DividendRepository dividendRepository;
+        private ProfileRepository profileRepository;
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
         public EFUnitOfWork(string connectionString)
@@ -54,7 +56,7 @@ namespace DALEF.Repositories
                 return dividendRepository;
             }
         }
-        public IRepository<Symbol> Symbols
+        public ISymbolRepository Symbols
         {
             get
             {
@@ -81,7 +83,16 @@ namespace DALEF.Repositories
                 return portfolioRepository;
             }
         }
-        public IRepository<Position> Positions
+        public IProfileRepository Profiles
+        {
+            get
+            {
+                if (profileRepository == null)
+                    profileRepository = new ProfileRepository(db);
+                return profileRepository;
+            }
+        }
+        public IPositionRepository Positions
         {
             get
             {
@@ -94,7 +105,10 @@ namespace DALEF.Repositories
         {
             db.SaveChanges();
         }
-
+        public async Task SaveAsync() 
+        {
+            await db.SaveChangesAsync();
+        }
         private bool disposed = false;
 
         public virtual void Dispose(bool disposing)

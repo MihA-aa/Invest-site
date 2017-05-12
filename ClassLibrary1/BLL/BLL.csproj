@@ -69,6 +69,7 @@
     <Compile Include="DTO\DividendDTO.cs" />
     <Compile Include="DTO\PortfolioDTO.cs" />
     <Compile Include="DTO\PositionDTO.cs" />
+    <Compile Include="DTO\ProfileDTO.cs" />
     <Compile Include="DTO\SymbolDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\ViewDTO.cs" />

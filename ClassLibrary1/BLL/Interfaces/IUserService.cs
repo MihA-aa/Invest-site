@@ -12,9 +12,9 @@ namespace BLL.Interfaces
     public interface IUserService
     {
         //Task<OperationDetails> Create(UserDTO userDto);
-        Task<ValidationException> CreateAsync(UserDTO userDto);
+        Task CreateAsync(UserDTO userDto);
         Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto);
-        Task SetInitialData(UserDTO adminDto, List<string> roles);
-        CustomerDTO GetProfile(string userId);
+        ProfileDTO GetProfile(string userId);
+        void UpdateProfile(ProfileDTO customer);
     }
 }

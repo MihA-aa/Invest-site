@@ -1,6 +1,7 @@
 ﻿using System;
 using DAL.ApplicationManager;
 using DAL.Entities;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
@@ -8,12 +9,14 @@ namespace DAL.Interfaces
     {
         ICustomerRepository Customers { get; }
         IPortfolioRepository Portfolios { get; }
-        IRepository<Position> Positions { get; }
-        IRepository<Symbol> Symbols { get; }
+        IProfileRepository Profiles { get; }
+        IPositionRepository Positions { get; }
+        ISymbolRepository Symbols { get; }
         IRepository<Dividend> Dividends { get; }
         ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
 
         void Save();
+        Task SaveAsync();
     }
 }

@@ -19,7 +19,7 @@ namespace UnitTests.Tests
         private Mock<IUnitOfWork> UnitOfWork;
         private PositionService positionService;
         private ValidateService validateService;
-        private Mock<IRepository<Position>> positionRepository;
+        private Mock<IPositionRepository> positionRepository;
         List<Position> ListPositions;
 
         #region positions initialize
@@ -110,7 +110,7 @@ namespace UnitTests.Tests
         {
             ListPositions = new List<Position> { position1, position2, position3 };
             UnitOfWork = new Mock<IUnitOfWork>();
-            positionRepository = new Mock<IRepository<Position>>();
+            positionRepository = new Mock<IPositionRepository>();
             validateService = new ValidateService();
         }
 
@@ -133,7 +133,8 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanGetPositionById()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>())).Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService);
 
