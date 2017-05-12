@@ -27,9 +27,9 @@ namespace BLL.Services
         }
         public void Validate(UserDTO userDto)
         {
+            if (!Regex.IsMatch(userDto.Login, Resource.loginPattern))
+                throw new ValidationException(Resource.LoginValidateMessage, "Login");
             if (!Regex.IsMatch(userDto.Password, Resource.passwordPattern))
-                throw new ValidationException(Resource.PasswordValidateMessage, "Password");
-            if (!Regex.IsMatch(userDto.Name, Resource.loginPattern))
                 throw new ValidationException(Resource.PasswordValidateMessage, "Password");
         }
 

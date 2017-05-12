@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Email" xml:space="preserve">
-    <value>Email</value>
-  </data>
   <data name="loginPattern" xml:space="preserve">
     <value>^[A-Za-z0-9_]{3,16}$</value>
   </data>
@@ -155,5 +152,11 @@
   </data>
   <data name="WrongLogOrPass" xml:space="preserve">
     <value>Wrong login or password</value>
+  </data>
+  <data name="UserIdNotSet" xml:space="preserve">
+    <value>Not set id of user</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
   </data>
 </root>

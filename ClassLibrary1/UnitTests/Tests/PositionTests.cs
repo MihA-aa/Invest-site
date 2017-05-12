@@ -173,7 +173,7 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanCreatePosition()
         {
-            positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); ;
+            positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); 
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService);
             

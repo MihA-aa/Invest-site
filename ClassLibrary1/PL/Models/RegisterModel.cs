@@ -9,8 +9,6 @@ namespace PL.Models
     public class RegisterModel
     {
         [Required]
-        public string Email { get; set; }
-        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Required]
@@ -18,6 +16,6 @@ namespace PL.Models
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
         [Required]
-        public string Name { get; set; }
+        public string Login { get; set; }
     }
 }

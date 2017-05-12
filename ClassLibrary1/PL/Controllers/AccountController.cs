@@ -37,7 +37,7 @@ namespace PL.Controllers
         {
             if (ModelState.IsValid)
             {
-                UserDTO userDto = new UserDTO { Email = model.Email, Password = model.Password };
+                UserDTO userDto = new UserDTO { Login = model.Login, Password = model.Password };
                 ClaimsIdentity claim = await UserService.AuthenticateAsync(userDto);
                 if (claim == null)
                 {
