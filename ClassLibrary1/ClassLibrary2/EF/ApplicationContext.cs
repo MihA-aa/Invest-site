@@ -43,19 +43,35 @@ namespace DALEF.EF
 
             db.Users.Add(firstUser);
 
-            Dividend dividend1 = new Dividend { Id = 1, ShareholderName = "Shareholder1", Price = 23.12m};
+            Dividend dividend1 = new Dividend { Id = 1, ShareholderName = "Shareholder1", Price = 23.12m };
             Dividend dividend2 = new Dividend { Id = 2, ShareholderName = "Shareholder2", Price = 234.34m };
             Dividend dividend3 = new Dividend { Id = 3, ShareholderName = "Shareholder3", Price = 56.12m };
             Dividend dividend4 = new Dividend { Id = 4, ShareholderName = "Shareholder4", Price = 99.99m };
             Dividend dividend5 = new Dividend { Id = 5, ShareholderName = "Shareholder5", Price = 5342.11m };
             Dividend dividend6 = new Dividend { Id = 6, ShareholderName = "Shareholder6", Price = 11.11m };
 
-            Symbol symbol1 = new Symbol { Id = 1, Name = "AAT", SymbolType = Symbols.Option,
-                Dividends = new List<Dividend> { dividend1, dividend2 }};
-            Symbol symbol2 = new Symbol { Id = 2, Name = "WIWTY", SymbolType = Symbols.Stock,
-                Dividends = new List<Dividend> { dividend3, dividend4 }};
-            Symbol symbol3 = new Symbol { Id = 3, Name = "PLSE", SymbolType = Symbols.Option,
-                Dividends = new List<Dividend> { dividend5, dividend6 }};
+            #region Symbols Inizialize
+            Symbol symbol1 = new Symbol
+            {
+                Id = 1,
+                Name = "AAT",
+                SymbolType = Symbols.Option,
+                Dividends = new List<Dividend> { dividend1, dividend2 }
+            };
+            Symbol symbol2 = new Symbol
+            {
+                Id = 2,
+                Name = "WIWTY",
+                SymbolType = Symbols.Stock,
+                Dividends = new List<Dividend> { dividend3, dividend4 }
+            };
+            Symbol symbol3 = new Symbol
+            {
+                Id = 3,
+                Name = "PLSE",
+                SymbolType = Symbols.Option,
+                Dividends = new List<Dividend> { dividend5, dividend6 }
+            };
             Symbol symbol4 = new Symbol { Id = 4, Name = "FXI", SymbolType = Symbols.Stock };
             Symbol symbol5 = new Symbol { Id = 5, Name = "DBA", SymbolType = Symbols.Option };
             Symbol symbol6 = new Symbol { Id = 6, Name = "UCTT", SymbolType = Symbols.Stock };
@@ -63,14 +79,16 @@ namespace DALEF.EF
             Symbol symbol8 = new Symbol { Id = 8, Name = "ASMB", SymbolType = Symbols.Stock };
 
             db.Symbols.Add(symbol1);
-            db.Symbols.Add(symbol2 );
+            db.Symbols.Add(symbol2);
             db.Symbols.Add(symbol3);
             db.Symbols.Add(symbol4);
             db.Symbols.Add(symbol5);
             db.Symbols.Add(symbol6);
             db.Symbols.Add(symbol7);
             db.Symbols.Add(symbol8);
+            #endregion
 
+            #region Positions Inizialize
             Position position1 = new Position
             {
                 Id = 1,
@@ -171,13 +189,15 @@ namespace DALEF.EF
                 AbsoluteGain = 11.34m,
                 MaxGain = 13.34m
             };
-            
+
             db.Positions.Add(position1);
             db.Positions.Add(position2);
             db.Positions.Add(position3);
             db.Positions.Add(position4);
             db.Positions.Add(position5);
+            #endregion
 
+            #region Portfolios Inizialize
             Portfolio portfolio1 = new Portfolio
             {
                 Id = 1,
@@ -219,11 +239,60 @@ namespace DALEF.EF
                 PortfolioValue = 5532.42m,
                 Positions = new List<Position> { position3, position4, position5 }
             };
+            Portfolio portfolio3 = new Portfolio
+            {
+                Id = 3,
+                Name = "HDFC Bank",
+                DisplayIndex = 4,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+            };
+            Portfolio portfolio4 = new Portfolio
+            {
+                Id = 4,
+                Name = "IndusInd Bank",
+                DisplayIndex = 5,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+            };
+            Portfolio portfolio5 = new Portfolio
+            {
+                Id = 5,
+                Name = "UltraTechCement",
+                DisplayIndex = 3,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+            };
 
             db.Portfolios.Add(portfolio1);
             db.Portfolios.Add(portfolio2);
-            
-            
+            db.Portfolios.Add(portfolio3);
+            db.Portfolios.Add(portfolio4);
+            db.Portfolios.Add(portfolio5);
+            #endregion
+
+
 
             db.SaveChanges();
         }

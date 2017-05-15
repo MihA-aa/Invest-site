@@ -191,5 +191,24 @@ namespace UnitTests.Tests
             await userService.CreateAsync(new UserDTO { Login = "So1", Password = "P" });
             
         }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+            "User with such login already exist")]
+        public async Task CanNotCreateAlredyExistUser()
+        {
+
+            UserManager.Setup(c => c.FindByNameAsync(It.IsAny<string>()))
+               .Returns((string Login) =>
+               {
+                   return Task.FromResult(ListUsers.FirstOrDefault(u => u.UserName == Login));
+               });
+            UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
+            UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
+            userService = new UserService(UnitOfWork.Object, validateService);
+
+            await userService.CreateAsync(new UserDTO { Login = "firstUser", Password = "Fio@$23rstUser@gmail.com" });
+
+        }
     }
 }

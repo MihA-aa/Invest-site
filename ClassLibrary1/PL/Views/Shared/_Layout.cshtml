@@ -33,32 +33,67 @@ input[type="checkbox"].input-validation-error {
     </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Application name", "Index", "Home", new {area = ""}, new {@class = "navbar-brand"})
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li>@Html.ActionLink("About", "About", "Home")</li>
+                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+            </ul>
         </div>
     </div>
-    <div class="container body-content">
+</div>
+    <style>
+        .nav-tabs.nav-stacked > li > a.portfolio-item {
+            border: 1px solid #ddd !important;
+            border-radius: 0 !important;
+        }
+
+        .nav-tabs.nav-stacked > li:last-child > a.portfolio-item {
+            -webkit-border-bottom-right-radius: 4px !important;
+            -moz-border-radius-bottomright: 4px !important;
+            border-bottom-right-radius: 4px !important;
+            -webkit-border-bottom-left-radius: 4px !important;
+            -moz-border-radius-bottomleft: 4px !important;
+            border-bottom-left-radius: 4px !important;
+        }
+
+        .nav-tabs.nav-stacked > li:first-child > a.portfolio-item {
+            -webkit-border-top-right-radius: 4px !important;
+            -moz-border-radius-topright: 4px !important;
+            border-top-right-radius: 4px !important;
+            -webkit-border-top-left-radius: 4px !important;
+            -moz-border-radius-topleft: 4px !important;
+            border-top-left-radius: 4px !important;
+        }
+    </style>
+<div class="row panel" style="margin: 10px;">
+    <div id="categories" class="col-xs-2">
+        <ul class="nav nav-tabs nav-pills nav-stacked" style="border-bottom:none">
+            @Html.Action("LeftMenu", "Nav")
+        </ul>
+    </div>
+    <div class="col-xs-8">
+        @RenderBody()
+    </div>
+</div>
+
+    @*<div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
-    </div>
+    </div>*@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

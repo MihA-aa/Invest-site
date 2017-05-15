@@ -1,0 +1,10 @@
+﻿@model IEnumerable<BLL.DTO.PortfolioDTO>
+
+
+
+@foreach (var portfolio in Model)
+{
+    <li style="margin:0; margin-bottom: -1px;">
+        <a href="#" class="portfolio-item">@portfolio.Name</a>
+    </li>
+}
