@@ -17,8 +17,14 @@ namespace PL.Controllers
         }
         public PartialViewResult LeftMenu()
         {
-            var portfolio = portfolioService.GetPortfolios();
+            var portfolio = portfolioService.GetPortfolios().OrderBy(m=>m.DisplayIndex);
             return PartialView(portfolio);
+        }
+
+        [HttpPost]
+        public void RefreshPortfolioDisplayIndex(Dictionary<string, string> portfolios)
+        {
+            portfolioService.UpdatePortfoliosDisplayIndex(portfolios);
         }
     }
 }

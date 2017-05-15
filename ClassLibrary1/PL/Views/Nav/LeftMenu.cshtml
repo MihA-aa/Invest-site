@@ -2,9 +2,11 @@
 
 
 
-@foreach (var portfolio in Model)
+@for (var i = 0; i < Model.Count(); i++)
 {
     <li style="margin:0; margin-bottom: -1px;">
-        <a href="#" class="portfolio-item">@portfolio.Name</a>
+        <a href="#" class="portfolio-item">@Model.ToList()[i].Name</a>
+        @Html.HiddenFor(model => model.ToList()[i].Id, new { @class = "PositionId" })
+        @Html.HiddenFor(model => model.ToList()[i].DisplayIndex, new { @class = "DisplayIndex" })
     </li>
 }

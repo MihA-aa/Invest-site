@@ -82,6 +82,15 @@ namespace BLL.Services
             db.Portfolios.Update(newPortfolio);
         }
 
+        public void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios)
+        {
+            foreach (var portfolio in portfolios)
+            {
+                db.Portfolios.ChangePortfolioDisplayIndex(Convert.ToInt32(portfolio.Key), Convert.ToInt32(portfolio.Value));
+            }
+
+        }
+
         public void AddPositionToPortfolio(PositionDTO position, int? portfolioId)
         {
             if (position == null)

@@ -10,5 +10,6 @@ namespace DAL.Interfaces
     public interface IPortfolioRepository : IRepository<Portfolio>
     {
         void AddPositionToPortfolio(Position position, int portfolioId);
+        void ChangePortfolioDisplayIndex(int id, int displayIndex);
     }
 }

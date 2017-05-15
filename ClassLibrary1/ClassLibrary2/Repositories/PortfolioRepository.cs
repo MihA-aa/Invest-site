@@ -16,5 +16,13 @@ namespace DALEF.Repositories
             portfolio.Positions.Add(position);
             position.Portfolio = portfolio;
         }
+
+        public void ChangePortfolioDisplayIndex(int id, int displayIndex)
+        {
+            var portfolio = new Portfolio { Id = id, DisplayIndex = displayIndex };
+            dbSet.Attach(portfolio);
+            db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
+            db.SaveChanges();
+        }
     }
 }
