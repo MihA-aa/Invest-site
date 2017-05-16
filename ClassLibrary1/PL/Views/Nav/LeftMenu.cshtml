@@ -1,12 +1,17 @@
 ﻿@model IEnumerable<BLL.DTO.PortfolioDTO>
 
 
+<button type="button" class="btn btn-primary btn-block" id="addBtn">Add Portfolio</button>
+<ul class="nav nav-tabs nav-pills nav-stacked" id="panelList" style="border-bottom: none">
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        var portClass = @TempData["PortfolioId"]?.ToString() == @Model.ToList()[i].Id.ToString() ? "active" : "";
+        <li style="margin: 0; margin-bottom: -1px;" class="@portClass">
+            <a href="#" class="portfolio-item">@Model.ToList()[i].Name</a>
+            @Html.HiddenFor(model => model.ToList()[i].Id, new {@class = "PositionId"})
+            @Html.HiddenFor(model => model.ToList()[i].DisplayIndex, new {@class = "DisplayIndex"})
+        </li>
 
-@for (var i = 0; i < Model.Count(); i++)
-{
-    <li style="margin:0; margin-bottom: -1px;">
-        <a href="#" class="portfolio-item">@Model.ToList()[i].Name</a>
-        @Html.HiddenFor(model => model.ToList()[i].Id, new { @class = "PositionId" })
-        @Html.HiddenFor(model => model.ToList()[i].DisplayIndex, new { @class = "DisplayIndex" })
-    </li>
-}
+    }
+</ul>
+

@@ -14,6 +14,7 @@ namespace PL.Models
         [Required]
         [DataType(DataType.Password)]
         [Compare("Password")]
+        [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
         [Required]
         public string Login { get; set; }

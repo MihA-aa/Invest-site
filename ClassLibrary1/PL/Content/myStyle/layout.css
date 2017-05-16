@@ -44,3 +44,22 @@ input[type="checkbox"].input-validation-error {
             -moz-border-radius-topleft: 4px !important;
             border-top-left-radius: 4px !important;
         }
+
+.myNavBtn{
+    margin-right: 10px !important;
+    -webkit-box-shadow: 0 2px 2px 0 #f5f5f5;
+    box-shadow: 0 2px 2px 0 #f5f5f5;
+}
+
+#addBtn{
+     margin-top: 2px;
+    margin-bottom: 10px;
+    height: 38px;
+}
+
+#createPortfolioForm {
+        width: 320px;
+        margin: 20px 20px;
+        border: 1px #e6e6fa solid;
+        padding: 10px;
+    }

@@ -12,7 +12,7 @@ namespace BLL.Interfaces
         PortfolioDTO GetPortfolio(int? id);
         IEnumerable<PortfolioDTO> GetPortfolios();
         IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId);
-        void CreatePortfolio(PortfolioDTO portfolio);
+        int CreatePortfolio(PortfolioDTO portfolio);
         void DeletePortfolio(int? id);
         void UpdatePortfolio(PortfolioDTO portfolio);
         void AddPositionToPortfolio(PositionDTO position, int? portfolioId);

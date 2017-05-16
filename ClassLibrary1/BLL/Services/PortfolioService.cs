@@ -52,12 +52,15 @@ namespace BLL.Services
             return Mapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
 
-        public void CreatePortfolio(PortfolioDTO portfolio)
+        public int CreatePortfolio(PortfolioDTO portfolio)
         {
             validateService.Validate(portfolio);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
+                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
             Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             db.Portfolios.Create(newPortfolio);
+            db.Save();
+            return(newPortfolio.Id);
         }
         public void DeletePortfolio(int? id)
         {
