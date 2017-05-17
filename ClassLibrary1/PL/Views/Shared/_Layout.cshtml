@@ -23,6 +23,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
             </ul>
+            <div id="loader"class="loader"></div>
             @Html.Partial("_LoginPartial")
         </div>
     </div>
@@ -44,12 +45,5 @@
     @Scripts.Render("~/bundles/myScript")
     @RenderSection("scripts", required: false)
 
-    <script>
-        $(function () {
-            $('#addBtn').click(function () {
-                $('#myTab a:first').tab('show');
-            });
-  })
-    </script>
 </body>
 </html>

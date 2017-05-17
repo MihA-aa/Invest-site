@@ -18,6 +18,8 @@ namespace PL.Controllers
         public PartialViewResult LeftMenu()
         {
             var portfolios = portfolioService.GetPortfolios().OrderBy(m=>m.DisplayIndex);
+            if (@TempData["PortfolioId"] == null)
+                @TempData["PortfolioId"] = portfolios.First().Id;
             return PartialView(portfolios);
         }
 

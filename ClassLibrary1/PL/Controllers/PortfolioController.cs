@@ -31,5 +31,19 @@ namespace PL.Controllers
             TempData["PortfolioId"] = portfolioService.CreatePortfolio(portfolioDto);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpPost]
+        public JsonResult DeletePortfolio(int id)
+        {
+            portfolioService.DeletePortfolio(id);
+            return Json("Response from Delete");
+        }
+
+        //[HttpDelete]
+        //public JsonResult DeletePortfolio(int id)
+        //{
+        //    portfolioService.DeletePortfolio(id);
+        //    return Json("Response from Delete");
+        //}
     }
 }

@@ -1,5 +1,30 @@
 ﻿@model IEnumerable<BLL.DTO.PortfolioDTO>
 
+<style>
+    .btn-item {
+        font-size: 15px;
+        padding: 4px 8px;
+        visibility: hidden;
+        margin-top: -25px;
+        float: right;
+        margin-right: -12px;
+    }
+    .edit {
+        margin-right: 3px;
+    }
+
+    .portfolio-item p {
+        margin-bottom: 0;
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis;
+        margin-right: 60px;
+
+    }
+    .portfolio-item:hover .btn-item {
+        visibility:visible
+    }
+</style>
 
 <button type="button" class="btn btn-primary btn-block" id="addBtn">Add Portfolio</button>
 <ul class="nav nav-tabs nav-pills nav-stacked" id="panelList" style="border-bottom: none">
@@ -7,7 +32,15 @@
     {
         var portClass = @TempData["PortfolioId"]?.ToString() == @Model.ToList()[i].Id.ToString() ? "active" : "";
         <li style="margin: 0; margin-bottom: -1px;" class="@portClass">
-            <a href="#" class="portfolio-item">@Model.ToList()[i].Name</a>
+            <a href="#" class="portfolio-item">
+                <p>@Model.ToList()[i].Name</p>
+                <button type="button" class="btn btn-default btn-sm btn-item delete">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm btn-item edit">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+            </a>
             @Html.HiddenFor(model => model.ToList()[i].Id, new {@class = "PositionId"})
             @Html.HiddenFor(model => model.ToList()[i].DisplayIndex, new {@class = "DisplayIndex"})
         </li>

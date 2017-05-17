@@ -58,5 +58,10 @@ namespace DALEF.Repositories
         {
             db.Entry(item).State = EntityState.Modified;
         }
+
+        public int Count()
+        {
+            return dbSet.Count();
+        }
     }
 }

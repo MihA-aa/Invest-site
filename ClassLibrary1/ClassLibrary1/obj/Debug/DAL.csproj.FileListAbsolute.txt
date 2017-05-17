@@ -12,3 +12,17 @@ D:\Project\git\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.E
 D:\Project\git\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\Project\git\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\Project\git\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\DAL.dll.config
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\DAL.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\DAL.pdb
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework.xml
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.xml
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.pdb

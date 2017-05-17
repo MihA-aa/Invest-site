@@ -56,7 +56,8 @@ namespace BLL.Services
         {
             validateService.Validate(portfolio);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
-                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
+                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
+                    .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
             Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             db.Portfolios.Create(newPortfolio);
             db.Save();
@@ -70,6 +71,7 @@ namespace BLL.Services
             if (portfolio == null)
                 throw new ValidationException(Resource.PortfolioNotFound, "");
             db.Portfolios.Delete(id.Value);
+            db.Save();
         }
 
         public void UpdatePortfolio(PortfolioDTO portfolio)
