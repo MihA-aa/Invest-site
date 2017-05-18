@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using BLL.DTO;
 using BLL.Interfaces;
+using PL.Models;
 
 namespace PL.Controllers
 {
@@ -22,6 +25,18 @@ namespace PL.Controllers
                 @TempData["PortfolioId"] = portfolios.First().Id;
             return PartialView(portfolios);
         }
+
+        public ActionResult _General(int? id)
+        {
+            if(id == null)
+                return PartialView();
+            PortfolioDTO portfolioDto = portfolioService.GetPortfolio(id);
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, PortfolioModel>());
+            PortfolioModel portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolioDto);
+            TempData["PortfolioId"] = portfolioDto.Id;
+            return PartialView(portfolio);
+        }
+
 
         [HttpPost]
         public void RefreshPortfolioDisplayIndex(Dictionary<string, string> portfolios)

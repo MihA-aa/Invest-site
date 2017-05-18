@@ -7,7 +7,16 @@
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade in" id="general">@Html.Partial("~/Views/Nav/_General.cshtml")</div>
+    <div class="tab-pane fade in" id="general">
+        <div>
+            @using (Ajax.BeginForm("_General", "Nav", new AjaxOptions { UpdateTargetId = "results" }))
+            {
+                @Html.Hidden("id", 1);
+                @*<input type="submit" value="Поиск" />*@
+            }
+            <div id="results"></div>
+        </div>
+    </div>
     <div class="tab-pane fade in active" id="tradeManagement">
         <div style="margin: 10px;">
             <div class="btn-group">
