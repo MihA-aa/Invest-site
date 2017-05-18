@@ -33,18 +33,26 @@ $(function () {
 
     $('.portfolio-item').click(function () {
         var id = $(this).parent().find('.PositionId').attr('value');
-        loadTradeManagementForInput(id)
         cleanActiveClass(id);
+        loadTradeManagement()
     });
-
-//при удалении перекидванние на Trade management
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var target = $(e.target).attr("href");
+        if(target == "#tradeManagement"){
+            loadTradeManagement()
+        }
+    });
 
 });
 
-function loadTradeManagementForInput(id){
-    // $("#generalForm > #id").attr('value', id);
-    // $( "#generalForm" ).submit();
+$(document).ready(function(){
+    loadTradeManagement()
+});
+
+function loadTradeManagement(){
     $('[href = "#tradeManagement"]').tab('show');
+    $("#trade-management-table > #id").attr('value', getActiveInput());
+    $( "#trade-management-table" ).submit();
 }
 
 function loadGeneralForInput(id){

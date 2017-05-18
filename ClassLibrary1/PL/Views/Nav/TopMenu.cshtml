@@ -8,20 +8,18 @@
 
 <div class="tab-content">
     <div class="tab-pane fade in" id="general">
-        <div>
-            @using (Ajax.BeginForm("_General","Nav", "Nav", new AjaxOptions { UpdateTargetId = "results" }
-            , new { id = "generalForm" }))
+            @using (Ajax.BeginForm("_General","Nav", "Nav", new AjaxOptions { UpdateTargetId = "general-results",
+                LoadingElementId = "loader"}, new { id = "generalForm" }))
             {
                 @Html.Hidden("id", 1);
             }
-            <div id="results"></div>
-        </div>
+            <div id="general-results"></div>
     </div>
     <div class="tab-pane fade in active" id="tradeManagement">
         <div style="margin: 10px;">
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
-                    Add Position   <span class="caret"></span>
+                    Add Position <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="#">Add regular position </a></li>
@@ -37,7 +35,7 @@
             <button type="button" class="btn btn-default myNavBtn">Custom Symbols</button>
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
-                    View   <span class="caret"></span>
+                    View <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li><a href="#">Default View </a></li>
@@ -47,6 +45,12 @@
                 </ul>
             </div>
         </div>
+        @using (Ajax.BeginForm("TradeManagementTable", "Nav", "Nav",new AjaxOptions { LoadingElementId = "loader",
+            UpdateTargetId = "trade-management-table-results" }, new { id = "trade-management-table" }))
+        {
+            @Html.Hidden("id", 1);
+        }
+        <div id="trade-management-table-results"></div>
     </div>
     <div class="tab-pane fade in" id="viewManagement">Under construction...</div>
     <div class="tab-pane fade in" id="viewTemplateManagement">Under construction...</div>

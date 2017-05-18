@@ -20,7 +20,9 @@ namespace PL.Controllers
         }
         public PartialViewResult LeftMenu()
         {
-            var portfolios = portfolioService.GetPortfolios().OrderBy(m=>m.DisplayIndex);
+            var portfoliosDto = portfolioService.GetPortfolios().OrderBy(m => m.DisplayIndex);
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, PortfolioModel>());
+            var portfolios =  Mapper.Map<IEnumerable<PortfolioDTO>, List<PortfolioModel>>(portfoliosDto);
             if (@TempData["PortfolioId"] == null)
                 @TempData["PortfolioId"] = portfolios.First().Id;
             return PartialView(portfolios);
@@ -30,13 +32,22 @@ namespace PL.Controllers
         {
             if(id == null)
                 return PartialView();
-            PortfolioDTO portfolioDto = portfolioService.GetPortfolio(id);
+            var portfolioDto = portfolioService.GetPortfolio(id);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, PortfolioModel>());
-            PortfolioModel portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolioDto);
+            var portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolioDto);
             TempData["PortfolioId"] = portfolioDto.Id;
             return PartialView(portfolio);
         }
 
+        public ActionResult TradeManagementTable(int? id)
+        {
+            if (id == null)
+                return HttpNotFound();
+            var positionsDto = portfolioService.GetPortfolioPositions(id);
+            Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
+            var positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
+            return PartialView(positions);
+        }
 
         [HttpPost]
         public void RefreshPortfolioDisplayIndex(Dictionary<string, string> portfolios)

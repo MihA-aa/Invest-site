@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="DTO\DividendDTO.cs" />
+    <Compile Include="DTO\Enums\SymbolsDTO.cs" />
+    <Compile Include="DTO\Enums\TradeStatusesDTO.cs" />
+    <Compile Include="DTO\Enums\TradeTypesDTO.cs" />
     <Compile Include="DTO\PortfolioDTO.cs" />
     <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\ProfileDTO.cs" />

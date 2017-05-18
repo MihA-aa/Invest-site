@@ -1,0 +1,88 @@
+﻿@using DAL.Entities
+@model IEnumerable<PL.Models.PositionModel>
+
+
+<table id="trade-management-jq-table" class="display" cellspacing="0" width="100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Open Price</th>
+            <th>Open Date</th>
+            <th>Weight</th>
+            <th>Dividends</th>
+            <th>Current Price</th>
+            <th>Status</th>
+            <th>Close Price</th>
+            <th>Close Date</th>
+            <th>Gain</th>
+            <th>Absolute Gain</th>
+            <th>Max Gain</th>
+        </tr>
+    </thead>
+
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Open Price</th>
+            <th>Open Date</th>
+            <th>Weight</th>
+            <th>Dividends</th>
+            <th>Curren tPrice</th>
+            <th>Status</th>
+            <th>Close Price</th>
+            <th>Close Date</th>
+            <th>Gain</th>
+            <th>Absplute Gain</th>
+            <th>Max Gain</th>
+        </tr>
+    </tfoot>
+
+    <tbody>
+    @foreach (var position in Model)
+    {
+        <tr>
+            <td>@position.Name</td>
+            <td>@position.SymbolName</td>
+            <td>@position.OpenPrice</td>
+            <td>@position.OpenDate</td>
+            <td>@position.OpenWeight</td>
+            <td></td>
+            <td>@position.CurrentPrice</td>
+            <td>@position.TradeStatus</td>
+            <td>@position.ClosePrice</td>
+            <td>@position.CloseDate</td>
+            <td>@position.Gain</td>
+            <td>@position.AbsoluteGain</td>
+            <td>@position.MaxGain</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<script>
+    
+    //$(document).ready(function () {
+    //    $('#trade-management-jq-table').DataTable({
+    //        "ajax": {
+    //            "url": "/Nav/TradeManagementTable",
+    //            "type": "GET",
+    //            "datatype": "json"
+    //        },
+    //        "columns": [
+    //                { "data": "ContactName", "autoWidth": true },
+    //                { "data": "CompanyName", "autoWidth": true },
+    //                { "data": "Phone", "autoWidth": true },
+    //                { "data": "Country", "autoWidth": true },
+    //                { "data": "City", "autoWidth": true },
+    //                { "data": "PostalCode", "autoWidth": true }
+    //        ]
+    //    });
+    //});
+
+
+    $(document).ready(function () {
+        $('#trade-management-jq-table').DataTable();
+    });
+</script>

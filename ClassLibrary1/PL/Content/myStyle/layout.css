@@ -81,3 +81,29 @@ input[type="checkbox"].input-validation-error {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+.btn-item {
+    font-size: 15px;
+    padding: 4px 8px;
+    visibility: hidden;
+    margin-top: 5px;
+    float: right;
+    margin-right: 7px;
+    z-index: 9999999999999;
+    position: relative;
+}
+.edit {
+    margin-right: 3px;
+}
+
+.portfolio-item p {
+    margin-bottom: 0;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    margin-right: 60px;
+
+}
+.li-item:hover .btn-item {
+    visibility:visible
+}

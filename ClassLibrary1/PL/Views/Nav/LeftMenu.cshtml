@@ -1,32 +1,4 @@
-﻿@model IEnumerable<BLL.DTO.PortfolioDTO>
-
-<style>
-    .btn-item {
-        font-size: 15px;
-        padding: 4px 8px;
-        visibility: hidden;
-        margin-top: 5px;
-        float: right;
-        margin-right: 7px;
-        z-index: 9999999999999;
-        position: relative;
-    }
-    .edit {
-        margin-right: 3px;
-    }
-
-    .portfolio-item p {
-        margin-bottom: 0;
-        white-space: nowrap; 
-        overflow: hidden; 
-        text-overflow: ellipsis;
-        margin-right: 60px;
-
-    }
-    .li-item:hover .btn-item {
-        visibility:visible
-    }
-</style>
+﻿@model IEnumerable<PL.Models.PortfolioModel>
 
 <button type="button" class="btn btn-primary btn-block" id="addBtn">Add Portfolio</button>
 <ul class="nav nav-tabs nav-pills nav-stacked" id="panelList" style="border-bottom: none">

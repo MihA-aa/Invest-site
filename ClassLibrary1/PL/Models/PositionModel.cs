@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 using BLL.DTO.Enums;
-using DAL.Enums;
 
-namespace BLL.DTO
+namespace PL.Models
 {
-    public class PositionDTO
+    public class PositionModel
     {
         public int Id { get; set; }
         public int SymbolId { get; set; }

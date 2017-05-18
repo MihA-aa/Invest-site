@@ -17,6 +17,9 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
+                        "~/Scripts/DataTables/jquery.dataTables.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jQueryUI").Include(
                         "~/Scripts/jquery-ui-1.12.1.min.js"));
 
@@ -33,6 +36,9 @@ namespace PL
 
             bundles.Add(new StyleBundle("~/Content/myStyle").Include(
                       "~/Content/myStyle/layout.css"));
+
+            bundles.Add(new StyleBundle("~/Content/DataTables").Include(
+                      "~/Content/DataTables/css/jquery.dataTables.css"));
 
             bundles.Add(new StyleBundle("~/Content/jQueryUI").Include(
                       "~/Content/themes/base/all.css"));

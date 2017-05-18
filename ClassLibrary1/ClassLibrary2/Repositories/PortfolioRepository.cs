@@ -31,6 +31,7 @@ namespace DALEF.Repositories
             dbSet.Attach(portfolio);
             db.Entry(portfolio).Property(x => x.Name).IsModified = true;
             db.Entry(portfolio).Property(x => x.Notes).IsModified = true;
+            db.Entry(portfolio).Property(x => x.Visibility).IsModified = true;
             db.SaveChanges();
         }
 
