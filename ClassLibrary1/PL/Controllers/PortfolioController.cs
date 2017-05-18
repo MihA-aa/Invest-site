@@ -24,7 +24,7 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreatePortfolio(PortfolioModel portfolioModel)
+        public ActionResult CreateUpdatePortfolio(PortfolioModel portfolioModel)
         {
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioModel, PortfolioDTO>());
             PortfolioDTO portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);

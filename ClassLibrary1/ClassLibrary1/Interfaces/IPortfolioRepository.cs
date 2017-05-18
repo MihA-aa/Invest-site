@@ -11,5 +11,7 @@ namespace DAL.Interfaces
     {
         void AddPositionToPortfolio(Position position, int portfolioId);
         void ChangePortfolioDisplayIndex(int id, int displayIndex);
+        bool CheckIfPortfolioExists(int id);
+        void ChangePortfolioNameAndNotes(Portfolio portfolio);
     }
 }

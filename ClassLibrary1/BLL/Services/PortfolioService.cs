@@ -58,9 +58,16 @@ namespace BLL.Services
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
                     .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
-            Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
-            db.Portfolios.Create(newPortfolio);
-            db.Save();
+            var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
+            if (db.Portfolios.CheckIfPortfolioExists(portfolio.Id))
+            {
+                db.Portfolios.ChangePortfolioNameAndNotes(newPortfolio);
+            }
+            else
+            {
+                db.Portfolios.Create(newPortfolio);
+                db.Save();
+            }
             return(newPortfolio.Id);
         }
         public void DeletePortfolio(int? id)
@@ -85,6 +92,7 @@ namespace BLL.Services
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
             Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             db.Portfolios.Update(newPortfolio);
+            db.Save();
         }
 
         public void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios)

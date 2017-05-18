@@ -8,16 +8,59 @@ $(function () {
     $("#panelList").disableSelection();
 
     $('#addBtn').click(function () {
+        var input = $("#generalForm > #id").detach();
+        $( "#generalForm" ).submit();
+        input.appendTo('#generalForm');
         $('#myTab a:first').tab('show');
     });
 
     $('.delete').click(function () {
-        var aItem = $(this).parent();
-        var id = aItem.next().attr('value');
-        var item = aItem.parent();
+        var item = $(this).parent();
+        var id = item.find('.PositionId').attr('value');
         deletePortfolio(id, item);
     });
+
+    $('.edit').click(function () {
+         var id = $(this).parent().find('.PositionId').attr('value');
+        loadGeneralForInput(id)
+        cleanActiveClass(id);
+    });
+
+    $('[href = "#general"]').click(function () {
+       var inputId = getActiveInput();
+       loadGeneralForInput(inputId);
+   });
+
+    $('.portfolio-item').click(function () {
+        var id = $(this).parent().find('.PositionId').attr('value');
+        loadTradeManagementForInput(id)
+        cleanActiveClass(id);
+    });
+
+//при удалении перекидванние на Trade management
+
 });
+
+function loadTradeManagementForInput(id){
+    // $("#generalForm > #id").attr('value', id);
+    // $( "#generalForm" ).submit();
+    $('[href = "#tradeManagement"]').tab('show');
+}
+
+function loadGeneralForInput(id){
+    $("#generalForm > #id").attr('value', id);
+    $( "#generalForm" ).submit();
+    $('#myTab a:first').tab('show');
+}
+
+function getActiveInput(){
+    return $(".li-item.active > .PositionId").attr('value');
+    }
+
+function cleanActiveClass(id){
+    $(".li-item").removeClass("active");
+    $('.PositionId[value = '+id+']').parent().addClass("active");
+    }
 
 function deletePortfolio(portfolioId,item) {
 	$("#loader").show();
@@ -44,6 +87,8 @@ function deletePortfolioInView(item){
          item.remove();
          if(flag){
          	$("#panelList").children(":first").addClass("active");
+            var id = $("#panelList").children(":first").find('.PositionId').attr('value');
+            loadGeneralForInput(id)
          }
          portfolioAllRefresh();
     }

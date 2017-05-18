@@ -1,4 +1,5 @@
-﻿using DAL.Entities;
+﻿using System.Linq;
+using DAL.Entities;
 using DAL.Interfaces;
 using DALEF.EF;
 
@@ -23,6 +24,19 @@ namespace DALEF.Repositories
             dbSet.Attach(portfolio);
             db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
             db.SaveChanges();
+        }
+
+        public void ChangePortfolioNameAndNotes(Portfolio portfolio)
+        {
+            dbSet.Attach(portfolio);
+            db.Entry(portfolio).Property(x => x.Name).IsModified = true;
+            db.Entry(portfolio).Property(x => x.Notes).IsModified = true;
+            db.SaveChanges();
+        }
+
+        public bool CheckIfPortfolioExists(int id)
+        {
+            return dbSet.AsNoTracking().Any(p => p.Id == id);
         }
     }
 }

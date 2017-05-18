@@ -1,11 +1,12 @@
 ﻿@model PL.Models.PortfolioModel
 
 <div id="createPortfolioForm">
-    @using (Html.BeginForm("CreatePortfolio", "Portfolio", FormMethod.Post, new { }))
+    @using (Html.BeginForm("CreateUpdatePortfolio", "Portfolio", FormMethod.Post, new { }))
     {
         @Html.AntiForgeryToken()
         <h4>Portfolio Information</h4>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.Id);
         <div class="form-group">
             @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })

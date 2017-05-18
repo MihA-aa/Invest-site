@@ -8,6 +8,7 @@ namespace PL.Models
 {
     public class PortfolioModel
     {
+        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Notes { get; set; }
