@@ -56,47 +56,53 @@ $(document).ready(function(){
         .on( 'processing.dt', function ( e, settings, processing ) 
             {$('#loader').css( 'display', processing ? 'block' : 'none' );})
         .DataTable({
+            "processing": false,
+            "serverSide": true,
+            "filter": false,
+            "orderMulti": false,
             "ajax": {
-                "url": "/Nav/TradeManagementTable",
-                "type": "GET",
+                "url": "/Nav/LoadData",
+                "type": "POST",
                 "datatype": "json",
-                "processing": true,
-                "serverSide": true, // for process server side
-                "filter": false, // this is for disable filter (search box)
-                "orderMulti": false,
-                "data": buildSearchData,
+                "data": function ( d ) {
+                      $.extend(d, tradeManagementIndex);
+                      d.id = tradeManagementIndex;
+                      var dt_params = $('#trade-management-jq-table').data('dt_params');
+                      if(dt_params){ $.extend(d, dt_params); }
+                   },
                 "error": function (xhr) {
                     alert(xhr.statusText);
                 }
             },
             "columns": [
-                    { "data": "Name", "autoWidth": true },
-                    { "data": "SymbolName", "autoWidth": true },
-                    { "data": "OpenPrice", "autoWidth": true },
-                    { "data": "OpenDate", "autoWidth": true, 
+                    { "data": "Name", "name": "Name", "autoWidth": true },
+                    { "data": "SymbolName", "name": "SymbolName", "autoWidth": true },
+                    { "data": "OpenPrice", "name": "OpenPrice", "autoWidth": true },
+                    { "data": "OpenDate", "name": "OpenDate", "autoWidth": true, 
                     "render": function (data) {return parseDateTime(data);} },
-                    { "data": "OpenWeight", "autoWidth": true },
-                    { "data": "CurrentPrice", "autoWidth": true },
-                    { "data": "TradeStatus", "autoWidth": true , 
+                    { "data": "OpenWeight", "name": "OpenWeight", "autoWidth": true },
+                    { "data": "CurrentPrice", "name": "CurrentPrice", "autoWidth": true },
+                    { "data": "TradeStatus", "name": "TradeStatus", "autoWidth": true , 
                     "render": function (data) {return parseTradeStatus(data);} },
-                    { "data": "ClosePrice", "autoWidth": true },
-                    { "data": "CloseDate", "autoWidth": true, 
+                    { "data": "ClosePrice", "name": "ClosePrice", "autoWidth": true },
+                    { "data": "CloseDate", "name": "CloseDate", "autoWidth": true, 
                     "render": function (data) {return parseDateTime(data);} },
-                    { "data": "Gain", "autoWidth": true },
-                    { "data": "AbsoluteGain", "autoWidth": true },
-                    { "data": "MaxGain", "autoWidth": true }
+                    { "data": "Gain", "name": "Gain", "autoWidth": true },
+                    { "data": "AbsoluteGain", "name": "AbsoluteGain", "autoWidth": true },
+                    { "data": "MaxGain", "name": "MaxGain", "autoWidth": true }
             ]
         });
 });
 
 function buildSearchData(){
-    return {"id" : tradeManagementIndex};
+    return {"id" : 1};
 }
 
 function ReloadTable(){
-    tableTradeManagement.clear();
-    tableTradeManagement.ajax.reload();
-    tableTradeManagement.draw();
+     tableTradeManagement.clear();
+     tableTradeManagement.data('dt_params', { "name": "id" });
+     tableTradeManagement.ajax.reload();
+     tableTradeManagement.draw();
 }
 
 

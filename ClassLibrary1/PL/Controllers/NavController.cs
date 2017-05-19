@@ -7,6 +7,7 @@ using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
 using PL.Models;
+using System.Linq.Dynamic;
 
 namespace PL.Controllers
 {
@@ -39,16 +40,38 @@ namespace PL.Controllers
             return PartialView(portfolio);
         }
         
-        public ActionResult TradeManagementTable(int? id)
+        [HttpPost]
+        public ActionResult LoadData(int? id)
         {
             if (id == null)
-                return Json(new { Success = false});
+                return Json(new { Success = false });
+
+            var draw = Request.Form?.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+            
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
             var positionsDto = portfolioService.GetPortfolioPositions(id);
+            
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
+            }
+
+            totalRecords = positionsDto.Count();
+            positionsDto = positionsDto.Skip(skip).Take(pageSize).ToList();
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
-            var positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
-            //positions.First().OpenDate =  new Date(parseInt(value.substr(6)));
-            return Json(new { data = positions }, JsonRequestBehavior.AllowGet);
+            var data = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+                
         }
+
 
         [HttpPost]
         public void RefreshPortfolioDisplayIndex(Dictionary<string, string> portfolios)
