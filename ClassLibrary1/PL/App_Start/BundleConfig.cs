@@ -26,6 +26,9 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/myScript").Include(
                         "~/Scripts/myScript/layout.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
+                        "~/Scripts/bootstrap-select.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
@@ -36,6 +39,9 @@ namespace PL
 
             bundles.Add(new StyleBundle("~/Content/myStyle").Include(
                       "~/Content/myStyle/layout.css"));
+
+            bundles.Add(new StyleBundle("~/Content/bootstrap-select").Include(
+                      "~/Content/bootstrap-select.css"));
 
             bundles.Add(new StyleBundle("~/Content/DataTables").Include(
                       "~/Content/DataTables/css/jquery.dataTables.css"));

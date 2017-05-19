@@ -53,12 +53,23 @@ namespace PL.Controllers
             var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
+            var symbolName = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
+            var status = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
             var positionsDto = portfolioService.GetPortfolioPositions(id);
-            
+
+            if (!string.IsNullOrEmpty(symbolName))
+            {
+                positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == status);
+            }
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
                 positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);

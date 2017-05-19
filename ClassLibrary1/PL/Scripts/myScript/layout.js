@@ -45,6 +45,16 @@ $(function () {
         }
     });
 
+    $('#btnSearch').click(function () {
+        tableTradeManagement.clear();
+        var symbolName = $('#txtSymbolName').val().trim();
+        var tradeStatus = $('#ddStatus').val().trim()
+        tableTradeManagement.columns(1).search(symbolName);
+        tableTradeManagement.columns(6).search(tradeStatus);
+        tableTradeManagement.ajax.reload();
+        tableTradeManagement.draw();
+    });
+            
 });
 
 var tradeManagementIndex;
@@ -58,8 +68,9 @@ $(document).ready(function(){
         .DataTable({
             "processing": false,
             "serverSide": true,
-            "filter": false,
             "orderMulti": false,
+            "filter": false,
+             "dom": '<"top"i>rt<"bottom"lp><"clear">',
             "ajax": {
                 "url": "/Nav/LoadData",
                 "type": "POST",
@@ -92,6 +103,7 @@ $(document).ready(function(){
                     { "data": "MaxGain", "name": "MaxGain", "autoWidth": true }
             ]
         });
+
 });
 
 function buildSearchData(){

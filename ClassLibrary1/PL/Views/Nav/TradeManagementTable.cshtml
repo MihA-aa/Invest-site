@@ -1,21 +1,46 @@
 ﻿
 @Styles.Render("~/Content/DataTables")
 
-<table id="trade-management-jq-table" class="display" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Symbol</th>
-            <th>Open Price</th>
-            <th>Open Date</th>
-            <th>Weight</th>
-            <th>Current Price</th>
-            <th>Status</th>
-            <th>Close Price</th>
-            <th>Close Date</th>
-            <th>Gain</th>
-            <th>Absolute Gain</th>
-            <th>Max Gain</th>
-        </tr>
-    </thead>
-</table>
+
+<div style="background-color:#f5f5f5; padding:20px">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Symbol: </td>
+                    <td><input type="text" id="txtSymbolName" /></td>
+                    <td style="padding-left: 10px;">Position Status</td>
+                    <td style="padding-left: 10px;">
+                        <select id="ddStatus" style="width:200px" class="selectpicker">
+                            <option value="">All</option>
+                            <option value="Open">Open Only</option>
+                            <option value="Close">Close Only</option>
+                            <option value="Wait">Open and Wait</option>
+                        </select>
+                    </td>
+                    <td style="padding-left: 10px;">
+                        <input type="button" value="Search" id="btnSearch" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <table id="trade-management-jq-table" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Symbol</th>
+                <th>Open Price</th>
+                <th>Open Date</th>
+                <th>Weight</th>
+                <th>Current Price</th>
+                <th>Status</th>
+                <th>Close Price</th>
+                <th>Close Date</th>
+                <th>Gain</th>
+                <th>Absolute Gain</th>
+                <th>Max Gain</th>
+            </tr>
+        </thead>
+    </table>

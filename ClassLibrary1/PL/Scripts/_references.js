@@ -1,6 +1,7 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="ai.0.22.9-build00167.js" />
 /// <reference path="bootstrap.js" />
+/// <reference path="bootstrap-select.min.js" />
 /// <reference path="datatables/autofill.bootstrap.min.js" />
 /// <reference path="datatables/autofill.bootstrap4.min.js" />
 /// <reference path="datatables/autofill.foundation.min.js" />
