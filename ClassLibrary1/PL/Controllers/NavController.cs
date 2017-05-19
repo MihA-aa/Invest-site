@@ -39,14 +39,23 @@ namespace PL.Controllers
             return PartialView(portfolio);
         }
 
-        public ActionResult TradeManagementTable(int? id)
+        //public ActionResult TradeManagementTable(int? id)
+        //{
+        //    if (id == null)
+        //        return HttpNotFound();
+        //    var positionsDto = portfolioService.GetPortfolioPositions(id);
+        //    Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
+        //    var positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
+        //    return PartialView(positions);
+        //}
+
+        public ActionResult TradeManagementTable()
         {
-            if (id == null)
-                return HttpNotFound();
-            var positionsDto = portfolioService.GetPortfolioPositions(id);
+            
+            var positionsDto = portfolioService.GetPortfolioPositions(1);
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
             var positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
-            return PartialView(positions);
+            return Json(new { data = positions }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
