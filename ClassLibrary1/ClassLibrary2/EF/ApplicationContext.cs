@@ -193,7 +193,49 @@ namespace DALEF.EF
                 MaxGain = 13.34m
             };
 
+            var position10 = (Position)position1.Clone();
+            var position11 = (Position)position1.Clone();
+            var position12 = (Position)position1.Clone();
+            var position13 = (Position)position1.Clone();
+            var position14 = (Position)position1.Clone();
+            var position15 = (Position)position1.Clone();
+            var position16 = (Position)position1.Clone();
+            var position17 = (Position)position1.Clone();
+            var position18 = (Position)position1.Clone();
+            var position19 = (Position)position1.Clone();
+
+            var position21 = (Position)position2.Clone();
+            var position20 = (Position)position2.Clone();
+            var position22 = (Position)position2.Clone();
+            var position23 = (Position)position2.Clone();
+            var position24 = (Position)position2.Clone();
+            var position25 = (Position)position2.Clone();
+            var position26 = (Position)position2.Clone();
+            var position27 = (Position)position2.Clone();
+            var position28 = (Position)position2.Clone();
+            var position29 = (Position)position2.Clone();
+
             db.Positions.Add(position1);
+            db.Positions.Add(position10);
+            db.Positions.Add(position11);
+            db.Positions.Add(position12);
+            db.Positions.Add(position13);
+            db.Positions.Add(position14);
+            db.Positions.Add(position15);
+            db.Positions.Add(position16);
+            db.Positions.Add(position17);
+            db.Positions.Add(position18);
+            db.Positions.Add(position19);
+            db.Positions.Add(position20);
+            db.Positions.Add(position21);
+            db.Positions.Add(position22);
+            db.Positions.Add(position23);
+            db.Positions.Add(position24);
+            db.Positions.Add(position25);
+            db.Positions.Add(position26);
+            db.Positions.Add(position27);
+            db.Positions.Add(position28);
+            db.Positions.Add(position29);
             db.Positions.Add(position2);
             db.Positions.Add(position3);
             db.Positions.Add(position4);
@@ -219,7 +261,15 @@ namespace DALEF.EF
                 AvgGain = 186.65m,
                 MonthAvgGain = 99.436m,
                 PortfolioValue = 1532.42m,
-                Positions = new List<Position> { position1, position2 }
+                Positions = new List<Position>
+                {
+                    position1, position10, position11, position12,
+                    position13, position14, position15, position16,
+                    position17, position18, position19, position2,
+                    position20, position21, position22,
+                    position23, position24, position25, position26,
+                    position27, position28, position29,
+                }
             };
 
             Portfolio portfolio2 = new Portfolio
@@ -294,9 +344,7 @@ namespace DALEF.EF
             db.Portfolios.Add(portfolio4);
             db.Portfolios.Add(portfolio5);
             #endregion
-
-
-
+            
             db.SaveChanges();
         }
     }

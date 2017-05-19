@@ -52,12 +52,18 @@ var tableTradeManagement;
 
 $(document).ready(function(){
         loadTradeManagement();
-        tableTradeManagement =  $('#trade-management-jq-table').DataTable({
+        tableTradeManagement =  $('#trade-management-jq-table')
+        .on( 'processing.dt', function ( e, settings, processing ) 
+            {$('#loader').css( 'display', processing ? 'block' : 'none' );})
+        .DataTable({
             "ajax": {
                 "url": "/Nav/TradeManagementTable",
                 "type": "GET",
                 "datatype": "json",
-                "bProcessing": true,
+                "processing": true,
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false,
                 "data": buildSearchData,
                 "error": function (xhr) {
                     alert(xhr.statusText);
@@ -67,12 +73,15 @@ $(document).ready(function(){
                     { "data": "Name", "autoWidth": true },
                     { "data": "SymbolName", "autoWidth": true },
                     { "data": "OpenPrice", "autoWidth": true },
-                    { "data": "OpenDate", "autoWidth": true },
+                    { "data": "OpenDate", "autoWidth": true, 
+                    "render": function (data) {return parseDateTime(data);} },
                     { "data": "OpenWeight", "autoWidth": true },
                     { "data": "CurrentPrice", "autoWidth": true },
-                    { "data": "TradeStatus", "autoWidth": true },
+                    { "data": "TradeStatus", "autoWidth": true , 
+                    "render": function (data) {return parseTradeStatus(data);} },
                     { "data": "ClosePrice", "autoWidth": true },
-                    { "data": "CloseDate", "autoWidth": true },
+                    { "data": "CloseDate", "autoWidth": true, 
+                    "render": function (data) {return parseDateTime(data);} },
                     { "data": "Gain", "autoWidth": true },
                     { "data": "AbsoluteGain", "autoWidth": true },
                     { "data": "MaxGain", "autoWidth": true }
@@ -163,9 +172,32 @@ function getPortfoliosIndex(){
 }
 
 function loadPortfolioRefresh(portfolios){
+    $("#loader").show();
     $.ajax({
         type: 'POST',
         url: '/Nav/RefreshPortfolioDisplayIndex',
-        data: { "portfolios": portfolios}
+        data: { "portfolios": portfolios},
+        success: function (data) {
+            $("#loader").hide();
+         },
     });
+}
+
+function parseDateTime(data){
+    var datet = new Date(parseInt(data.substr(6)));
+    var newData = (datet.getMonth() + 1) + "/" + (datet.getDate() + 1) + "/" + datet.getFullYear();
+    return newData;
+}
+
+function parseTradeStatus(data){
+    switch (data) {
+  case 0:
+    return ( 'Open' );
+  case 1:
+    return( 'Close' );
+  case 2:
+    return( 'Wait' );
+  default:
+    return( ' ' );
+    }
 }

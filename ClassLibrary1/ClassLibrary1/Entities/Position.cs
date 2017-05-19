@@ -24,5 +24,28 @@ namespace DAL.Entities
         public decimal MaxGain { get; set; }
         
         public virtual Portfolio Portfolio { get; set; }
+
+        public object Clone()
+        {
+            return new Position
+            {
+                SymbolId = this.SymbolId,
+                SymbolType = this.SymbolType,
+                SymbolName = this.SymbolName,
+                Name = this.Name,
+                OpenDate = this.OpenDate,
+                OpenPrice = this.OpenPrice,
+                OpenWeight = this.OpenWeight,
+                TradeType = this.TradeType,
+                TradeStatus = this.TradeStatus,
+                Dividends = this.Dividends,
+                CloseDate = this.CloseDate,
+                ClosePrice = this.ClosePrice,
+                CurrentPrice = this.CurrentPrice,
+                Gain = this.Gain,
+                AbsoluteGain = this.AbsoluteGain,
+                MaxGain = this.MaxGain
+            };
+        }
     }
 }

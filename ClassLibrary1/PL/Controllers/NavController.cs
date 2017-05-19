@@ -38,17 +38,7 @@ namespace PL.Controllers
             TempData["PortfolioId"] = portfolioDto.Id;
             return PartialView(portfolio);
         }
-
-        //public ActionResult TradeManagementTable(int? id)
-        //{
-        //    if (id == null)
-        //        return HttpNotFound();
-        //    var positionsDto = portfolioService.GetPortfolioPositions(id);
-        //    Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
-        //    var positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
-        //    return PartialView(positions);
-        //}
-
+        
         public ActionResult TradeManagementTable(int? id)
         {
             if (id == null)
@@ -56,6 +46,7 @@ namespace PL.Controllers
             var positionsDto = portfolioService.GetPortfolioPositions(id);
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
             var positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
+            //positions.First().OpenDate =  new Date(parseInt(value.substr(6)));
             return Json(new { data = positions }, JsonRequestBehavior.AllowGet);
         }
 
