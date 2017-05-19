@@ -49,10 +49,11 @@ namespace PL.Controllers
         //    return PartialView(positions);
         //}
 
-        public ActionResult TradeManagementTable()
+        public ActionResult TradeManagementTable(int? id)
         {
-            
-            var positionsDto = portfolioService.GetPortfolioPositions(1);
+            if (id == null)
+                return Json(new { Success = false});
+            var positionsDto = portfolioService.GetPortfolioPositions(id);
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
             var positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
             return Json(new { data = positions }, JsonRequestBehavior.AllowGet);

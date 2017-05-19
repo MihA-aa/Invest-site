@@ -35,24 +35,65 @@ $(function () {
         var id = $(this).parent().find('.PositionId').attr('value');
         cleanActiveClass(id);
         loadTradeManagement()
+        ReloadTable()
     });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href");
         if(target == "#tradeManagement"){
-            loadTradeManagement()
+            loadTradeManagement();
+            ReloadTable()
         }
     });
 
 });
 
+var tradeManagementIndex;
+var tableTradeManagement;
+
 $(document).ready(function(){
-    loadTradeManagement()
+        loadTradeManagement();
+        tableTradeManagement =  $('#trade-management-jq-table').DataTable({
+            "ajax": {
+                "url": "/Nav/TradeManagementTable",
+                "type": "GET",
+                "datatype": "json",
+                "bProcessing": true,
+                "data": buildSearchData,
+                "error": function (xhr) {
+                    alert(xhr.statusText);
+                }
+            },
+            "columns": [
+                    { "data": "Name", "autoWidth": true },
+                    { "data": "SymbolName", "autoWidth": true },
+                    { "data": "OpenPrice", "autoWidth": true },
+                    { "data": "OpenDate", "autoWidth": true },
+                    { "data": "OpenWeight", "autoWidth": true },
+                    { "data": "CurrentPrice", "autoWidth": true },
+                    { "data": "TradeStatus", "autoWidth": true },
+                    { "data": "ClosePrice", "autoWidth": true },
+                    { "data": "CloseDate", "autoWidth": true },
+                    { "data": "Gain", "autoWidth": true },
+                    { "data": "AbsoluteGain", "autoWidth": true },
+                    { "data": "MaxGain", "autoWidth": true }
+            ]
+        });
 });
 
+function buildSearchData(){
+    return {"id" : tradeManagementIndex};
+}
+
+function ReloadTable(){
+    tableTradeManagement.clear();
+    tableTradeManagement.ajax.reload();
+    tableTradeManagement.draw();
+}
+
+
 function loadTradeManagement(){
+    tradeManagementIndex = getActiveInput();
     $('[href = "#tradeManagement"]').tab('show');
-    $("#trade-management-table > #id").attr('value', getActiveInput());
-    $( "#trade-management-table" ).submit();
 }
 
 function loadGeneralForInput(id){

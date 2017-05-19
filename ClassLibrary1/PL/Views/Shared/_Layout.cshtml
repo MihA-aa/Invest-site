@@ -47,30 +47,5 @@
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.js")
     @Scripts.Render("~/bundles/dataTables")
     @RenderSection("scripts", required: false)
-<script>
-    $(document).ready(function () {
-        $('#trade-management-jq-table').DataTable({
-            "ajax": {
-                "url": "/Nav/TradeManagementTable",
-                "type": "GET",
-                "datatype": "json"
-            },
-            "columns": [
-                    { "data": "Name", "autoWidth": true },
-                    { "data": "SymbolName", "autoWidth": true },
-                    { "data": "OpenPrice", "autoWidth": true },
-                    { "data": "OpenDate", "autoWidth": true },
-                    { "data": "OpenWeight", "autoWidth": true },
-                    { "data": "CurrentPrice", "autoWidth": true },
-                    { "data": "TradeStatus", "autoWidth": true },
-                    { "data": "ClosePrice", "autoWidth": true },
-                    { "data": "CloseDate", "autoWidth": true },
-                    { "data": "Gain", "autoWidth": true },
-                    { "data": "AbsoluteGain", "autoWidth": true },
-                    { "data": "MaxGain", "autoWidth": true }
-            ]
-        });
-    });
-</script>
 </body>
 </html>
