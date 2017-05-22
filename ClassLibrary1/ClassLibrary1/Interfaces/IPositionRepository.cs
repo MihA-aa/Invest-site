@@ -9,5 +9,7 @@ namespace DAL.Interfaces
 {
     public interface IPositionRepository : IRepository<Position>
     {
+        bool CheckIfPositionExists(int id);
+        void ChangePositionParams(Position position);
     }
 }

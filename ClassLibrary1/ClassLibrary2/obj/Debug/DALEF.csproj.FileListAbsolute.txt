@@ -46,3 +46,4 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNe
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\System.Linq.Dynamic.dll

@@ -51,7 +51,7 @@ namespace DALEF.Repositories
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await dbSet.ToListAsync(); ;
+            return await dbSet.ToListAsync();
         }
 
         public void Update(T item)

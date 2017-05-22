@@ -1,0 +1,38 @@
+﻿@model PL.Models.PositionModel
+<h2>Save</h2>
+@using (Html.BeginForm("Save", "Position", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.Id);
+    @Html.HiddenFor(m => m.OpenDate);
+    @Html.HiddenFor(m => m.CloseDate);
+    @Html.HiddenFor(m => m.Gain);
+    @Html.HiddenFor(m => m.AbsoluteGain);
+    @Html.HiddenFor(m => m.MaxGain);
+    @Html.HiddenFor(m => m.CloseDate);
+    @Html.HiddenFor(m => m.CurrentPrice);
+    @Html.HiddenFor(m => m.OpenPrice);
+    @Html.HiddenFor(m => m.ClosePrice);
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(a => a.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.SymbolName, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(a => a.SymbolName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.SymbolName)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.OpenWeight, new {@class = "col-md-2 control-label"})
+        @Html.TextBoxFor(a => a.OpenWeight, new {@class = "form-control"})
+        @Html.ValidationMessageFor(a => a.OpenWeight)
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}

@@ -7,7 +7,7 @@ using BLL.DTO;
 
 namespace BLL.Interfaces
 {
-    interface IPositionService
+    public interface IPositionService
     {
         PositionDTO GetPosition(int? id);
         IEnumerable<PositionDTO> GetPositions();

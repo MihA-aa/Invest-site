@@ -27,7 +27,7 @@ namespace PL.Controllers
         public ActionResult CreateUpdatePortfolio(PortfolioModel portfolioModel)
         {
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioModel, PortfolioDTO>());
-            PortfolioDTO portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);
+            var portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);
             TempData["PortfolioId"] = portfolioService.CreatePortfolio(portfolioDto);
             return RedirectToAction("Index", "Home");
         }
@@ -38,12 +38,5 @@ namespace PL.Controllers
             portfolioService.DeletePortfolio(id);
             return Json("Response from Delete");
         }
-
-        //[HttpDelete]
-        //public JsonResult DeletePortfolio(int id)
-        //{
-        //    portfolioService.DeletePortfolio(id);
-        //    return Json("Response from Delete");
-        //}
     }
 }

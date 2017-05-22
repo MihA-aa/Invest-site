@@ -8,6 +8,7 @@ using BLL.DTO;
 using BLL.Interfaces;
 using PL.Models;
 using System.Linq.Dynamic;
+using System.Web.WebPages;
 
 namespace PL.Controllers
 {
@@ -53,8 +54,12 @@ namespace PL.Controllers
             var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
-            var symbolName = Request.Form.GetValues("columns[1][search][value]").FirstOrDefault();
-            var status = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var symbolName = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var status = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var openDateFrom = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var openDateTo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var closeDateFrom = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+            var closeDateTo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
 
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
@@ -62,6 +67,23 @@ namespace PL.Controllers
 
             var positionsDto = portfolioService.GetPortfolioPositions(id);
 
+            #region Searching and sorting 
+            if (!string.IsNullOrEmpty(openDateFrom))
+            {
+                positionsDto = positionsDto.Where(p => p.OpenDate.Date >= openDateFrom.AsDateTime());
+            }
+            if (!string.IsNullOrEmpty(openDateTo))
+            {
+                positionsDto = positionsDto.Where(p => p.OpenDate.Date <= openDateTo.AsDateTime());
+            }
+            if (!string.IsNullOrEmpty(closeDateFrom))
+            {
+                positionsDto = positionsDto.Where(p => p.CloseDate.Date >= closeDateFrom.AsDateTime());
+            }
+            if (!string.IsNullOrEmpty(closeDateTo))
+            {
+                positionsDto = positionsDto.Where(p => p.CloseDate.Date <= closeDateTo.AsDateTime());
+            }
             if (!string.IsNullOrEmpty(symbolName))
             {
                 positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
@@ -74,6 +96,7 @@ namespace PL.Controllers
             {
                 positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
             }
+            #endregion
 
             totalRecords = positionsDto.Count();
             positionsDto = positionsDto.Skip(skip).Take(pageSize).ToList();

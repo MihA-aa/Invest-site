@@ -66,9 +66,9 @@ namespace BLL.Services
             else
             {
                 db.Portfolios.Create(newPortfolio);
-                db.Save();
             }
-            return(newPortfolio.Id);
+            db.Save();
+            return (newPortfolio.Id);
         }
         public void DeletePortfolio(int? id)
         {

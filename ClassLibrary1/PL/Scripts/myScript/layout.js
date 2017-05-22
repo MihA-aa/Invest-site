@@ -7,6 +7,34 @@ $(function () {
     });
     $("#panelList").disableSelection();
 
+    $('#datetimepicker6').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+    $('#datetimepicker7').datetimepicker({
+        format: 'DD/MM/YYYY',
+        useCurrent: false
+    });
+    $("#datetimepicker6").on("dp.change", function (e) {
+        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    });
+    $("#datetimepicker7").on("dp.change", function (e) {
+        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    });
+
+    $('#datetimepicker8').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+    $('#datetimepicker9').datetimepicker({
+        format: 'DD/MM/YYYY',
+        useCurrent: false
+    });
+    $("#datetimepicker8").on("dp.change", function (e) {
+        $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
+    });
+    $("#datetimepicker9").on("dp.change", function (e) {
+        $('#datetimepicker8').data("DateTimePicker").maxDate(e.date);
+    });
+
     $('#addBtn').click(function () {
         var input = $("#generalForm > #id").detach();
         $( "#generalForm" ).submit();
@@ -46,15 +74,23 @@ $(function () {
     });
 
     $('#btnSearch').click(function () {
-        tableTradeManagement.clear();
         var symbolName = $('#txtSymbolName').val().trim();
-        var tradeStatus = $('#ddStatus').val().trim()
-        tableTradeManagement.columns(1).search(symbolName);
-        tableTradeManagement.columns(6).search(tradeStatus);
-        tableTradeManagement.ajax.reload();
+        var tradeStatus = $('#ddStatus').val().trim();
+        var openDateFrom = $('#open-date-from').val().trim();
+        var openDateTo = $('#open-date-to').val().trim();
+        var closeDateFrom = $('#close-date-from').val().trim();
+        var closeDateTo = $('#close-date-to').val().trim();
+        tableTradeManagement.columns(3).search(symbolName);
+        tableTradeManagement.columns(8).search(tradeStatus);
+        tableTradeManagement.columns(5).search(openDateFrom);
+        tableTradeManagement.columns(6).search(openDateTo);
+        tableTradeManagement.columns(10).search(closeDateFrom);
+        tableTradeManagement.columns(11).search(closeDateTo);
         tableTradeManagement.draw();
     });
-            
+         
+    
+
 });
 
 var tradeManagementIndex;
@@ -69,7 +105,6 @@ $(document).ready(function(){
             "processing": false,
             "serverSide": true,
             "orderMulti": false,
-            "filter": false,
              "dom": '<"top"i>rt<"bottom"lp><"clear">',
             "ajax": {
                 "url": "/Nav/LoadData",
@@ -86,6 +121,12 @@ $(document).ready(function(){
                 }
             },
             "columns": [
+                    { "data": "Id", "name": "Id", "width": "10px", 
+                    "render": function (data) {return '<a class="popup" href="/Position/Save/'
+                     + data + '"><span class="glyphicon glyphicon-pencil" style="color: #80b78c;"></span></a>';}},
+                     { "data": "Id", "name": "Id", "width": "10px", 
+                    "render": function (data) {return '<a class="popup" href="/Position/Delete/'
+                     + data + '"><span class="glyphicon glyphicon-remove" style="color: #dc6c6c;"></span></a>';}},
                     { "data": "Name", "name": "Name", "autoWidth": true },
                     { "data": "SymbolName", "name": "SymbolName", "autoWidth": true },
                     { "data": "OpenPrice", "name": "OpenPrice", "autoWidth": true },
@@ -103,7 +144,53 @@ $(document).ready(function(){
                     { "data": "MaxGain", "name": "MaxGain", "autoWidth": true }
             ]
         });
+$('.tablecontainer').on('click', 'a.popup', function (e) {
+    e.preventDefault();
+    OpenPopup($(this).attr('href'));
+})
+function OpenPopup(pageUrl) {
+    var $pageContent = $('<div/>');
+    $pageContent.load(pageUrl, function () {
+        $('#popupForm', $pageContent).removeData('validator');
+        $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse('form');
 
+    });
+
+    $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+    .html($pageContent)
+    .dialog({
+      draggable : false,
+      autoOpen : false,
+      resizable : false,
+      model : true,
+      title:'Popup Dialog',
+      height : 550,
+      width : 600,
+      close: function () {
+          $dialog.dialog('destroy').remove();
+      }
+  })
+
+    $('.popupWindow').on('submit', '#popupForm', function (e) {
+        var url = $('#popupForm')[0].action;
+        $.ajax({
+            type : "POST",
+            url : url,
+            data: $('#popupForm').serialize(),
+            success: function (data) {
+                if (data.status) {
+                    $dialog.dialog('close');
+                    tableTradeManagement.ajax.reload();
+                }
+            }
+        })
+
+        e.preventDefault();
+    })
+    $dialog.dialog('open');
+$dialog.dialog({ closeText: "" });
+}
 });
 
 function buildSearchData(){

@@ -41,8 +41,16 @@ namespace BLL.Services
         {
             validateService.Validate(position);
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
-            Position newPosition =  Mapper.Map<PositionDTO, Position>(position);
-            db.Positions.Create(newPosition);
+            var newPosition =  Mapper.Map<PositionDTO, Position>(position);
+            if (db.Positions.CheckIfPositionExists(position.Id))
+            {
+                db.Positions.Update(newPosition);
+            }
+            else
+            {
+                db.Positions.Create(newPosition);
+            }
+            db.Save();
         }
         public void DeletePosition(int? id)
         {
@@ -52,6 +60,7 @@ namespace BLL.Services
             if (position == null)
                 throw new ValidationException(Resource.PositionNotFound, "");
             db.Positions.Delete(id.Value);
+            db.Save();
         }
         public void UpdatePosition(PositionDTO position)
         {
@@ -64,6 +73,7 @@ namespace BLL.Services
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
             Position newPosition = Mapper.Map<PositionDTO, Position>(position);
             db.Positions.Update(newPosition);
+            db.Save();
         }
     }
 }

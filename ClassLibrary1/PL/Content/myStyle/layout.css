@@ -107,3 +107,17 @@ input[type="checkbox"].input-validation-error {
 .li-item:hover .btn-item {
     visibility:visible
 }
+
+
+.td-item-text {
+   white-space: nowrap; 
+   overflow: hidden; 
+   text-overflow: ellipsis;
+}
+.td-item {
+    padding-left: 10px; 
+}
+
+.ui-button-icon-space{
+    visibility: hidden;
+}

@@ -80,3 +80,6 @@ C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\UnitTests\obj\Debug\UnitTests.dll
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\UnitTests\obj\Debug\UnitTests.pdb
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.pdb

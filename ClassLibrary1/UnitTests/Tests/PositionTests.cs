@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using BLL.DTO;
+using BLL.DTO.Enums;
 using BLL.Services;
 using DAL.Entities;
 using DAL.Enums;
@@ -87,14 +88,14 @@ namespace UnitTests.Tests
         {
             Id = 5,
             SymbolId = 3,
-            SymbolType = Symbols.Option,
+            SymbolType = SymbolsDTO.Option,
             SymbolName = "PLSE",
             Name = "Pulse Biosciences CS",
             OpenDate = new DateTime(2015, 7, 20),
             OpenPrice = 128.32m,
             OpenWeight = 40,
-            TradeType = TradeTypes.Long,
-            TradeStatus = TradeStatuses.Open,
+            TradeType = TradeTypesDTO.Long,
+            TradeStatus = TradeStatusesDTO.Open,
             Dividends = 57.3m,
             CloseDate = new DateTime(2016, 1, 12),
             ClosePrice = 218.32m,
@@ -249,14 +250,14 @@ namespace UnitTests.Tests
             {
                 Id = 1,
                 SymbolId = 3,
-                SymbolType = Symbols.Option,
+                SymbolType = SymbolsDTO.Option,
                 SymbolName = "PLSE",
                 Name = "New update position",
                 OpenDate = new DateTime(2015, 7, 20),
                 OpenPrice = 128.32m,
                 OpenWeight = 40,
-                TradeType = TradeTypes.Long,
-                TradeStatus = TradeStatuses.Open,
+                TradeType = TradeTypesDTO.Long,
+                TradeStatus = TradeStatusesDTO.Open,
                 Dividends = 57.3m,
                 CloseDate = new DateTime(2016, 1, 12),
                 ClosePrice = 218.32m,
