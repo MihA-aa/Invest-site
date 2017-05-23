@@ -121,3 +121,7 @@ input[type="checkbox"].input-validation-error {
 .ui-button-icon-space{
     visibility: hidden;
 }
+
+.ui-dialog .ui-dialog-buttonpane button {
+        padding: 5px;
+    }

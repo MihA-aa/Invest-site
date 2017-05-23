@@ -1,115 +1,115 @@
 ﻿
 @Styles.Render("~/Content/DataTables")
 
-<div style="margin: 10px;">
-    <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
-            Add Position <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Add regular position </a></li>
-            <li><a href="#">Add combine position </a></li>
-            <li><a href="#">Add stock</a></li>
-            <li><a href="#">Add put option</a></li>
-            <li><a href="#">Add call option</a></li>
-        </ul>
-    </div>
-    <button type="button" class="btn btn-default myNavBtn">Trade Groups</button>
-    <button type="button" class="btn btn-default myNavBtn">Income</button>
-    <button type="button" class="btn btn-default myNavBtn">Divide Trade</button>
-    <button type="button" class="btn btn-default myNavBtn">Custom Symbols</button>
-    <div class="btn-group">
-        <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
-            View <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Default View </a></li>
-            <li><a href="#">Default View 1</a></li>
-            <li><a href="#">Default View 2</a></li>
-            <li><a href="#">Default View 3</a></li>
-        </ul>
-    </div>
-</div>
 
-<div style="background-color:#f5f5f5; padding:20px">
+
+<div class="tablecontainer">
+    <div style="margin: 10px;">
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
+                Add Position <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a class="popup" href="/Position/Save/0">Add regular position </a></li>
+                @*<li><a href="#">Add combine position </a></li>
+                    <li><a href="#">Add stock</a></li>
+                    <li><a href="#">Add put option</a></li>
+                    <li><a href="#">Add call option</a></li>*@
+            </ul>
+        </div>
+        <button type="button" class="btn btn-default myNavBtn">Trade Groups</button>
+        <button type="button" class="btn btn-default myNavBtn">Income</button>
+        <button type="button" class="btn btn-default myNavBtn">Divide Trade</button>
+        <button type="button" class="btn btn-default myNavBtn">Custom Symbols</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
+                View <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Default View </a></li>
+                <li><a href="#">Default View 1</a></li>
+                <li><a href="#">Default View 2</a></li>
+                <li><a href="#">Default View 3</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="background-color: #f5f5f5; padding: 20px">
         <table>
             <tbody>
-                <tr>
-                    <td>Symbol: </td>
-                    <td class="td-item"><input type="text" id="txtSymbolName"/></td>
-                    <td class="td-item td-item-text">Open date:</td>
-                    <td>
-                        <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker6'>
-                                    <input type='text' class="form-control" id="open-date-from" style="padding-right: 25px"/>
-                                    <span class="input-group-addon">
+            <tr>
+                <td>Symbol: </td>
+                <td class="td-item"><input type="text" id="txtSymbolName"/></td>
+                <td class="td-item td-item-text">Open date:</td>
+                <td>
+                    <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker6'>
+                                <input type='text' class="form-control" id="open-date-from" style="padding-right: 25px"/>
+                                <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                </div>
                             </div>
                         </div>
-                    </td>
-                    <td class="td-item">To:</td>
-                    <td>
-                        <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker7'>
-                                    <input type='text' class="form-control" id="open-date-to" style="padding-right: 25px"/>
-                                    <span class="input-group-addon">
+                    </div>
+                </td>
+                <td class="td-item">To:</td>
+                <td>
+                    <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker7'>
+                                <input type='text' class="form-control" id="open-date-to" style="padding-right: 25px"/>
+                                <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                </div>
                             </div>
                         </div>
-                    </td>
-                    <td class="td-item td-item-text">Close date:</td>
-                    <td>
-                        <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker8'>
-                                    <input type='text' class="form-control" id="close-date-from" style="padding-right: 25px" />
-                                    <span class="input-group-addon">
+                    </div>
+                </td>
+                <td class="td-item td-item-text">Close date:</td>
+                <td>
+                    <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker8'>
+                                <input type='text' class="form-control" id="close-date-from" style="padding-right: 25px"/>
+                                <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                </div>
                             </div>
                         </div>
-                    </td>
-                    <td class="td-item">To:</td>
-                    <td>
-                        <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
-                            <div class="form-group">
-                                <div class='input-group date' id='datetimepicker9'>
-                                    <input type='text' class="form-control" id="close-date-to" style="padding-right: 25px"/>
-                                    <span class="input-group-addon">
+                    </div>
+                </td>
+                <td class="td-item">To:</td>
+                <td>
+                    <div style="margin-bottom: -15px; width: 150px; margin-left: 15px;">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker9'>
+                                <input type='text' class="form-control" id="close-date-to" style="padding-right: 25px"/>
+                                <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
-                                </div>
                             </div>
                         </div>
-                    </td>
+                    </div>
+                </td>
 
-                    <td class="td-item td-item-text">Position Status:</td>
-                    <td style="padding-left: 10px;">
-                        <select id="ddStatus" class="selectpicker">
-                            <option value="">All</option>
-                            <option value="Open">Open Only</option>
-                            <option value="Close">Close Only</option>
-                            <option value="Wait">Open and Wait</option>
-                        </select>
-                    </td>
-                    <td style="padding-left: 10px;">
-                        <input type="button" value="Search" id="btnSearch" />
-                    </td>
-                </tr>
+                <td class="td-item td-item-text">Position Status:</td>
+                <td style="padding-left: 10px;">
+                    <select id="ddStatus" class="selectpicker">
+                        <option value="">All</option>
+                        <option value="Open">Open Only</option>
+                        <option value="Close">Close Only</option>
+                        <option value="Wait">Open and Wait</option>
+                    </select>
+                </td>
+                <td style="padding-left: 10px;">
+                    <input type="button" value="Search" id="btnSearch"/>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
 
-<div class="tablecontainer">
-    <a class="popup btn btn-primary" href="/Position/Save/0" 
-       style="margin-bottom:20px; margin-top:20px;">Add New Position</a>
     <table id="trade-management-jq-table" class="display" cellspacing="0" width="100%">
         <thead>
         <tr>

@@ -1,4 +1,6 @@
-﻿using DAL.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DAL.Entities;
 using DAL.Interfaces;
 using DALEF.EF;
 
@@ -8,6 +10,16 @@ namespace DALEF.Repositories
     {
         public SymbolRepository(ApplicationContext context) : base(context)
         {
+        }
+
+        public IEnumerable<string> SearchSymbolsByName(string name)
+        {
+            var symbols = dbSet
+                .Where(a => a.Name.Contains(name))
+                .Select(a => a.Name)
+                .Distinct()
+                .ToList();
+            return symbols;
         }
     }
 }

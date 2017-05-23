@@ -57,16 +57,15 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult Delete(int? id)
         {
-            PositionDTO position;
             try
             {
-                 position = positionService.GetPosition(id);
+                 ViewBag.Id = positionService.GetPosition(id).Id;
             }
             catch (Exception)
             {
                 return HttpNotFound();
             }
-            return PartialView(position);
+            return PartialView();
         }
 
         [HttpPost]

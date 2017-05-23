@@ -34,6 +34,8 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<UserService>().As<IUserService>().
                 InstancePerRequest();
+            builder.RegisterType<SymbolService>().As<ISymbolService>().
+                InstancePerRequest();
             base.Load(builder);
         }
     }

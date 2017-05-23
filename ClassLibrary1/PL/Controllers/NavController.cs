@@ -15,10 +15,12 @@ namespace PL.Controllers
     public class NavController : Controller
     {
         private IPortfolioService portfolioService;
+        private ISymbolService symbolService;
 
-        public NavController(IPortfolioService PortfolioService)
+        public NavController(IPortfolioService PortfolioService, ISymbolService symbolService)
         {
             this.portfolioService = PortfolioService;
+            this.symbolService = symbolService;
         }
         public PartialViewResult LeftMenu()
         {
@@ -104,6 +106,21 @@ namespace PL.Controllers
             var data = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
                 
+        }
+
+
+        public ActionResult AutocompleteSymbolSearch(string term)
+        {
+            var symbols = symbolService.SearchSymbolsByName(term);
+            return Json(symbols, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult CheckIfExist(string value)
+        {
+            var symbol = symbolService.GetSymbolByName(value);
+            var isFound = symbol != null;
+            return Json(new { success = isFound });
         }
 
 

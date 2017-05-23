@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.Entities;
+using BLL.DTO;
 
-namespace DAL.Interfaces
+namespace BLL.Interfaces
 {
-    public interface ISymbolRepository : IRepository<Symbol>
+    public interface ISymbolService
     {
+        IEnumerable<SymbolDTO> GetSymbols();
         IEnumerable<string> SearchSymbolsByName(string name);
+        SymbolDTO GetSymbolByName(string name);
     }
 }

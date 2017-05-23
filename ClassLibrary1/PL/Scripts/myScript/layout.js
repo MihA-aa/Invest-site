@@ -89,7 +89,7 @@ $(function () {
         tableTradeManagement.draw();
     });
          
-    
+
 
 });
 
@@ -165,8 +165,9 @@ function OpenPopup(pageUrl) {
       resizable : false,
       model : true,
       title:'Popup Dialog',
-      height : 550,
+      height : 600,
       width : 600,
+      closeText: "",
       close: function () {
           $dialog.dialog('destroy').remove();
       }
@@ -192,6 +193,23 @@ function OpenPopup(pageUrl) {
 $dialog.dialog({ closeText: "" });
 }
 });
+
+function completeInputData() {
+        $.ajax({
+            url: '/Nav/CheckIfExist',
+            type: "POST",
+            data: { "value": $("#input-symbol-search").val() },
+            success: function (data) {
+                if (!data.success) {
+                    $("#input-symbol-search").val('');
+                    $("#symbolNotFoundDialog").dialog("open");
+                } else {
+                    //АВТОЗАПОЛНЕНИЕ НЕКОТОРЫХ ПОЛЕЙ
+                }
+            }
+        });
+    }
+
 
 function buildSearchData(){
     return {"id" : 1};
@@ -290,7 +308,7 @@ function loadPortfolioRefresh(portfolios){
 
 function parseDateTime(data){
     var datet = new Date(parseInt(data.substr(6)));
-    var newData = (datet.getMonth() + 1) + "/" + (datet.getDate() + 1) + "/" + datet.getFullYear();
+    var newData = datet.getDate()  + "/" + (datet.getMonth() + 1) + "/" + datet.getFullYear();
     return newData;
 }
 
