@@ -80,11 +80,11 @@ namespace PL.Controllers
             }
             if (!string.IsNullOrEmpty(closeDateFrom))
             {
-                positionsDto = positionsDto.Where(p => p.CloseDate.Date >= closeDateFrom.AsDateTime());
+                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date >= closeDateFrom.AsDateTime());
             }
             if (!string.IsNullOrEmpty(closeDateTo))
             {
-                positionsDto = positionsDto.Where(p => p.CloseDate.Date <= closeDateTo.AsDateTime());
+                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date <= closeDateTo.AsDateTime());
             }
             if (!string.IsNullOrEmpty(symbolName))
             {

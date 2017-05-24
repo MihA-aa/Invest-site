@@ -12,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using UnitTests.Attributes;
 using System.Threading.Tasks;
+using BLL.Helpers;
 using BLL.Infrastructure;
 using Microsoft.AspNet.Identity;
 

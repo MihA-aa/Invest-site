@@ -25,7 +25,7 @@ namespace PL.Models
         public DateTime OpenDate { get; set; }
         
         [Display(Name = "Open Price")]
-        public float OpenPrice { get; set; }
+        public decimal? OpenPrice { get; set; }
 
         [Display(Name = "Weight")]
         public int OpenWeight { get; set; }
@@ -40,15 +40,15 @@ namespace PL.Models
         
         [Display(Name = "Close Date")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd.MM.yy}", ApplyFormatInEditMode = true)]
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
 
         [Display(Name = "Close Price")]
-        public decimal ClosePrice { get; set; }
+        public decimal? ClosePrice { get; set; }
 
         [Display(Name = "Current Price")]
-        public decimal CurrentPrice { get; set; }
-        public decimal Gain { get; set; }
-        public decimal AbsoluteGain { get; set; }
-        public decimal MaxGain { get; set; }
+        public decimal? CurrentPrice { get; set; }
+        public decimal? Gain { get; set; }
+        public decimal? AbsoluteGain { get; set; }
+        public decimal? MaxGain { get; set; }
     }
 }

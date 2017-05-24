@@ -8,12 +8,13 @@ using System.Web.Mvc;
 using Autofac;
 using AutoMapper;
 using BLL.DTO;
+using BLL.Helpers;
 using BLL.Interfaces;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PL.Models;
 using BLL.Infrastructure;
-using Resources;
+using BLL.Resource;
 
 namespace PL.Controllers
 {

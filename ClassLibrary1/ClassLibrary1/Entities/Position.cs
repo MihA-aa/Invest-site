@@ -16,7 +16,7 @@ namespace DAL.Entities
         public TradeTypes TradeType  { get; set; }
         public TradeStatuses TradeStatus  { get; set; }
         public decimal Dividends { get; set; }
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
         public decimal? ClosePrice { get; set; }
         public decimal? CurrentPrice { get; set; }
         public decimal Gain { get; set; }

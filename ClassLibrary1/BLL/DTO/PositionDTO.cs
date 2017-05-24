@@ -21,7 +21,7 @@ namespace BLL.DTO
         public TradeTypesDTO TradeType { get; set; }
         public TradeStatusesDTO TradeStatus { get; set; }
         public decimal Dividends { get; set; }
-        public DateTime CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
         public decimal? ClosePrice { get; set; }
         public decimal? CurrentPrice { get; set; }
         public decimal Gain { get; set; }

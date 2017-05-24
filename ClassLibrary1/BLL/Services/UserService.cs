@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTO;
+using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
 using Entity = DAL.Entities;
 using DAL.Interfaces;
 using Microsoft.AspNet.Identity;
 using BLL.Infrastructure;
-using Resources;
 
 namespace BLL.Services
 {
@@ -44,7 +44,7 @@ namespace BLL.Services
             }
             else
             {
-                throw new ValidationException(Resource.UserAlreadyExists, "Login");
+                throw new ValidationException(Resource.Resource.UserAlreadyExists, "Login");
             }
         }
 
@@ -61,10 +61,10 @@ namespace BLL.Services
         public ProfileDTO GetProfile(string userId)
         {
             if (userId == null)
-                throw new ValidationException(Resource.UserIdNotSet, "");
+                throw new ValidationException(Resource.Resource.UserIdNotSet, "");
             var profile = Database.Profiles.Get(userId);
             if (profile == null)
-                throw new ValidationException(Resource.UserNotFound, "");
+                throw new ValidationException(Resource.Resource.UserNotFound, "");
             Mapper.Initialize(cfg => cfg.CreateMap<Entity.Profile, ProfileDTO>());
             return Mapper.Map<Entity.Profile, ProfileDTO>(profile);
         }

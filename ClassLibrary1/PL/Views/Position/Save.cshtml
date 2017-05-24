@@ -4,7 +4,13 @@
 <style>
     .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
     width: 280px;
-}
+    }
+    .myLabelFor {
+        white-space: nowrap; 
+        overflow: hidden; 
+        margin-left: -5px; 
+        margin-right: 5px;
+    }
 </style>
 
 @{
@@ -46,12 +52,13 @@
 @using (Html.BeginForm("Save", "Position", FormMethod.Post, new { id = "popupForm" }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary-errors" })
     @Html.HiddenFor(m => m.Id);
+    @Html.HiddenFor(m => m.CurrentPrice);
     @Html.HiddenFor(m => m.Gain);
     @Html.HiddenFor(m => m.AbsoluteGain);
     @Html.HiddenFor(m => m.MaxGain);
-
+   
     <div class="form-group">
         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
         @Html.TextBoxFor(a => a.Name, new { @class = "form-control" })
@@ -71,12 +78,12 @@
         @Html.DropDownListFor(model => model.TradeType, tradeTypelist, new { @class = "selectpicker", style = "width: 280px;" })
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.OpenWeight, new {@class = "col-md-2 control-label"})
-        @Html.TextBoxFor(a => a.OpenWeight, new {@class = "form-control"})
+        @Html.LabelFor(m => m.OpenWeight, new { @class = "col-md-2 control-label"})
+        @Html.TextBoxFor(a => a.OpenWeight, new { Value = Model?.OpenWeight.ToString() ?? "1", @class = "form-control"})
         @Html.ValidationMessageFor(a => a.OpenWeight)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.OpenDate, new {@class = "col-md-2 control-label", style = "white-space: nowrap; overflow: hidden; margin-left: -5px; margin-right: 5px;" })
+        @Html.LabelFor(m => m.OpenDate, new {@class = "col-md-2 control-label myLabelFor"})
         <div class='input-group date' id='datetimepicker1' style="padding-right: 190px;">
             @Html.TextBoxFor(a => a.OpenDate, new {@class = "form-control", style= "width: 241px;" })
             <span class="input-group-addon">
@@ -86,8 +93,8 @@
         @Html.ValidationMessageFor(a => a.OpenDate)
     </div>
     <div class="form-group">
-        @Html.LabelFor(m => m.OpenPrice, new { @class = "col-md-2 control-label", style = "white-space: nowrap; overflow: hidden; margin-left: -5px; margin-right: 5px;" })
-        @Html.TextBoxFor(a => a.OpenPrice, new { @class = "form-control fucking-decimal-input", @readonly = true })
+        @Html.LabelFor(m => m.OpenPrice, new { @class = "col-md-2 control-label myLabelFor"})
+        @Html.TextBoxFor(a => a.OpenPrice, new { @data_val = "false", @class = "form-control fucking-decimal-input", @readonly = true })
         @Html.ValidationMessageFor(a => a.OpenPrice)
     </div>
     <div class="form-group">
@@ -99,7 +106,7 @@
     </div>
     <div id="FromForClosePosition" style="display: none">
         <div class="form-group">
-            @Html.LabelFor(m => m.CloseDate, new { @class = "col-md-2 control-label", style = "white-space: nowrap; overflow: hidden; margin-left: -5px; margin-right: 5px; " })
+            @Html.LabelFor(m => m.CloseDate, new { @class = "col-md-2 control-label myLabelFor"})
             <div class='input-group date' id='datetimepicker2' style="padding-right: 190px;">
                 @Html.TextBoxFor(a => a.CloseDate, new { @class = "form-control", style = "width: 241px;" })
                 <span class="input-group-addon">
@@ -109,13 +116,13 @@
             @Html.ValidationMessageFor(a => a.CloseDate)
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.ClosePrice, new { @class = "col-md-2 control-label", style = "white-space: nowrap; overflow: hidden; margin-left: -5px; margin-right: 5px;" })
-            @Html.TextBoxFor(a => a.ClosePrice, new { @class = "form-control fucking-decimal-input", @readonly = true })
+            @Html.LabelFor(m => m.ClosePrice, new { @class = "col-md-2 control-label myLabelFor"})
+            @Html.TextBoxFor(a => a.ClosePrice, new { @data_val = "false", @class = "form-control fucking-decimal-input", @readonly = true })
             @Html.ValidationMessageFor(a => a.ClosePrice)
         </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" style ="margin-bottom: 40px;">
         <div class="col-md-offset-2">
             <input type="submit" value="Save" class="btn btn-default" id="FormSaveSubmit"/>
         </div>
@@ -133,16 +140,11 @@
         }
     }
 
-
     $(function () {
 
         if ($("#TradeStatus option:selected").text() == "Close") {
             $("#FromForClosePosition").css("display","block")
         }
-
-        $(".fucking-decimal-input").each(function () {
-            this.value = this.value.replace(/,/g, '.');
-        });
 
         $('#datetimepicker1').datetimepicker({
             format: 'DD/MM/YYYY'

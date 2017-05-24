@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using BLL.DTO;
-using BLL.Infrastructure;
+using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
-using Resources;
 
 namespace BLL.Services
 {
@@ -23,55 +23,68 @@ namespace BLL.Services
         public PositionDTO GetPosition(int? id)
         {
             if (id == null)
-                throw new ValidationException(Resource.PositionIdNotSet, "");
+                throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
             var position = db.Positions.Get(id.Value);
             if (position == null)
-                throw new ValidationException(Resource.PositionNotFound, "");
-            Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
-            return Mapper.Map<Position, PositionDTO>(position);
+                throw new ValidationException(Resource.Resource.PositionNotFound, "");
+            return MapperHelper.ConvertPositionToPositionDto(position);
         }
 
         public IEnumerable<PositionDTO> GetPositions()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Position, PositionDTO>());
-            return Mapper.Map<IEnumerable<Position>, List<PositionDTO>>(db.Positions.GetAll());
+            return MapperHelper.ConvertListPositionToPositionDto(db.Positions.GetAll());
         }
 
-        public void CreatePosition(PositionDTO position)
+        public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId)
         {
+            if (position == null)
+                throw new ValidationException(Resource.Resource.PositionNullReference, "");
             validateService.Validate(position);
-            Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
-            var newPosition =  Mapper.Map<PositionDTO, Position>(position);
             if (db.Positions.CheckIfPositionExists(position.Id))
             {
-                db.Positions.Update(newPosition);
+                UpdatePosition(position);
             }
             else
             {
-                db.Positions.Create(newPosition);
+                if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0))
+                    position.CloseDate = null;
+                var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
+                CreatePosition(newPosition);
+                AddPositionToPortfolio(newPosition, portfolioId);
             }
             db.Save();
         }
+
+
+        public void CreatePosition(Position position)
+        {
+            db.Positions.Create(position);
+            db.Save();
+        }
+
+        public void AddPositionToPortfolio(Position position, int? portfolioId)
+        {
+            if (portfolioId == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+            var portfolio1 = db.Portfolios.Get(portfolioId.Value);
+            if (portfolio1 == null)
+                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            db.Portfolios.AddPositionToPortfolio(position, portfolioId.Value);
+        }
+
         public void DeletePosition(int? id)
         {
             if (id == null)
-                throw new ValidationException(Resource.PositionIdNotSet, "");
+                throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
             var position = db.Positions.Get(id.Value);
             if (position == null)
-                throw new ValidationException(Resource.PositionNotFound, "");
+                throw new ValidationException(Resource.Resource.PositionNotFound, "");
             db.Positions.Delete(id.Value);
             db.Save();
         }
         public void UpdatePosition(PositionDTO position)
         {
-            if (position == null)
-                throw new ValidationException(Resource.PositionNullReference, "");
-            validateService.Validate(position);
-            var position1 = db.Positions.Get(position.Id);
-            if (position1 == null)
-                throw new ValidationException(Resource.PositionNotFound, "");
-            Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, Position>());
-            Position newPosition = Mapper.Map<PositionDTO, Position>(position);
+            var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
             db.Positions.Update(newPosition);
             db.Save();
         }

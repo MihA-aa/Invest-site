@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.DTO;
+using DAL.Entities;
 
 namespace BLL.Interfaces
 {
@@ -11,8 +12,10 @@ namespace BLL.Interfaces
     {
         PositionDTO GetPosition(int? id);
         IEnumerable<PositionDTO> GetPositions();
-        void CreatePosition(PositionDTO position);
+        void CreatePosition(Position position);
         void DeletePosition(int? id);
         void UpdatePosition(PositionDTO position);
+        void CreateOrUpdatePosition(PositionDTO position, int? portfolioId);
+        void AddPositionToPortfolio(Position position, int? portfolioId);
     }
 }

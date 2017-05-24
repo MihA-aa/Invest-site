@@ -78,8 +78,9 @@
     <Compile Include="DTO\ViewDTO.cs" />
     <Compile Include="DTO\ViewTemplateColumnDTO.cs" />
     <Compile Include="DTO\ViewTemplateDTO.cs" />
+    <Compile Include="Helpers\MapperHelper.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
-    <Compile Include="Infrastructure\ValidationException.cs" />
+    <Compile Include="Helpers\ValidationException.cs" />
     <Compile Include="Interfaces\ICalculationService.cs" />
     <Compile Include="Interfaces\IPortfolioService.cs" />
     <Compile Include="Interfaces\IPositionService.cs" />

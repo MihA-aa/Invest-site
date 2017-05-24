@@ -160,12 +160,13 @@ function OpenPopup(pageUrl) {
     $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
     .html($pageContent)
     .dialog({
+        position: { my: 'top', at: 'top+150' },
       draggable : false,
       autoOpen : false,
       resizable : false,
       model : true,
       title:'Popup Dialog',
-      height : 600,
+      height: 'auto',
       width : 600,
       closeText: "",
       close: function () {
@@ -178,11 +179,14 @@ function OpenPopup(pageUrl) {
         $.ajax({
             type : "POST",
             url : url,
-            data: $('#popupForm').serialize(),
+            data: $('#popupForm').serialize()+ "&portfolioId=" + tradeManagementIndex,
             success: function (data) {
                 if (data.status) {
                     $dialog.dialog('close');
                     tableTradeManagement.ajax.reload();
+                }
+                else{
+                    showClientError(data.prop, data.message);
                 }
             }
         })
@@ -193,6 +197,16 @@ function OpenPopup(pageUrl) {
 $dialog.dialog({ closeText: "" });
 }
 });
+
+function showClientError(propName, message) {
+
+    $("#"+propName).removeClass("valid")
+     .addClass( "input-validation-error" );
+    $("#"+propName).next().removeClass("field-validation-valid")
+    .addClass( "field-validation-error" );
+    $( '<span for="'+propName+'" class="">'+message+'</span>' )
+    .appendTo( $("#"+propName).next() );
+}
 
 function completeInputData() {
         $.ajax({
@@ -307,6 +321,8 @@ function loadPortfolioRefresh(portfolios){
 }
 
 function parseDateTime(data){
+    if(data == null)
+        return "";
     var datet = new Date(parseInt(data.substr(6)));
     var newData = datet.getDate()  + "/" + (datet.getMonth() + 1) + "/" + datet.getFullYear();
     return newData;
