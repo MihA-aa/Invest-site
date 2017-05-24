@@ -18,9 +18,11 @@ namespace PL.Models
         public string SymbolName { get; set; }
 
         [Required]
+        [Display(Name = "Name")]
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Open Date")]
         [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd.MM.yy}", ApplyFormatInEditMode = true)]
         public DateTime OpenDate { get; set; }
         

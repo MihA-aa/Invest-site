@@ -172,28 +172,28 @@ namespace UnitTests.Tests
 
             positionService.GetPosition(5);
         }
-        [TestMethod]
-        public void CanCreatePosition()
-        {
-            positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); 
-            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+        //[TestMethod]
+        //public void CanCreatePosition()
+        //{
+        //    positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); 
+        //    UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+        //    positionService = new PositionService(UnitOfWork.Object, validateService);
             
-            positionService.CreatePosition(newPosition);
+        //    positionService.CreatePosition(newPosition);
 
-            Assert.IsTrue(ListPositions.Count() == 4);
-        }
+        //    Assert.IsTrue(ListPositions.Count() == 4);
+        //}
 
-        [TestMethod]
-        [MyExpectedException(typeof(ValidationException),
-            "Open Weight of position cannot be less than zero")]
-        public void CanNotCreatePositionWithOpenWeightLessThanZero()
-        {
-            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+        //[TestMethod]
+        //[MyExpectedException(typeof(ValidationException),
+        //    "Open Weight of position cannot be less than zero")]
+        //public void CanNotCreatePositionWithOpenWeightLessThanZero()
+        //{
+        //    UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+        //    positionService = new PositionService(UnitOfWork.Object, validateService);
             
-            positionService.CreatePosition(new PositionDTO { OpenWeight = -1 });
-        }
+        //    positionService.CreatePosition(new PositionDTO { OpenWeight = -1 });
+        //}
         [TestMethod]
         public void CanDeletePosition()
         {

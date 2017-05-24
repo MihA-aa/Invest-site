@@ -108,7 +108,7 @@
         <div class="form-group">
             @Html.LabelFor(m => m.CloseDate, new { @class = "col-md-2 control-label myLabelFor"})
             <div class='input-group date' id='datetimepicker2' style="padding-right: 190px;">
-                @Html.TextBoxFor(a => a.CloseDate, new { @class = "form-control", style = "width: 241px;" })
+                @Html.TextBoxFor(a => a.CloseDate, new { @data_val = "false", @class = "form-control", style = "width: 241px;",  id= "CloseDateinput" })
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -129,53 +129,4 @@
     </div>
 }
 
-<script type="text/javascript">
-    
-    function tradeStatusCheck(that) {
-        if (that.value == "Close") {
-            $("#FromForClosePosition").slideDown();
-        }
-        else {
-            $("#FromForClosePosition").slideUp();
-        }
-    }
-
-    $(function () {
-
-        if ($("#TradeStatus option:selected").text() == "Close") {
-            $("#FromForClosePosition").css("display","block")
-        }
-
-        $('#datetimepicker1').datetimepicker({
-            format: 'DD/MM/YYYY'
-        });
-        $('#datetimepicker2').datetimepicker({
-            format: 'DD/MM/YYYY'
-        });
-        $('#OpenDate').removeAttr("data-val-date");
-    });
-
-    $(".selectpicker").selectpicker({
-        "title": "Select Options"
-    }).selectpicker("render");
-
-    $('#input-symbol-search').autocomplete({
-        autoFocus: true,
-        source: $('#input-symbol-search').attr("data-autocomplete-source")
-    });
-
-    $("#symbolNotFoundDialog").dialog({
-        autoOpen: false,
-        title: "Information",
-        draggable: false,
-        resizable: false,
-        closeText: "",
-        modal: true,
-        buttons: {
-            'Ok': function () {
-                $(this).dialog('close');
-            }
-        }
-    });
-</script>
-
+@Scripts.Render("~/bundles/myScriptSave")

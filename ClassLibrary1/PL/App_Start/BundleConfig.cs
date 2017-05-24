@@ -23,8 +23,11 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/jQueryUI").Include(
                         "~/Scripts/jquery-ui-1.12.1.min.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/myScript").Include(
+            bundles.Add(new ScriptBundle("~/bundles/myScriptLayot").Include(
                         "~/Scripts/myScript/layout.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/myScriptSave").Include(
+                        "~/Scripts/myScript/save.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
                         "~/Scripts/bootstrap-select.min.js"));
@@ -37,7 +40,7 @@ namespace PL
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new StyleBundle("~/Content/myStyle").Include(
+            bundles.Add(new StyleBundle("~/Content/myStylelayout").Include(
                       "~/Content/myStyle/layout.css"));
 
             bundles.Add(new StyleBundle("~/Content/bootstrap-select").Include(
