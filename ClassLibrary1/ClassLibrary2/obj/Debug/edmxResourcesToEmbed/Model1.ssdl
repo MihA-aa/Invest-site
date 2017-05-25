@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InvestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InvestDB.dbo.SymbolSumDividends' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SymbolSumDividends">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="SumDividends" Type="money" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'InvestDB.dbo.SymbolView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="SymbolView">
+    <Key>
+      <PropertyRef Name="SymbolID" />
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="SymbolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="InvestDBModelStoreContainer">
+    <EntitySet Name="SymbolSumDividends" EntityType="Self.SymbolSumDividends" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SymbolSumDividends].[Name] AS [Name], 
+    [SymbolSumDividends].[SumDividends] AS [SumDividends]
+    FROM [dbo].[SymbolSumDividends] AS [SymbolSumDividends]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="SymbolView" EntityType="Self.SymbolView" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [SymbolView].[SymbolID] AS [SymbolID], 
+    [SymbolView].[Name] AS [Name]
+    FROM [dbo].[SymbolView] AS [SymbolView]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

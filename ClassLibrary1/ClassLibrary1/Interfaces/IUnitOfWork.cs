@@ -12,7 +12,7 @@ namespace DAL.Interfaces
         IProfileRepository Profiles { get; }
         IPositionRepository Positions { get; }
         ISymbolRepository Symbols { get; }
-        IRepository<Dividend> Dividends { get; }
+        ISymbolViewRepository SymbolViews { get; }
         ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
 

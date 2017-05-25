@@ -74,6 +74,7 @@
     <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\ProfileDTO.cs" />
     <Compile Include="DTO\SymbolDTO.cs" />
+    <Compile Include="DTO\SymbolViewDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\ViewDTO.cs" />
     <Compile Include="DTO\ViewTemplateColumnDTO.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Interfaces\IPortfolioService.cs" />
     <Compile Include="Interfaces\IPositionService.cs" />
     <Compile Include="Interfaces\ISymbolService.cs" />
+    <Compile Include="Interfaces\ISymbolViewService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IValidateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Services\PortfolioService.cs" />
     <Compile Include="Services\PositionService.cs" />
     <Compile Include="Services\SymbolService.cs" />
+    <Compile Include="Services\SymbolViewService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidateService.cs" />
   </ItemGroup>

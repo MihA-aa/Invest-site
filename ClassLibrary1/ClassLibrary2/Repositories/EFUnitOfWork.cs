@@ -11,22 +11,21 @@ namespace DALEF.Repositories
     public class EFUnitOfWork : IUnitOfWork
     {
         private ApplicationContext db;
+        private MyExistingDatabaseContext  viewDb;
         private SymbolRepository symbolRepository;
+        private SymbolViewRepository SymbolsViews;
         private CustomerRepository customerRepository;
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
-        private DividendRepository dividendRepository;
         private ProfileRepository profileRepository;
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
-        public EFUnitOfWork(string connectionString)
+        public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
         {
             db = new ApplicationContext(connectionString);
-        }
-        //public EFUnitOfWork()
-        //{
-        //    db = new ApplicationContext();
-        //}
+            viewDb = new MyExistingDatabaseContext(connectionStringForExistDB);
+        } 
+
         public ApplicationUserManager UserManager
         {
             get
@@ -47,15 +46,16 @@ namespace DALEF.Repositories
             }
         }
 
-        public IRepository<Dividend> Dividends
+        public ISymbolViewRepository SymbolViews
         {
             get
             {
-                if (dividendRepository == null)
-                    dividendRepository = new DividendRepository(db);
-                return dividendRepository;
+                if (SymbolsViews == null)
+                    SymbolsViews = new SymbolViewRepository(viewDb);
+                return SymbolsViews;
             }
         }
+
         public ISymbolRepository Symbols
         {
             get

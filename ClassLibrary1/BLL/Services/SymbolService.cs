@@ -20,12 +20,6 @@ namespace BLL.Services
             db = uow;
         }
 
-        public IEnumerable<SymbolDTO> GetSymbols()
-        {
-            Mapper.Initialize(cfg => cfg.CreateMap<Symbol, SymbolDTO>());
-            return Mapper.Map<IEnumerable<Symbol>, List<SymbolDTO>>(db.Symbols.GetAll());
-        }
-
         public SymbolDTO GetSymbolByName(string name)
         {
             Mapper.Initialize(cfg => cfg.CreateMap<Symbol, SymbolDTO>());

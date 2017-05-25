@@ -35,6 +35,7 @@ function tradeStatusCheck(that) {
 
     $('#input-symbol-search').autocomplete({
         autoFocus: true,
+        minLength: 2,
         source: $('#input-symbol-search').attr("data-autocomplete-source")
     });
 

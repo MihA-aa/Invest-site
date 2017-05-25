@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HistoricalDataNewModelStoreContainer" CdmEntityContainer="HistoricalDataNewEntities">
+    <EntitySetMapping Name="CSISymbols">
+      <EntityTypeMapping TypeName="HistoricalDataNewModel.CSISymbols">
+        <MappingFragment StoreEntitySet="CSISymbols">
+          <ScalarProperty Name="TSymbolId" ColumnName="TSymbolId" />
+          <ScalarProperty Name="TSymbolName" ColumnName="TSymbolName" />
+          <ScalarProperty Name="TSymbol" ColumnName="TSymbol" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

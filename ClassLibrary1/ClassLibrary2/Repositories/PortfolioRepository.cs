@@ -20,10 +20,15 @@ namespace DALEF.Repositories
 
         public void ChangePortfolioDisplayIndex(int id, int displayIndex)
         {
-            var portfolio = new Portfolio { Id = id, DisplayIndex = displayIndex };
+            var portfolio = new Portfolio {Id = id, DisplayIndex = displayIndex};
             dbSet.Attach(portfolio);
             db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
             db.SaveChanges();
+            //using (var MyExistingDatabaseContext = new MyExistingDatabaseContext("test"))
+            //{
+
+            //    var query = MyExistingDatabaseContext.SymbolViews.ToList();
+            //}
         }
 
         public void ChangePortfolioNameAndNotes(Portfolio portfolio)

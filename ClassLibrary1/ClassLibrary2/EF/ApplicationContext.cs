@@ -20,7 +20,6 @@ namespace DALEF.EF
         public virtual DbSet<Portfolio> Portfolios { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Symbol> Symbols { get; set; }
-        public virtual DbSet<Dividend> Dividends { get; set; }
 
     }
 
@@ -43,34 +42,24 @@ namespace DALEF.EF
 
             db.Users.Add(firstUser);
 
-            Dividend dividend1 = new Dividend { Id = 1, ShareholderName = "Shareholder1", Price = 23.12m };
-            Dividend dividend2 = new Dividend { Id = 2, ShareholderName = "Shareholder2", Price = 234.34m };
-            Dividend dividend3 = new Dividend { Id = 3, ShareholderName = "Shareholder3", Price = 56.12m };
-            Dividend dividend4 = new Dividend { Id = 4, ShareholderName = "Shareholder4", Price = 99.99m };
-            Dividend dividend5 = new Dividend { Id = 5, ShareholderName = "Shareholder5", Price = 5342.11m };
-            Dividend dividend6 = new Dividend { Id = 6, ShareholderName = "Shareholder6", Price = 11.11m };
-
             #region Symbols Inizialize
             Symbol symbol1 = new Symbol
             {
                 Id = 1,
                 Name = "AAT",
-                SymbolType = Symbols.Option,
-                Dividends = new List<Dividend> { dividend1, dividend2 }
+                SymbolType = Symbols.Option
             };
             Symbol symbol2 = new Symbol
             {
                 Id = 2,
                 Name = "WIWTY",
-                SymbolType = Symbols.Stock,
-                Dividends = new List<Dividend> { dividend3, dividend4 }
+                SymbolType = Symbols.Stock
             };
             Symbol symbol3 = new Symbol
             {
                 Id = 3,
                 Name = "PLSE",
-                SymbolType = Symbols.Option,
-                Dividends = new List<Dividend> { dividend5, dividend6 }
+                SymbolType = Symbols.Option
             };
             Symbol symbol4 = new Symbol { Id = 4, Name = "FXI", SymbolType = Symbols.Stock };
             Symbol symbol5 = new Symbol { Id = 5, Name = "DBA", SymbolType = Symbols.Option };

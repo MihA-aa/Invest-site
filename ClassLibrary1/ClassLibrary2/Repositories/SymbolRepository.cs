@@ -15,7 +15,7 @@ namespace DALEF.Repositories
         public IEnumerable<string> SearchSymbolsByName(string name)
         {
             var symbols = dbSet
-                .Where(a => a.Name.Contains(name))
+                .Where(a => a.Name.StartsWith(name))
                 .Select(a => a.Name)
                 .Distinct()
                 .ToList();

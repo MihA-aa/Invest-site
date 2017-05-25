@@ -20,7 +20,7 @@ namespace PL.Util
             var builder = new ContainerBuilder();
             
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterModule(new ServiceModule("DefaultConnection"));
+            builder.RegisterModule(new ServiceModule("DefaultConnection", "test"));
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication)
                 .As<IAuthenticationManager>();
 

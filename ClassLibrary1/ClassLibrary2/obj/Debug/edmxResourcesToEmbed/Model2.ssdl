@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HistoricalDataNewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'HistoricalDataNew.integrity_check.CSISymbols' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="CSISymbols">
+    <Key>
+      <PropertyRef Name="TSymbolId" />
+      <PropertyRef Name="TSymbolName" />
+      <PropertyRef Name="TSymbol" />
+    </Key>
+    <Property Name="TSymbolId" Type="int" Nullable="false" />
+    <Property Name="TSymbolName" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="TSymbol" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="HistoricalDataNewModelStoreContainer">
+    <EntitySet Name="CSISymbols" EntityType="Self.CSISymbols" store:Type="Views" store:Schema="integrity_check">
+      <DefiningQuery>SELECT 
+    [CSISymbols].[TSymbolId] AS [TSymbolId], 
+    [CSISymbols].[TSymbolName] AS [TSymbolName], 
+    [CSISymbols].[TSymbol] AS [TSymbol]
+    FROM [integrity_check].[CSISymbols] AS [CSISymbols]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

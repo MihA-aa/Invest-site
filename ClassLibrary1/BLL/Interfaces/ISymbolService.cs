@@ -9,7 +9,6 @@ namespace BLL.Interfaces
 {
     public interface ISymbolService
     {
-        IEnumerable<SymbolDTO> GetSymbols();
         IEnumerable<string> SearchSymbolsByName(string name);
         SymbolDTO GetSymbolByName(string name);
     }

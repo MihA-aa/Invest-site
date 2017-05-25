@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HistoricalDataNewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CSISymbols">
+    <Key>
+      <PropertyRef Name="TSymbolId" />
+      <PropertyRef Name="TSymbolName" />
+      <PropertyRef Name="TSymbol" />
+    </Key>
+    <Property Name="TSymbolId" Type="Int32" Nullable="false" />
+    <Property Name="TSymbolName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TSymbol" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="HistoricalDataNewEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CSISymbols" EntityType="Self.CSISymbols" />
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InvestDBModelStoreContainer" CdmEntityContainer="InvestDBEntities">
+    <EntitySetMapping Name="SymbolSumDividends">
+      <EntityTypeMapping TypeName="InvestDBModel.SymbolSumDividend">
+        <MappingFragment StoreEntitySet="SymbolSumDividends">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="SumDividends" ColumnName="SumDividends" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SymbolViews">
+      <EntityTypeMapping TypeName="InvestDBModel.SymbolView">
+        <MappingFragment StoreEntitySet="SymbolView">
+          <ScalarProperty Name="SymbolID" ColumnName="SymbolID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

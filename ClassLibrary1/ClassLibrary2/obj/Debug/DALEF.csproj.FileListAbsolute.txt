@@ -30,7 +30,6 @@ C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csprojResolveAssemblyReference.cache
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DALEF.dll.config
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DALEF.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DALEF.pdb
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DAL.dll

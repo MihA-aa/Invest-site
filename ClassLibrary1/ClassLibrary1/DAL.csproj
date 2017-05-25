@@ -62,13 +62,13 @@
     <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Customer.cs" />
-    <Compile Include="Entities\Dividend.cs" />
     <Compile Include="Entities\Portfolio.cs" />
     <Compile Include="Entities\Position.cs" />
     <Compile Include="Entities\Symbol.cs" />
     <Compile Include="Entities\View.cs" />
     <Compile Include="Entities\ViewTemplate.cs" />
     <Compile Include="Entities\ViewTemplateColumn.cs" />
+    <Compile Include="Entities\Views\SymbolView.cs" />
     <Compile Include="Enums\ColumnFormats.cs" />
     <Compile Include="Enums\ColumnNames.cs" />
     <Compile Include="Enums\DateFormats.cs" />
@@ -84,6 +84,7 @@
     <Compile Include="Interfaces\IProfileRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISymbolRepository.cs" />
+    <Compile Include="Interfaces\ISymbolViewRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\User.cs" />

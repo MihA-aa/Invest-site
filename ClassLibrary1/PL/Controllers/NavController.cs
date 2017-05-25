@@ -16,11 +16,13 @@ namespace PL.Controllers
     {
         private IPortfolioService portfolioService;
         private ISymbolService symbolService;
+        private ISymbolViewService symbolViewService;
 
-        public NavController(IPortfolioService PortfolioService, ISymbolService symbolService)
+        public NavController(IPortfolioService PortfolioService, ISymbolService symbolService, ISymbolViewService symbolViewService)
         {
             this.portfolioService = PortfolioService;
             this.symbolService = symbolService;
+            this.symbolViewService = symbolViewService;
         }
         public PartialViewResult LeftMenu()
         {
@@ -111,14 +113,14 @@ namespace PL.Controllers
 
         public ActionResult AutocompleteSymbolSearch(string term)
         {
-            var symbols = symbolService.SearchSymbolsByName(term);
+            var symbols = symbolViewService.SearchSymbolsByName(term);
             return Json(symbols, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public ActionResult CheckIfExist(string value)
         {
-            var symbol = symbolService.GetSymbolByName(value);
+            var symbol = symbolViewService.GetSymbolViewByName(value);
             var isFound = symbol != null;
             return Json(new { success = isFound });
         }
