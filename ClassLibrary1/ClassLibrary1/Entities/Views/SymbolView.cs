@@ -13,6 +13,7 @@ namespace DAL.Entities.Views
     {
         [Key]
         public int SymbolID { get; set; }
+        public string Symbol { get; set; }
         public string Name { get; set; }
     }
 }

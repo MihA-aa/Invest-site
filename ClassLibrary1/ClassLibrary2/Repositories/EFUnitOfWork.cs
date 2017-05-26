@@ -12,12 +12,12 @@ namespace DALEF.Repositories
     {
         private ApplicationContext db;
         private MyExistingDatabaseContext  viewDb;
-        private SymbolRepository symbolRepository;
         private SymbolViewRepository SymbolsViews;
         private CustomerRepository customerRepository;
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
         private ProfileRepository profileRepository;
+        private TradeSybolRepository tradeSybolRepository;
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
         public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
@@ -46,6 +46,16 @@ namespace DALEF.Repositories
             }
         }
 
+        public ITradeSybolRepository TradeSybols
+        {
+            get
+            {
+                if (tradeSybolRepository == null)
+                    tradeSybolRepository = new TradeSybolRepository(viewDb);
+                return tradeSybolRepository;
+            }
+        }
+
         public ISymbolViewRepository SymbolViews
         {
             get
@@ -55,16 +65,7 @@ namespace DALEF.Repositories
                 return SymbolsViews;
             }
         }
-
-        public ISymbolRepository Symbols
-        {
-            get
-            {
-                if (symbolRepository == null)
-                    symbolRepository = new SymbolRepository(db);
-                return symbolRepository;
-            }
-        }
+        
         public ICustomerRepository Customers
         {
             get

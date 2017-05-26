@@ -9,6 +9,7 @@ namespace BLL.DTO
     public class SymbolViewDTO
     {
         public int SymbolID { get; set; }
+        public string Symbol { get; set; }
         public string Name { get; set; }
     }
 }

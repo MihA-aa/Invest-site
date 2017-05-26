@@ -11,8 +11,8 @@ namespace DAL.Interfaces
         IPortfolioRepository Portfolios { get; }
         IProfileRepository Profiles { get; }
         IPositionRepository Positions { get; }
-        ISymbolRepository Symbols { get; }
         ISymbolViewRepository SymbolViews { get; }
+        ITradeSybolRepository TradeSybols { get; }
         ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
 

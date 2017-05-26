@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.Enums;
 using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
@@ -13,11 +14,13 @@ namespace BLL.Services
     {
         IUnitOfWork db { get; }
         IValidateService validateService { get; }
+        ITradeSybolService tradeSybolService { get; }
 
-        public PositionService(IUnitOfWork uow, IValidateService vd)
+        public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tradeSybolService)
         {
             db = uow;
             validateService = vd;
+            this.tradeSybolService = tradeSybolService;
         }
 
         public PositionDTO GetPosition(int? id)
@@ -48,6 +51,8 @@ namespace BLL.Services
             {
                 if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0))
                     position.CloseDate = null;
+                //if (position.TradeStatus == TradeStatusesDTO.Open)
+                position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
                 var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
                 CreatePosition(newPosition);
                 AddPositionToPortfolio(newPosition, portfolioId);

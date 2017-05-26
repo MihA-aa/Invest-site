@@ -198,6 +198,7 @@ $dialog.dialog({ closeText: "" });
 }
 });
 
+ 
 function showClientError(propName, message) {
 
     $("#"+propName).removeClass("valid")
@@ -207,23 +208,6 @@ function showClientError(propName, message) {
     $( '<span for="'+propName+'" class="">'+message+'</span>' )
     .appendTo( $("#"+propName).next() );
 }
-
-function completeInputData() {
-        $.ajax({
-            url: '/Nav/CheckIfExist',
-            type: "POST",
-            data: { "value": $("#input-symbol-search").val() },
-            success: function (data) {
-                if (!data.success) {
-                    $("#input-symbol-search").val('');
-                    $("#symbolNotFoundDialog").dialog("open");
-                } else {
-                    //АВТОЗАПОЛНЕНИЕ НЕКОТОРЫХ ПОЛЕЙ
-                }
-            }
-        });
-    }
-
 
 function buildSearchData(){
     return {"id" : 1};

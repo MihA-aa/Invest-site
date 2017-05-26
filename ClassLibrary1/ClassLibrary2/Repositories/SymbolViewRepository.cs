@@ -37,8 +37,8 @@ namespace DALEF.Repositories
         public IEnumerable<string> SearchSymbolsViewByName(string name)
         {
             var symbols = dbSet
-                .Where(a => a.Name.StartsWith(name))
-                .Select(a => a.Name)
+                .Where(a => a.Symbol.StartsWith(name))
+                .Select(a => a.Symbol)
                 .Distinct()
                 .Take(20)
                 .ToList();
@@ -46,7 +46,7 @@ namespace DALEF.Repositories
         }
         public SymbolView GetSymbolViewByName(string name)
         {
-            var symbolView = dbSet.FirstOrDefault(a => a.Name == name);
+            var symbolView = dbSet.FirstOrDefault(a => a.Symbol == name);
             return symbolView;
         }
     }

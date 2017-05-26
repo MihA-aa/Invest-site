@@ -15,14 +15,14 @@ namespace PL.Controllers
     public class NavController : Controller
     {
         private IPortfolioService portfolioService;
-        private ISymbolService symbolService;
         private ISymbolViewService symbolViewService;
+        private ITradeSybolService tradeSybolService;
 
-        public NavController(IPortfolioService PortfolioService, ISymbolService symbolService, ISymbolViewService symbolViewService)
+        public NavController(IPortfolioService PortfolioService, ISymbolViewService symbolViewService, ITradeSybolService tradeSybolService)
         {
             this.portfolioService = PortfolioService;
-            this.symbolService = symbolService;
             this.symbolViewService = symbolViewService;
+            this.tradeSybolService = tradeSybolService;
         }
         public PartialViewResult LeftMenu()
         {
@@ -122,9 +122,22 @@ namespace PL.Controllers
         {
             var symbol = symbolViewService.GetSymbolViewByName(value);
             var isFound = symbol != null;
-            return Json(new { success = isFound });
+            var name = "";
+            var id = 0;
+            if (symbol != null)
+            {
+                name = symbol.Name;
+                id = symbol.SymbolID;
+            }
+            return Json(new { success = isFound, symbolname = name, symbolId = id });
         }
 
+        [HttpPost]
+        public ActionResult GetSybolPriceForDate(DateTime date, int symbolId)
+        {
+            var symbolprice = tradeSybolService.GetPriceForDate(date, symbolId);
+            return Json(new { success = true, price = symbolprice});
+        }
 
         [HttpPost]
         public void RefreshPortfolioDisplayIndex(Dictionary<string, string> portfolios)

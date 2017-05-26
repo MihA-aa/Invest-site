@@ -19,7 +19,6 @@ namespace DALEF.EF
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Portfolio> Portfolios { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
-        public virtual DbSet<Symbol> Symbols { get; set; }
 
     }
 
@@ -41,42 +40,7 @@ namespace DALEF.EF
             };
 
             db.Users.Add(firstUser);
-
-            #region Symbols Inizialize
-            Symbol symbol1 = new Symbol
-            {
-                Id = 1,
-                Name = "AAT",
-                SymbolType = Symbols.Option
-            };
-            Symbol symbol2 = new Symbol
-            {
-                Id = 2,
-                Name = "WIWTY",
-                SymbolType = Symbols.Stock
-            };
-            Symbol symbol3 = new Symbol
-            {
-                Id = 3,
-                Name = "PLSE",
-                SymbolType = Symbols.Option
-            };
-            Symbol symbol4 = new Symbol { Id = 4, Name = "FXI", SymbolType = Symbols.Stock };
-            Symbol symbol5 = new Symbol { Id = 5, Name = "DBA", SymbolType = Symbols.Option };
-            Symbol symbol6 = new Symbol { Id = 6, Name = "UCTT", SymbolType = Symbols.Stock };
-            Symbol symbol7 = new Symbol { Id = 7, Name = "CC", SymbolType = Symbols.Stock };
-            Symbol symbol8 = new Symbol { Id = 8, Name = "ASMB", SymbolType = Symbols.Stock };
-
-            db.Symbols.Add(symbol1);
-            db.Symbols.Add(symbol2);
-            db.Symbols.Add(symbol3);
-            db.Symbols.Add(symbol4);
-            db.Symbols.Add(symbol5);
-            db.Symbols.Add(symbol6);
-            db.Symbols.Add(symbol7);
-            db.Symbols.Add(symbol8);
-            #endregion
-
+            
             #region Positions Inizialize
             Position position1 = new Position
             {

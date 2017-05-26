@@ -17,5 +17,7 @@ namespace DALEF.EF
     }
 
         public virtual DbSet<SymbolView> SymbolViews { get; set; }
+        public virtual DbSet<TradeSybolView> SybolInformations{ get; set; }
+        
     }
 }
