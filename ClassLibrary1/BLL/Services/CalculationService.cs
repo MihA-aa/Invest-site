@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.DTO.Enums;
 using BLL.Infrastructure;
 using BLL.Interfaces;
 using DAL.Entities;
@@ -13,7 +14,7 @@ namespace BLL.Services
     public class CalculationService : ICalculationService
     {
         public decimal GetGain(decimal? curPrice, decimal? clPrice, decimal opPrice,
-            int opWeight, decimal[] dividends, TradeTypes type)
+            int opWeight, decimal dividends, TradeTypesDTO type)
         {
             decimal gain;
             if (opPrice == 0 || opWeight == 0)
@@ -29,24 +30,24 @@ namespace BLL.Services
         }
 
         public virtual decimal GetAbsoluteGain(decimal? curPrice, decimal? clPrice, decimal opPrice, 
-            int opWeight, decimal[] dividends, TradeTypes type)
+            int opWeight, decimal dividends, TradeTypesDTO type)
         {
             var usePrice = curPrice ?? clPrice.Value;
             decimal absGain;
-            if (type == TradeTypes.Long)
+            if (type == TradeTypesDTO.Long)
             {
-                absGain = (usePrice + dividends.Sum() - opPrice)*opWeight;
+                absGain = (usePrice + dividends - opPrice)*opWeight;
             }
             else
             {
-                absGain = (opPrice - dividends.Sum() - usePrice) * opWeight;
+                absGain = (opPrice - dividends - usePrice) * opWeight;
             }
             return absGain;
         }
         
-        public decimal GetDividends(decimal[] dividends, int opWeight)
+        public decimal GetDividends(decimal dividends, int opWeight)
         {
-            return dividends.Sum() * opWeight;
+            return dividends * opWeight;
         }
 
         public decimal GetPortfolioValue(ICollection<decimal> positionsGain)

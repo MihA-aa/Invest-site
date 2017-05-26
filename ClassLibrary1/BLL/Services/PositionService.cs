@@ -15,12 +15,14 @@ namespace BLL.Services
         IUnitOfWork db { get; }
         IValidateService validateService { get; }
         ITradeSybolService tradeSybolService { get; }
+        ICalculationService calculationService { get; }
 
-        public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tradeSybolService)
+        public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tss, ICalculationService cs)
         {
             db = uow;
             validateService = vd;
-            this.tradeSybolService = tradeSybolService;
+            tradeSybolService = tss;
+            calculationService = cs;
         }
 
         public PositionDTO GetPosition(int? id)
@@ -52,7 +54,14 @@ namespace BLL.Services
                 if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0))
                     position.CloseDate = null;
                 //if (position.TradeStatus == TradeStatusesDTO.Open)
+                var dividends = db.SymbolDividends.Get(39817);  //position.SymbolId
                 position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
+                position.Dividends = calculationService.GetDividends(dividends.Dividends, position.OpenWeight);
+                position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
+                    position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+                position.Gain = calculationService.GetGain(position.CurrentPrice, position.ClosePrice,
+                    position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+
                 var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
                 CreatePosition(newPosition);
                 AddPositionToPortfolio(newPosition, portfolioId);

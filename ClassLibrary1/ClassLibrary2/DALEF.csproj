@@ -71,6 +71,7 @@
     <Compile Include="Repositories\PortfolioRepository.cs" />
     <Compile Include="Repositories\PositionRepository.cs" />
     <Compile Include="Repositories\ProfileRepository.cs" />
+    <Compile Include="Repositories\SymbolDividendRepository.cs" />
     <Compile Include="Repositories\SymbolViewRepository.cs" />
     <Compile Include="Repositories\TradeSybolRepository.cs" />
   </ItemGroup>

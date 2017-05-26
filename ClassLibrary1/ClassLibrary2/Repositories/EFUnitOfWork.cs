@@ -17,6 +17,7 @@ namespace DALEF.Repositories
         private PortfolioRepository portfolioRepository;
         private PositionRepository positionRepository;
         private ProfileRepository profileRepository;
+        private SymbolDividendRepository symbolDividendRepository;
         private TradeSybolRepository tradeSybolRepository;
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
@@ -43,6 +44,16 @@ namespace DALEF.Repositories
                 if (roleManager == null)
                     roleManager = new ApplicationRoleManager(new RoleStore<Role>(db));
                 return roleManager;
+            }
+        }
+
+        public ISymbolDividendRepository SymbolDividends
+        {
+            get
+            {
+                if (symbolDividendRepository == null)
+                    symbolDividendRepository = new SymbolDividendRepository(viewDb);
+                return symbolDividendRepository;
             }
         }
 
