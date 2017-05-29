@@ -17,11 +17,13 @@ namespace BLL.Services
     {
         IUnitOfWork db { get; }
         IValidateService validateService { get; }
+        ICustomerService customerService { get; }
 
-        public PortfolioService(IUnitOfWork uow, IValidateService vd)
+        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs)
         {
             db = uow;
             validateService = vd;
+            customerService = cs;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()
@@ -51,22 +53,22 @@ namespace BLL.Services
             return Mapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
 
-        public int CreatePortfolio(PortfolioDTO portfolio)
+        public int CreateOrUpdatePortfolio(PortfolioDTO portfolio, string userId)
         {
             if (portfolio == null)
-                throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
+                throw new ValidationException(Resource.Resource.PortfolioNullReference, "");           
             validateService.Validate(portfolio);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
                     .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
             var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
-            //newPortfolio.Customer.
             if (db.Portfolios.CheckIfPortfolioExists(portfolio.Id))
             {
-                db.Portfolios.ChangePortfolioNameAndNotes(newPortfolio);
+                db.Portfolios.UpdatePortfolioNameAndNotes(newPortfolio);               
             }
             else
             {
+                newPortfolio.Customer = customerService.GetCustomerByProfileId(userId);
                 db.Portfolios.Create(newPortfolio);
             }
             db.Save();
@@ -76,10 +78,21 @@ namespace BLL.Services
         {
             if (id == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            var portfolio = db.Portfolios.Get(id.Value);
-            if (portfolio == null)
+            if (!db.Portfolios.CheckIfPortfolioExists(id.Value))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             db.Portfolios.Delete(id.Value);
+            db.Save();
+        }
+
+        public void CreatePortfolio(PortfolioDTO portfolio, string userId)
+        {
+            if (portfolio == null)
+                throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
+            validateService.Validate(portfolio);
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
+            Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
+            newPortfolio.Customer = customerService.GetCustomerByProfileId(userId);
+            db.Portfolios.Create(newPortfolio);
             db.Save();
         }
 
@@ -87,10 +100,9 @@ namespace BLL.Services
         {
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
-            validateService.Validate(portfolio);
-            var portfolio1 = db.Portfolios.Get(portfolio.Id);
-            if (portfolio1 == null)
+            if (!db.Portfolios.CheckIfPortfolioExists(portfolio.Id))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            validateService.Validate(portfolio);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
             Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             db.Portfolios.Update(newPortfolio);

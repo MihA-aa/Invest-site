@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Entities;
 
 namespace BLL.DTO
 {
@@ -21,5 +22,6 @@ namespace BLL.DTO
         public decimal AvgGain { get; set; }
         public decimal MonthAvgGain { get; set; }
         public decimal PortfolioValue { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

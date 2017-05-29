@@ -23,6 +23,5 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\EntityFramework.SqlServer.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.pdb

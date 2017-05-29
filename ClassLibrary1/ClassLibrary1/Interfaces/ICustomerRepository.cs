@@ -9,5 +9,6 @@ namespace DAL.Interfaces
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
+        Customer GetCustomerByProfileId(string profileId);
     }
 }

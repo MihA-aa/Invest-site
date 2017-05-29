@@ -23,13 +23,12 @@ namespace DALEF.Repositories
 
         public decimal GetPriceForDate(DateTime date, int symbolId)
         {
-            var price = dbSet
-                .Where(a => EntityFunctions.TruncateTime(a.TradeDate) <= date.Date)
+            return dbSet
+                .Where(a => DbFunctions.TruncateTime(a.TradeDate) <= date.Date)
                 .Where(a => a.SymbolID == symbolId)
                 .OrderByDescending(a => a.TradeDate)
                 .Select(a => a.TradeIndex)
                 .FirstOrDefault();
-            return price;
         }
     }
 }

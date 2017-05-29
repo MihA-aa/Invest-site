@@ -11,7 +11,9 @@ namespace DALEF.Repositories
         }
         public bool CheckIfPositionExists(int id)
         {
-            return dbSet.AsNoTracking().Any(p => p.Id == id);
+            return dbSet
+                .AsNoTracking()
+                .Any(p => p.Id == id);
         }
     }
 }

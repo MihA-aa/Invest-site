@@ -24,14 +24,9 @@ namespace DALEF.Repositories
             dbSet.Attach(portfolio);
             db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
             db.SaveChanges();
-            //using (var MyExistingDatabaseContext = new MyExistingDatabaseContext("test"))
-            //{
-
-            //    var query = MyExistingDatabaseContext.SymbolViews.ToList();
-            //}
         }
 
-        public void ChangePortfolioNameAndNotes(Portfolio portfolio)
+        public void UpdatePortfolioNameAndNotes(Portfolio portfolio)
         {
             dbSet.Attach(portfolio);
             db.Entry(portfolio).Property(x => x.Name).IsModified = true;
@@ -41,7 +36,9 @@ namespace DALEF.Repositories
 
         public bool CheckIfPortfolioExists(int id)
         {
-            return dbSet.AsNoTracking().Any(p => p.Id == id);
+            return dbSet
+                .AsNoTracking()
+                .Any(p => p.Id == id);
         }
     }
 }

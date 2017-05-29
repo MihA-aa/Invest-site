@@ -2,6 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using BLL.DTO.Enums;
 using BLL.Interfaces;
 using BLL.Services;
 using DAL.Enums;
@@ -15,7 +16,7 @@ namespace UnitTests.Tests
     {
         private Mock<CalculationService> mockCalculationService;
         private CalculationService calculationService;
-        private readonly decimal[] dividends = {2.21m, 3.002m, 1.023m, 0.231m, 0.769m, 1.432m };
+        private readonly decimal dividends = 8.667m;
         [TestInitialize]
         public void Initialize()
         {
@@ -27,28 +28,28 @@ namespace UnitTests.Tests
         public void CanGetAbsoluteGainForOpenLongPositions()
         {
             var result = calculationService.GetAbsoluteGain(121.12m,
-                null, 100.02m, 120, dividends, TradeTypes.Long);
+                null, 100.02m, 120, dividends, TradeTypesDTO.Long);
             Assert.IsTrue(result == 3572.04m);
         }
         [TestMethod]
         public void CanGetAbsoluteGainForCloseLongPositions()
         {
             var result = calculationService.GetAbsoluteGain(null,
-                121.12m, 100.02m, 120, dividends, TradeTypes.Long);
+                121.12m, 100.02m, 120, dividends, TradeTypesDTO.Long);
             Assert.IsTrue(result == 3572.04m);
         }
         [TestMethod]
         public void CanGetAbsoluteGainForOpenShortPositions()
         {
             var result = calculationService.GetAbsoluteGain(121.12m,
-                null, 100.02m, 120, dividends, TradeTypes.Short);
+                null, 100.02m, 120, dividends, TradeTypesDTO.Short);
             Assert.IsTrue(result == -3572.04m);
         }
         [TestMethod]
         public void CanGetAbsoluteGainForCloseShortPositions()
         {
             var result = calculationService.GetAbsoluteGain(null,
-                121.12m, 100.02m, 120, dividends, TradeTypes.Short);
+                121.12m, 100.02m, 120, dividends, TradeTypesDTO.Short);
             Assert.IsTrue(result == -3572.04m);
         }
 
@@ -57,11 +58,11 @@ namespace UnitTests.Tests
         {
             mockCalculationService.Setup(m => m
             .GetAbsoluteGain(It.IsAny<decimal?>(), It.IsAny<decimal?>(), It.IsAny<decimal>(),
-            It.IsAny<int>(), It.IsAny<decimal[]>(), It.IsAny<TradeTypes>()))
+            It.IsAny<int>(), It.IsAny<decimal>(), It.IsAny<TradeTypesDTO>()))
             .Returns(3572.04m);
 
             var result = mockCalculationService.Object.GetGain(121.12m,
-                null, 100.02m, 120, dividends, TradeTypes.Long);
+                null, 100.02m, 120, dividends, TradeTypesDTO.Long);
 
             Assert.IsTrue(result == 0.2976104779044191161767646471m);
         }
@@ -70,7 +71,7 @@ namespace UnitTests.Tests
         public void CanGetGainWithOpenWeightZero()
         {
             var result = mockCalculationService.Object.GetGain(121.12m,
-                null, 100.02m, 0, dividends, TradeTypes.Long);
+                null, 100.02m, 0, dividends, TradeTypesDTO.Long);
 
             Assert.IsTrue(result == 0);
         }
@@ -79,7 +80,7 @@ namespace UnitTests.Tests
         public void CanGetGainWithOpenPriceZero()
         {
             var result = mockCalculationService.Object.GetGain(121.12m,
-                null, 0, 120, dividends, TradeTypes.Long);
+                null, 0, 120, dividends, TradeTypesDTO.Long);
 
             Assert.IsTrue(result == 0);
         }
@@ -87,7 +88,7 @@ namespace UnitTests.Tests
         public void CanGetGainWithOpenWeightPriceZero()
         {
             var result = mockCalculationService.Object.GetGain(121.12m,
-                null, 0, 0, dividends, TradeTypes.Long);
+                null, 0, 0, dividends, TradeTypesDTO.Long);
 
             Assert.IsTrue(result == 0);
         }

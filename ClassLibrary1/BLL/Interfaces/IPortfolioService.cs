@@ -12,7 +12,8 @@ namespace BLL.Interfaces
         PortfolioDTO GetPortfolio(int? id);
         IEnumerable<PortfolioDTO> GetPortfolios();
         IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId);
-        int CreatePortfolio(PortfolioDTO portfolio);
+        int CreateOrUpdatePortfolio(PortfolioDTO portfolio, string userId);
+        void CreatePortfolio(PortfolioDTO portfolio, string userId);
         void DeletePortfolio(int? id);
         void UpdatePortfolio(PortfolioDTO portfolio);
         void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios);

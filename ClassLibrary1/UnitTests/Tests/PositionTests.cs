@@ -11,6 +11,8 @@ using DAL.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using BLL.Infrastructure;
+using BLL.Interfaces;
+using DAL.Entities.Views;
 using UnitTests.Attributes;
 
 namespace UnitTests.Tests
@@ -21,8 +23,13 @@ namespace UnitTests.Tests
         private Mock<IUnitOfWork> UnitOfWork;
         private PositionService positionService;
         private ValidateService validateService;
+        private CalculationService calculationService;
+        private Mock<ITradeSybolService> tradeSybolService;
         private Mock<IPositionRepository> positionRepository;
+        private Mock<IPortfolioRepository> portfolioRepository;
+        private Mock<ISymbolDividendRepository> symbolDividendRepository;
         List<Position> ListPositions;
+        List<Portfolio> ListPortfolios;
 
         #region positions initialize
         Position position1 = new Position
@@ -110,10 +117,52 @@ namespace UnitTests.Tests
         [TestInitialize]
         public void Initialize()
         {
+            #region portfolio inizialize
+            Portfolio portfolio1 = new Portfolio
+            {
+                Id = 1,
+                Name = "Strategic Investment Open Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 1,
+                LastUpdateDate = new DateTime(2017, 4, 28),
+                Visibility = false,
+                Quantity = 2,
+                PercentWins = 73.23m,
+                BiggestWinner = 234.32m,
+                BiggestLoser = 12.65m,
+                AvgGain = 186.65m,
+                MonthAvgGain = 99.436m,
+                PortfolioValue = 1532.42m,
+                Positions = new List<Position> { position1, position2 }
+            };
+
+            Portfolio portfolio2 = new Portfolio
+            {
+                Id = 2,
+                Name = "Strategic Investment Income Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 2,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+                Positions = null
+            };
+            #endregion
             ListPositions = new List<Position> { position1, position2, position3 };
+            ListPortfolios = new List<Portfolio> { portfolio1, portfolio2 };
             UnitOfWork = new Mock<IUnitOfWork>();
             positionRepository = new Mock<IPositionRepository>();
+            portfolioRepository = new Mock<IPortfolioRepository>();
+            symbolDividendRepository = new Mock<ISymbolDividendRepository>();
             validateService = new ValidateService();
+            tradeSybolService = new Mock<ITradeSybolService>();
+            calculationService = new CalculationService();
         }
 
         [TestMethod]
@@ -121,7 +170,7 @@ namespace UnitTests.Tests
         {
             positionRepository.Setup(m => m.GetAll()).Returns(ListPositions);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             IEnumerable<PositionDTO> result = positionService.GetPositions();
 
@@ -138,7 +187,7 @@ namespace UnitTests.Tests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             PositionDTO position1 = positionService.GetPosition(1);
             PositionDTO position2 = positionService.GetPosition(2);
@@ -155,7 +204,7 @@ namespace UnitTests.Tests
         public void CanNotGetPositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             positionService.GetPosition(null);
         }
@@ -168,41 +217,22 @@ namespace UnitTests.Tests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             positionService.GetPosition(5);
         }
-        //[TestMethod]
-        //public void CanCreatePosition()
-        //{
-        //    positionRepository.Setup(m => m.Create(It.IsAny<Position>())).Callback<Position>(ListPositions.Add); 
-        //    UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-        //    positionService = new PositionService(UnitOfWork.Object, validateService);
-            
-        //    positionService.CreatePosition(newPosition);
 
-        //    Assert.IsTrue(ListPositions.Count() == 4);
-        //}
-
-        //[TestMethod]
-        //[MyExpectedException(typeof(ValidationException),
-        //    "Open Weight of position cannot be less than zero")]
-        //public void CanNotCreatePositionWithOpenWeightLessThanZero()
-        //{
-        //    UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-        //    positionService = new PositionService(UnitOfWork.Object, validateService);
-            
-        //    positionService.CreatePosition(new PositionDTO { OpenWeight = -1 });
-        //}
         [TestMethod]
         public void CanDeletePosition()
         {
+            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.Any(c => c.Id == i));
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             positionRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListPositions.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             positionService.DeletePosition(1);
 
@@ -215,7 +245,7 @@ namespace UnitTests.Tests
         public void CanNotDeletePositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             positionService.DeletePosition(null);
         }
@@ -228,44 +258,159 @@ namespace UnitTests.Tests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             positionService.DeletePosition(5);
         }
 
+
         [TestMethod]
-        public void CanUpdatePosition()
+        public void CanCreatePosition()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.Any(c => c.Id == i));
+            portfolioRepository.Setup(m => m.CheckIfPortfolioExists(It.IsAny<int>()))
+                .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
+            symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+            tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(0.66m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(2.491m);
+            positionRepository.Setup(m => m.Create(It.IsAny<Position>()))
+                .Callback<Position>(ListPositions.Add);
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.CreatePosition(new PositionDTO {OpenWeight = 12}, 1);
+
+            Assert.IsTrue(ListPositions.Count() == 4);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+           "Position is null reference")]
+        public void CanNotCreateNullReferencePosition()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.CreatePosition(null, 1);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+            "The Weight value must be greater than 0 and less than or equal to 10,000.")]
+        public void CanNotCreatePositionWithNotWalidWeight()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.CreatePosition(new PositionDTO { OpenWeight = -1 }, 1);
+        }
+
+        [TestMethod]
+        public void CanCreatePositionInCreateOrUpdate()
+        {
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.Any(c => c.Id == i));
+            portfolioRepository.Setup(m => m.CheckIfPortfolioExists(It.IsAny<int>()))
+                .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
+            symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+            tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(0.66m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(2.491m);
+            positionRepository.Setup(m => m.Create(It.IsAny<Position>()))
+                .Callback<Position>(ListPositions.Add);
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.CreateOrUpdatePosition(new PositionDTO { OpenWeight = 12 }, 1);
+
+            Assert.IsTrue(ListPositions.Count() == 4);
+        }
+
+        [TestMethod]
+        public void CanUpdatePositionInCreateOrUpdate()
+        {
+            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.Any(c => c.Id == i));
             positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
             {
                 int index = ListPositions.IndexOf(ListPositions.FirstOrDefault(c => c.Id == p.Id));
                 ListPositions[index] = p;
             });
-           UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-           positionService = new PositionService(UnitOfWork.Object, validateService);
+            symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+            tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(0.66m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(2.491m);
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             #region
-            PositionDTO updatePosition = new PositionDTO
+            var updatePosition = new PositionDTO
             {
                 Id = 1,
-                SymbolId = 3,
-                SymbolType = SymbolsDTO.Option,
-                SymbolName = "PLSE",
                 Name = "New update position",
-                OpenDate = new DateTime(2015, 7, 20),
-                OpenPrice = 128.32m,
-                OpenWeight = 40,
-                TradeType = TradeTypesDTO.Long,
-                TradeStatus = TradeStatusesDTO.Open,
-                Dividends = 57.3m,
-                CloseDate = new DateTime(2016, 1, 12),
-                ClosePrice = 218.32m,
-                CurrentPrice = 99.53m,
-                Gain = 87.12m,
-                AbsoluteGain = 110.34m,
-                MaxGain = 154.34m
+                OpenWeight = 123
+            };
+            #endregion
+            positionService.CreateOrUpdatePosition(updatePosition, 1);
+
+            Assert.IsTrue(ListPositions.FirstOrDefault(c => c.Id == 1).Name == "New update position");
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+           "Position is null reference")]
+        public void CanNotCreateNullReferencePositionInCreateOrUpdate()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.CreateOrUpdatePosition(null, 1);
+        }
+
+
+        [TestMethod]
+        public void CanUpdatePosition()
+        {
+            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.Any(c => c.Id == i));
+            positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
+            {
+                int index = ListPositions.IndexOf(ListPositions.FirstOrDefault(c => c.Id == p.Id));
+                ListPositions[index] = p;
+            });
+            symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns(new SymbolDividend {SymbolID = 39817, Dividends = 7.1191m });
+            tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns( 0.66m );
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(2.491m);
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            #region
+            var updatePosition = new PositionDTO
+            {
+                Id = 1,
+                Name = "New update position",
+                OpenWeight = 123
             };
             #endregion
             positionService.UpdatePosition(updatePosition);
@@ -275,37 +420,108 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Open Weight of position cannot be less than zero")]
-        public void CanNotUpdateePositionWithOpenWeightLessThanZero()
-        {
-            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
-
-            positionService.UpdatePosition(new PositionDTO { OpenWeight = -1 });
-        }
-
-        [TestMethod]
-        [MyExpectedException(typeof(ValidationException),
          "Position is null reference")]
         public void CanNotUpdateNullReferencePosition()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
             positionService.UpdatePosition(null);
         }
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Position not found")]
-        public void CanNotUpdateeNonexistPosition()
+        "Position not found")]
+        public void CanNotUpdateNonexistentPosition()
         {
-            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
+            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+                .Returns((int i) => ListPositions.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
 
-            positionService.UpdatePosition(new PositionDTO { Id = 5 });
+            #region
+            var updatePosition = new PositionDTO
+            {
+                Id = 19,
+                Name = "New update position",
+                OpenWeight = 123
+            };
+            #endregion
+            positionService.UpdatePosition(updatePosition);
+        }
+
+        public void CanAddPositionToPortfolio()
+        {
+            Portfolio portfolio = new Portfolio();
+            portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
+            portfolioRepository.Setup(c => c.AddPositionToPortfolio(It.IsAny<Position>(), It.IsAny<int>()))
+                .Callback((Position p, int i) =>
+            {
+                portfolio = ListPortfolios.FirstOrDefault(c => c.Id == i);
+                portfolio.Positions.Add(p);
+            });
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.AddPositionToPortfolio(new Position(), 1);
+
+            Assert.IsTrue(portfolio.Positions.Count() == 3);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Position is null reference")]
+        public void CanNotAddNullReferencePositionToPortfolio()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.AddPositionToPortfolio(null, 1);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+         "Not set id of portfolio")]
+        public void CanNotAddPositionWithNotSetIdOfPortfolio()
+        {
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.AddPositionToPortfolio(new Position(), null);
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+        "Portfolio not found")]
+        public void CanNotAddPositionInNonexistentPortfolio()
+        {
+            portfolioRepository.Setup(c => c.CheckIfPortfolioExists(It.IsAny<int>()))
+                .Returns((int i) => ListPortfolios.Any(c => c.Id == i));
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            positionService.AddPositionToPortfolio(new Position(), 11);
+        }
+
+        [TestMethod]
+        public void CanNotGetNotValidCoseDate()
+        {
+            symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+            tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(0.66m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
+                .Returns(2.491m);
+            UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+
+            var result = positionService.CalculateAllParams(new PositionDTO { Id = 5,
+                OpenWeight = 12, CloseDate = new DateTime(1, 1, 1, 0, 0, 0) });
+
+            Assert.IsTrue(result.CloseDate == null);
         }
     }
 }

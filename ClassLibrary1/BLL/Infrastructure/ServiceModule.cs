@@ -42,6 +42,8 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<TradeSybolService>().As<ITradeSybolService>().
                 InstancePerRequest();
+            builder.RegisterType<CustomerService>().As<ICustomerService>().
+                InstancePerRequest();
             base.Load(builder);
         }
     }

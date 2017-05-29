@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
+using Microsoft.AspNet.Identity;
 using PL.Models;
 
 namespace PL.Controllers
@@ -28,7 +29,7 @@ namespace PL.Controllers
         {
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioModel, PortfolioDTO>());
             var portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);
-            TempData["PortfolioId"] = portfolioService.CreatePortfolio(portfolioDto);
+            TempData["PortfolioId"] = portfolioService.CreateOrUpdatePortfolio(portfolioDto, User.Identity.GetUserId());
             return RedirectToAction("Index", "Home");
         }
 
