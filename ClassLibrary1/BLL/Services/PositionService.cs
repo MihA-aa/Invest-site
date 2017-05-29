@@ -58,10 +58,11 @@ namespace BLL.Services
                 position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
                 position.Dividends = calculationService.GetDividends(dividends.Dividends, position.OpenWeight);
                 position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
-                    position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
                 position.Gain = calculationService.GetGain(position.CurrentPrice, position.ClosePrice,
-                    position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
-
+                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+                position.MaxGain = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);
+                
                 var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
                 CreatePosition(newPosition);
                 AddPositionToPortfolio(newPosition, portfolioId);

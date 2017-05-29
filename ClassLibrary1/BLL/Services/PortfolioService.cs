@@ -60,6 +60,7 @@ namespace BLL.Services
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
                     .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
             var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
+            //newPortfolio.Customer.
             if (db.Portfolios.CheckIfPortfolioExists(portfolio.Id))
             {
                 db.Portfolios.ChangePortfolioNameAndNotes(newPortfolio);

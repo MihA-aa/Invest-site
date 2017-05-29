@@ -9,5 +9,6 @@ namespace BLL.Interfaces
     public interface ITradeSybolService
     {
         decimal GetPriceForDate(DateTime date, int symbolId);
+        decimal GetMaxGainForSymbolBetweenDate(DateTime dateFrom, DateTime dateTo, int symbolId);
     }
 }
