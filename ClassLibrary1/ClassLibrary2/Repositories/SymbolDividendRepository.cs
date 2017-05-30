@@ -24,5 +24,15 @@ namespace DALEF.Repositories
         {
             return dbSet.Find(id);
         }
+
+        public decimal GetDividendsInDateInterval(DateTime dateFrom, DateTime dateTo, int symbolId)
+        {
+            return dbSet
+                .Where(a =>
+                    DbFunctions.TruncateTime(a.TradeDate) >= dateFrom.Date &&
+                    DbFunctions.TruncateTime(a.TradeDate) <= dateTo.Date &&
+                    a.SymbolID == symbolId)
+                .Sum(x => (decimal?)(x.DividendAmount)) ?? 0;
+        }
     }
 }

@@ -25,3 +25,4 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNe
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.pdb
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.csprojResolveAssemblyReference.cache

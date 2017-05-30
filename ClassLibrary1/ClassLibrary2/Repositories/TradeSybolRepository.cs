@@ -30,5 +30,11 @@ namespace DALEF.Repositories
                 .Select(a => a.TradeIndex)
                 .FirstOrDefault();
         }
+
+        public IEnumerable<TradeInforamation> GetMaxDateForGainForSymbol(DateTime dateFrom, DateTime dateTo, int symbolId)
+        {
+            var myQuery = "SELECT * FROM dbo.[getMaxMinGainForSymbolInDateInterval] ('"+ dateFrom + "', '"+ dateTo + "', "+ symbolId + ")";
+            return db.Database.SqlQuery<TradeInforamation>(myQuery).ToList();
+        }
     }
 }

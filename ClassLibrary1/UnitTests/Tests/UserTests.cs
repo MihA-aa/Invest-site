@@ -190,7 +190,19 @@ namespace UnitTests.Tests
             userService = new UserService(UnitOfWork.Object, validateService);
 
             await userService.CreateAsync(new UserDTO { Login = "So1", Password = "P" });
-            
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+    "Login must be at least 3 characters and no more than 16 characters. " +
+    "Can contain any letter, number, underscore and hyphen.")]
+        public async Task CanNotCreateUserWithNoValidlogin()
+        {
+            UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
+            UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
+            userService = new UserService(UnitOfWork.Object, validateService);
+
+            await userService.CreateAsync(new UserDTO { Login = "S", Password = "PaWQEsdssWor-d12" });
         }
 
         [TestMethod]

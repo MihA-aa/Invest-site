@@ -10,5 +10,6 @@ namespace DAL.Interfaces
     public interface ISymbolDividendRepository
     {
         SymbolDividend Get(int id);
+        decimal GetDividendsInDateInterval(DateTime dateFrom, DateTime dateTo, int symbolId);
     }
 }

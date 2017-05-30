@@ -13,6 +13,7 @@ namespace DAL.Entities.Views
     {
         [Key]
         public int SymbolID { get; set; }
-        public decimal Dividends { get; set; }
+        public DateTime TradeDate { get; set; }
+        public decimal DividendAmount { get; set; }
     }
 }

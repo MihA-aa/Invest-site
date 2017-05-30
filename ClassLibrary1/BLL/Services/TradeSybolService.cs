@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.DTO.Enums;
 using BLL.Interfaces;
+using DAL.Entities.Views;
 using DAL.Interfaces;
 
 namespace BLL.Services
@@ -21,17 +23,13 @@ namespace BLL.Services
             return db.TradeSybols.GetPriceForDate(date, symbolId);
         }
 
-        public decimal GetMaxGainForSymbolBetweenDate(DateTime dateFrom, DateTime dateTo, int symbolId)
+        public TradeInforamation GetMaxGainForSymbolBetweenDate(DateTime dateFrom, DateTime dateTo, int symbolId, TradeTypesDTO type)
         {
-            int count = (dateTo - dateFrom).Days;
-            decimal maxGain = 0;
-            for (int i = 0; i < count; i++)
-            {
-                var tempMaxGain = db.TradeSybols.GetPriceForDate(dateFrom.AddDays(i).Date, symbolId);
-                if (tempMaxGain > maxGain)
-                    maxGain = tempMaxGain;
-            }
-            return maxGain;
+            var tradeDates = db.TradeSybols.GetMaxDateForGainForSymbol(dateFrom, dateTo, symbolId);
+            if(type == TradeTypesDTO.Long)
+                return tradeDates.ToList()[0];
+            else
+                return tradeDates.ToList()[1];
         }
     }
 }

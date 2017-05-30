@@ -54,14 +54,17 @@ namespace BLL.Services
         {
             if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0))
                 position.CloseDate = null;
-            var dividends = db.SymbolDividends.Get(39817);  //position.SymbolId
+            var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, 39817);  //position.SymbolId
             position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
-            position.Dividends = calculationService.GetDividends(dividends.Dividends, position.OpenWeight);
+            position.Dividends = calculationService.GetDividends(dividends, position.OpenWeight);
             position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
-            position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
             position.Gain = calculationService.GetGain(position.CurrentPrice, position.ClosePrice,
             position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
-            position.MaxGain = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);
+            var tradeInfo = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now,
+                position.SymbolId, position.TradeType);
+            position.MaxGain = calculationService.GetGain(tradeInfo.Price, position.ClosePrice,
+                position.OpenPrice, position.OpenWeight, tradeInfo.Dividends, position.TradeType);
             return position;
         }
 

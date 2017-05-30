@@ -66,6 +66,7 @@
     <Compile Include="Entities\Position.cs" />
     <Compile Include="Entities\View.cs" />
     <Compile Include="Entities\Views\SymbolDividend.cs" />
+    <Compile Include="Entities\Views\TradeInforamation.cs" />
     <Compile Include="Entities\Views\TradeSybolView.cs" />
     <Compile Include="Entities\ViewTemplate.cs" />
     <Compile Include="Entities\ViewTemplateColumn.cs" />
