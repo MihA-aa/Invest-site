@@ -117,7 +117,7 @@ $(document).ready(function(){
                       if(dt_params){ $.extend(d, dt_params); }
                    },
                 "error": function (xhr) {
-                    alert(xhr.statusText);
+                    MyAlert(xhr.statusText);
                 }
             },
             "columns": [
@@ -148,13 +148,13 @@ $('.tablecontainer').on('click', 'a.popup', function (e) {
     e.preventDefault();
     OpenPopup($(this).attr('href'));
 })
+
 function OpenPopup(pageUrl) {
     var $pageContent = $('<div/>');
     $pageContent.load(pageUrl, function () {
         $('#popupForm', $pageContent).removeData('validator');
         $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
         $.validator.unobtrusive.parse('form');
-
     });
 
     $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
@@ -194,13 +194,32 @@ function OpenPopup(pageUrl) {
         e.preventDefault();
     })
     $dialog.dialog('open');
-$dialog.dialog({ closeText: "" });
+    $dialog.dialog({ closeText: "" });
 }
 });
 
- 
-function showClientError(propName, message) {
 
+$("#alertErrorDialog").dialog({
+    autoOpen: false,
+    title: "Information",
+    draggable: false,
+    resizable: false,
+    closeText: "",
+    modal: true,
+    buttons: {
+        'Ok': function () {
+            $(this).dialog('close');
+        }
+    }
+});
+
+function MyAlert(message) {
+    $("#errorDialogText").text(message);
+    $("#alertErrorDialog").dialog("open");
+}
+
+
+function showClientError(propName, message) {
     $("#"+propName).removeClass("valid")
      .addClass( "input-validation-error" );
     $("#"+propName).next().removeClass("field-validation-valid")
@@ -252,7 +271,7 @@ function deletePortfolio(portfolioId,item) {
          	$("#loader").hide();
          },
          error: function (xhr) {
-            alert('error');
+            MyAlert(xhr.statusText);
          	$("#loader").hide();
          }
     });

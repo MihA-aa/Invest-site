@@ -100,7 +100,7 @@ function completeInputSymbolOpenDate(date, elem) {
                 elem.val(val);
             },
             error: function (xhr) {
-                alert('error');
+                MyAlert(xhr.statusText);
             }
         });
     } 
