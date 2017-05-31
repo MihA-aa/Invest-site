@@ -53,9 +53,13 @@ namespace BLL.Services
         public PositionDTO CalculateAllParams(PositionDTO position)
         {
             if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0))
+            {
                 position.CloseDate = null;
-            var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, 39817);  //position.SymbolId
-            position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
+                position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
+            }
+            else
+                position.CurrentPrice = null;
+            var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);  //39817
             position.Dividends = calculationService.GetDividends(dividends, position.OpenWeight);
             position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
                 position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
