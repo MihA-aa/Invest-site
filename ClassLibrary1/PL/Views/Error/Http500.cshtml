@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Internal server error";
+}
+
+<div style="margin: 30px">
+    <h2>
+        @ViewBag.Title
+    </h2>
+    <p style="font-size: 1.2em; color: Red; font-weight: bold;">
+        It’s a general-purpose error message for when a web server encounters some form of internal error. For example, the web server could be overloaded and therefore unable to handle requests properly.
+    </p>
+    <p>
+        You can:
+    </p>
+    <ul>
+        <li>Go to main @Html.ActionLink("page", "index", "site"). </li>
+        <li>
+            Report what you were looking for or under what conditions this error occurred. Write to the developers @Html.ActionLink("message", "Http404", "error")
+        </li>
+    </ul>
+</div>

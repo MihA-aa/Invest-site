@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Page not found";
+}
+
+<div id="Http404container">
+    <h1>
+        Error 404
+    </h1>
+    <p>
+        What if I told you that page doesn't exist
+    </p>
+    <a href='@Url.Action("Index", "Home")' class="btn btn-danger">Back to Main</a>
+</div>
+
+@section scripts {
+
+    <script>
+        $(document).ready(function() {
+            $('#contentDiv').css({
+                'background': 'url(../Content/img/144906307918296925.jpg) no-repeat center center fixed',
+                '-webkit-background-size': 'cover',
+                '-moz-background-size': 'cover',
+                '-o-background-size': 'cover',
+                'background-size': 'cover',
+                'height': '885px'
+            });
+        })
+    </script>
+}

@@ -1,0 +1,5 @@
+2017-05-31 12:20:59,190 [11] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Weight value must be greater than 0 and less than or equal to 10,000.
+   at BLL.Services.ValidateService.Validate(PositionDTO position) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 20
+   at BLL.Services.PositionService.CreatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 79
+   at BLL.Services.PositionService.CreateOrUpdatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 50
+   at PL.Controllers.PositionController.Save(PositionModel position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\PositionController.cs:line 47

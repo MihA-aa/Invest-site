@@ -274,11 +274,11 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(m => m.CheckIfPortfolioExists(It.IsAny<int>()))
                 .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
             symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+                .Returns(new SymbolDividend { SymbolID = 39817, DividendAmount = 7.1191m });
             tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
                 .Returns(0.66m);
-            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
-                .Returns(2.491m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<TradeTypesDTO>()))
+                .Returns(new TradeInforamation { Price = 2.491m });
             positionRepository.Setup(m => m.Create(It.IsAny<Position>()))
                 .Callback<Position>(ListPositions.Add);
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
@@ -323,11 +323,11 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(m => m.CheckIfPortfolioExists(It.IsAny<int>()))
                 .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
             symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+                .Returns(new SymbolDividend { SymbolID = 39817, DividendAmount = 7.1191m });
             tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
                 .Returns(0.66m);
-            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
-                .Returns(2.491m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<TradeTypesDTO>()))
+                .Returns(new TradeInforamation { Price = 2.491m });
             positionRepository.Setup(m => m.Create(It.IsAny<Position>()))
                 .Callback<Position>(ListPositions.Add);
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
@@ -351,11 +351,11 @@ namespace UnitTests.Tests
                 ListPositions[index] = p;
             });
             symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+                .Returns(new SymbolDividend { SymbolID = 39817, DividendAmount = 7.1191m });
             tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
                 .Returns(0.66m);
-            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
-                .Returns(2.491m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<TradeTypesDTO>()))
+                .Returns(new TradeInforamation { Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
@@ -396,11 +396,11 @@ namespace UnitTests.Tests
                 ListPositions[index] = p;
             });
             symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns(new SymbolDividend {SymbolID = 39817, Dividends = 7.1191m });
+                .Returns(new SymbolDividend {SymbolID = 39817, DividendAmount = 7.1191m });
             tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
                 .Returns( 0.66m );
-            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
-                .Returns(2.491m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<TradeTypesDTO>()))
+                .Returns(new TradeInforamation { Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
@@ -509,11 +509,11 @@ namespace UnitTests.Tests
         public void CanNotGetNotValidCoseDate()
         {
             symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns(new SymbolDividend { SymbolID = 39817, Dividends = 7.1191m });
+                .Returns(new SymbolDividend { SymbolID = 39817, DividendAmount = 7.1191m });
             tradeSybolService.Setup(c => c.GetPriceForDate(It.IsAny<DateTime>(), It.IsAny<int>()))
                 .Returns(0.66m);
-            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>()))
-                .Returns(2.491m);
+            tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<TradeTypesDTO>()))
+                .Returns(new TradeInforamation {Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);

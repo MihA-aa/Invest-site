@@ -15,6 +15,7 @@ namespace PL.Controllers
 {
     public class PositionController : Controller
     {
+        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IPositionService positionService;
 
         public PositionController(IPositionService positionService)
@@ -47,6 +48,7 @@ namespace PL.Controllers
                 }
                 catch (ValidationException ex)
                 {
+                    logger.Error(ex.ToString());
                     status = false;
                     property = ex.Property;
                     message = ex.Message;
@@ -64,8 +66,9 @@ namespace PL.Controllers
             {
                  ViewBag.Id = positionService.GetPosition(id).Id;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex.ToString());
                 return HttpNotFound();
             }
             return PartialView();
@@ -80,8 +83,9 @@ namespace PL.Controllers
             {
                positionService.DeletePosition(id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex.ToString());
                 status = false;
             }
             return new JsonResult { Data = new { status = status } };

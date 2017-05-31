@@ -1,0 +1,11 @@
+2017-05-31 12:23:47,248 [11] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Weight value must be greater than 0 and less than or equal to 10,000.
+   at BLL.Services.ValidateService.Validate(PositionDTO position) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 20
+   at BLL.Services.PositionService.CreatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 79
+   at BLL.Services.PositionService.CreateOrUpdatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 50
+   at PL.Controllers.PositionController.Save(PositionModel position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\PositionController.cs:line 47
+2017-05-31 14:59:44,184 [11] ERROR PL.Controllers.PositionController http http://localhost:22860/Account/Registerwq not found
+2017-05-31 15:03:22,892 [3] ERROR PL.Controllers.PositionController http://localhost:22860/Error/Http404 not found
+2017-05-31 15:03:31,812 [11] ERROR PL.Controllers.PositionController http://localhost:22860/Error/Http403 Access restricted
+2017-05-31 15:03:36,577 [11] ERROR PL.Controllers.PositionController http://localhost:22860/Error/Http400 not found
+2017-05-31 15:03:43,069 [11] ERROR PL.Controllers.PositionController http://localhost:22860/Error/Http500 Internal server error
+2017-05-31 15:03:51,710 [11] ERROR PL.Controllers.PositionController http://localhost:22860/Error/ExhibitNotFound Exhibit Not Found

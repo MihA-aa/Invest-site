@@ -13,6 +13,7 @@ namespace PL.Controllers
 {
     public class PortfolioController : Controller
     {
+        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IPortfolioService portfolioService;
 
         public PortfolioController(IPortfolioService PortfolioService)
@@ -36,7 +37,14 @@ namespace PL.Controllers
         [HttpPost]
         public JsonResult DeletePortfolio(int id)
         {
-            portfolioService.DeletePortfolio(id);
+            try
+            {
+                portfolioService.DeletePortfolio(id);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+            }
             return Json("Response from Delete");
         }
     }

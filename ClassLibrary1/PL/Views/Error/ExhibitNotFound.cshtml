@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Exhibit Not Found";
+}
+<div style="margin: 30px">
+    <h2>
+        @ViewBag.Title
+    </h2>
+    <p style="font-size: 1.2em; color: Red; font-weight: bold;">
+        Such an exhibit is not registered on the site. Maybe it was deleted or just temporarily not available. We apologize for any inconvenience caused.
+    </p>
+    <p>
+        You can:
+    </p>
+    <ul>
+        <li>Go to main @Html.ActionLink("page", "index", "site"). </li>
+        <li>
+            Report what you were looking for or under what conditions this error occurred. Write to the developers @Html.ActionLink("message", "Http404", "error")
+        </li>
+    </ul>
+</div>

@@ -257,3 +257,5 @@ D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.csprojResolveAssemblyRe
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\System.Linq.Dynamic.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\log4net.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\log4net.xml

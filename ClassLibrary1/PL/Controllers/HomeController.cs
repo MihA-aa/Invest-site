@@ -9,8 +9,11 @@ namespace PL.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+
+        [HandleError()]
         public ActionResult Index()
         {
+            //throw new ArgumentException("Специальная ошибка для теста");
             return View();
         }
         
