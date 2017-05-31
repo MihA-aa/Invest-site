@@ -13,5 +13,6 @@ namespace DAL.Interfaces
         void ChangePortfolioDisplayIndex(int id, int displayIndex);
         bool CheckIfPortfolioExists(int id);
         void UpdatePortfolioNameAndNotes(Portfolio portfolio);
+        void RecalculatePortfolioValue(int id);
     }
 }

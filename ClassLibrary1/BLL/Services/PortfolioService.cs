@@ -89,8 +89,10 @@ namespace BLL.Services
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
             validateService.Validate(portfolio);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
-            Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
+                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
+                    .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
+            var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             newPortfolio.Customer = customerService.GetCustomerByProfileId(userId);
             db.Portfolios.Create(newPortfolio);
             db.Save();
@@ -103,8 +105,9 @@ namespace BLL.Services
             if (!db.Portfolios.CheckIfPortfolioExists(portfolio.Id))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             validateService.Validate(portfolio);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>());
-            Portfolio newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
+            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
+                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
+            var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
             db.Portfolios.Update(newPortfolio);
             db.Save();
         }
@@ -115,7 +118,14 @@ namespace BLL.Services
             {
                 db.Portfolios.ChangePortfolioDisplayIndex(Convert.ToInt32(portfolio.Key), Convert.ToInt32(portfolio.Value));
             }
+        }
 
+        public void RecalculatePortfolioValue(int id)
+        {
+            var portfolio = db.Portfolios.Get(id);
+            if (portfolio == null)
+                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            db.Portfolios.RecalculatePortfolioValue(id);
         }
     }
 }

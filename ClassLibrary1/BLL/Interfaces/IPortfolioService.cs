@@ -17,5 +17,6 @@ namespace BLL.Interfaces
         void DeletePortfolio(int? id);
         void UpdatePortfolio(PortfolioDTO portfolio);
         void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios);
+        void RecalculatePortfolioValue(int id);
     }
 }

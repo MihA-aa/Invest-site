@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
 using DAL.Entities;
 using DAL.Interfaces;
 using DALEF.EF;
@@ -24,6 +26,32 @@ namespace DALEF.Repositories
             dbSet.Attach(portfolio);
             db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
             db.SaveChanges();
+        }
+
+        public void RecalculatePortfolioValue(int id)
+        {
+            var portfolio = dbSet.Find(id);
+            portfolio.PortfolioValue = portfolio.Positions.Sum(p => p.AbsoluteGain);
+            portfolio.Quantity = portfolio.Positions.Count();
+            portfolio.LastUpdateDate = DateTime.Now;
+            portfolio.PercentWins = GetPercentWins(id);
+            portfolio.BiggestWinner =  portfolio.Positions.Max(p => p.Gain);
+            portfolio.BiggestLoser = portfolio.Positions.Min(p => p.Gain);
+            portfolio.AvgGain = portfolio.Positions.Average(p => p.Gain);
+            portfolio.MonthAvgGain = portfolio.Positions
+                .Where(p => p.OpenDate.Month <= DateTime.Today.Month && p.OpenDate.Year <= DateTime.Today.Year)
+                .Where(p => p.CloseDate == null || p.CloseDate.Value.Month >= DateTime.Today.Month && p.CloseDate.Value.Year >= DateTime.Today.Year)
+                .Average(p => p.Gain);
+            Update(portfolio);
+            db.SaveChanges();
+        }
+
+        public decimal GetPercentWins(int id)
+        {
+            var portfolio = dbSet.Find(id);
+            var winValuecount = portfolio.Positions.Count(pos => pos.Gain > 0);
+            var allCount = portfolio.Positions.Count();
+            return allCount == 0 ? 0 : winValuecount/allCount;
         }
 
         public void UpdatePortfolioNameAndNotes(Portfolio portfolio)

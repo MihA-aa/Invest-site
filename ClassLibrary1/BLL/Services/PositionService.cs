@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using BLL.DTO;
 using BLL.DTO.Enums;
@@ -76,12 +77,15 @@ namespace BLL.Services
         {
             if (position == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
+            if (portfolioId == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
             validateService.Validate(position);
             position = CalculateAllParams(position);
             var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
             db.Positions.Create(newPosition);
             AddPositionToPortfolio(newPosition, portfolioId);
             db.Save();
+            db.Portfolios.RecalculatePortfolioValue(portfolioId.Value);
         }
 
         public void AddPositionToPortfolio(Position position, int? portfolioId)
@@ -115,6 +119,9 @@ namespace BLL.Services
             var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
             db.Positions.Update(newPosition);
             db.Save();
+            Portfolio portfolio = db.Portfolios.GetAll()
+                .FirstOrDefault(x => x.Positions.Any(p => p.Id == position.Id));
+            db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
         }
     }
 }
