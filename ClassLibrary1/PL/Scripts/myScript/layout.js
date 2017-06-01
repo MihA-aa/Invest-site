@@ -144,10 +144,10 @@ $(document).ready(function(){
                     { "data": "MaxGain", "name": "MaxGain", "autoWidth": true }
             ]
         });
-$('.tablecontainer').on('click', 'a.popup', function (e) {
-    e.preventDefault();
-    OpenPopup($(this).attr('href'));
-})
+    $('.tablecontainer').on('click', 'a.popup', function (e) {
+        e.preventDefault();
+        OpenPopup($(this).attr('href'));
+    })
 
 function OpenPopup(pageUrl) {
     var $pageContent = $('<div/>');
@@ -172,7 +172,7 @@ function OpenPopup(pageUrl) {
       close: function () {
           $dialog.dialog('destroy').remove();
       }
-  })
+    })
 
     $('.popupWindow').on('submit', '#popupForm', function (e) {
         var url = $('#popupForm')[0].action;

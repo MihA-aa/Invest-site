@@ -1,0 +1,82 @@
+$(document).ready(function(){
+        tableViewTampleteManagement =  $('#view-template-management-jq-table')
+        .on( 'processing.dt', function ( e, settings, processing ) 
+            {$('#loader').css( 'display', processing ? 'block' : 'none' );})
+        .DataTable({
+            "processing": false,
+            "serverSide": true,
+            "orderMulti": false,
+             "dom": '<"top"i>rt<"bottom"lp><"clear">',
+            "ajax": {
+                "url": "/Nav/LoadViewTampleteData",
+                "type": "POST",
+                "datatype": "json",
+                "error": function (xhr) {
+                    MyAlert(xhr.statusText);
+                }
+            },
+            "columns": [
+                    { "data": "Id", "name": "Id", "width": "10px", 
+                    "render": function (data) {return '<a class="popup" href="/ViewTemplate/Save/'
+                     + data + '"><span class="glyphicon glyphicon-pencil" style="color: #80b78c;"></span></a>';}},
+                     { "data": "Id", "name": "Id", "width": "10px", 
+                    "render": function (data) {return '<a class="popup" href="/ViewTemplate/Delete/'
+                     + data + '"><span class="glyphicon glyphicon-remove" style="color: #dc6c6c;"></span></a>';}},
+                    { "data": "Name", "name": "Name", "autoWidth": true },
+                    { "data": "Positions", "name": "Positions", "autoWidth": true },
+                    { "data": "ShowPortfolioStats", "name": "ShowPortfolioStats", "autoWidth": true },
+            ]
+        });
+    $('.tampleteTableContainer').on('click', 'a.popup', function (e) {
+        e.preventDefault();
+        OpenTampleteTablePopup($(this).attr('href'));
+    })
+
+function OpenTampleteTablePopup(pageUrl) {
+    var $pageContent = $('<div/>');
+    $pageContent.load(pageUrl, function () {
+        $('#popupViewTampleteForm', $pageContent).removeData('validator');
+        $('#popupViewTampleteForm', $pageContent).removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse('form');
+    });
+
+    $viewTampletedialog = $('<div class="popupTampleteTableWindow" style="overflow:auto"></div>')
+    .html($pageContent)
+    .dialog({
+        position: { my: 'top', at: 'top+150' },
+      draggable : false,
+      autoOpen : false,
+      resizable : false,
+      model : true,
+      title:'Popup View Template Dialog',
+      height: 'auto',
+      width : 600,
+      closeText: "",
+      close: function () {
+          $viewTampletedialog.dialog('destroy').remove();
+      }
+    })
+
+    $('.popupTampleteTableWindow').on('submit', '#popupViewTampleteForm', function (e) {
+        var url = $('#popupViewTampleteForm')[0].action;
+        $.ajax({
+            type : "POST",
+            url : url,
+            data: $('#popupViewTampleteForm').serialize()+ "&viewTampleteId=" + 1,//ЗАМЕНИТЬ НА ЗНАЧЕНИЕ
+            success: function (data) {
+                if (data.status) {
+                    $viewTampletedialog.dialog('close');
+                    tableViewTampleteManagement.ajax.reload();
+                }
+                else{
+                    showClientError(data.prop, data.message);
+                }
+            }
+        })
+
+        e.preventDefault();
+    })
+    $viewTampletedialog.dialog('open');
+    $viewTampletedialog.dialog({ closeText: "" });
+}
+});

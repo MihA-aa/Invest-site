@@ -14,6 +14,7 @@ namespace DAL.Interfaces
         ISymbolViewRepository SymbolViews { get; }
         ITradeSybolRepository TradeSybols { get; }
         ISymbolDividendRepository SymbolDividends { get; }
+        IViewTemplateRepository ViewTemplates { get; }
         ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
 

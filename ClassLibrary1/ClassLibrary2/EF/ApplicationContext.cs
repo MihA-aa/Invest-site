@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using DAL.Entities;
 using DAL.Enums;
+using DAL.Formats;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DALEF.EF
@@ -19,13 +20,16 @@ namespace DALEF.EF
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Portfolio> Portfolios { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
-
+        public virtual DbSet<ViewTemplate> ViewTemplates { get; set; }
+        public virtual DbSet<View> Views { get; set; }
+        public virtual DbSet<ViewTemplateColumn> ViewTemplateColumns { get; set; }
     }
 
     public class StoreDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationContext>
     {
         protected override void Seed(ApplicationContext db)
         {
+            #region User Inizialize
             Role user = new Role { Name = "user" };
             Role admin = new Role { Name = "admin" };
 
@@ -40,7 +44,8 @@ namespace DALEF.EF
             };
 
             db.Users.Add(firstUser);
-            
+            #endregion
+
             #region Positions Inizialize
             Position position1 = new Position
             {
@@ -293,6 +298,196 @@ namespace DALEF.EF
             db.Portfolios.Add(portfolio3);
             db.Portfolios.Add(portfolio4);
             db.Portfolios.Add(portfolio5);
+            #endregion
+
+            #region ViewTemplateColumns Inizialize
+            ViewTemplateColumn viewTemplateColumn1 = new ViewTemplateColumn
+            {
+                Id = 1,
+                Name = "Name",
+                Column = ColumnNames.Name,
+                Format = new LineFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
+            {
+                Id = 2,
+                Name = "Symbol",
+                Column = ColumnNames.SymbolName,
+                Format = new LineFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn3 = new ViewTemplateColumn
+            {
+                Id = 4,
+                Name = "Open Price",
+                Column = ColumnNames.OpenPrice,
+                Format = new MoneyFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn4 = new ViewTemplateColumn
+            {
+                Id = 5,
+                Name = "Open Date",
+                Column = ColumnNames.OpenDate,
+                Format = new DateFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn5 = new ViewTemplateColumn
+            {
+                Id = 3,
+                Name = "Weight",
+                Column = ColumnNames.OpenWeight,
+                Format = new NoneFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn6 = new ViewTemplateColumn
+            {
+                Id = 6,
+                Name = "Current Price",
+                Column = ColumnNames.CurrentPrice,
+                Format = new MoneyFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn7 = new ViewTemplateColumn
+            {
+                Id = 7,
+                Name = "Close Price",
+                Column = ColumnNames.ClosePrice,
+                Format = new MoneyFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn8 = new ViewTemplateColumn
+            {
+                Id = 8,
+                Name = "Close Date",
+                Column = ColumnNames.CloseDate,
+                Format = new DateFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn9 = new ViewTemplateColumn
+            {
+                Id = 9,
+                Name = "Trade Type",
+                Column = ColumnNames.TradeType,
+                Format = new NoneFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn10 = new ViewTemplateColumn
+            {
+                Id = 10,
+                Name = "Trade Status",
+                Column = ColumnNames.TradeStatus,
+                Format = new NoneFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn11 = new ViewTemplateColumn
+            {
+                Id = 11,
+                Name = "Dividends",
+                Column = ColumnNames.Dividends,
+                Format = new MoneyFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn12 = new ViewTemplateColumn
+            {
+                Id = 12,
+                Name = "Absolute Gain",
+                Column = ColumnNames.AbsoluteGain,
+                Format = new PercentFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn13 = new ViewTemplateColumn
+            {
+                Id = 13,
+                Name = "Max Gain",
+                Column = ColumnNames.MaxGain,
+                Format = new MoneyFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn14 = new ViewTemplateColumn
+            {
+                Id = 14,
+                Name = "Gain",
+                Column = ColumnNames.MaxGain,
+                Format = new MoneyFormat()
+            };
+            ViewTemplateColumn viewTemplateColumn21 = new ViewTemplateColumn
+            {
+                Id = 15,
+                Name = "Name",
+                Column = ColumnNames.Name,
+                Format = new LineFormat()
+            };
+            db.ViewTemplateColumns.Add(viewTemplateColumn1);
+            db.ViewTemplateColumns.Add(viewTemplateColumn2);
+            db.ViewTemplateColumns.Add(viewTemplateColumn3);
+            db.ViewTemplateColumns.Add(viewTemplateColumn4);
+            db.ViewTemplateColumns.Add(viewTemplateColumn5);
+            db.ViewTemplateColumns.Add(viewTemplateColumn6);
+            db.ViewTemplateColumns.Add(viewTemplateColumn1);
+            db.ViewTemplateColumns.Add(viewTemplateColumn7);
+            db.ViewTemplateColumns.Add(viewTemplateColumn8);
+            db.ViewTemplateColumns.Add(viewTemplateColumn9);
+            db.ViewTemplateColumns.Add(viewTemplateColumn10);
+            db.ViewTemplateColumns.Add(viewTemplateColumn11);
+            db.ViewTemplateColumns.Add(viewTemplateColumn12);
+            db.ViewTemplateColumns.Add(viewTemplateColumn13);
+            db.ViewTemplateColumns.Add(viewTemplateColumn14);
+            db.ViewTemplateColumns.Add(viewTemplateColumn21);
+            #endregion
+
+            #region ViewTemplate Inizialize
+            ViewTemplate viewTemplate1 = new ViewTemplate
+            {
+                Id = 1,
+                Name = "Preview all",
+                Positions = TemplatePositions.All,
+                ShowPortfolioStats = true,
+                SortOrder = Sorting.ASC,
+                SortColumn = viewTemplateColumn1,
+                Columns = new List<ViewTemplateColumn>
+                {
+                    viewTemplateColumn1, viewTemplateColumn2, viewTemplateColumn3, viewTemplateColumn4,
+                    viewTemplateColumn5, viewTemplateColumn6, viewTemplateColumn7, viewTemplateColumn8,
+                    viewTemplateColumn9, viewTemplateColumn10, viewTemplateColumn11, viewTemplateColumn12,
+                    viewTemplateColumn13, viewTemplateColumn14
+                }
+            };
+
+            ViewTemplate viewTemplate2 = new ViewTemplate
+            {
+                Id = 2,
+                Name = "Default",
+                Positions = TemplatePositions.OpenOnly,
+                ShowPortfolioStats = false,
+                SortOrder = Sorting.DESC,
+                SortColumn = viewTemplateColumn21,
+                Columns = new List<ViewTemplateColumn>
+                {
+                    viewTemplateColumn21
+                }
+            };
+
+            db.ViewTemplates.Add(viewTemplate1);
+            db.ViewTemplates.Add(viewTemplate2);
+            #endregion
+
+            #region View Inizialize
+
+            View previewAllView = new View
+            {
+                Id = 1,
+                Name = "Preview All View",
+                ShowName = true,
+                DateFormat = DateFormats.MonthDayYear,
+                MoneyPrecision = 2,
+                PercentyPrecision = 4,
+                ViewTemplate = viewTemplate1,
+                Portfolio = portfolio1
+            };
+
+            View defaultView = new View
+            {
+                Id = 2,
+                Name = "Default View",
+                ShowName = false,
+                DateFormat = DateFormats.DayMonthNameYear,
+                MoneyPrecision = 1,
+                PercentyPrecision = 2,
+                ViewTemplate = viewTemplate2,
+                Portfolio = portfolio2
+            };
+            
+            db.Views.Add(previewAllView);
+            db.Views.Add(defaultView);
             #endregion
             
             db.SaveChanges();

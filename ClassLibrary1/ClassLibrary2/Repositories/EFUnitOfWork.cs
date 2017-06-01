@@ -19,6 +19,7 @@ namespace DALEF.Repositories
         private ProfileRepository profileRepository;
         private SymbolDividendRepository symbolDividendRepository;
         private TradeSybolRepository tradeSybolRepository;
+        private ViewTemplateRepository viewTemplateRepository;
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
         public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
@@ -44,6 +45,16 @@ namespace DALEF.Repositories
                 if (roleManager == null)
                     roleManager = new ApplicationRoleManager(new RoleStore<Role>(db));
                 return roleManager;
+            }
+        }
+
+        public IViewTemplateRepository ViewTemplates
+        {
+            get
+            {
+                if (viewTemplateRepository == null)
+                    viewTemplateRepository = new ViewTemplateRepository(db);
+                return viewTemplateRepository;
             }
         }
 

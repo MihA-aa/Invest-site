@@ -17,12 +17,15 @@ namespace PL.Controllers
         private IPortfolioService portfolioService;
         private ISymbolViewService symbolViewService;
         private ITradeSybolService tradeSybolService;
+        private IViewTemplateService viewTemplateService;
 
-        public NavController(IPortfolioService PortfolioService, ISymbolViewService symbolViewService, ITradeSybolService tradeSybolService)
+        public NavController(IPortfolioService portfolioService, ISymbolViewService symbolViewService,
+            ITradeSybolService tradeSybolService, IViewTemplateService viewTemplateService)
         {
-            this.portfolioService = PortfolioService;
+            this.portfolioService = portfolioService;
             this.symbolViewService = symbolViewService;
             this.tradeSybolService = tradeSybolService;
+            this.viewTemplateService = viewTemplateService;
         }
         public PartialViewResult LeftMenu()
         {
@@ -107,9 +110,35 @@ namespace PL.Controllers
             Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
             var data = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
-                
-        }
+          }
 
+        [HttpPost]
+        public ActionResult LoadViewTampleteData()
+        {
+            var draw = Request.Form?.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var viewTemplatesDto = viewTemplateService.GetViewTemplates();
+            
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                viewTemplatesDto = viewTemplatesDto.OrderBy(sortColumn + " " + sortColumnDir);
+            }
+
+            totalRecords = viewTemplatesDto.Count();
+            viewTemplatesDto = viewTemplatesDto.Skip(skip).Take(pageSize).ToList();
+            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateDTO, ViewTemplateModel>());
+            var data = Mapper.Map<IEnumerable<ViewTemplateDTO>, List<ViewTemplateModel>>(viewTemplatesDto);
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult AutocompleteSymbolSearch(string term)
         {

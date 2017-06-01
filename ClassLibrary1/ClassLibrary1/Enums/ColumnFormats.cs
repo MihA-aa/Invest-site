@@ -2,8 +2,12 @@
 {
     public enum ColumnFormats
     {
-        Percent = 1,
-        Automatic = 2,
-        Decimal = 3
+        None, 
+        Money,
+        Linked,
+        Date,
+        LinkedCloseDate,
+        DateAndTime,
+        Percent
     }
 }

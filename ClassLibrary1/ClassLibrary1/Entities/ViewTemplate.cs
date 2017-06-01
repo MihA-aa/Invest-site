@@ -9,6 +9,7 @@ namespace DAL.Entities
         public string Name { get; set; }
         public TemplatePositions Positions { get; set; }
         public bool ShowPortfolioStats { get; set; }
+        public ViewTemplateColumn SortColumn { get; set; }
         public Sorting SortOrder { get; set; }
 
         public virtual ICollection<ViewTemplateColumn> Columns { get; set; }

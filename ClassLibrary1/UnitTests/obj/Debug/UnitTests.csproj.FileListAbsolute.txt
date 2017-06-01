@@ -81,8 +81,6 @@ C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\UnitTests\obj\Debug\UnitTests.dll
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\UnitTests\obj\Debug\UnitTests.pdb
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
-D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.dll
-D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.pdb
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\UnitTests.dll.config
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\UnitTests.dll
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\UnitTests.pdb
@@ -121,3 +119,5 @@ D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Moq.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Newtonsoft.Json.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\AutoMapper.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Autofac.xml
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\obj\Debug\UnitTests.pdb

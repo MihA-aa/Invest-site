@@ -25,11 +25,19 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult Save(int? id)
         {
-            if (id == 0)
-                return PartialView();
-            var positionDto = positionService.GetPosition(id);
-            Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
-            var position = Mapper.Map<PositionDTO, PositionModel>(positionDto);
+            PositionModel position = null;
+            try
+            {
+                if (id == 0)
+                    return PartialView();
+                var positionDto = positionService.GetPosition(id);
+                Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
+                position = Mapper.Map<PositionDTO, PositionModel>(positionDto);
+            }
+            catch (ValidationException ex)
+            {
+                logger.Error(ex.ToString());
+            }
             return PartialView(position);
         }
 

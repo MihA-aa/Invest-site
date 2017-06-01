@@ -29,6 +29,9 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/myScriptSave").Include(
                         "~/Scripts/myScript/save.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/myScriptTampleteManagement").Include(
+                        "~/Scripts/myScript/tamplete-management.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
                         "~/Scripts/bootstrap-select.min.js"));
 

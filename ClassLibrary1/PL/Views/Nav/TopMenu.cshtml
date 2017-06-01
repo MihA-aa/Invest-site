@@ -3,7 +3,6 @@
     <li class="active"><a href="#tradeManagement" data-toggle="tab">Trade Management</a></li>
     <li><a href="#viewManagement" data-toggle="tab">View Management</a></li>
     <li><a href="#viewTemplateManagement" data-toggle="tab">View Template Management</a></li>
-    <li><a href="#alerts" data-toggle="tab">Alerts</a></li>
 </ul>
 
 <div class="tab-content">
@@ -25,6 +24,7 @@
         </div>
     </div>
     <div class="tab-pane fade in" id="viewManagement">Under construction...</div>
-    <div class="tab-pane fade in" id="viewTemplateManagement">Under construction...</div>
-    <div class="tab-pane fade in" id="alerts">Under construction...</div>
+    <div class="tab-pane fade in" id="viewTemplateManagement">
+        @Html.Partial("~/Views/Nav/ViewTemplateManagement.cshtml")
+    </div>
 </div>

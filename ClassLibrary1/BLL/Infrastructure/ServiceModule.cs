@@ -44,6 +44,8 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<CustomerService>().As<ICustomerService>().
                 InstancePerRequest();
+            builder.RegisterType<ViewTemplateService>().As<IViewTemplateService>().
+                InstancePerRequest();
             base.Load(builder);
         }
     }

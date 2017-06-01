@@ -46,6 +46,9 @@ C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\BLL\obj\Debug\BLL.csproj.GenerateResource.Cache
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\BLL\obj\Debug\BLL.dll
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\BLL\obj\Debug\BLL.pdb
+D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
+D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.Resource.Resource.resources
+D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.csproj.GenerateResource.Cache
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\BLL.dll.config
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\BLL.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\BLL.pdb
@@ -65,8 +68,5 @@ D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\EntityFramework.SqlServer.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
-D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
-D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.Resource.Resource.resources
-D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.csproj.GenerateResource.Cache
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.pdb

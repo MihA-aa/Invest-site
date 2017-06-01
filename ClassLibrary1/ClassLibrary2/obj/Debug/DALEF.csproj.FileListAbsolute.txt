@@ -37,6 +37,7 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.SqlServer.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\System.Linq.Dynamic.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DAL.pdb
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.SqlServer.xml
@@ -45,4 +46,3 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNe
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\System.Linq.Dynamic.dll

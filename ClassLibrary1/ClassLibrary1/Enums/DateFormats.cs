@@ -2,8 +2,8 @@
 {
     public enum DateFormats
     {
-        DayMonthNameYear,
-        DayMonth,
-        Day
+        MonthDayYear,
+        DayMonthYear,
+        DayMonthNameYear
     }
 }

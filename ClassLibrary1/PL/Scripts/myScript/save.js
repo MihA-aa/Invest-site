@@ -60,7 +60,6 @@ $("#symbolNotFoundDialog").dialog({
     }
 });
 
-
 function completeInputSymbolData() {
         $.ajax({
             url: '/Nav/CheckIfExist',

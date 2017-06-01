@@ -74,6 +74,7 @@
     <Compile Include="Repositories\SymbolDividendRepository.cs" />
     <Compile Include="Repositories\SymbolViewRepository.cs" />
     <Compile Include="Repositories\TradeSybolRepository.cs" />
+    <Compile Include="Repositories\ViewTemplateRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BLL.DTO.Enums;
 using DAL.Enums;
 
 namespace BLL.DTO
@@ -11,8 +12,8 @@ namespace BLL.DTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TemplatePositions Positions { get; set; }
+        public TemplatePositionsDTO Positions { get; set; }
         public bool ShowPortfolioStats { get; set; }
-        public Sorting SortOrder { get; set; }
+        public SortingDTO SortOrder { get; set; }
     }
 }
