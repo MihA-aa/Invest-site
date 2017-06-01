@@ -64,6 +64,59 @@
   <ItemGroup>
     <Compile Include="EF\ApplicationContext.cs" />
     <Compile Include="EF\MyExistingDatabaseContext.cs" />
+    <Compile Include="Migrations\201706011357457_AddViewChange.cs" />
+    <Compile Include="Migrations\201706011357457_AddViewChange.Designer.cs">
+      <DependentUpon>201706011357457_AddViewChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011400578_AddViewChangea.cs" />
+    <Compile Include="Migrations\201706011400578_AddViewChangea.Designer.cs">
+      <DependentUpon>201706011400578_AddViewChangea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011404051_AddViewChangea1.cs" />
+    <Compile Include="Migrations\201706011404051_AddViewChangea1.Designer.cs">
+      <DependentUpon>201706011404051_AddViewChangea1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011457539_AddViewChangea1qswasd.cs" />
+    <Compile Include="Migrations\201706011457539_AddViewChangea1qswasd.Designer.cs">
+      <DependentUpon>201706011457539_AddViewChangea1qswasd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011512440_AddViewChangea1qswasds.cs" />
+    <Compile Include="Migrations\201706011512440_AddViewChangea1qswasds.Designer.cs">
+      <DependentUpon>201706011512440_AddViewChangea1qswasds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011516123_AddViewChangea1qswasdss.cs" />
+    <Compile Include="Migrations\201706011516123_AddViewChangea1qswasdss.Designer.cs">
+      <DependentUpon>201706011516123_AddViewChangea1qswasdss.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011542215_AddViewChangea1qswasdssw.cs" />
+    <Compile Include="Migrations\201706011542215_AddViewChangea1qswasdssw.Designer.cs">
+      <DependentUpon>201706011542215_AddViewChangea1qswasdssw.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011616579_AddViewChangea1qswasdsswwq12.cs" />
+    <Compile Include="Migrations\201706011616579_AddViewChangea1qswasdsswwq12.Designer.cs">
+      <DependentUpon>201706011616579_AddViewChangea1qswasdsswwq12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011637260_qwe.cs" />
+    <Compile Include="Migrations\201706011637260_qwe.Designer.cs">
+      <DependentUpon>201706011637260_qwe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011638444_qwdsasd.cs" />
+    <Compile Include="Migrations\201706011638444_qwdsasd.Designer.cs">
+      <DependentUpon>201706011638444_qwdsasd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011642235_sefa.cs" />
+    <Compile Include="Migrations\201706011642235_sefa.Designer.cs">
+      <DependentUpon>201706011642235_sefa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011644165_uy.cs" />
+    <Compile Include="Migrations\201706011644165_uy.Designer.cs">
+      <DependentUpon>201706011644165_uy.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706011646398_sd.cs" />
+    <Compile Include="Migrations\201706011646398_sd.Designer.cs">
+      <DependentUpon>201706011646398_sd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
@@ -87,6 +140,47 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706011357457_AddViewChange.resx">
+      <DependentUpon>201706011357457_AddViewChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011400578_AddViewChangea.resx">
+      <DependentUpon>201706011400578_AddViewChangea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011404051_AddViewChangea1.resx">
+      <DependentUpon>201706011404051_AddViewChangea1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011457539_AddViewChangea1qswasd.resx">
+      <DependentUpon>201706011457539_AddViewChangea1qswasd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011512440_AddViewChangea1qswasds.resx">
+      <DependentUpon>201706011512440_AddViewChangea1qswasds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011516123_AddViewChangea1qswasdss.resx">
+      <DependentUpon>201706011516123_AddViewChangea1qswasdss.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011542215_AddViewChangea1qswasdssw.resx">
+      <DependentUpon>201706011542215_AddViewChangea1qswasdssw.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011616579_AddViewChangea1qswasdsswwq12.resx">
+      <DependentUpon>201706011616579_AddViewChangea1qswasdsswwq12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011637260_qwe.resx">
+      <DependentUpon>201706011637260_qwe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011638444_qwdsasd.resx">
+      <DependentUpon>201706011638444_qwdsasd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011642235_sefa.resx">
+      <DependentUpon>201706011642235_sefa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011644165_uy.resx">
+      <DependentUpon>201706011644165_uy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706011646398_sd.resx">
+      <DependentUpon>201706011646398_sd.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

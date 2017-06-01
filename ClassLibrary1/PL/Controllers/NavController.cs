@@ -32,7 +32,7 @@ namespace PL.Controllers
             var portfoliosDto = portfolioService.GetPortfolios().OrderBy(m => m.DisplayIndex);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, PortfolioModel>());
             var portfolios =  Mapper.Map<IEnumerable<PortfolioDTO>, List<PortfolioModel>>(portfoliosDto);
-            if (@TempData["PortfolioId"] == null)
+            if (@TempData["PortfolioId"] == null && portfolios.Any())
                 @TempData["PortfolioId"] = portfolios.First().Id;
             return PartialView(portfolios);
         }

@@ -12,6 +12,5 @@ namespace BLL.DTO
         public int Id { get; set; }
         public string Name { get; set; }
         public ColumnNames Column { get; set; }
-        public ColumnFormats Format { get; set; }
     }
 }

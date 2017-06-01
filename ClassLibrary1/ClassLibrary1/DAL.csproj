@@ -59,6 +59,8 @@
   <ItemGroup>
     <Compile Include="ApplicationManager\ApplicationRoleManager.cs" />
     <Compile Include="ApplicationManager\ApplicationUserManager.cs" />
+    <Compile Include="Entities\ColumnFormat.cs" />
+    <Compile Include="Entities\Format.cs" />
     <Compile Include="Entities\Profile.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Customer.cs" />
@@ -71,10 +73,10 @@
     <Compile Include="Entities\ViewTemplate.cs" />
     <Compile Include="Entities\ViewTemplateColumn.cs" />
     <Compile Include="Entities\Views\SymbolView.cs" />
-    <Compile Include="Enums\ColumnFormats.cs" />
     <Compile Include="Enums\ColumnNames.cs" />
     <Compile Include="Enums\DateFormats.cs" />
     <Compile Include="Enums\Roles.cs" />
+    <Compile Include="Enums\SetsOfFormats.cs" />
     <Compile Include="Enums\Sorting.cs" />
     <Compile Include="Enums\Symbols .cs" />
     <Compile Include="Enums\TemplatePositions.cs" />
