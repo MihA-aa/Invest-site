@@ -225,7 +225,7 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanDeletePosition()
         {
-            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+            positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
@@ -269,9 +269,9 @@ namespace UnitTests.Tests
         {
             portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
-            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+            positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
-            portfolioRepository.Setup(m => m.CheckIfPortfolioExists(It.IsAny<int>()))
+            portfolioRepository.Setup(m => m.IsExist(It.IsAny<int>()))
                 .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
             symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns(new SymbolDividend { SymbolID = 39817, DividendAmount = 7.1191m });
@@ -318,9 +318,9 @@ namespace UnitTests.Tests
         {
             portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
-            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+            positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
-            portfolioRepository.Setup(m => m.CheckIfPortfolioExists(It.IsAny<int>()))
+            portfolioRepository.Setup(m => m.IsExist(It.IsAny<int>()))
                 .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
             symbolDividendRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns(new SymbolDividend { SymbolID = 39817, DividendAmount = 7.1191m });
@@ -343,7 +343,7 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanUpdatePositionInCreateOrUpdate()
         {
-            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+            positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
             positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
             {
@@ -388,7 +388,7 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanUpdatePosition()
         {
-            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+            positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
             positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
             {
@@ -434,7 +434,7 @@ namespace UnitTests.Tests
         "Position not found")]
         public void CanNotUpdateNonexistentPosition()
         {
-            positionRepository.Setup(c => c.CheckIfPositionExists(It.IsAny<int>()))
+            positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
@@ -496,7 +496,7 @@ namespace UnitTests.Tests
         "Portfolio not found")]
         public void CanNotAddPositionInNonexistentPortfolio()
         {
-            portfolioRepository.Setup(c => c.CheckIfPortfolioExists(It.IsAny<int>()))
+            portfolioRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);

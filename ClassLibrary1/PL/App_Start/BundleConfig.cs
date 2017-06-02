@@ -26,8 +26,11 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/myScriptLayot").Include(
                         "~/Scripts/myScript/layout.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/myScriptSave").Include(
-                        "~/Scripts/myScript/save.js"));
+            bundles.Add(new ScriptBundle("~/bundles/myScriptPositionSave").Include(
+                        "~/Scripts/myScript/savePosition.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/myScriptViewTampleteSave").Include(
+                        "~/Scripts/myScript/saveViewTamplete.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/myScriptTampleteManagement").Include(
                         "~/Scripts/myScript/tamplete-management.js"));

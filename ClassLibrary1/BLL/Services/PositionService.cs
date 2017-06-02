@@ -45,7 +45,7 @@ namespace BLL.Services
         {
             if (position == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
-            if (db.Positions.CheckIfPositionExists(position.Id))
+            if (db.Positions.IsExist(position.Id))
                 UpdatePosition(position);
             else
                 CreatePosition(position, portfolioId);
@@ -59,7 +59,9 @@ namespace BLL.Services
                 position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
             }
             else
+            {
                 position.CurrentPrice = null;
+            }
             var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);  //39817
             position.Dividends = calculationService.GetDividends(dividends, position.OpenWeight);
             position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
@@ -68,22 +70,36 @@ namespace BLL.Services
             position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
             var tradeInfo = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now,
                 position.SymbolId, position.TradeType);
-            position.MaxGain = calculationService.GetGain(tradeInfo.Price, position.ClosePrice,
-                position.OpenPrice, position.OpenWeight, tradeInfo.Dividends, position.TradeType);
+            if (tradeInfo != null)
+            {
+                position.MaxGain = calculationService.GetGain(tradeInfo.Price, position.ClosePrice,
+                    position.OpenPrice, position.OpenWeight, tradeInfo.Dividends, position.TradeType);
+            }
+            TradeSybolViewDTO info = tradeSybolService.GetPriceAndDateLastUpdate(position.SymbolId);
+            if (info == null)
+            {
+                position.LastUpdateDate = null;
+                position.LastUpdatePrice = null;
+            }
+            else
+            {
+                position.LastUpdateDate = info.TradeDate;
+                position.LastUpdatePrice = info.TradeIndex;
+            }
             return position;
         }
 
-        public void CreatePosition(PositionDTO position, int? portfolioId)
+        public void CreatePosition(PositionDTO positionDto, int? portfolioId)
         {
-            if (position == null)
+            if (positionDto == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
             if (portfolioId == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            validateService.Validate(position);
-            position = CalculateAllParams(position);
-            var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
-            db.Positions.Create(newPosition);
-            AddPositionToPortfolio(newPosition, portfolioId);
+            validateService.Validate(positionDto);
+            positionDto = CalculateAllParams(positionDto);
+            var position = MapperHelper.ConvertPositionDtoToPosition(positionDto);
+            db.Positions.Create(position);
+            AddPositionToPortfolio(position, portfolioId);
             db.Save();
             db.Portfolios.RecalculatePortfolioValue(portfolioId.Value);
         }
@@ -94,7 +110,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
             if (portfolioId == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            if (!db.Portfolios.CheckIfPortfolioExists(portfolioId.Value))
+            if (!db.Portfolios.IsExist(portfolioId.Value))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             db.Portfolios.AddPositionToPortfolio(position, portfolioId.Value);
         }
@@ -103,24 +119,25 @@ namespace BLL.Services
         {
             if (id == null)
                 throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
-            if (!db.Positions.CheckIfPositionExists(id.Value))
+            if (!db.Positions.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.PositionNotFound, "");
             db.Positions.Delete(id.Value);
             db.Save();
         }
-        public void UpdatePosition(PositionDTO position)
+
+        public void UpdatePosition(PositionDTO positionDto)
         {
-            if (position == null)
+            if (positionDto == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
-            if (!db.Positions.CheckIfPositionExists(position.Id))
+            if (!db.Positions.IsExist(positionDto.Id))
                 throw new ValidationException(Resource.Resource.PositionNotFound, "");
-            validateService.Validate(position);
-            position = CalculateAllParams(position);
-            var newPosition = MapperHelper.ConvertPositionDtoToPosition(position);
-            db.Positions.Update(newPosition);
+            validateService.Validate(positionDto);
+            positionDto = CalculateAllParams(positionDto);
+            var position = MapperHelper.ConvertPositionDtoToPosition(positionDto);
+            db.Positions.Update(position);
             db.Save();
             Portfolio portfolio = db.Portfolios.GetAll()
-                .FirstOrDefault(x => x.Positions.Any(p => p.Id == position.Id));
+                .FirstOrDefault(x => x.Positions.Any(p => p.Id == positionDto.Id));
             db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
         }
     }

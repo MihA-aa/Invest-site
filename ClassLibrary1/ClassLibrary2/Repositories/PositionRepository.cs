@@ -9,7 +9,7 @@ namespace DALEF.Repositories
         public PositionRepository(ApplicationContext context) : base(context)
         {
         }
-        public bool CheckIfPositionExists(int id)
+        public bool IsExist(int id)
         {
             return dbSet
                 .AsNoTracking()

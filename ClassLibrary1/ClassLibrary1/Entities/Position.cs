@@ -19,6 +19,8 @@ namespace DAL.Entities
         public DateTime? CloseDate { get; set; }
         public decimal? ClosePrice { get; set; }
         public decimal? CurrentPrice { get; set; }
+        public DateTime? LastUpdateDate { get; set; }
+        public decimal? LastUpdatePrice { get; set; }
         public decimal Gain { get; set; }
         public decimal AbsoluteGain { get; set; }
         public decimal MaxGain { get; set; }

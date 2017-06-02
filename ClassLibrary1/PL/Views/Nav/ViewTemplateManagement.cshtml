@@ -2,24 +2,13 @@
 @Styles.Render("~/Content/DataTables")
 <div class="tampleteTableContainer">
     <div style="margin: 10px;">
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
-                Add Position <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a class="popup" href="/Position/Save/0">Add regular position </a></li>
-                @*<li><a href="#">Add combine position </a></li>
-                    <li><a href="#">Add stock</a></li>
-                    <li><a href="#">Add put option</a></li>
-                    <li><a href="#">Add call option</a></li>*@
-            </ul>
-        </div>
-        <button type="button" class="btn btn-default myNavBtn">Trade Groups</button>
-        <button type="button" class="btn btn-default myNavBtn">Income</button>
+        <a href="/ViewTemplate/Save/0" class="popup btn btn-default myNavBtn">Add</a>
+        <button type="button" class="popup btn btn-default myNavBtn">Columns</button>
     </div>
     <table id="view-template-management-jq-table" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th>Name</th>

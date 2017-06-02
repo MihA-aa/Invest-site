@@ -20,6 +20,7 @@ namespace PL.Controllers
         {
             this.viewTemplateService = viewTemplateService;
         }
+
         [HttpGet]
         public ActionResult Save(int? id)
         {
@@ -28,9 +29,10 @@ namespace PL.Controllers
             {
                 if (id == 0)
                     return PartialView();
-                var positionDto = viewTemplateService.GetViewTemplate(id);
+                var viewTemplateDTO = viewTemplateService.GetViewTemplate(id);
                 Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateDTO, ViewTemplateModel>());
-                viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplateModel>(positionDto);
+                viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplateModel>(viewTemplateDTO);
+                viewTemplate.Columns = new SelectList(viewTemplateService.GetViewTemplateColumns(id), "Id", "Name");
             }
             catch (ValidationException ex)
             {
@@ -42,29 +44,57 @@ namespace PL.Controllers
         [HttpPost]
         public ActionResult Save(ViewTemplateModel viewTemplate, int? viewTampleteId)
         {
-            //bool status = true;
-            //string message = "", property = "";
-            //if (ModelState.IsValid)
-            //{
-            //    try
-            //    {
-            //        Mapper.Initialize(cfg => cfg.CreateMap<PositionModel, PositionDTO>());
-            //        var positionDto = Mapper.Map<PositionModel, PositionDTO>(position);
-            //        positionService.CreateOrUpdatePosition(positionDto, portfolioId);
-            //    }
-            //    catch (ValidationException ex)
-            //    {
-            //        logger.Error(ex.ToString());
-            //        status = false;
-            //        property = ex.Property;
-            //        message = ex.Message;
-            //    }
-
-            //}
-            //return new JsonResult { Data = new { status = status, prop = property, message = message } };
-
-            return new JsonResult { Data = new { status = true } };
+            bool status = true;
+            string message = "", property = "";
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateModel, ViewTemplateDTO>());
+                    var viewTemplateDTO = Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate);
+                    viewTemplateService.CreateOrUpdateViewTemplate(viewTemplateDTO);
+                }
+                catch (ValidationException ex)
+                {
+                    logger.Error(ex.ToString());
+                    status = false;
+                    property = ex.Property;
+                    message = ex.Message;
+                }
+            }
+            return new JsonResult { Data = new { status = status, prop = property, message = message } };
         }
 
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            try
+            {
+                ViewBag.Id = viewTemplateService.GetViewTemplate(id).Id;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+                return HttpNotFound();
+            }
+            return PartialView();
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult DeleteViewTemplate(int? id)
+        {
+            bool status = true;
+            try
+            {
+                viewTemplateService.DeleteViewTemplate(id);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+                status = false;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
     }
 }

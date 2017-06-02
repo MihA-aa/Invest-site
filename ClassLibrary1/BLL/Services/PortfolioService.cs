@@ -53,62 +53,62 @@ namespace BLL.Services
             return Mapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
 
-        public int CreateOrUpdatePortfolio(PortfolioDTO portfolio, string userId)
+        public int CreateOrUpdatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
-            if (portfolio == null)
+            if (portfolioDto == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");           
-            validateService.Validate(portfolio);
+            validateService.Validate(portfolioDto);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
                     .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
-            var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
-            if (db.Portfolios.CheckIfPortfolioExists(portfolio.Id))
+            var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
+            if (db.Portfolios.IsExist(portfolioDto.Id))
             {
-                db.Portfolios.UpdatePortfolioNameAndNotes(newPortfolio);               
+                db.Portfolios.UpdatePortfolioNameAndNotes(portfolio);               
             }
             else
             {
-                newPortfolio.Customer = customerService.GetCustomerByProfileId(userId);
-                db.Portfolios.Create(newPortfolio);
+                portfolio.Customer = customerService.GetCustomerByProfileId(userId);
+                db.Portfolios.Create(portfolio);
             }
             db.Save();
-            return (newPortfolio.Id);
+            return (portfolio.Id);
         }
         public void DeletePortfolio(int? id)
         {
             if (id == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            if (!db.Portfolios.CheckIfPortfolioExists(id.Value))
+            if (!db.Portfolios.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             db.Portfolios.Delete(id.Value);
             db.Save();
         }
 
-        public void CreatePortfolio(PortfolioDTO portfolio, string userId)
+        public void CreatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
-            if (portfolio == null)
+            if (portfolioDto == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
-            validateService.Validate(portfolio);
+            validateService.Validate(portfolioDto);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
                     .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
-            var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
-            newPortfolio.Customer = customerService.GetCustomerByProfileId(userId);
-            db.Portfolios.Create(newPortfolio);
+            var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
+            portfolio.Customer = customerService.GetCustomerByProfileId(userId);
+            db.Portfolios.Create(portfolio);
             db.Save();
         }
 
-        public void UpdatePortfolio(PortfolioDTO portfolio)
+        public void UpdatePortfolio(PortfolioDTO portfolioDto)
         {
-            if (portfolio == null)
+            if (portfolioDto == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
-            if (!db.Portfolios.CheckIfPortfolioExists(portfolio.Id))
+            if (!db.Portfolios.IsExist(portfolioDto.Id))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            validateService.Validate(portfolio);
+            validateService.Validate(portfolioDto);
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
-            var newPortfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolio);
-            db.Portfolios.Update(newPortfolio);
+            var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
+            db.Portfolios.Update(portfolio);
             db.Save();
         }
 

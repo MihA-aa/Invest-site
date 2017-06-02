@@ -65,8 +65,7 @@ namespace PL.Controllers
             }
             return new JsonResult { Data = new { status = status, prop = property, message = message } };
         }
-
-
+        
         [HttpGet]
         public ActionResult Delete(int? id)
         {

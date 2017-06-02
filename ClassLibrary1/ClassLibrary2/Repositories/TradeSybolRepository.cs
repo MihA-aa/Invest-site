@@ -31,6 +31,15 @@ namespace DALEF.Repositories
                 .FirstOrDefault();
         }
 
+        public TradeSybolView GetPriceAndDateLastUpdate(int symbolId)
+        {
+            return dbSet
+                .Where(a => DbFunctions.TruncateTime(a.TradeDate) <= DbFunctions.TruncateTime(DateTime.Now))
+                .Where(a => a.SymbolID == symbolId)
+                .OrderByDescending(a => a.TradeDate)
+                .FirstOrDefault();
+        }
+
         public IEnumerable<TradeInforamation> GetMaxDateForGainForSymbol(DateTime dateFrom, DateTime dateTo, int symbolId)
         {
             var myQuery2 = String.Format("SELECT * FROM dbo.[getMaxMinGainForSymbolInDateInterval] ('{0}', '{1}', {2})",

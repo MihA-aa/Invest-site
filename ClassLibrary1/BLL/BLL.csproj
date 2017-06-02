@@ -67,6 +67,8 @@
   <ItemGroup>
     <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="DTO\DividendDTO.cs" />
+    <Compile Include="DTO\Enums\ColumnNamesDTO.cs" />
+    <Compile Include="DTO\Enums\DateFormatsDTO.cs" />
     <Compile Include="DTO\Enums\SortingDTO.cs" />
     <Compile Include="DTO\Enums\SymbolsDTO.cs" />
     <Compile Include="DTO\Enums\TemplatePositionsDTO.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\ProfileDTO.cs" />
     <Compile Include="DTO\SymbolViewDTO.cs" />
+    <Compile Include="DTO\TradeSybolViewDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\ViewDTO.cs" />
     <Compile Include="DTO\ViewTemplateColumnDTO.cs" />

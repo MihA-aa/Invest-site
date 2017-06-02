@@ -729,11 +729,12 @@
     <Content Include="Views\Error\Http404.cshtml" />
     <Content Include="Views\Error\ExhibitNotFound.cshtml" />
     <Content Include="Views\Nav\ViewTemplateManagement.cshtml" />
+    <Content Include="Views\ViewTemplate\Save.cshtml" />
+    <Content Include="Views\ViewTemplate\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Portfolio\" />
-    <Folder Include="Views\ViewTemplate\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

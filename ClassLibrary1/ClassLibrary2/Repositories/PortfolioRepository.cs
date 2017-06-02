@@ -62,7 +62,7 @@ namespace DALEF.Repositories
             db.Entry(portfolio).Property(x => x.Visibility).IsModified = true;
         }
 
-        public bool CheckIfPortfolioExists(int id)
+        public bool IsExist(int id)
         {
             return dbSet
                 .AsNoTracking()

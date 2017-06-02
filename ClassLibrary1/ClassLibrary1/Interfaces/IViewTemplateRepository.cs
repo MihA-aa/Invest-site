@@ -9,5 +9,6 @@ namespace DAL.Interfaces
 {
     public interface IViewTemplateRepository : IRepository<ViewTemplate>
     {
+        bool IsExist(int id);
     }
 }

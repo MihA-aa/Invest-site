@@ -11,5 +11,6 @@ namespace DAL.Interfaces
     {
         decimal GetPriceForDate(DateTime date, int symbolId);
         IEnumerable<TradeInforamation> GetMaxDateForGainForSymbol(DateTime dateFrom, DateTime dateTo, int symbolId);
+        TradeSybolView GetPriceAndDateLastUpdate(int symbolId);
     }
 }

@@ -15,5 +15,6 @@ namespace BLL.DTO
         public TemplatePositionsDTO Positions { get; set; }
         public bool ShowPortfolioStats { get; set; }
         public SortingDTO SortOrder { get; set; }
+        public int? SortColumnId { get; set; }
     }
 }

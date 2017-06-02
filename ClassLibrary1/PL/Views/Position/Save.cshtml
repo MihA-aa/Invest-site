@@ -58,6 +58,8 @@
     @Html.HiddenFor(m => m.Gain);
     @Html.HiddenFor(m => m.AbsoluteGain);
     @Html.HiddenFor(m => m.MaxGain);
+    @Html.HiddenFor(m => m.LastUpdateDate);
+    @Html.HiddenFor(m => m.LastUpdatePrice);
     @Html.HiddenFor(m => m.SymbolId, new { id = "SymbolIdHidden" });
 
     <div class="form-group">
@@ -132,4 +134,4 @@
     </div>
 }
 
-@Scripts.Render("~/bundles/myScriptSave")
+@Scripts.Render("~/bundles/myScriptPositionSave")

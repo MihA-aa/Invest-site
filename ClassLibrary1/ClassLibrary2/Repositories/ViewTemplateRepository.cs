@@ -14,5 +14,12 @@ namespace DALEF.Repositories
         public ViewTemplateRepository(ApplicationContext context) : base(context)
         {
         }
+
+        public bool IsExist(int id)
+        {
+            return dbSet
+                .AsNoTracking()
+                .Any(p => p.Id == id);
+        }
     }
 }

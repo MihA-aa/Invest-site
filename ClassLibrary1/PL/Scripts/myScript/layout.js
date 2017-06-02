@@ -140,6 +140,9 @@ $(document).ready(function(){
                     { "data": "CloseDate", "name": "CloseDate", "autoWidth": true, 
                     "render": function (data) {return parseDateTime(data);} },
                     { "data": "Gain", "name": "Gain", "autoWidth": true },
+                    { "data": "LastUpdateDate", "name": "LastUpdateDate", "autoWidth": true,
+                    "render": function (data) {return parseDateTime(data);}},
+                    { "data": "LastUpdatePrice", "name": "LastUpdatePrice", "autoWidth": true },
                     { "data": "AbsoluteGain", "name": "AbsoluteGain", "autoWidth": true },
                     { "data": "MaxGain", "name": "MaxGain", "autoWidth": true }
             ]

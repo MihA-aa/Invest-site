@@ -60,3 +60,4 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migration
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.sefa.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.uy.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.sd.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.asd.resources
