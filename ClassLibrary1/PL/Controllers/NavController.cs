@@ -18,14 +18,16 @@ namespace PL.Controllers
         private ISymbolViewService symbolViewService;
         private ITradeSybolService tradeSybolService;
         private IViewTemplateService viewTemplateService;
+        private IViewTemplateColumnService viewTemplateColumnService;
 
         public NavController(IPortfolioService portfolioService, ISymbolViewService symbolViewService,
-            ITradeSybolService tradeSybolService, IViewTemplateService viewTemplateService)
+            ITradeSybolService tradeSybolService, IViewTemplateService viewTemplateService, IViewTemplateColumnService viewTemplateColumnService)
         {
             this.portfolioService = portfolioService;
             this.symbolViewService = symbolViewService;
             this.tradeSybolService = tradeSybolService;
             this.viewTemplateService = viewTemplateService;
+            this.viewTemplateColumnService = viewTemplateColumnService;
         }
         public PartialViewResult LeftMenu()
         {
@@ -139,6 +141,37 @@ namespace PL.Controllers
             var data = Mapper.Map<IEnumerable<ViewTemplateDTO>, List<ViewTemplateModel>>(viewTemplatesDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
+        
+        [HttpPost]
+        public ActionResult LoadViewColumnTampleteData(int? id)
+        {
+            if (id == null)
+                return Json(new { Success = false });
+
+            var draw = Request.Form?.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var viewTemplateColumnsDto = viewTemplateService.GetViewTemplateColumns(id.Value);
+
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                viewTemplateColumnsDto = viewTemplateColumnsDto.OrderBy(sortColumn + " " + sortColumnDir);
+            }
+
+            totalRecords = viewTemplateColumnsDto.Count();
+            viewTemplateColumnsDto = viewTemplateColumnsDto.Skip(skip).Take(pageSize).ToList();
+            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumnModel>());
+            var data = Mapper.Map<IEnumerable<ViewTemplateColumnDTO>, List<ViewTemplateColumnModel>>(viewTemplateColumnsDto);
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+        }
 
         public ActionResult AutocompleteSymbolSearch(string term)
         {
@@ -146,6 +179,20 @@ namespace PL.Controllers
             return Json(symbols, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult GetNameByTemplateId(int? id)
+        {
+            var name = viewTemplateService.GetNameByTemplateId(id);
+            return Json(new { templateName = name});
+        }
+
+        [HttpPost]
+        public ActionResult GetFormatsForColumn(string column)
+        {
+            var columnFormatsList = viewTemplateColumnService.GetFormatsByColumnName(column);
+            return Json(new { columnFormats = columnFormatsList});
+        }
+        
         [HttpPost]
         public ActionResult CheckIfExist(string value)
         {

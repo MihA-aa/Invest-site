@@ -20,11 +20,13 @@ namespace DALEF.Repositories
         private SymbolDividendRepository symbolDividendRepository;
         private TradeSybolRepository tradeSybolRepository;
         private ViewTemplateRepository viewTemplateRepository;
+        private ViewTemplateColumnRepository viewTemplateColumnRepository;
+        private ColumnRepository columnRepository;
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
         public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
         {
-            db = new ApplicationContext(connectionString);
+            db = new ApplicationContext(/*connectionString*/);
             viewDb = new MyExistingDatabaseContext(connectionStringForExistDB);
         } 
 
@@ -45,6 +47,26 @@ namespace DALEF.Repositories
                 if (roleManager == null)
                     roleManager = new ApplicationRoleManager(new RoleStore<Role>(db));
                 return roleManager;
+            }
+        }
+
+        public IColumnRepository Columns
+        {
+            get
+            {
+                if (columnRepository == null)
+                    columnRepository = new ColumnRepository(db);
+                return columnRepository;
+            }
+        }
+
+        public IViewTemplateColumnRepository ViewTemplateColumns
+        {
+            get
+            {
+                if (viewTemplateColumnRepository == null)
+                    viewTemplateColumnRepository = new ViewTemplateColumnRepository(db);
+                return viewTemplateColumnRepository;
             }
         }
 

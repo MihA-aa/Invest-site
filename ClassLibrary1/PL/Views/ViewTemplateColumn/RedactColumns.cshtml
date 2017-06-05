@@ -1,0 +1,22 @@
+﻿@model int
+@Styles.Render("~/Content/DataTables")
+<div class="tampleteColumnTableContainer">
+    <div style="margin: 10px;">
+        <input type="hidden" value="@Model" id="columnTampleteIndex"/>
+        <a href="/ViewTemplateColumn/Save/0" class="popup btn btn-default myNavBtn">Add</a>
+    </div>
+    <table id="view-template-column-management-jq-table" class="display" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+            <th>№</th>
+            <th>Name</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+@Scripts.Render("~/bundles/dataTables")
+@Scripts.Render("~/bundles/myScriptTampleteColumnManagement")
+

@@ -11,7 +11,9 @@ namespace BLL.DTO
     public class ViewTemplateColumnDTO
     {
         public int Id { get; set; }
+        public int DisplayIndex { get; set; }
         public string Name { get; set; }
-        public ColumnNamesDTO Column { get; set; }
+        public int? ViewTemplateId { get; set; }
+        public int? FormatId { get; set; }
     }
 }

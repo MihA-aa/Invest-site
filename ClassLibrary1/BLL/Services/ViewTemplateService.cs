@@ -34,7 +34,17 @@ namespace BLL.Services
                 .ForMember("SortColumnId", opt => opt.MapFrom(src => src.SortColumn.Id)));
             return Mapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(viewTemplates);
         }
-        
+
+        public string GetNameByTemplateId(int? id)
+        {
+            if (id == null)
+                throw new ValidationException("ViewTemplate Id Not Set", "");
+            var viewTemplate = db.ViewTemplates.Get(id.Value);
+            if (viewTemplate == null)
+                throw new ValidationException("ViewTemplate Not Found", "");
+            return viewTemplate.Name;
+        }
+
         public ViewTemplateDTO GetViewTemplate(int? id)
         {
             if (id == null)

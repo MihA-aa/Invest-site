@@ -11,6 +11,7 @@ namespace BLL.Interfaces
     {
         IEnumerable<ViewTemplateDTO> GetViewTemplates();
         ViewTemplateDTO GetViewTemplate(int? id);
+        string GetNameByTemplateId(int? id);
         IEnumerable<ViewTemplateColumnDTO> GetViewTemplateColumns(int? viewTemplateId);
         void CreateOrUpdateViewTemplate(ViewTemplateDTO viewTemplate);
         void CreateViewTemplate(ViewTemplateDTO viewTemplateDto);

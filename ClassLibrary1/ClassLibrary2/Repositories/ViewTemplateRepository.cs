@@ -21,5 +21,13 @@ namespace DALEF.Repositories
                 .AsNoTracking()
                 .Any(p => p.Id == id);
         }
+
+        public void AddColumnToTemplate(ViewTemplateColumn column, int templateId)
+        {
+            var template = dbSet.Find(templateId);
+            template.Columns.Add(column);
+            column.ViewTemplate = template;
+            column.ViewTemplateId = templateId;
+        }
     }
 }

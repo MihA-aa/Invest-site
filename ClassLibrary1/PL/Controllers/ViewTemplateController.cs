@@ -42,7 +42,7 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(ViewTemplateModel viewTemplate, int? viewTampleteId)
+        public ActionResult Save(ViewTemplateModel viewTemplate)
         {
             bool status = true;
             string message = "", property = "";

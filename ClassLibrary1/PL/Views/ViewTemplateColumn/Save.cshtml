@@ -1,0 +1,130 @@
+﻿
+@model PL.Models.ViewTemplateColumnModel
+<h2 style="margin-top: 5px;">Save</h2>
+
+<style>
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 280px;
+    }
+
+    .myLabelFor {
+        white-space: nowrap;
+        overflow: hidden;
+        margin-left: -5px;
+        margin-right: 5px;
+    }
+</style>
+
+@{
+    #region
+    var columnNamesList = new List<SelectListItem>
+    {
+                        new SelectListItem
+                {
+                    Text = "Absolute Gain",
+                    Value = "Absolute Gain"
+                },
+                new SelectListItem
+                {
+                    Text = "Close Date",
+                    Value = "Close Date"
+                },
+                new SelectListItem
+                {
+                    Text = "Close Price",
+                    Value = "Close Price"
+                },
+                new SelectListItem
+                {
+                    Text = "Current Price",
+                    Value = "Current Price"
+                },
+                new SelectListItem
+                {
+                    Text = "Dividends",
+                    Value = "Dividends"
+                },
+                new SelectListItem
+                {
+                    Text = "Gain",
+                    Value = "Gain"
+                },
+                new SelectListItem
+                {
+                    Text = "Max Gain",
+                    Value = "Max Gain"
+                },
+                new SelectListItem
+                {
+                    Text = "Name",
+                    Value = "Name"
+                },
+                new SelectListItem
+                {
+                    Text = "Open Date",
+                    Value = "Open Date"
+                },
+                new SelectListItem
+                {
+                    Text = "Open Price",
+                    Value = "Open Price"
+                },
+                new SelectListItem
+                {
+                    Text = "Symbol",
+                    Value = "Symbol Name"
+                },
+                new SelectListItem
+                {
+                    Text = "Trade Status",
+                    Value = "Trade Status"
+                },
+                new SelectListItem
+                {
+                    Text = "Trade Type",
+                    Value = "Trade Type"
+                },
+                new SelectListItem
+                {
+                    Text = "Weight",
+                    Value = "Open Weight"
+                }
+    };
+    #endregion
+}
+
+@using (Html.BeginForm("Save", "ViewTemplateColumn", FormMethod.Post, new { id = "popupViewTampleteColumnForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary-errors" })
+    @Html.HiddenFor(m => m.Id);
+    @Html.HiddenFor(m => m.ViewTemplateId, new { id = "ViewTemplateIdHidden" });
+    <div class="form-group">
+        @Html.LabelFor(m => m.ViewTemplate, new {@class = "col-md-2 control-label myLabelFor", style = "margin-right: 35px;" })
+        @Html.TextBoxFor(a => a.ViewTemplate, new {id = "ViewTemplate", @class = "form-control", @readonly = true})
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Column, new { style = "margin-right: 57px; margin-left: 10px;" })
+        @Html.DropDownListFor(model => model.Column, columnNamesList, new { @class = "selectpicker", style = "width: 280px;",
+                                                                                onchange = "columnNameCheck(this);"
+   })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new {@class = "col-md-2 control-label ", style = "margin-right: 31px;"})
+        @Html.TextBoxFor(a => a.Name, new {@class = "form-control", id = "TextBoxForColumnName"})
+        @Html.ValidationMessageFor(a => a.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FormatId, new { style = "margin-right: 63px; margin-left: 10px;" })
+        @Html.DropDownListFor(x => x.FormatId, new []{new SelectListItem {Text = "None", Value="1"}},
+            new {@class = "selectpicker", style = "width: 280px;", id= "DropDownListFormats" })
+
+    </div>
+    <div class="form-group" style="margin-bottom: 40px;">
+        <div class="col-md-offset-2">
+            <input type="submit" value="Save" class="btn btn-default" id="FormSaveSubmit" />
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/myScriptViewTampleteColumnSave")

@@ -32,8 +32,14 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/myScriptViewTampleteSave").Include(
                         "~/Scripts/myScript/saveViewTamplete.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/myScriptViewTampleteColumnSave").Include(
+                        "~/Scripts/myScript/saveViewColumnTamplete.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/myScriptTampleteManagement").Include(
                         "~/Scripts/myScript/tamplete-management.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/myScriptTampleteColumnManagement").Include(
+                        "~/Scripts/myScript/tamplete-column-managemen.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
                         "~/Scripts/bootstrap-select.min.js"));

@@ -46,6 +46,10 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<ViewTemplateService>().As<IViewTemplateService>().
                 InstancePerRequest();
+            builder.RegisterType<ViewTemplateColumnService>().As<IViewTemplateColumnService>().
+                InstancePerRequest();
+
+            
             base.Load(builder);
         }
     }

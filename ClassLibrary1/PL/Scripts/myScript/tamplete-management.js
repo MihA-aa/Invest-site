@@ -23,7 +23,7 @@ $(document).ready(function(){
                     "render": function (data) {return '<a class="popup" href="/ViewTemplate/Delete/'
                      + data + '"><span class="glyphicon glyphicon-remove" style="color: #dc6c6c;"></span></a>';}},
                      { "data": "Id", "name": "Id", "width": "15px", 
-                    "render": function (data) {return '<a class="popup" href="/ViewTemplate/RedactColumns/'
+                    "render": function (data) {return '<a class="popup" href="/ViewTemplateColumn/RedactColumns/'
                      + data + '">Columns</a>';}},
                     { "data": "Name", "name": "Name", "autoWidth": true },
                     { "data": "Positions", "name": "Positions", "autoWidth": true,

@@ -8,18 +8,18 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DALEF.EF
 {
-    public class ApplicationContext : IdentityDbContext<User>/*, IDbContextFactory<ApplicationContext>*/
+    public class ApplicationContext : IdentityDbContext<User>, IDbContextFactory<ApplicationContext>
     {
-        public ApplicationContext(string connectionString) : base(connectionString) { }
+        public ApplicationContext(/*string connectionString*/) : base(/*connectionString*/"DefaultConnection") { }
         static ApplicationContext()
         {
             Database.SetInitializer(new StoreDbInitializer());
         }
 
-        //public ApplicationContext Create()
-        //{
-        //    return new ApplicationContext();
-        //}
+        public ApplicationContext Create()
+        {
+            return new ApplicationContext();
+        }
 
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<Profile> Profiles { get; set; }
@@ -30,6 +30,7 @@ namespace DALEF.EF
         public virtual DbSet<ViewTemplate> ViewTemplates { get; set; }
         public virtual DbSet<View> Views { get; set; }
         public virtual DbSet<ViewTemplateColumn> ViewTemplateColumns { get; set; }
+        public virtual DbSet<Column> Columns { get; set; }
     }
 
     public class StoreDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationContext>
@@ -418,125 +419,227 @@ namespace DALEF.EF
             db.ViewTemplates.Add(viewTemplate2);
             #endregion
 
+            #region Columns Inizialize
+
+            Column Name = new Column
+            {
+                Id = 1,
+                Name = "Name",
+                Format = LineFormat
+            };
+            Column SymbolName = new Column
+            {
+                Id = 2,
+                Name = "Symbol Name",
+                Format = LineFormat
+            };
+            Column OpenPrice = new Column
+            {
+                Id = 3,
+                Name = "Open Price",
+                Format = MoneyFormat
+            };
+            Column OpenDate = new Column
+            {
+                Id = 4,
+                Name = "Open Date",
+                Format = DateFormat
+            };
+            Column OpenWeight = new Column
+            {
+                Id = 5,
+                Name = "Open Weight",
+                Format = NoneFormat
+            };
+            Column CurrentPrice = new Column
+            {
+                Id = 6,
+                Name = "Current Price",
+                Format = MoneyFormat
+            };
+            Column ClosePrice = new Column
+            {
+                Id = 7,
+                Name = "Close Price",
+                Format = MoneyFormat
+            };
+            Column CloseDate = new Column
+            {
+                Id = 8,
+                Name = "Close Date",
+                Format = DateFormat
+            };
+            Column TradeType = new Column
+            {
+                Id = 9,
+                Name = "Trade Type",
+                Format = NoneFormat
+            };
+            Column TradeStatus = new Column
+            {
+                Id = 10,
+                Name = "Trade Status",
+                Format = NoneFormat
+            };
+            Column Dividends = new Column
+            {
+                Id = 11,
+                Name = "Dividends",
+                Format = MoneyFormat
+            };
+            Column Gain = new Column
+            {
+                Id = 12,
+                Name = "Gain",
+                Format = MoneyFormat
+            };
+            Column AbsoluteGain = new Column
+            {
+                Id = 13,
+                Name = "Absolute Gain",
+                Format = PercentFormat
+            };
+            Column MaxGain = new Column
+            {
+                Id = 14,
+                Name = "Max Gain",
+                Format = MoneyFormat
+            };
+            db.Columns.Add(Name);
+            db.Columns.Add(SymbolName);
+            db.Columns.Add(OpenPrice);
+            db.Columns.Add(OpenDate);
+            db.Columns.Add(OpenWeight);
+            db.Columns.Add(CurrentPrice);
+            db.Columns.Add(ClosePrice);
+            db.Columns.Add(CloseDate);
+            db.Columns.Add(TradeType);
+            db.Columns.Add(TradeStatus);
+            db.Columns.Add(Dividends);
+            db.Columns.Add(Gain);
+            db.Columns.Add(AbsoluteGain);
+            db.Columns.Add(MaxGain);
+            #endregion
+
             #region ViewTemplateColumns Inizialize
             ViewTemplateColumn viewTemplateColumn1 = new ViewTemplateColumn
             {
                 Id = 1,
                 Name = "Name",
-                Column = ColumnNames.Name,
-                Format = LineFormat,
+                Column = Name,
+                ColumnFormat = Linked,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
             {
                 Id = 2,
                 Name = "Symbol",
-                Column = ColumnNames.SymbolName,
-                Format = LineFormat,
+                Column = SymbolName,
+                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn3 = new ViewTemplateColumn
             {
                 Id = 4,
                 Name = "Open Price",
-                Column = ColumnNames.OpenPrice,
-                Format = MoneyFormat,
+                Column = OpenPrice,
+                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn4 = new ViewTemplateColumn
             {
                 Id = 5,
                 Name = "Open Date",
-                Column = ColumnNames.OpenDate,
-                Format = DateFormat,
+                Column = OpenDate,
+                ColumnFormat = DateAndTime,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn5 = new ViewTemplateColumn
             {
                 Id = 3,
                 Name = "Weight",
-                Column = ColumnNames.OpenWeight,
-                Format = NoneFormat,
+                Column = OpenWeight,
+                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn6 = new ViewTemplateColumn
             {
                 Id = 6,
                 Name = "Current Price",
-                Column = ColumnNames.CurrentPrice,
-                Format = MoneyFormat,
+                Column = CurrentPrice,
+                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn7 = new ViewTemplateColumn
             {
                 Id = 7,
                 Name = "Close Price",
-                Column = ColumnNames.ClosePrice,
-                Format = MoneyFormat,
+                Column = ClosePrice,
+                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn8 = new ViewTemplateColumn
             {
                 Id = 8,
                 Name = "Close Date",
-                Column = ColumnNames.CloseDate,
-                Format = DateFormat,
+                Column = CloseDate,
+                ColumnFormat = DateAndTime,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn9 = new ViewTemplateColumn
             {
                 Id = 9,
                 Name = "Trade Type",
-                Column = ColumnNames.TradeType,
-                Format = NoneFormat,
+                Column = TradeType,
+                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn10 = new ViewTemplateColumn
             {
                 Id = 10,
                 Name = "Trade Status",
-                Column = ColumnNames.TradeStatus,
-                Format = NoneFormat,
+                Column = TradeStatus,
+                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn11 = new ViewTemplateColumn
             {
                 Id = 11,
                 Name = "Dividends",
-                Column = ColumnNames.Dividends,
-                Format = MoneyFormat,
+                Column = Dividends,
+                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn12 = new ViewTemplateColumn
             {
                 Id = 12,
                 Name = "Absolute Gain",
-                Column = ColumnNames.AbsoluteGain,
-                Format = PercentFormat,
+                Column = AbsoluteGain,
+                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn13 = new ViewTemplateColumn
             {
                 Id = 13,
                 Name = "Max Gain",
-                Column = ColumnNames.MaxGain,
-                Format = MoneyFormat,
+                Column = MaxGain,
+                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn14 = new ViewTemplateColumn
             {
                 Id = 14,
                 Name = "Gain",
-                Column = ColumnNames.MaxGain,
-                Format = MoneyFormat,
+                Column = Gain,
+                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn21 = new ViewTemplateColumn
             {
                 Id = 15,
                 Name = "Name",
-                Column = ColumnNames.Name,
-                Format = LineFormat,
+                Column = Name,
+                ColumnFormat = None,
                 ViewTemplateId = 2
             };
             db.ViewTemplateColumns.Add(viewTemplateColumn1);
