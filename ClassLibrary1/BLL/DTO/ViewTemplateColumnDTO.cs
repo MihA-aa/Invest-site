@@ -13,6 +13,7 @@ namespace BLL.DTO
         public int Id { get; set; }
         public int DisplayIndex { get; set; }
         public string Name { get; set; }
+        public string ColumnName { get; set; }
         public int? ViewTemplateId { get; set; }
         public int? FormatId { get; set; }
     }

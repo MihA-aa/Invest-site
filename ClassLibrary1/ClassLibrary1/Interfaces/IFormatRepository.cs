@@ -7,9 +7,7 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IColumnRepository : IRepository<Column>
+    public interface IFormatRepository : IRepository<Format>
     {
-        Format GetFormatsByColumnName(string column);
-        Column GetColumnByColumnName(string column);
     }
 }

@@ -527,7 +527,6 @@ namespace DALEF.EF
                 Id = 1,
                 Name = "Name",
                 Column = Name,
-                ColumnFormat = Linked,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
@@ -535,7 +534,6 @@ namespace DALEF.EF
                 Id = 2,
                 Name = "Symbol",
                 Column = SymbolName,
-                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn3 = new ViewTemplateColumn
@@ -543,7 +541,6 @@ namespace DALEF.EF
                 Id = 4,
                 Name = "Open Price",
                 Column = OpenPrice,
-                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn4 = new ViewTemplateColumn
@@ -551,7 +548,6 @@ namespace DALEF.EF
                 Id = 5,
                 Name = "Open Date",
                 Column = OpenDate,
-                ColumnFormat = DateAndTime,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn5 = new ViewTemplateColumn
@@ -559,7 +555,6 @@ namespace DALEF.EF
                 Id = 3,
                 Name = "Weight",
                 Column = OpenWeight,
-                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn6 = new ViewTemplateColumn
@@ -567,7 +562,6 @@ namespace DALEF.EF
                 Id = 6,
                 Name = "Current Price",
                 Column = CurrentPrice,
-                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn7 = new ViewTemplateColumn
@@ -575,7 +569,6 @@ namespace DALEF.EF
                 Id = 7,
                 Name = "Close Price",
                 Column = ClosePrice,
-                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn8 = new ViewTemplateColumn
@@ -583,7 +576,6 @@ namespace DALEF.EF
                 Id = 8,
                 Name = "Close Date",
                 Column = CloseDate,
-                ColumnFormat = DateAndTime,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn9 = new ViewTemplateColumn
@@ -591,7 +583,6 @@ namespace DALEF.EF
                 Id = 9,
                 Name = "Trade Type",
                 Column = TradeType,
-                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn10 = new ViewTemplateColumn
@@ -599,7 +590,6 @@ namespace DALEF.EF
                 Id = 10,
                 Name = "Trade Status",
                 Column = TradeStatus,
-                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn11 = new ViewTemplateColumn
@@ -607,7 +597,6 @@ namespace DALEF.EF
                 Id = 11,
                 Name = "Dividends",
                 Column = Dividends,
-                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn12 = new ViewTemplateColumn
@@ -615,7 +604,6 @@ namespace DALEF.EF
                 Id = 12,
                 Name = "Absolute Gain",
                 Column = AbsoluteGain,
-                ColumnFormat = None,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn13 = new ViewTemplateColumn
@@ -623,7 +611,6 @@ namespace DALEF.EF
                 Id = 13,
                 Name = "Max Gain",
                 Column = MaxGain,
-                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn14 = new ViewTemplateColumn
@@ -631,7 +618,6 @@ namespace DALEF.EF
                 Id = 14,
                 Name = "Gain",
                 Column = Gain,
-                ColumnFormat = Money,
                 ViewTemplateId = 1
             };
             ViewTemplateColumn viewTemplateColumn21 = new ViewTemplateColumn
@@ -639,7 +625,6 @@ namespace DALEF.EF
                 Id = 15,
                 Name = "Name",
                 Column = Name,
-                ColumnFormat = None,
                 ViewTemplateId = 2
             };
             db.ViewTemplateColumns.Add(viewTemplateColumn1);

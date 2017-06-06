@@ -85,6 +85,7 @@
     <Compile Include="Enums\TradeTypes.cs" />
     <Compile Include="Interfaces\IColumnRepository.cs" />
     <Compile Include="Interfaces\ICustomerRepository.cs" />
+    <Compile Include="Interfaces\IFormatRepository.cs" />
     <Compile Include="Interfaces\IPortfolioRepository.cs" />
     <Compile Include="Interfaces\IPositionRepository.cs" />
     <Compile Include="Interfaces\IProfileRepository.cs" />

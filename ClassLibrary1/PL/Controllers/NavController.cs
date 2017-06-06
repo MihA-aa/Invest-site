@@ -168,7 +168,8 @@ namespace PL.Controllers
 
             totalRecords = viewTemplateColumnsDto.Count();
             viewTemplateColumnsDto = viewTemplateColumnsDto.Skip(skip).Take(pageSize).ToList();
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumnModel>());
+            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumnModel>()
+            .ForMember("DT_RowId", opt => opt.MapFrom(src => src.Id)));
             var data = Mapper.Map<IEnumerable<ViewTemplateColumnDTO>, List<ViewTemplateColumnModel>>(viewTemplateColumnsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
@@ -219,6 +220,12 @@ namespace PL.Controllers
         public void RefreshPortfolioDisplayIndex(Dictionary<string, string> portfolios)
         {
             portfolioService.UpdatePortfoliosDisplayIndex(portfolios);
+        }
+
+        [HttpPost]
+        public void UpdateColumnOrder(int id, int fromPosition, int toPosition, string direction)
+        {
+            viewTemplateColumnService.UpdateColumnOrder(id, fromPosition, toPosition, direction);
         }
     }
 }

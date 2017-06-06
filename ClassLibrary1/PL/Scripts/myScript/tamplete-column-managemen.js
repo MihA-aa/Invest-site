@@ -9,7 +9,8 @@ columnTampleteIndex = $("#columnTampleteIndex").attr('value');
         .DataTable({
             "processing": false,
             "serverSide": true,
-            "orderMulti": false,
+             "orderMulti": false,
+              "rowReorder": true,
              "dom": '<"top"i>rt<"bottom"lp><"clear">',
             "ajax": {
                 "url": "/Nav/LoadViewColumnTampleteData",
@@ -21,8 +22,8 @@ columnTampleteIndex = $("#columnTampleteIndex").attr('value');
                 }
             },
             "columns": [
-                    { "data": "DisplayIndex", "name": "DisplayIndex", "autoWidth": true },
-                    { "data": "Name", "name": "Name", "width": "5px" },
+                    { "data": "DisplayIndex", "name": "DisplayIndex", "width": "5px", "DT_RowID":"row_1243112"},
+                    { "data": "Name", "name": "Name", "autoWidth": true },
                     { "data": "Id", "name": "Id", "width": "5px", 
                     "render": function (data) {return '<a class="popup" href="/ViewTemplateColumn/Save/'
                      + data + '"><span class="glyphicon glyphicon-pencil" style="color: #80b78c;"></span></a>';}},
@@ -35,6 +36,7 @@ columnTampleteIndex = $("#columnTampleteIndex").attr('value');
         e.preventDefault();
         OpenTampleteTablePopup($(this).attr('href'));
     })
+
 
 function OpenTampleteTablePopup(pageUrl) {
     var $tampleteColumnTablePageContent = $('<div/>');
@@ -83,6 +85,9 @@ function OpenTampleteTablePopup(pageUrl) {
     $viewTampleteColumndialog.dialog('open');
     $viewTampleteColumndialog.dialog({ closeText: "" });
 }
+
+tableViewTampleteColumnManagement.rowReordering({ 
+    sURL: "/Nav/UpdateColumnOrder" });
 });
 
 function buildColumnSearchData(){

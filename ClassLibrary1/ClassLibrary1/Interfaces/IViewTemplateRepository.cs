@@ -11,5 +11,7 @@ namespace DAL.Interfaces
     {
         bool IsExist(int id);
         void AddColumnToTemplate(ViewTemplateColumn column, int templateId);
+        int GetCountColumnInTemplate(int templateId);
+        int GetTemplateIdByColumnId(int columnId);
     }
 }

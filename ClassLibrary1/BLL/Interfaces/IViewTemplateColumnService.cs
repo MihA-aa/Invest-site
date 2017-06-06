@@ -16,6 +16,7 @@ namespace BLL.Interfaces
         void DeleteViewTemplateColumn(int? id);
         ViewTemplateColumnDTO GetViewTemplateColumn(int? id);
         IEnumerable<ColumnFormatDTO> GetFormatsByColumnName(string column);
+        void UpdateColumnOrder(int id, int fromPosition, int toPosition, string direction);
 
     }
 }

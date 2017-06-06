@@ -22,6 +22,7 @@ namespace DALEF.Repositories
         private ViewTemplateRepository viewTemplateRepository;
         private ViewTemplateColumnRepository viewTemplateColumnRepository;
         private ColumnRepository columnRepository;
+        private FormatRepository formatRepository;
         private ApplicationUserManager userManager;
         private ApplicationRoleManager roleManager;
         public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
@@ -47,6 +48,16 @@ namespace DALEF.Repositories
                 if (roleManager == null)
                     roleManager = new ApplicationRoleManager(new RoleStore<Role>(db));
                 return roleManager;
+            }
+        }
+
+        public IFormatRepository Formats
+        {
+            get
+            {
+                if (formatRepository == null)
+                    formatRepository = new FormatRepository(db);
+                return formatRepository;
             }
         }
 

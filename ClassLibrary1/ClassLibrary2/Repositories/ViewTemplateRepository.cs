@@ -29,5 +29,15 @@ namespace DALEF.Repositories
             column.ViewTemplate = template;
             column.ViewTemplateId = templateId;
         }
+
+        public int GetCountColumnInTemplate(int templateId)
+        {
+            return dbSet.Find(templateId)?.Columns.Count() ?? 0;
+        }
+
+        public int GetTemplateIdByColumnId(int columnId)
+        {
+            return dbSet.FirstOrDefault(x => x.Columns.Any(p => p.Id == columnId))?.Id ?? 0;
+        }
     }
 }

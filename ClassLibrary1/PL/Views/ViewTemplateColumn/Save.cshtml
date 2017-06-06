@@ -99,14 +99,15 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary-errors" })
     @Html.HiddenFor(m => m.Id);
     @Html.HiddenFor(m => m.ViewTemplateId, new { id = "ViewTemplateIdHidden" });
+    @Html.HiddenFor(m => m.DisplayIndex, new { id = "DisplayIndexHidden" });
     <div class="form-group">
         @Html.LabelFor(m => m.ViewTemplate, new {@class = "col-md-2 control-label myLabelFor", style = "margin-right: 35px;" })
         @Html.TextBoxFor(a => a.ViewTemplate, new {id = "ViewTemplate", @class = "form-control", @readonly = true})
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Column, new { style = "margin-right: 57px; margin-left: 10px;" })
-        @Html.DropDownListFor(model => model.Column, columnNamesList, new { @class = "selectpicker", style = "width: 280px;",
-                                                                                onchange = "columnNameCheck(this);"
+        @Html.LabelFor(model => model.ColumnName, new { style = "margin-right: 57px; margin-left: 10px;" })
+        @Html.DropDownListFor(model => model.ColumnName, columnNamesList, new { @class = "selectpicker", style = "width: 280px;",
+                                                            id = "ColumnNameValue",    onchange = "columnNameCheck(this);"
    })
     </div>
     <div class="form-group">

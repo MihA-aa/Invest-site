@@ -27,7 +27,7 @@ namespace PL.Controllers
             if (id == null)
             {
                 logger.Error("Id of ViewTemplate not set");
-                return HttpNotFound();
+                return RedirectToAction("Http404", "Error");
             }
             return PartialView(id);
         }
@@ -85,7 +85,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 logger.Error(ex.ToString());
-                return HttpNotFound();
+                return RedirectToAction("Http500", "Error");
             }
             return PartialView();
         }

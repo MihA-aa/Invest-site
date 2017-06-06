@@ -18,5 +18,10 @@ namespace DALEF.Repositories
         {
             return dbSet.FirstOrDefault(c => c.Name == column)?.Format;
         }
+
+        public Column GetColumnByColumnName(string column)
+        {
+            return dbSet.FirstOrDefault(c => c.Name == column);
+        }
     }
 }

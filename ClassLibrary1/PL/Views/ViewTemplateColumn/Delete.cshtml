@@ -1,1 +1,10 @@
 ﻿
+<h2>Delete</h2>
+@using (Html.BeginForm("Delete", "ViewTemplateColumn", FormMethod.Post, new { id = "popupViewTampleteColumnForm" }))
+{
+    <input type="hidden" value="@ViewBag.Id" />
+    <p>Are you sure you want to delete this record?</p>
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}

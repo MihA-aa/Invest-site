@@ -18,7 +18,8 @@ namespace PL
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
-                        "~/Scripts/DataTables/jquery.dataTables.js"));
+                        "~/Scripts/DataTables/jquery.dataTables.min.js",
+                        "~/Scripts/DataTables/jquery.dataTables.rowReordering.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jQueryUI").Include(
                         "~/Scripts/jquery-ui-1.12.1.min.js"));

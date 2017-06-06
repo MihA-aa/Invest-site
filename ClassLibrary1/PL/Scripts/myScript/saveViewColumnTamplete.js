@@ -1,6 +1,10 @@
 
 $(document).ready(function(){
 	getNameOfTemplate(columnTampleteIndex);
+    var curPos = $("#ColumnNameValue [selected='selected']").attr('value')
+    if (curPos != undefined){
+        getFormatsForColumn(curPos)
+    }
 })
 
 $(".selectpicker").selectpicker({
@@ -20,7 +24,9 @@ function getNameOfTemplate(id){
 
 function columnNameCheck(that) {
     $("#TextBoxForColumnName").val(that.value);
-     getFormatsForColumn(that.value);
+    getFormatsForColumn(that.value);
+    $("#DropDownListFormats option:first").attr('selected','selected');
+    $('#DropDownListFormats').selectpicker('refresh');
 }
 
 function getFormatsForColumn(column){
@@ -35,7 +41,6 @@ function getFormatsForColumn(column){
 			}
         	$("select#DropDownListFormats").empty();
 			$('select#DropDownListFormats').append(option);
-			$("#DropDownListFormats option:first").attr('selected','selected');
 			$('#DropDownListFormats').selectpicker('refresh');
          },
     });

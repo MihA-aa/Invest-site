@@ -10,5 +10,7 @@ namespace DAL.Interfaces
     public interface IViewTemplateColumnRepository : IRepository<ViewTemplateColumn>
     {
         bool IsExist(int id);
+        void UpdateColumnOrder(int id, int fromPosition, int toPosition, string direction, int templateId);
+        void SortDisplayIndex(int templateId);
     }
 }

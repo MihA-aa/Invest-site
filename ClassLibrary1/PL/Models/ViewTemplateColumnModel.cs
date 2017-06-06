@@ -12,7 +12,8 @@ namespace PL.Models
     {
         public int Id { get; set; }
 
-        public int DisplayIndex { get; set; }
+        public int? DisplayIndex { get; set; }
+        public string DT_RowId { get; set; }
 
         [Required]
         [Display(Name = "Name")]
@@ -20,7 +21,7 @@ namespace PL.Models
 
         [Required]
         [Display(Name = "Column")]
-        public string Column { get; set; }
+        public string ColumnName { get; set; }
         
 
         public string ViewTemplate { get; set; }
