@@ -98,106 +98,133 @@ var tableTradeManagement;
 
 $(document).ready(function(){
 
-    var customColumns = [
-                    { "data": "Id", "name": "Id", "width": "10px", 
-                    "render": function (data) {return getSaveActionLink(data);}},
-                     { "data": "Id", "name": "Id", "width": "10px", 
-                    "render": function (data) {return getDeleteActionLink(data)}},
-                    { "data": "Name", "name": "Name", "autoWidth": true },
-                    { "data": "SymbolName", "name": "SymbolName", "autoWidth": true },
-                    { "data": "OpenPrice", "name": "OpenPrice", "autoWidth": true },
-                    { "data": "OpenDate", "name": "OpenDate", "autoWidth": true, 
-                    "render": function (data) {return parseDateTime(data);} },
-                    { "data": "OpenWeight", "name": "OpenWeight", "autoWidth": true },
-                    { "data": "CurrentPrice", "name": "CurrentPrice", "autoWidth": true },
-                    { "data": "TradeStatus", "name": "TradeStatus", "autoWidth": true , 
-                    "render": function (data) {return parseTradeStatus(data);} },
-                    { "data": "ClosePrice", "name": "ClosePrice", "autoWidth": true },
-                    { "data": "CloseDate", "name": "CloseDate", "autoWidth": true, 
-                    "render": function (data) {return parseDateTime(data);} },
-                    { "data": "Gain", "name": "Gain", "autoWidth": true },
-                    { "data": "LastUpdateDate", "name": "LastUpdateDate", "autoWidth": true,
-                    "render": function (data) {return parseDateTime(data);}},
-                    { "data": "LastUpdatePrice", "name": "LastUpdatePrice", "autoWidth": true },
-                    { "data": "AbsoluteGain", "name": "AbsoluteGain", "autoWidth": true },
-                    { "data": "MaxGain", "name": "MaxGain", "autoWidth": true }
-            ];
-
-        loadTradeManagement();
-
-        $.ajax({
-            url: "/Nav/TestData",
-            type: "POST",
-            data: { id: 1 },
-            success: function (result) {
-                console.log(result.columns);
-
-                $.each(result.columns, function( index, value ) {
-                     if(result.columns[index].render == "saveActionLink")
-                        result.columns[index].render = function (data) {return getSaveActionLink(data);};
-                    else if(result.columns[index].render == "deleteActionLink")
-                        result.columns[index].render = function (data) {return getDeleteActionLink(data);};
-                    else
-                        delete result.columns[index].render;
-                });
-                console.log(result.columns[0].render);
-
-        tableTradeManagement =  $('#trade-management-jq-table')
-                .on( 'processing.dt', function ( e, settings, processing ) 
-                    {$('#loader').css( 'display', processing ? 'block' : 'none' );})
-                .DataTable({
-                "processing": false,
-                "serverSide": true,
-                "orderMulti": false,
-                 "dom": '<"top"i>rt<"bottom"lp><"clear">',
-                "ajax": {
-                    "url": "/Nav/LoadData",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": function ( d ) {
-                          $.extend(d, tradeManagementIndex);
-                          d.id = tradeManagementIndex;
-                          var dt_params = $('#trade-management-jq-table').data('dt_params');
-                          if(dt_params){ $.extend(d, dt_params); }
-                       },
-                    "error": function (xhr) {
-                        MyAlert(xhr.statusText);
-                    }
-                },
-                "columns": result.columns
-            });
-
-            }
-        });
-
-        // tableTradeManagement =  $('#trade-management-jq-table')
-        // .DataTable({
-        //     "processing": false,
-        //     "serverSide": true,
-        //     "orderMulti": false,
-        //      "dom": '<"top"i>rt<"bottom"lp><"clear">',
-        //     "ajax": {
-        //         "url": "/Nav/LoadData",
+        // $.ajax({
+        //         "url": '/Nav/TestData',
         //         "type": "POST",
         //         "datatype": "json",
-        //         "data": function ( d ) {
-        //               $.extend(d, tradeManagementIndex);
-        //               d.id = tradeManagementIndex;
-        //               var dt_params = $('#trade-management-jq-table').data('dt_params');
-        //               if(dt_params){ $.extend(d, dt_params); }
-        //            },
-        //         "error": function (xhr) {
-        //             MyAlert(xhr.statusText);
-        //         }
-        //     },
-        //     "columns": customColumns
-        // });
+        //         "data": { "id": 1},
+        //         "success": function(json) {
+        //             var tableHeaders = "";
+        //             console.log(JSON.parse(json.columns));
+        //             console.log(JSON.stringify(json.data));
+        //             $.each(JSON.parse(json.columns), function(i, val){
+        //                 tableHeaders += "<th>" + val + "</th>";
+        //             });
+        //              console.log(tableHeaders);
+        //             $("#tableDiv").empty();
+        //             $("#tableDiv").append('<table id="displayTable" class="display" cellspacing="0" width="100%"><thead><tr>' + tableHeaders + '</tr></thead></table>');
+        //              // $('#displayTable').DataTable();
+
+        //             // $('#displayTable').DataTable( {
+        //             //     // "columns": json.columns,
+        //             //     // "data":[
+        //             //     // [
+        //             //     // 4,
+        //             //     // "Bob",
+        //             //     // 7,
+        //             //     // "None",
+        //             //     // 4,
+        //             //     // "Bob",
+        //             //     // 7,
+        //             //     // "None",
+        //             //     // 4,
+        //             //     // "Bob",
+        //             //     // 7,
+        //             //     // "None",
+        //             //     // 4,
+        //             //     // "Bob",
+        //             //     // 7,
+        //             //     // "None"
+        //             //     // ]]
+        //             // } );
+
+        //              $('#displayTable').DataTable({
+
+        //              "columns": JSON.parse(json.columns)
+        //              });
+        //         },
+        //          "dataType": "json"
+        //     });
 
 
-$('.tablecontainer').on('click', 'a.popup', function (e) {
-    e.preventDefault();
-    OpenPopup($(this).attr('href'));
-})
+jQuery(document).ready(function() {
+    var dataObject = eval('[{"COLUMNS":[{ "title": "NAME"}, { "title": "COUNTY"}],"DATA":[["John Doe","Fresno"],["Billy","Fresno"],["Tom","Kern"],["King Smith","Kings"]]}]');
+    var columns = [];
+    $('#trade-management-jq-table').dataTable({
+        "data": dataObject[0].DATA,
+        "columns": dataObject[0].COLUMNS
+    });
+});
+
+
+// var columns = [
+//     { "title":"One" },
+//     { "title":"Two" },
+//     { "title":"Three" }
+// ];
+// var data = [
+//     [ "Row 1 - Field 1", "Row 1 - Field 2", "Row 1 - Field 3" ],
+//     [ "Row 2 - Field 1", "Row 2 - Field 2", "Row 2 - Field 3" ],
+// ];
+//         loadTradeManagement();
+//         tableTradeManagement =  $('#trade-management-jq-table')
+//         .on( 'processing.dt', function ( e, settings, processing ) 
+//             {$('#loader').css( 'display', processing ? 'block' : 'none' );})
+//         .DataTable({
+//             "processing": false,
+//             "serverSide": true,
+//             "orderMulti": false,
+//              "dom": '<"top"i>rt<"bottom"lp><"clear">',
+//             "columns": columns,
+//             "data": [
+//     [ "Row 1 - Field 1", "Row 1 - Field 2", "Row 1 - Field 3" ],
+//     [ "Row 2 - Field 1", "Row 2 - Field 2", "Row 2 - Field 3" ],
+// ]
+//             // "ajax": {
+//             //     "url": "/Nav/LoadData",
+//             //     "type": "POST",
+//             //     "datatype": "json",
+//             //     "data": function ( d ) {
+//             //           $.extend(d, tradeManagementIndex);
+//             //           d.id = tradeManagementIndex;
+//             //           var dt_params = $('#trade-management-jq-table').data('dt_params');
+//             //           if(dt_params){ $.extend(d, dt_params); }
+//             //        },
+//             //     "error": function (xhr) {
+//             //         MyAlert(xhr.statusText);
+//             //     }
+//             // }
+//             // "columns": [
+//             //         { "title":"One","data": "Id", "name": "Id", "width": "10px", 
+//             //         "render": function (data) {return '<a class="popup" href="/Position/Save/'
+//             //          + data + '"><span class="glyphicon glyphicon-pencil" style="color: #80b78c;"></span></a>';}},
+//             //          { "data": "Id", "name": "Id", "width": "10px", 
+//             //         "render": function (data) {return '<a class="popup" href="/Position/Delete/'
+//             //          + data + '"><span class="glyphicon glyphicon-remove" style="color: #dc6c6c;"></span></a>';}},
+//             //         { "data": "Name", "name": "Name", "autoWidth": true },
+//             //         { "data": "SymbolName", "name": "SymbolName", "autoWidth": true },
+//             //         { "data": "OpenPrice", "name": "OpenPrice", "autoWidth": true },
+//             //         { "data": "OpenDate", "name": "OpenDate", "autoWidth": true, 
+//             //         "render": function (data) {return parseDateTime(data);} },
+//             //         { "data": "OpenWeight", "name": "OpenWeight", "autoWidth": true },
+//             //         { "data": "CurrentPrice", "name": "CurrentPrice", "autoWidth": true },
+//             //         { "data": "TradeStatus", "name": "TradeStatus", "autoWidth": true , 
+//             //         "render": function (data) {return parseTradeStatus(data);} },
+//             //         { "data": "ClosePrice", "name": "ClosePrice", "autoWidth": true },
+//             //         { "data": "CloseDate", "name": "CloseDate", "autoWidth": true, 
+//             //         "render": function (data) {return parseDateTime(data);} },
+//             //         { "data": "Gain", "name": "Gain", "autoWidth": true },
+//             //         { "data": "LastUpdateDate", "name": "LastUpdateDate", "autoWidth": true,
+//             //         "render": function (data) {return parseDateTime(data);}},
+//             //         { "data": "LastUpdatePrice", "name": "LastUpdatePrice", "autoWidth": true },
+//             //         { "data": "AbsoluteGain", "name": "AbsoluteGain", "autoWidth": true },
+//             //         { "data": "MaxGain", "name": "MaxGain", "autoWidth": true }
+//             // ]
+//         });
+//     $('.tablecontainer').on('click', 'a.popup', function (e) {
+//         e.preventDefault();
+//         OpenPopup($(this).attr('href'));
+//     })
 
 function OpenPopup(pageUrl) {
     var $pageContent = $('<div/>');
@@ -262,8 +289,6 @@ $("#alertErrorDialog").dialog({
         }
     }
 });
-
-
 
 function MyAlert(message) {
     $("#errorDialogText").text(message);
@@ -394,12 +419,4 @@ function parseTradeStatus(data){
   default:
     return( ' ' );
     }
-}
-
-function getSaveActionLink(data){
-    return '<a class="popup" href="/Position/Save/' + data + '"><span class="glyphicon glyphicon-pencil" style="color: #80b78c;"></span></a>';
-}
-
-function getDeleteActionLink(data){
-    return '<a class="popup" href="/Position/Delete/'+ data + '"><span class="glyphicon glyphicon-remove" style="color: #dc6c6c;"></span></a>';
 }

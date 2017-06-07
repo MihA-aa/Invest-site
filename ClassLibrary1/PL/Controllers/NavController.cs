@@ -9,6 +9,7 @@ using BLL.Interfaces;
 using PL.Models;
 using System.Linq.Dynamic;
 using System.Web.WebPages;
+using Newtonsoft.Json;
 
 namespace PL.Controllers
 {
@@ -52,7 +53,39 @@ namespace PL.Controllers
             TempData["PortfolioId"] = portfolioDto.Id;
             return PartialView(portfolio);
         }
-        
+
+        [HttpPost]
+        public ActionResult TestData(int? id)
+        {
+            //var positionsDto = portfolioService.GetPortfolioPositions(id);
+            //Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
+            //var data = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
+
+            //var columns = new List <string>
+            //{
+            //    "Name", "SymbolName", "OpenPrice", "OpenDate", "OpenWeight", "CurrentPrice",
+            //    "TradeStatus","ClosePrice", "CloseDate", "Gain", "LastUpdateDate", "LastUpdatePrice",
+            //    "AbsoluteGain", "MaxGain"
+            //};
+            //var s = JsonConvert.SerializeObject(columns);
+            //var m = JsonConvert.SerializeObject(data);
+            ////        "columns": [
+            ////    [ "title": "Index" ],
+            ////    [ "title": "Name" ],
+            ////    [ "title": "Age" ],
+            ////    [ "title": "Image" ]
+            ////]
+
+            var columns = new[]
+            {
+                new {data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "saveActionLink"},
+                new {data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "deleteActionLink"},
+                new {data = "Name", name = "Name", autoWidth = "true", width = "null", render = ""},
+                new {data = "SymbolName", name = "SymbolName", autoWidth = "true", width = "null", render = ""}
+            };
+            return Json(new { columns = columns }, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult LoadData(int? id)
         {
@@ -66,12 +99,12 @@ namespace PL.Controllers
             var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
-            var symbolName = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var status = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
-            var openDateFrom = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            var openDateTo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
-            var closeDateFrom = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
-            var closeDateTo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
+            //var symbolName = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            //var status = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            //var openDateFrom = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            //var openDateTo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            //var closeDateFrom = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+            //var closeDateTo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
 
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
@@ -80,34 +113,34 @@ namespace PL.Controllers
             var positionsDto = portfolioService.GetPortfolioPositions(id);
 
             #region Searching and sorting 
-            if (!string.IsNullOrEmpty(openDateFrom))
-            {
-                positionsDto = positionsDto.Where(p => p.OpenDate.Date >= openDateFrom.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(openDateTo))
-            {
-                positionsDto = positionsDto.Where(p => p.OpenDate.Date <= openDateTo.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(closeDateFrom))
-            {
-                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date >= closeDateFrom.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(closeDateTo))
-            {
-                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date <= closeDateTo.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(symbolName))
-            {
-                positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
-            }
-            if (!string.IsNullOrEmpty(status))
-            {
-                positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == status);
-            }
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            {
-                positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
-            }
+            //if (!string.IsNullOrEmpty(openDateFrom))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.OpenDate.Date >= openDateFrom.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(openDateTo))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.OpenDate.Date <= openDateTo.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(closeDateFrom))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date >= closeDateFrom.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(closeDateTo))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date <= closeDateTo.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(symbolName))
+            //{
+            //    positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
+            //}
+            //if (!string.IsNullOrEmpty(status))
+            //{
+            //    positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == status);
+            //}
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
+            //}
             #endregion
 
             totalRecords = positionsDto.Count();

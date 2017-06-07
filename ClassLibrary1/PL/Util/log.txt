@@ -2987,3 +2987,5 @@ Parameter name: parameters
    at BLL.Services.ViewService.CreateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 62
    at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 55
    at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-07 16:17:18,880 [13] ERROR PL.Controllers.PositionController http://localhost:22860/bundles/myScriptPositionSave not found
+2017-06-07 17:11:48,508 [12] ERROR PL.Controllers.PositionController http://localhost:22860/bundles/myScriptPositionSave not found
