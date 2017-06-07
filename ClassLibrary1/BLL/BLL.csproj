@@ -96,6 +96,7 @@
     <Compile Include="Interfaces\ITradeSybolService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IValidateService.cs" />
+    <Compile Include="Interfaces\IViewService.cs" />
     <Compile Include="Interfaces\IViewTemplateColumnService.cs" />
     <Compile Include="Interfaces\IViewTemplateService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Services\TradeSybolService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidateService.cs" />
+    <Compile Include="Services\ViewService.cs" />
     <Compile Include="Services\ViewTemplateColumnService.cs" />
     <Compile Include="Services\ViewTemplateService.cs" />
   </ItemGroup>

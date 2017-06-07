@@ -94,6 +94,7 @@
     <Compile Include="Interfaces\ISymbolViewRepository.cs" />
     <Compile Include="Interfaces\ITradeSybolRepository.cs" />
     <Compile Include="Interfaces\IUnitOfWork.cs" />
+    <Compile Include="Interfaces\IViewRepository.cs" />
     <Compile Include="Interfaces\IViewTemplateColumnRepository.cs" />
     <Compile Include="Interfaces\IViewTemplateRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

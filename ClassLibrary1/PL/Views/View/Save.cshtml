@@ -1,0 +1,90 @@
+﻿@model PL.Models.ViewModel
+<h2 style="margin-top: 5px;">Save</h2>
+
+<style>
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 280px;
+    }
+
+    .myLabelFor {
+        white-space: nowrap;
+        overflow: hidden;
+        margin-left: -5px;
+        margin-right: 5px;
+    }
+</style>
+
+@{
+    #region
+    var DateFormatslist = new List<SelectListItem>
+    {
+        new SelectListItem
+        {
+            Text = "MonthDayYear",
+            Value = "MonthDayYear"
+        },
+        new SelectListItem
+        {
+            Text = "DayMonthYear",
+            Value = "DayMonthYear"
+        },
+        new SelectListItem
+        {
+            Text = "DayMonthNameYear",
+            Value = "DayMonthNameYear"
+        }
+    };
+    #endregion
+}
+
+@using (Html.BeginForm("Save", "View", FormMethod.Post, new { id = "popupViewForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary-errors" })
+    @Html.HiddenFor(m => m.Id);
+    @Html.HiddenFor(m => m.PortfolioId);
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label ", style = "margin-right: 31px; padding-top: 10px; padding-left: 0px; " })
+        @Html.TextBoxFor(a => a.Name, new { @class = "form-control"})
+        @Html.ValidationMessageFor(a => a.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ViewTemplateId, new { style = "margin-right: 26px;" })
+        @Html.DropDownListFor(model => model.ViewTemplateId, ViewBag.Templates as SelectList, new { @class = "selectpicker", style = "width: 280px;" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ShowName, new
+   {
+       @class = "col-md-2 control-label",
+       style = "padding: 0; white-space: nowrap; margin-right: 30px;"
+   })
+        @(Model == null ? Html.CheckBoxFor(m => m.ShowName, new { style = "margin-left: 40px;" })
+              : Html.CheckBoxFor(m => m.ShowName, new { @checked = "checked", style = "margin-left: 40px;" }))
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.DateFormat, new { style = "margin-right: 41px;" })
+        @Html.DropDownListFor(model => model.DateFormat, DateFormatslist, new { @class = "selectpicker", style = "width: 280px;" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MoneyPrecision, new { @class = "col-md-2 control-label ",
+       style = "padding-left: 0; margin-right: 32px; white-space: nowrap; " })
+        @Html.TextBoxFor(a => a.MoneyPrecision, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.MoneyPrecision)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PercentyPrecision, new { @class = "col-md-2 control-label ",
+       style = "padding-left: 0; margin-right: 32px; white-space: nowrap; "})
+        @Html.TextBoxFor(a => a.PercentyPrecision, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.PercentyPrecision)
+    </div>
+
+    <div class="form-group" style="margin-bottom: 40px;">
+        <div class="col-md-offset-2">
+            <input type="submit" value="Save" class="btn btn-default" id="FormSaveSubmit" />
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/myScriptViewSave")

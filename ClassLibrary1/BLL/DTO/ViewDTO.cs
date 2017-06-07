@@ -14,6 +14,8 @@ namespace BLL.DTO
         public string Name { get; set; }
         public bool ShowName { get; set; }
         public DateFormatsDTO DateFormat { get; set; }
+        public int? ViewTemplateId { get; set; }
+        public int? PortfolioId { get; set; }
         public int MoneyPrecision { get; set; }
         public int PercentyPrecision { get; set; }
     }

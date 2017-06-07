@@ -2945,3 +2945,45 @@ Parameter name: parameters
    at BLL.Services.ViewTemplateColumnService.UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 107
    at BLL.Services.ViewTemplateColumnService.CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 41
    at PL.Controllers.ViewTemplateColumnController.Save(ViewTemplateColumnModel viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewTemplateColumnController.cs:line 65
+2017-06-07 11:24:02,622 [12] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: Format Not Found
+   at BLL.Services.ViewTemplateColumnService.ApplyFormatToColumn(ViewTemplateColumn column, Nullable`1 FormatId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 81
+   at BLL.Services.ViewTemplateColumnService.CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 56
+   at BLL.Services.ViewTemplateColumnService.CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 43
+   at PL.Controllers.ViewTemplateColumnController.Save(ViewTemplateColumnModel viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewTemplateColumnController.cs:line 65
+2017-06-07 11:24:05,059 [12] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: Format Not Found
+   at BLL.Services.ViewTemplateColumnService.ApplyFormatToColumn(ViewTemplateColumn column, Nullable`1 FormatId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 81
+   at BLL.Services.ViewTemplateColumnService.CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 56
+   at BLL.Services.ViewTemplateColumnService.CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 43
+   at PL.Controllers.ViewTemplateColumnController.Save(ViewTemplateColumnModel viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewTemplateColumnController.cs:line 65
+2017-06-07 11:24:05,346 [20] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: Format Not Found
+   at BLL.Services.ViewTemplateColumnService.ApplyFormatToColumn(ViewTemplateColumn column, Nullable`1 FormatId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 81
+   at BLL.Services.ViewTemplateColumnService.CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 56
+   at BLL.Services.ViewTemplateColumnService.CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 43
+   at PL.Controllers.ViewTemplateColumnController.Save(ViewTemplateColumnModel viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewTemplateColumnController.cs:line 65
+2017-06-07 11:24:05,561 [22] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: Format Not Found
+   at BLL.Services.ViewTemplateColumnService.ApplyFormatToColumn(ViewTemplateColumn column, Nullable`1 FormatId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 81
+   at BLL.Services.ViewTemplateColumnService.CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 56
+   at BLL.Services.ViewTemplateColumnService.CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 43
+   at PL.Controllers.ViewTemplateColumnController.Save(ViewTemplateColumnModel viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewTemplateColumnController.cs:line 65
+2017-06-07 11:24:05,744 [20] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: Format Not Found
+   at BLL.Services.ViewTemplateColumnService.ApplyFormatToColumn(ViewTemplateColumn column, Nullable`1 FormatId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 81
+   at BLL.Services.ViewTemplateColumnService.CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 56
+   at BLL.Services.ViewTemplateColumnService.CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewTemplateColumnService.cs:line 43
+   at PL.Controllers.ViewTemplateColumnController.Save(ViewTemplateColumnModel viewTemplateColumn, Nullable`1 templateId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewTemplateColumnController.cs:line 65
+2017-06-07 13:05:39,703 [11] ERROR PL.Controllers.PositionController http://localhost:22860/Nav/ViewManagement not found
+2017-06-07 13:31:07,249 [11] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: View Id Not Set
+   at BLL.Services.ViewService.GetView(Nullable`1 id) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 40
+   at PL.Controllers.ViewController.Save(Nullable`1 id) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 32
+2017-06-07 13:37:45,324 [7] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: View Id Not Set
+   at BLL.Services.ViewService.GetView(Nullable`1 id) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 40
+   at PL.Controllers.ViewController.Save(Nullable`1 id) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 35
+2017-06-07 13:50:39,147 [8] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 32
+   at BLL.Services.ViewService.CreateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 62
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 55
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-07 13:50:47,841 [30] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Percenty Precision value must be greater or equal to 0 and less than or equal to 8
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 34
+   at BLL.Services.ViewService.CreateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 62
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 55
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57

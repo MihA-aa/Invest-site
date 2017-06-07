@@ -15,12 +15,10 @@ namespace BLL.Services
     public class ViewTemplateService: IViewTemplateService
     {
         IUnitOfWork db { get; }
-        IValidateService validateService { get; }
 
-        public ViewTemplateService(IUnitOfWork uow, IValidateService vd)
+        public ViewTemplateService(IUnitOfWork uow)
         {
             db = uow;
-            validateService = vd;
         }
 
         public IEnumerable<ViewTemplateDTO> GetViewTemplates()
@@ -30,8 +28,7 @@ namespace BLL.Services
             {
                 return null;
             }
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplate, ViewTemplateDTO>()
-                .ForMember("SortColumnId", opt => opt.MapFrom(src => src.SortColumn.Id)));
+            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplate, ViewTemplateDTO>());
             return Mapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(viewTemplates);
         }
 
@@ -95,8 +92,21 @@ namespace BLL.Services
                 throw new ValidationException("ViewTemplate Not Found", "");
             Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateDTO, ViewTemplate>());
             var viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
+            AddSortColumnToTemplate(viewTemplate, viewTemplate.SortColumnId);
             db.ViewTemplates.Update(viewTemplate);
             db.Save();
+        }
+
+        public void AddSortColumnToTemplate(ViewTemplate template, int? columnId)
+        {
+            if (template == null)
+                throw new ValidationException("Template null Reference", "");
+            if (columnId == null)
+                throw new ValidationException("Column Id Not Set", "");
+            var column = db.ViewTemplateColumns.Get(columnId.Value);
+            if (column == null)
+                throw new ValidationException("Column Not Found", "");
+            template.SortColumn = column;
         }
 
         public void DeleteViewTemplate(int? id)

@@ -68,12 +68,12 @@ namespace DALEF.EF
                 TradeType = TradeTypes.Long,
                 TradeStatus = TradeStatuses.Open,
                 Dividends = 57.3m,
-                CloseDate = new DateTime(2016, 1, 12),
-                ClosePrice = 218.32m,
                 CurrentPrice = 99.53m,
                 Gain = 87.12m,
                 AbsoluteGain = 110.34m,
-                MaxGain = 154.34m
+                MaxGain = 154.34m,
+                LastUpdateDate = new DateTime(2016, 1, 1),
+                LastUpdatePrice = 218.32m
             };
             Position position2 = new Position
             {
@@ -88,12 +88,12 @@ namespace DALEF.EF
                 TradeType = TradeTypes.Long,
                 TradeStatus = TradeStatuses.Open,
                 Dividends = 0.00m,
-                CloseDate = new DateTime(2012, 1, 12),
-                ClosePrice = 5.60m,
                 CurrentPrice = 3.64m,
                 Gain = 40.0m,
                 AbsoluteGain = 1.60m,
-                MaxGain = 1.60m
+                MaxGain = 1.60m,
+                LastUpdateDate = new DateTime(2016, 1, 1),
+                LastUpdatePrice = 218.32m
             };
             Position position3 = new Position
             {
@@ -110,10 +110,11 @@ namespace DALEF.EF
                 Dividends = 17.34m,
                 CloseDate = new DateTime(2017, 5, 2),
                 ClosePrice = 54.24m,
-                CurrentPrice = 27.98m,
                 Gain = 11.56m,
                 AbsoluteGain = 9.45m,
-                MaxGain = 14.34m
+                MaxGain = 14.34m,
+                LastUpdateDate = new DateTime(2016, 5, 1),
+                LastUpdatePrice = 53.32m
             };
             Position position4 = new Position
             {
@@ -130,10 +131,11 @@ namespace DALEF.EF
                 Dividends = 1.54m,
                 CloseDate = new DateTime(2012, 1, 12),
                 ClosePrice = 36.74m,
-                CurrentPrice = 23.54m,
                 Gain = 3.84m,
                 AbsoluteGain = 3.65m,
-                MaxGain = 3.65m
+                MaxGain = 3.65m,
+                LastUpdateDate = new DateTime(2011, 10, 11),
+                LastUpdatePrice = 53.32m
             };
             Position position5 = new Position
             {
@@ -395,29 +397,6 @@ namespace DALEF.EF
             db.Formats.Add(NoneFormat);
             db.Formats.Add(LineFormat);
             #endregion
-            
-            #region ViewTemplate Inizialize
-            ViewTemplate viewTemplate1 = new ViewTemplate
-            {
-                Id = 1,
-                Name = "Preview all",
-                Positions = TemplatePositions.All,
-                ShowPortfolioStats = true,
-                SortOrder = Sorting.ASC
-            };
-
-            ViewTemplate viewTemplate2 = new ViewTemplate
-            {
-                Id = 2,
-                Name = "Default",
-                Positions = TemplatePositions.OpenOnly,
-                ShowPortfolioStats = false,
-                SortOrder = Sorting.DESC
-            };
-
-            db.ViewTemplates.Add(viewTemplate1);
-            db.ViewTemplates.Add(viewTemplate2);
-            #endregion
 
             #region Columns Inizialize
 
@@ -527,105 +506,120 @@ namespace DALEF.EF
                 Id = 1,
                 Name = "Name",
                 Column = Name,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 1
             };
             ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
             {
                 Id = 2,
                 Name = "Symbol",
                 Column = SymbolName,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 2
             };
             ViewTemplateColumn viewTemplateColumn3 = new ViewTemplateColumn
             {
                 Id = 4,
                 Name = "Open Price",
                 Column = OpenPrice,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 4
             };
             ViewTemplateColumn viewTemplateColumn4 = new ViewTemplateColumn
             {
                 Id = 5,
                 Name = "Open Date",
                 Column = OpenDate,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 5
             };
             ViewTemplateColumn viewTemplateColumn5 = new ViewTemplateColumn
             {
                 Id = 3,
                 Name = "Weight",
                 Column = OpenWeight,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 3
             };
             ViewTemplateColumn viewTemplateColumn6 = new ViewTemplateColumn
             {
                 Id = 6,
                 Name = "Current Price",
                 Column = CurrentPrice,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 6
             };
             ViewTemplateColumn viewTemplateColumn7 = new ViewTemplateColumn
             {
                 Id = 7,
                 Name = "Close Price",
                 Column = ClosePrice,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 7
             };
             ViewTemplateColumn viewTemplateColumn8 = new ViewTemplateColumn
             {
                 Id = 8,
                 Name = "Close Date",
                 Column = CloseDate,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 8
             };
             ViewTemplateColumn viewTemplateColumn9 = new ViewTemplateColumn
             {
                 Id = 9,
                 Name = "Trade Type",
                 Column = TradeType,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 9
             };
             ViewTemplateColumn viewTemplateColumn10 = new ViewTemplateColumn
             {
                 Id = 10,
                 Name = "Trade Status",
                 Column = TradeStatus,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 10
             };
             ViewTemplateColumn viewTemplateColumn11 = new ViewTemplateColumn
             {
                 Id = 11,
                 Name = "Dividends",
                 Column = Dividends,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 11
             };
             ViewTemplateColumn viewTemplateColumn12 = new ViewTemplateColumn
             {
                 Id = 12,
                 Name = "Absolute Gain",
                 Column = AbsoluteGain,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 12
             };
             ViewTemplateColumn viewTemplateColumn13 = new ViewTemplateColumn
             {
                 Id = 13,
                 Name = "Max Gain",
                 Column = MaxGain,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 13
             };
             ViewTemplateColumn viewTemplateColumn14 = new ViewTemplateColumn
             {
                 Id = 14,
                 Name = "Gain",
                 Column = Gain,
-                ViewTemplateId = 1
+                ViewTemplateId = 1,
+                DisplayIndex = 14
             };
             ViewTemplateColumn viewTemplateColumn21 = new ViewTemplateColumn
             {
                 Id = 15,
                 Name = "Name",
                 Column = Name,
-                ViewTemplateId = 2
+                ViewTemplateId = 2,
+                DisplayIndex = 1
             };
             db.ViewTemplateColumns.Add(viewTemplateColumn1);
             db.ViewTemplateColumns.Add(viewTemplateColumn2);
@@ -643,6 +637,38 @@ namespace DALEF.EF
             db.ViewTemplateColumns.Add(viewTemplateColumn13);
             db.ViewTemplateColumns.Add(viewTemplateColumn14);
             db.ViewTemplateColumns.Add(viewTemplateColumn21);
+            #endregion
+
+            #region ViewTemplate Inizialize
+            ViewTemplate viewTemplate1 = new ViewTemplate
+            {
+                Id = 1,
+                Name = "Preview all",
+                Positions = TemplatePositions.All,
+                ShowPortfolioStats = true,
+                SortOrder = Sorting.ASC,
+                Columns = new List<ViewTemplateColumn>
+                {
+                    viewTemplateColumn1, viewTemplateColumn2, viewTemplateColumn3, viewTemplateColumn4,
+                    viewTemplateColumn5, viewTemplateColumn6, viewTemplateColumn6, viewTemplateColumn7,
+                    viewTemplateColumn8, viewTemplateColumn9, viewTemplateColumn10, viewTemplateColumn11,
+                    viewTemplateColumn12, viewTemplateColumn13, viewTemplateColumn13, viewTemplateColumn14
+                }
+            };
+
+            ViewTemplate viewTemplate2 = new ViewTemplate
+            {
+                Id = 2,
+                Name = "Default",
+                Positions = TemplatePositions.OpenOnly,
+                ShowPortfolioStats = false,
+                SortOrder = Sorting.DESC,
+                Columns = new List<ViewTemplateColumn>
+                {viewTemplateColumn21}
+            };
+
+            db.ViewTemplates.Add(viewTemplate1);
+            db.ViewTemplates.Add(viewTemplate2);
             #endregion
             
             #region View Inizialize

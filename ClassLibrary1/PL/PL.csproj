@@ -215,6 +215,7 @@
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\PortfolioController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
+    <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Controllers\ViewTemplateColumnController.cs" />
     <Compile Include="Controllers\ViewTemplateController.cs" />
     <Compile Include="Global.asax.cs">
@@ -224,6 +225,7 @@
     <Compile Include="Models\PortfolioModel.cs" />
     <Compile Include="Models\PositionModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Models\ViewTemplateColumnModel.cs" />
     <Compile Include="Models\ViewTemplateModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -736,6 +738,9 @@
     <Content Include="Views\ViewTemplateColumn\RedactColumns.cshtml" />
     <Content Include="Views\ViewTemplateColumn\Save.cshtml" />
     <Content Include="Views\ViewTemplateColumn\Delete.cshtml" />
+    <Content Include="Views\Nav\ViewManagement.cshtml" />
+    <Content Include="Views\View\Save.cshtml" />
+    <Content Include="Views\View\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

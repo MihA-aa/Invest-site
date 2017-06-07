@@ -144,6 +144,14 @@
     <Compile Include="Migrations\201706061252546_ss121.Designer.cs">
       <DependentUpon>201706061252546_ss121.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706070802207_addedSortcolumnId.cs" />
+    <Compile Include="Migrations\201706070802207_addedSortcolumnId.Designer.cs">
+      <DependentUpon>201706070802207_addedSortcolumnId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706070921088_addedIds.cs" />
+    <Compile Include="Migrations\201706070921088_addedIds.Designer.cs">
+      <DependentUpon>201706070921088_addedIds.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ColumnRepository.cs" />
@@ -157,6 +165,7 @@
     <Compile Include="Repositories\SymbolDividendRepository.cs" />
     <Compile Include="Repositories\SymbolViewRepository.cs" />
     <Compile Include="Repositories\TradeSybolRepository.cs" />
+    <Compile Include="Repositories\ViewRepository.cs" />
     <Compile Include="Repositories\ViewTemplateColumnRepository.cs" />
     <Compile Include="Repositories\ViewTemplateRepository.cs" />
   </ItemGroup>
@@ -232,6 +241,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706061252546_ss121.resx">
       <DependentUpon>201706061252546_ss121.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706070802207_addedSortcolumnId.resx">
+      <DependentUpon>201706070802207_addedSortcolumnId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706070921088_addedIds.resx">
+      <DependentUpon>201706070921088_addedIds.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

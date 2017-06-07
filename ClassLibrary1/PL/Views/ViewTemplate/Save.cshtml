@@ -67,7 +67,7 @@
         @Html.ValidationMessageFor(a => a.Name)
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Positions, new { style = "margin-right: 15px;" })
+        @Html.LabelFor(model => model.Positions, new { style = "margin-right: 17px;" })
         @Html.DropDownListFor(model => model.Positions, showPositionslist, new { @class = "selectpicker", style = "width: 280px;" })
     </div>
     <div class="form-group">
@@ -81,12 +81,11 @@
     if (Model != null && Model.Columns.Any())
     {
         <div class="form-group">
-            @Html.LabelFor(model => model.Columns)
-            <br />
-            @Html.DropDownListFor(model => model.SortColumnId, Model.Columns as SelectList, new { @class = "selectpicker" })
+            @Html.LabelFor(model => model.Columns, new { style = "margin-right: 37px;" })
+            @Html.DropDownListFor(model => model.SortColumnId, Model.Columns as SelectList, new { @class = "selectpicker", style = "width: 280px;" })
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.SortOrder, new { style = "margin-right: 15px;" })
+            @Html.LabelFor(model => model.SortOrder, new { style = "margin-right: 52px;" })
             @Html.DropDownListFor(model => model.SortOrder, positionSortinglist, new { @class = "selectpicker", style = "width: 280px;" })
         </div>
     }

@@ -27,7 +27,10 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/myScriptLayot").Include(
                         "~/Scripts/myScript/layout.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/myScriptPositionSave").Include(
+            bundles.Add(new ScriptBundle("~/bundles/myScriptViewSave").Include(
+                        "~/Scripts/myScript/saveView.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/myScriptViewSave").Include(
                         "~/Scripts/myScript/savePosition.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/myScriptViewTampleteSave").Include(
@@ -41,6 +44,9 @@ namespace PL
 
             bundles.Add(new ScriptBundle("~/bundles/myScriptTampleteColumnManagement").Include(
                         "~/Scripts/myScript/tamplete-column-managemen.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/myScriptViewManagement").Include(
+                        "~/Scripts/myScript/view-management.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
                         "~/Scripts/bootstrap-select.min.js"));

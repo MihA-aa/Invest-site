@@ -46,7 +46,9 @@ namespace DAL.Entities
                 CurrentPrice = this.CurrentPrice,
                 Gain = this.Gain,
                 AbsoluteGain = this.AbsoluteGain,
-                MaxGain = this.MaxGain
+                MaxGain = this.MaxGain,
+                LastUpdatePrice = this.LastUpdatePrice,
+                LastUpdateDate = this.LastUpdateDate
             };
         }
     }

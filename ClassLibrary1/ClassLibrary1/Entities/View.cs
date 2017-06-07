@@ -9,8 +9,10 @@ namespace DAL.Entities
         public bool ShowName { get; set; }
         public DateFormats DateFormat { get; set; }
         public virtual ViewTemplate ViewTemplate { get; set; }
+        public int? ViewTemplateId { get; set; }
         public int MoneyPrecision { get; set; } // VALIDATE 0 TO 8
         public int PercentyPrecision { get; set; } // VALIDATE 0 TO 8
         public virtual Portfolio Portfolio { get; set; }
+        public int? PortfolioId { get; set; }
     }
 }

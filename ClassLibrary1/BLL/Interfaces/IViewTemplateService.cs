@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.DTO;
+using DAL.Entities;
 
 namespace BLL.Interfaces
 {
@@ -16,6 +17,7 @@ namespace BLL.Interfaces
         void CreateOrUpdateViewTemplate(ViewTemplateDTO viewTemplate);
         void CreateViewTemplate(ViewTemplateDTO viewTemplateDto);
         void UpdateViewTemplate(ViewTemplateDTO viewTemplateDto);
+        void AddSortColumnToTemplate(ViewTemplate template, int? columnId);
         void DeleteViewTemplate(int? id);
     }
 }
