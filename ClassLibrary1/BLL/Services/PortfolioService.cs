@@ -18,18 +18,19 @@ namespace BLL.Services
         IUnitOfWork db { get; }
         IValidateService validateService { get; }
         ICustomerService customerService { get; }
+        IMapper IMapper { get; }
 
-        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs)
+        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map)
         {
             db = uow;
             validateService = vd;
             customerService = cs;
+            IMapper = map;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Portfolio, PortfolioDTO>());
-            return Mapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(db.Portfolios.GetAll());
+            return IMapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(db.Portfolios.GetAll());
         }
 
         public IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId)
@@ -39,7 +40,7 @@ namespace BLL.Services
             var portfolio = db.Portfolios.Get(portfolioId.Value);
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            return MapperHelper.ConvertListPositionToPositionDto(portfolio.Positions.ToList());
+            return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());
         }
 
         public PortfolioDTO GetPortfolio(int? id)
@@ -49,8 +50,7 @@ namespace BLL.Services
             var portfolio = db.Portfolios.Get(id.Value);
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            Mapper.Initialize(cfg => cfg.CreateMap<Portfolio, PortfolioDTO>());
-            return Mapper.Map<Portfolio, PortfolioDTO>(portfolio);
+            return IMapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
 
         public int CreateOrUpdatePortfolio(PortfolioDTO portfolioDto, string userId)

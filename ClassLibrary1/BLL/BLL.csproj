@@ -85,7 +85,7 @@
     <Compile Include="DTO\ViewDTO.cs" />
     <Compile Include="DTO\ViewTemplateColumnDTO.cs" />
     <Compile Include="DTO\ViewTemplateDTO.cs" />
-    <Compile Include="Helpers\MapperHelper.cs" />
+    <Compile Include="Infrastructure\AutoMapperServicesConfiguration.cs" />
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Helpers\ValidationException.cs" />
     <Compile Include="Interfaces\ICalculationService.cs" />

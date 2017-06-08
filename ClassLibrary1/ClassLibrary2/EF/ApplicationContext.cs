@@ -526,7 +526,8 @@ namespace DALEF.EF
                 DisplayIndex = 1,
                 ColumnFormat = Linked,
                 ColumnId = 1,
-                ColumnFormatId = 3
+                ColumnFormatId = 3,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
             {
@@ -537,7 +538,8 @@ namespace DALEF.EF
                 DisplayIndex = 2,
                 ColumnFormat = None,
                 ColumnId = 2,
-                ColumnFormatId = 1
+                ColumnFormatId = 1,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn3 = new ViewTemplateColumn
             {
@@ -548,7 +550,8 @@ namespace DALEF.EF
                 DisplayIndex = 4,
                 ColumnFormat = Money,
                 ColumnId = 3,
-                ColumnFormatId = 2
+                ColumnFormatId = 2,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn4 = new ViewTemplateColumn
             {
@@ -559,7 +562,8 @@ namespace DALEF.EF
                 DisplayIndex = 5,
                 ColumnFormat = Date,
                 ColumnId = 4,
-                ColumnFormatId = 4
+                ColumnFormatId = 4,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn5 = new ViewTemplateColumn
             {
@@ -570,7 +574,8 @@ namespace DALEF.EF
                 DisplayIndex = 3,
                 ColumnFormat = None,
                 ColumnId = 5,
-                ColumnFormatId = 1
+                ColumnFormatId = 1,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn6 = new ViewTemplateColumn
             {
@@ -581,7 +586,8 @@ namespace DALEF.EF
                 DisplayIndex = 6,
                 ColumnFormat = Linked,
                 ColumnId = 6,
-                ColumnFormatId = 3
+                ColumnFormatId = 3,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn7 = new ViewTemplateColumn
             {
@@ -592,7 +598,8 @@ namespace DALEF.EF
                 DisplayIndex = 7,
                 ColumnFormat = None,
                 ColumnId = 7,
-                ColumnFormatId = 1
+                ColumnFormatId = 1,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn8 = new ViewTemplateColumn
             {
@@ -603,7 +610,8 @@ namespace DALEF.EF
                 DisplayIndex = 8,
                 ColumnFormat = DateAndTime,
                 ColumnId = 8,
-                ColumnFormatId = 6
+                ColumnFormatId = 6,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn9 = new ViewTemplateColumn
             {
@@ -614,7 +622,8 @@ namespace DALEF.EF
                 DisplayIndex = 9,
                 ColumnFormat = None,
                 ColumnId = 9,
-                ColumnFormatId = 1
+                ColumnFormatId = 1,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn10 = new ViewTemplateColumn
             {
@@ -625,7 +634,8 @@ namespace DALEF.EF
                 DisplayIndex = 10,
                 ColumnFormat = None,
                 ColumnId = 10,
-                ColumnFormatId = 1
+                ColumnFormatId = 1,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn11 = new ViewTemplateColumn
             {
@@ -636,7 +646,8 @@ namespace DALEF.EF
                 DisplayIndex = 11,
                 ColumnFormat = Money,
                 ColumnId = 11,
-                ColumnFormatId = 2
+                ColumnFormatId = 2,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn12 = new ViewTemplateColumn
             {
@@ -647,7 +658,8 @@ namespace DALEF.EF
                 DisplayIndex = 12,
                 ColumnFormat = Percent,
                 ColumnId = 13,
-                ColumnFormatId = 7
+                ColumnFormatId = 7,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn13 = new ViewTemplateColumn
             {
@@ -658,7 +670,8 @@ namespace DALEF.EF
                 DisplayIndex = 13,
                 ColumnFormat = Money,
                 ColumnId = 14,
-                ColumnFormatId = 2
+                ColumnFormatId = 2,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn14 = new ViewTemplateColumn
             {
@@ -669,7 +682,8 @@ namespace DALEF.EF
                 DisplayIndex = 14,
                 ColumnFormat = Linked,
                 ColumnId = 12,
-                ColumnFormatId = 3
+                ColumnFormatId = 3,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn15 = new ViewTemplateColumn
             {
@@ -680,7 +694,8 @@ namespace DALEF.EF
                 DisplayIndex = 15,
                 ColumnFormat = DateAndTime,
                 ColumnId = 15,
-                ColumnFormatId = 6
+                ColumnFormatId = 6,
+                FormatId = 1
             };
 
             ViewTemplateColumn viewTemplateColumn16 = new ViewTemplateColumn
@@ -692,7 +707,8 @@ namespace DALEF.EF
                 DisplayIndex = 16,
                 ColumnFormat = Linked,
                 ColumnId = 16,
-                ColumnFormatId = 2
+                ColumnFormatId = 2,
+                FormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn21 = new ViewTemplateColumn
             {
@@ -703,7 +719,8 @@ namespace DALEF.EF
                 DisplayIndex = 1,
                 ColumnFormat = None,
                 ColumnId = 1,
-                ColumnFormatId = 1
+                ColumnFormatId = 1,
+                FormatId = 1
             };
             db.ViewTemplateColumns.Add(viewTemplateColumn1);
             db.ViewTemplateColumns.Add(viewTemplateColumn2);

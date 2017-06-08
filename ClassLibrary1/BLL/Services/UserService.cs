@@ -20,11 +20,13 @@ namespace BLL.Services
     {
         IUnitOfWork Database { get; set; }
         IValidateService validateService { get; }
+        IMapper IMapper { get; }
 
-        public UserService(IUnitOfWork uow, IValidateService vd)
+        public UserService(IUnitOfWork uow, IValidateService vd, IMapper map)
         {
             Database = uow;
             validateService = vd;
+            IMapper = map;
         }
 
         public async Task CreateAsync(UserDTO userDto)
@@ -65,8 +67,7 @@ namespace BLL.Services
             var profile = Database.Profiles.Get(userId);
             if (profile == null)
                 throw new ValidationException(Resource.Resource.UserNotFound, "");
-            Mapper.Initialize(cfg => cfg.CreateMap<Entity.Profile, ProfileDTO>());
-            return Mapper.Map<Entity.Profile, ProfileDTO>(profile);
+            return IMapper.Map<Entity.Profile, ProfileDTO>(profile);
         }
 
         public void UpdateProfile(ProfileDTO profile)

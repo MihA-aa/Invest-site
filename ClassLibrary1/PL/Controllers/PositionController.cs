@@ -13,7 +13,7 @@ using BLL.Infrastructure;
 
 namespace PL.Controllers
 {
-    public class PositionController : Controller
+    public class PositionController : BaseController
     {
         log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IPositionService positionService;
@@ -30,9 +30,7 @@ namespace PL.Controllers
             {
                 if (id == 0)
                     return PartialView();
-                var positionDto = positionService.GetPosition(id);
-                Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
-                position = Mapper.Map<PositionDTO, PositionModel>(positionDto);
+                position = Mapper.Map<PositionDTO, PositionModel>(positionService.GetPosition(id));
             }
             catch (ValidationException ex)
             {
@@ -50,9 +48,7 @@ namespace PL.Controllers
             {
                 try
                 {
-                    Mapper.Initialize(cfg => cfg.CreateMap<PositionModel, PositionDTO>());
-                    var positionDto = Mapper.Map<PositionModel, PositionDTO>(position);
-                    positionService.CreateOrUpdatePosition(positionDto, portfolioId);
+                    positionService.CreateOrUpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId);
                 }
                 catch (ValidationException ex)
                 {

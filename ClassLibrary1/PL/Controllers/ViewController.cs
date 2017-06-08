@@ -11,7 +11,7 @@ using BLL.Helpers;
 
 namespace PL.Controllers
 {
-    public class ViewController : Controller
+    public class ViewController : BaseController
     {
         log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IViewService viewService;
@@ -32,9 +32,7 @@ namespace PL.Controllers
             {
                 if (id == 0)
                     return PartialView();
-                var viewDTO = viewService.GetView(id);
-                Mapper.Initialize(cfg => cfg.CreateMap<ViewDTO, ViewModel>());
-                view = Mapper.Map<ViewDTO, ViewModel>(viewDTO);
+                view = Mapper.Map<ViewDTO, ViewModel>(viewService.GetView(id));
             }
             catch (ValidationException ex)
             {
@@ -52,9 +50,7 @@ namespace PL.Controllers
             {
                 try
                 {
-                    Mapper.Initialize(cfg => cfg.CreateMap<ViewModel, ViewDTO>());
-                    var viewDTO = Mapper.Map<ViewModel, ViewDTO>(view);
-                    viewService.CreateOrUpdateView(viewDTO);
+                    viewService.CreateOrUpdateView(Mapper.Map<ViewModel, ViewDTO>(view));
                 }
                 catch (ValidationException ex)
                 {

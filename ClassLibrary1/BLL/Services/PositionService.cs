@@ -17,13 +17,16 @@ namespace BLL.Services
         IValidateService validateService { get; }
         ITradeSybolService tradeSybolService { get; }
         ICalculationService calculationService { get; }
+        IMapper IMapper { get; }
 
-        public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tss, ICalculationService cs)
+        public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tss, 
+                                                        ICalculationService cs, IMapper map)
         {
             db = uow;
             validateService = vd;
             tradeSybolService = tss;
             calculationService = cs;
+            IMapper = map;
         }
 
         public PositionDTO GetPosition(int? id)
@@ -33,12 +36,12 @@ namespace BLL.Services
             var position = db.Positions.Get(id.Value);
             if (position == null)
                 throw new ValidationException(Resource.Resource.PositionNotFound, "");
-            return MapperHelper.ConvertPositionToPositionDto(position);
+            return IMapper.Map<Position, PositionDTO>(position);
         }
 
         public IEnumerable<PositionDTO> GetPositions()
         {
-            return MapperHelper.ConvertListPositionToPositionDto(db.Positions.GetAll());
+            return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(db.Positions.GetAll());
         }
 
         public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId)
@@ -97,7 +100,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
             validateService.Validate(positionDto);
             positionDto = CalculateAllParams(positionDto);
-            var position = MapperHelper.ConvertPositionDtoToPosition(positionDto);
+            var position = IMapper.Map<PositionDTO, Position>(positionDto);
             db.Positions.Create(position);
             AddPositionToPortfolio(position, portfolioId);
             db.Save();
@@ -133,7 +136,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PositionNotFound, "");
             validateService.Validate(positionDto);
             positionDto = CalculateAllParams(positionDto);
-            var position = MapperHelper.ConvertPositionDtoToPosition(positionDto);
+            var position = IMapper.Map<PositionDTO, Position>(positionDto);
             db.Positions.Update(position);
             db.Save();
             Portfolio portfolio = db.Portfolios.GetAll()

@@ -11,7 +11,7 @@ using BLL.Helpers;
 
 namespace PL.Controllers
 {
-    public class ViewTemplateColumnController : Controller
+    public class ViewTemplateColumnController : BaseController
     {
         log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IViewTemplateColumnService viewTemplateColumnService;
@@ -41,7 +41,6 @@ namespace PL.Controllers
                 if (id == 0)
                     return PartialView();
                 var viewTemplateColumnDTO = viewTemplateColumnService.GetViewTemplateColumn(id);
-                Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumnModel>());
                 viewTemplateColumn = Mapper.Map<ViewTemplateColumnDTO, ViewTemplateColumnModel>(viewTemplateColumnDTO);
             }
             catch (ValidationException ex)
@@ -60,7 +59,6 @@ namespace PL.Controllers
             {
                 try
                 {
-                    Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnModel, ViewTemplateColumnDTO>());
                     var viewTemplateColumnDTO = Mapper.Map<ViewTemplateColumnModel, ViewTemplateColumnDTO>(viewTemplateColumn);
                     viewTemplateColumnService.CreateOrUpdateViewTemplateColumn(viewTemplateColumnDTO, templateId);
                 }

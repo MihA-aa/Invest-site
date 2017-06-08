@@ -16,22 +16,18 @@ namespace BLL.Services
     {
         IUnitOfWork db { get; }
         IValidateService validateService { get; }
+        IMapper IMapper { get; }
 
-        public ViewService(IUnitOfWork uow, IValidateService vd)
+        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map)
         {
             db = uow;
             validateService = vd;
+            IMapper = map;
         }
 
         public IEnumerable<ViewDTO> GetViews()
         {
-            var views = db.Views.GetAll();
-            if (views == null)
-            {
-                return null;
-            }
-            Mapper.Initialize(cfg => cfg.CreateMap<View, ViewDTO>());
-            return Mapper.Map<IEnumerable<View>, List<ViewDTO>>(views);
+            return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(db.Views.GetAll());
         }
 
         public ViewDTO GetView(int? id)
@@ -41,8 +37,7 @@ namespace BLL.Services
             var view = db.Views.Get(id.Value);
             if (view == null)
                 throw new ValidationException("View Not Found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<View, ViewDTO>());
-            return Mapper.Map<View, ViewDTO>(view);
+            return IMapper.Map<View, ViewDTO>(view);
         }
         
         public void CreateOrUpdateView(ViewDTO view)
@@ -60,8 +55,7 @@ namespace BLL.Services
             if (viewDto == null)
                 throw new ValidationException("ViewDTO Null Reference", "");
             validateService.Validate(viewDto);
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewDTO, View>());
-            var view = Mapper.Map<ViewDTO, View>(viewDto);
+            var view = IMapper.Map<ViewDTO, View>(viewDto);
             AddViewTemplateToView(view, view.ViewTemplateId);
             db.Views.Create(view);
             db.Save();
@@ -74,8 +68,7 @@ namespace BLL.Services
             if (!db.Views.IsExist(viewDto.Id))
                 throw new ValidationException("View Not Found", "");
             validateService.Validate(viewDto);
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewDTO, View>());
-            var view = Mapper.Map<ViewDTO, View>(viewDto);
+            var view = IMapper.Map<ViewDTO, View>(viewDto);
             AddViewTemplateToView(view, view.ViewTemplateId);
             db.Views.Update(view);
             db.Save();

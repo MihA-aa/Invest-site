@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using BLL.DTO;
 using BLL.DTO.Enums;
 using BLL.Helpers;
@@ -28,6 +29,7 @@ namespace UnitTests.Tests
         private Mock<IPositionRepository> positionRepository;
         private Mock<IPortfolioRepository> portfolioRepository;
         private Mock<ISymbolDividendRepository> symbolDividendRepository;
+        private IMapper map;
         List<Position> ListPositions;
         List<Portfolio> ListPortfolios;
 
@@ -163,6 +165,7 @@ namespace UnitTests.Tests
             validateService = new ValidateService();
             tradeSybolService = new Mock<ITradeSybolService>();
             calculationService = new CalculationService();
+            map = new AutoMapperConfiguration().Configure().CreateMapper();
         }
 
         [TestMethod]
@@ -170,7 +173,7 @@ namespace UnitTests.Tests
         {
             positionRepository.Setup(m => m.GetAll()).Returns(ListPositions);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             IEnumerable<PositionDTO> result = positionService.GetPositions();
 
@@ -187,7 +190,7 @@ namespace UnitTests.Tests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             PositionDTO position1 = positionService.GetPosition(1);
             PositionDTO position2 = positionService.GetPosition(2);
@@ -204,7 +207,7 @@ namespace UnitTests.Tests
         public void CanNotGetPositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.GetPosition(null);
         }
@@ -217,7 +220,7 @@ namespace UnitTests.Tests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.GetPosition(5);
         }
@@ -232,7 +235,7 @@ namespace UnitTests.Tests
             positionRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListPositions.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.DeletePosition(1);
 
@@ -245,7 +248,7 @@ namespace UnitTests.Tests
         public void CanNotDeletePositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.DeletePosition(null);
         }
@@ -258,7 +261,7 @@ namespace UnitTests.Tests
             positionRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.DeletePosition(5);
         }
@@ -284,7 +287,7 @@ namespace UnitTests.Tests
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.CreatePosition(new PositionDTO {OpenWeight = 12}, 1);
 
@@ -297,7 +300,7 @@ namespace UnitTests.Tests
         public void CanNotCreateNullReferencePosition()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.CreatePosition(null, 1);
         }
@@ -308,7 +311,7 @@ namespace UnitTests.Tests
         public void CanNotCreatePositionWithNotWalidWeight()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.CreatePosition(new PositionDTO { OpenWeight = -1 }, 1);
         }
@@ -333,7 +336,7 @@ namespace UnitTests.Tests
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.CreateOrUpdatePosition(new PositionDTO { OpenWeight = 12 }, 1);
 
@@ -358,7 +361,7 @@ namespace UnitTests.Tests
                 .Returns(new TradeInforamation { Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             #region
             var updatePosition = new PositionDTO
@@ -379,7 +382,7 @@ namespace UnitTests.Tests
         public void CanNotCreateNullReferencePositionInCreateOrUpdate()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.CreateOrUpdatePosition(null, 1);
         }
@@ -403,7 +406,7 @@ namespace UnitTests.Tests
                 .Returns(new TradeInforamation { Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             #region
             var updatePosition = new PositionDTO
@@ -424,7 +427,7 @@ namespace UnitTests.Tests
         public void CanNotUpdateNullReferencePosition()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.UpdatePosition(null);
         }
@@ -437,7 +440,7 @@ namespace UnitTests.Tests
             positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             #region
             var updatePosition = new PositionDTO
@@ -462,7 +465,7 @@ namespace UnitTests.Tests
                 portfolio.Positions.Add(p);
             });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.AddPositionToPortfolio(new Position(), 1);
 
@@ -475,7 +478,7 @@ namespace UnitTests.Tests
         public void CanNotAddNullReferencePositionToPortfolio()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.AddPositionToPortfolio(null, 1);
         }
@@ -486,7 +489,7 @@ namespace UnitTests.Tests
         public void CanNotAddPositionWithNotSetIdOfPortfolio()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.AddPositionToPortfolio(new Position(), null);
         }
@@ -500,7 +503,7 @@ namespace UnitTests.Tests
                 .Returns((int i) => ListPortfolios.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             positionService.AddPositionToPortfolio(new Position(), 11);
         }
@@ -516,7 +519,7 @@ namespace UnitTests.Tests
                 .Returns(new TradeInforamation {Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
-            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService);
+            positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
             var result = positionService.CalculateAllParams(new PositionDTO { Id = 5,
                 OpenWeight = 12, CloseDate = new DateTime(1, 1, 1, 0, 0, 0) });

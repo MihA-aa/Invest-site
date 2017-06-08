@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace PL.Controllers
 {
-    public class NavController : Controller
+    public class NavController : BaseController
     {
         private IPortfolioService portfolioService;
         private ISymbolViewService symbolViewService;
@@ -36,7 +36,6 @@ namespace PL.Controllers
         public PartialViewResult LeftMenu()
         {
             var portfoliosDto = portfolioService.GetPortfolios().OrderBy(m => m.DisplayIndex);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, PortfolioModel>());
             var portfolios =  Mapper.Map<IEnumerable<PortfolioDTO>, List<PortfolioModel>>(portfoliosDto);
             if (@TempData["PortfolioId"] == null && portfolios.Any())
                 @TempData["PortfolioId"] = portfolios.First().Id;
@@ -46,7 +45,6 @@ namespace PL.Controllers
         public PartialViewResult ViewList()
         {
             var viewsDto = viewService.GetViews().OrderBy(v => v.Name);
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewDTO, ViewModel>());
             var views = Mapper.Map<IEnumerable<ViewDTO>, List<ViewModel>>(viewsDto);
             return PartialView(views);
         }
@@ -57,7 +55,6 @@ namespace PL.Controllers
             if(id == null)
                 return PartialView();
             var portfolioDto = portfolioService.GetPortfolio(id);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, PortfolioModel>());
             var portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolioDto);
             TempData["PortfolioId"] = portfolioDto.Id;
             return PartialView(portfolio);
@@ -85,26 +82,6 @@ namespace PL.Controllers
                     autoWidth = "true"
                 });
             }
-
-            var columns2 = new List<dynamic>
-            {
-                new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "saveActionLink"},
-                new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "deleteActionLink"},
-                new {title = "Name", data = "Name", name = "Name", autoWidth = "true", width = "null", render = ""},
-                new {title = "Symbol", data = "SymbolName", name = "SymbolName", autoWidth = "true", width = "null", render = ""},
-                new {title = "Open Price", data = "OpenPrice", name = "OpenPrice", autoWidth = "true", width = "null", render = ""},
-                new {title = "Open Date", data = "OpenDate", name = "OpenDate", autoWidth = "true", width = "null", render = "dateTime"},
-                new {title = "Open Weight", data = "OpenWeight", name = "OpenWeight", autoWidth = "true", width = "null", render = ""},
-                new {title = "Current Price", data = "CurrentPrice", name = "CurrentPrice", autoWidth = "true", width = "null", render = ""},
-                new {title = "Trade Status", data = "TradeStatus", name = "TradeStatus", autoWidth = "true", width = "null", render = "tradeStatus"},
-                new {title = "Close Price", data = "ClosePrice", name = "ClosePrice", autoWidth = "true", width = "null", render = ""},
-                new {title = "My column title", data = "CloseDate", name = "CloseDate", autoWidth = "true", width = "null", render = "dateTime"},
-                new {title = "Close Date", data = "Gain", name = "Gain", autoWidth = "true", width = "null", render = ""},
-                new {title = "Last Update Date", data = "LastUpdateDate", name = "LastUpdateDate", autoWidth = "true", width = "null", render = "dateTime"},
-                new {title = "Last Update Price", data = "LastUpdatePrice", name = "LastUpdatePrice", autoWidth = "true", width = "null", render = ""},
-                new {title = "Absolute Gain", data = "AbsoluteGain", name = "AbsoluteGain", autoWidth = "true", width = "null", render = ""},
-                new {title = "Max Gain", data = "MaxGain", name = "MaxGain", autoWidth = "true", width = "null", render = ""},
-            };
             return Json(new { columns = columns }, JsonRequestBehavior.AllowGet);
         }
 
@@ -121,12 +98,12 @@ namespace PL.Controllers
             var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
-            var symbolName = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            var status = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
-            var openDateFrom = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            var openDateTo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
-            var closeDateFrom = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
-            var closeDateTo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
+            //var symbolName = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            //var status = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            //var openDateFrom = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            //var openDateTo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            //var closeDateFrom = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+            //var closeDateTo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
 
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
@@ -135,39 +112,38 @@ namespace PL.Controllers
             var positionsDto = portfolioService.GetPortfolioPositions(id);
 
             #region Searching and sorting 
-            if (!string.IsNullOrEmpty(openDateFrom))
-            {
-                positionsDto = positionsDto.Where(p => p.OpenDate.Date >= openDateFrom.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(openDateTo))
-            {
-                positionsDto = positionsDto.Where(p => p.OpenDate.Date <= openDateTo.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(closeDateFrom))
-            {
-                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date >= closeDateFrom.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(closeDateTo))
-            {
-                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date <= closeDateTo.AsDateTime());
-            }
-            if (!string.IsNullOrEmpty(symbolName))
-            {
-                positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
-            }
-            if (!string.IsNullOrEmpty(status))
-            {
-                positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == status);
-            }
-            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            {
-                positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
-            }
+            //if (!string.IsNullOrEmpty(openDateFrom))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.OpenDate.Date >= openDateFrom.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(openDateTo))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.OpenDate.Date <= openDateTo.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(closeDateFrom))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date >= closeDateFrom.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(closeDateTo))
+            //{
+            //    positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date <= closeDateTo.AsDateTime());
+            //}
+            //if (!string.IsNullOrEmpty(symbolName))
+            //{
+            //    positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
+            //}
+            //if (!string.IsNullOrEmpty(status))
+            //{
+            //    positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == status);
+            //}
+            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            //{
+            //    positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
+            //}
             #endregion
 
             totalRecords = positionsDto.Count();
             positionsDto = positionsDto.Skip(skip).Take(pageSize).ToList();
-            Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
             var data = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
           }
@@ -195,7 +171,6 @@ namespace PL.Controllers
 
             totalRecords = viewTemplatesDto.Count();
             viewTemplatesDto = viewTemplatesDto.Skip(skip).Take(pageSize).ToList();
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateDTO, ViewTemplateModel>());
             var data = Mapper.Map<IEnumerable<ViewTemplateDTO>, List<ViewTemplateModel>>(viewTemplatesDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
@@ -226,8 +201,6 @@ namespace PL.Controllers
 
             totalRecords = viewTemplateColumnsDto.Count();
             viewTemplateColumnsDto = viewTemplateColumnsDto.Skip(skip).Take(pageSize).ToList();
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumnModel>()
-            .ForMember("DT_RowId", opt => opt.MapFrom(src => src.Id)));
             var data = Mapper.Map<IEnumerable<ViewTemplateColumnDTO>, List<ViewTemplateColumnModel>>(viewTemplateColumnsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
@@ -255,7 +228,6 @@ namespace PL.Controllers
 
             totalRecords = viewsDto.Count();
             viewsDto = viewsDto.Skip(skip).Take(pageSize).ToList();
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewDTO, ViewModel>());
             var data = Mapper.Map<IEnumerable<ViewDTO>, List<ViewModel>>(viewsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }

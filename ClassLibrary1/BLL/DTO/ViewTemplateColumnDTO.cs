@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.DTO.Enums;
+using DAL.Entities;
 using DAL.Enums;
+using AutoMapper;
 
 namespace BLL.DTO
 {
-    public class ViewTemplateColumnDTO
+    public class ViewTemplateColumnDTO 
     {
         public int Id { get; set; }
         public int DisplayIndex { get; set; }

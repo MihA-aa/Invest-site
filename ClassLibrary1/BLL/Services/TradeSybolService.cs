@@ -15,10 +15,12 @@ namespace BLL.Services
     public class TradeSybolService: ITradeSybolService
     {
         IUnitOfWork db { get; }
+        IMapper IMapper { get; }
 
-        public TradeSybolService(IUnitOfWork uow)
+        public TradeSybolService(IUnitOfWork uow, IMapper map)
         {
             db = uow;
+            IMapper = map;
         }
         public decimal GetPriceForDate(DateTime date, int symbolId)
         {
@@ -27,13 +29,7 @@ namespace BLL.Services
 
         public TradeSybolViewDTO GetPriceAndDateLastUpdate(int symbolId)
         {
-            var info = db.TradeSybols.GetPriceAndDateLastUpdate(symbolId);
-            if (info == null)
-            {
-                return null;
-            }
-            Mapper.Initialize(cfg => cfg.CreateMap<TradeSybolView, TradeSybolViewDTO>());
-            return Mapper.Map<TradeSybolView, TradeSybolViewDTO>(info);
+            return IMapper.Map<TradeSybolView, TradeSybolViewDTO>(db.TradeSybols.GetPriceAndDateLastUpdate(symbolId));
         }
 
         public TradeInforamation GetMaxGainForSymbolBetweenDate(DateTime dateFrom, DateTime dateTo, int symbolId, TradeTypesDTO type)

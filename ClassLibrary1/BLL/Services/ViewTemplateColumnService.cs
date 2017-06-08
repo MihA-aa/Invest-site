@@ -16,10 +16,12 @@ namespace BLL.Services
     {
         IUnitOfWork db { get; }
         IValidateService validateService { get; }
-        public ViewTemplateColumnService(IUnitOfWork uow, IValidateService vd)
+        IMapper IMapper { get; }
+        public ViewTemplateColumnService(IUnitOfWork uow, IValidateService vd, IMapper map)
         {
             db = uow;
             validateService = vd;
+            IMapper = map;
         }
 
         public ViewTemplateColumnDTO GetViewTemplateColumn(int? id)
@@ -29,8 +31,7 @@ namespace BLL.Services
             var viewTemplateColumn = db.ViewTemplateColumns.Get(id.Value);
             if (viewTemplateColumn == null)
                 throw new ValidationException("viewTemplateColumnDTO Not Found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumn, ViewTemplateColumnDTO>());
-            return Mapper.Map<ViewTemplateColumn, ViewTemplateColumnDTO>(viewTemplateColumn);
+            return IMapper.Map<ViewTemplateColumn, ViewTemplateColumnDTO>(viewTemplateColumn);
         }
 
         public void CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, int? templateId)
@@ -101,8 +102,7 @@ namespace BLL.Services
                 throw new ValidationException("ViewTemplateColumnDTO Null Reference", "");
             if (!db.ViewTemplateColumns.IsExist(viewTemplateColumnDto.Id))
                 throw new ValidationException("ViewTemplateColumnDTO Not Found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>());
-            var viewTemplateColumn = Mapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
+            var viewTemplateColumn = IMapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
             AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
             ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
             db.ViewTemplateColumns.Update(viewTemplateColumn);
@@ -124,8 +124,7 @@ namespace BLL.Services
         public IEnumerable<ColumnFormatDTO> GetFormatsByColumnName(string column)
         {
             var formats = db.Columns.GetFormatsByColumnName(column).ColumnFormats;
-            Mapper.Initialize(cfg => cfg.CreateMap<ColumnFormat, ColumnFormatDTO>());
-            return Mapper.Map<IEnumerable<ColumnFormat>, List<ColumnFormatDTO>>(formats);
+            return IMapper.Map<IEnumerable<ColumnFormat>, List<ColumnFormatDTO>>(formats);
         }
 
         public void UpdateColumnOrder(int id, int fromPosition, int toPosition, string direction)

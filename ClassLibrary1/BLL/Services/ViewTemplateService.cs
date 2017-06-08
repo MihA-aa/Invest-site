@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Helpers;
+using BLL.Infrastructure;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -15,21 +16,17 @@ namespace BLL.Services
     public class ViewTemplateService: IViewTemplateService
     {
         IUnitOfWork db { get; }
+        IMapper IMapper { get; }
 
-        public ViewTemplateService(IUnitOfWork uow)
+        public ViewTemplateService(IUnitOfWork uow, IMapper map)
         {
             db = uow;
+            IMapper = map;
         }
 
         public IEnumerable<ViewTemplateDTO> GetViewTemplates()
         {
-            var viewTemplates = db.ViewTemplates.GetAll();
-            if (viewTemplates == null)
-            {
-                return null;
-            }
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplate, ViewTemplateDTO>());
-            return Mapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(viewTemplates);
+            return IMapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(db.ViewTemplates.GetAll());
         }
 
         public string GetNameByTemplateId(int? id)
@@ -49,8 +46,7 @@ namespace BLL.Services
             var viewTemplate = db.ViewTemplates.Get(id.Value);
             if (viewTemplate == null)
                 throw new ValidationException("ViewTemplate Not Found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplate, ViewTemplateDTO>());
-            return Mapper.Map<ViewTemplate, ViewTemplateDTO>(viewTemplate);
+            return IMapper.Map<ViewTemplate, ViewTemplateDTO>(viewTemplate);
         }
 
         public IEnumerable<ViewTemplateColumnDTO> GetViewTemplateColumns(int? viewTemplateId)
@@ -60,9 +56,7 @@ namespace BLL.Services
             var viewTemplate = db.ViewTemplates.Get(viewTemplateId.Value);
             if (viewTemplate == null)
                 throw new ValidationException("View Template not found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumn, ViewTemplateColumnDTO>()
-            .ForMember("ColumnName", opt => opt.MapFrom(src => src.Column.Name)));
-            return Mapper.Map<IEnumerable<ViewTemplateColumn>, List<ViewTemplateColumnDTO>>(viewTemplate.Columns.ToList());
+            return IMapper.Map<IEnumerable<ViewTemplateColumn>, List<ViewTemplateColumnDTO>>(viewTemplate.Columns.ToList());
         }
 
         public void CreateOrUpdateViewTemplate(ViewTemplateDTO viewTemplate)
@@ -79,9 +73,7 @@ namespace BLL.Services
         {
             if (viewTemplateDto == null)
                 throw new ValidationException("ViewTemplateDTO Null Reference", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateDTO, ViewTemplate>());
-            var viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
-            db.ViewTemplates.Create(viewTemplate);
+            db.ViewTemplates.Create(IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto));
             db.Save();
         }
 
@@ -91,8 +83,7 @@ namespace BLL.Services
                 throw new ValidationException("ViewTemplateDTO Null Reference", "");
             if (!db.ViewTemplates.IsExist(viewTemplateDto.Id))
                 throw new ValidationException("ViewTemplate Not Found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateDTO, ViewTemplate>());
-            var viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
+            var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
             AddSortColumnToTemplate(viewTemplate, viewTemplate.SortColumnId);
             db.ViewTemplates.Update(viewTemplate);
             db.Save();
@@ -103,7 +94,7 @@ namespace BLL.Services
             if (template == null)
                 throw new ValidationException("Template null Reference", "");
             if (columnId == null)
-                throw new ValidationException("Column Id Not Set", "");
+                return;
             var column = db.ViewTemplateColumns.Get(columnId.Value);
             if (column == null)
                 throw new ValidationException("Column Not Found", "");

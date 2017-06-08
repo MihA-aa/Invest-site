@@ -12,9 +12,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using UnitTests.Attributes;
 using System.Threading.Tasks;
+using AutoMapper;
 using BLL.Helpers;
 using BLL.Infrastructure;
 using Microsoft.AspNet.Identity;
+using Profile = DAL.Entities.Profile;
 
 namespace UnitTests.Tests
 {
@@ -27,6 +29,7 @@ namespace UnitTests.Tests
         private Mock<ApplicationRoleManager> RoleManager;
         private ValidateService validateService;
         private Mock<IProfileRepository> profileRepository;
+        private IMapper map;
         # region Initialize
         List<User> ListUsers;
         List<Profile> ListProfiles;
@@ -79,6 +82,7 @@ namespace UnitTests.Tests
             RoleManager = new Mock<ApplicationRoleManager>();
             profileRepository = new Mock<IProfileRepository>();
             validateService = new ValidateService();
+            map = new AutoMapperConfiguration().Configure().CreateMapper();
         }
 
         [TestMethod]
@@ -87,7 +91,7 @@ namespace UnitTests.Tests
             profileRepository.Setup(c => c.Get(It.IsAny<string>()))
                 .Returns((string i) => ListProfiles.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             ProfileDTO profile1 = userService.GetProfile("1");
             ProfileDTO profile2 = userService.GetProfile("2");
@@ -102,7 +106,7 @@ namespace UnitTests.Tests
         public void CanNotGetPositionByNullId()
         {
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             userService.GetProfile(null);
         }
@@ -115,7 +119,7 @@ namespace UnitTests.Tests
             profileRepository.Setup(c => c.Get(It.IsAny<string>()))
                 .Returns((string i) => ListProfiles.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             userService.GetProfile("5");
         }
@@ -132,7 +136,7 @@ namespace UnitTests.Tests
             UserManager.Setup(c => c.CreateIdentityAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .Returns((User userName, string password) => Task.FromResult(new ClaimsIdentity()));
             UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             var result = await userService.AuthenticateAsync(firstUserDTO);
             
@@ -150,7 +154,7 @@ namespace UnitTests.Tests
             UserManager.Setup(c => c.CreateIdentityAsync(It.IsAny<User>(), It.IsAny<string>()))
                 .Returns((User userName, string password) => Task.FromResult(new ClaimsIdentity()));
             UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
             
             var result = await userService.AuthenticateAsync(new UserDTO { Login = "log", Password = "Pass" });
             
@@ -171,7 +175,7 @@ namespace UnitTests.Tests
                 .Callback<Profile>(ListProfiles.Add);
             UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             await userService.CreateAsync(new UserDTO { Login = "SomeUser1", Password = "PaWQEsdssWor-d12" });
 
@@ -187,7 +191,7 @@ namespace UnitTests.Tests
         {
             UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             await userService.CreateAsync(new UserDTO { Login = "So1", Password = "P" });
         }
@@ -200,7 +204,7 @@ namespace UnitTests.Tests
         {
             UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             await userService.CreateAsync(new UserDTO { Login = "S", Password = "PaWQEsdssWor-d12" });
         }
@@ -218,7 +222,7 @@ namespace UnitTests.Tests
                });
             UnitOfWork.Setup(m => m.UserManager).Returns(UserManager.Object);
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService);
+            userService = new UserService(UnitOfWork.Object, validateService, map);
 
             await userService.CreateAsync(new UserDTO { Login = "firstUser", Password = "Fio@$23rstUser@gmail.com" });
 

@@ -11,7 +11,7 @@ using PL.Models;
 
 namespace PL.Controllers
 {
-    public class PortfolioController : Controller
+    public class PortfolioController : BaseController
     {
         log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IPortfolioService portfolioService;
@@ -28,7 +28,6 @@ namespace PL.Controllers
         [HttpPost]
         public ActionResult CreateUpdatePortfolio(PortfolioModel portfolioModel)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioModel, PortfolioDTO>());
             var portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);
             TempData["PortfolioId"] = portfolioService.CreateOrUpdatePortfolio(portfolioDto, User.Identity.GetUserId());
             return RedirectToAction("Index", "Home");

@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AutoMapper;
+using BLL.Infrastructure;
+using PL.App_Start;
 using PL.Controllers;
 using PL.Util;
 
@@ -12,15 +15,17 @@ namespace PL
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        internal static MapperConfiguration MapperConfiguration { get; private set; }
+
         protected void Application_Start()
         {
             AutofacConfig.ConfigureContainer();
-
+            MapperConfiguration = AutoMapperWebConfiguration.GetConfiguration();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            
             log4net.Config.XmlConfigurator.Configure();
         }
         protected void Application_Error()

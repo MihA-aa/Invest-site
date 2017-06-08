@@ -15,16 +15,17 @@ namespace BLL.Services
     public class SymbolViewService: ISymbolViewService
     {
         IUnitOfWork db { get; }
+        IMapper IMapper { get; }
 
-        public SymbolViewService(IUnitOfWork uow)
+        public SymbolViewService(IUnitOfWork uow, IMapper map)
         {
             db = uow;
+            IMapper = map;
         }
 
         public SymbolViewDTO GetSymbolViewByName(string name)
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<SymbolView, SymbolViewDTO>());
-            return Mapper.Map<SymbolView, SymbolViewDTO>(db.SymbolViews.GetSymbolViewByName(name));
+            return IMapper.Map<SymbolView, SymbolViewDTO>(db.SymbolViews.GetSymbolViewByName(name));
         }
 
         public IEnumerable<string> SearchSymbolsByName(string name)

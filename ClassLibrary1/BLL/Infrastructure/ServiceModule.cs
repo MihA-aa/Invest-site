@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autofac.Core;
+using AutoMapper;
 using BLL.Interfaces;
 using BLL.Services;
 using DAL.Entities;
@@ -50,7 +51,7 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<ViewService>().As<IViewService>().
                 InstancePerRequest();
-            
+            builder.Register(_ => new AutoMapperConfiguration().Configure().CreateMapper()).As<IMapper>().SingleInstance();
             base.Load(builder);
         }
     }
