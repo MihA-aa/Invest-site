@@ -73,6 +73,11 @@ $(function () {
         }
     });
 
+    $(".viewItem").click(function(e){
+        e.preventDefault();
+        applyViewCheck(this);
+    });
+
     $('#btnSearch').click(function () {
         var symbolName = $('#txtSymbolName').val().trim();
         var tradeStatus = $('#ddStatus').val().trim();
@@ -124,51 +129,8 @@ $(document).ready(function(){
             ];
 
         loadTradeManagement();
-
-        $.ajax({
-            url: "/Nav/TestData",
-            type: "POST",
-            data: { id: 1 },
-            success: function (result) {
-                console.log(result.columns);
-
-                $.each(result.columns, function( index, value ) {
-                     if(result.columns[index].render == "saveActionLink")
-                        result.columns[index].render = function (data) {return getSaveActionLink(data);};
-                    else if(result.columns[index].render == "deleteActionLink")
-                        result.columns[index].render = function (data) {return getDeleteActionLink(data);};
-                    else
-                        delete result.columns[index].render;
-                });
-                console.log(result.columns[0].render);
-
-        tableTradeManagement =  $('#trade-management-jq-table')
-                .on( 'processing.dt', function ( e, settings, processing ) 
-                    {$('#loader').css( 'display', processing ? 'block' : 'none' );})
-                .DataTable({
-                "processing": false,
-                "serverSide": true,
-                "orderMulti": false,
-                 "dom": '<"top"i>rt<"bottom"lp><"clear">',
-                "ajax": {
-                    "url": "/Nav/LoadData",
-                    "type": "POST",
-                    "datatype": "json",
-                    "data": function ( d ) {
-                          $.extend(d, tradeManagementIndex);
-                          d.id = tradeManagementIndex;
-                          var dt_params = $('#trade-management-jq-table').data('dt_params');
-                          if(dt_params){ $.extend(d, dt_params); }
-                       },
-                    "error": function (xhr) {
-                        MyAlert(xhr.statusText);
-                    }
-                },
-                "columns": result.columns
-            });
-
-            }
-        });
+        LoadDataTable(1);
+        
 
         // tableTradeManagement =  $('#trade-management-jq-table')
         // .DataTable({
@@ -248,6 +210,67 @@ function OpenPopup(pageUrl) {
 }
 });
 
+function LoadDataTable(ViewId) {
+    $.ajax({
+        url: "/Nav/ApplyView",
+        type: "POST",
+        data: { id: ViewId },
+        success: function (result) {
+            console.log(result.columns);
+
+            $.each(result.columns, function( index, value ) {
+                switch (result.columns[index].render) 
+                {
+                  case "saveActionLink":
+                  result.columns[index].render = function (data) {return getSaveActionLink(data);};
+                  break;
+                  case "deleteActionLink":
+                  result.columns[index].render = function (data) {return getDeleteActionLink(data);};
+                  break;
+                  case "OpenDate":
+                  case "CloseDate":
+                  case "LastUpdateDate":
+                  result.columns[index].render = function (data) {return parseDateTime(data);};
+                  break;
+                  case "TradeStatus":
+                  result.columns[index].render = function (data) {return parseTradeStatus(data);};
+                  break;
+                  case "TradeType":
+                  result.columns[index].render = function (data) {return parseTradeType(data);};
+                  break;
+                  default:
+                  delete result.columns[index].render;
+              }
+          });
+
+            tableTradeManagement =  $('#trade-management-jq-table')
+            .on( 'processing.dt', function ( e, settings, processing ) 
+                {$('#loader').css( 'display', processing ? 'block' : 'none' );})
+            .DataTable({
+                "processing": false,
+                "serverSide": true,
+                "orderMulti": false,
+                "dom": '<"top"i>rt<"bottom"lp><"clear">',
+                "ajax": {
+                    "url": "/Nav/LoadData",
+                    "type": "POST",
+                    "datatype": "json",
+                    "data": function ( d ) {
+                      $.extend(d, tradeManagementIndex);
+                      d.id = tradeManagementIndex;
+                      var dt_params = $('#trade-management-jq-table').data('dt_params');
+                      if(dt_params){ $.extend(d, dt_params); }
+                  },
+                  "error": function (xhr) {
+                    MyAlert(xhr.statusText);
+                }
+            },
+            "columns": result.columns
+        });
+
+        }
+    });
+}
 
 $("#alertErrorDialog").dialog({
     autoOpen: false,
@@ -403,3 +426,21 @@ function getSaveActionLink(data){
 function getDeleteActionLink(data){
     return '<a class="popup" href="/Position/Delete/'+ data + '"><span class="glyphicon glyphicon-remove" style="color: #dc6c6c;"></span></a>';
 }
+
+function applyViewCheck(that) {
+    console.log($(that).attr('id'));
+    // ReloadTable();
+    LoadDataTable($(that).attr('id'));
+}
+
+function parseTradeType(data){
+    switch (data) {
+  case 0:
+    return ( 'Long' );
+  case 1:
+    return( 'Short' );
+  default:
+    return( ' ' );
+    }
+}
+

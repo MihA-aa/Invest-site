@@ -43,6 +43,15 @@ namespace PL.Controllers
             return PartialView(portfolios);
         }
 
+        public PartialViewResult ViewList()
+        {
+            var viewsDto = viewService.GetViews().OrderBy(v => v.Name);
+            Mapper.Initialize(cfg => cfg.CreateMap<ViewDTO, ViewModel>());
+            var views = Mapper.Map<IEnumerable<ViewDTO>, List<ViewModel>>(viewsDto);
+            return PartialView(views);
+        }
+
+
         public ActionResult _General(int? id)
         {
             if(id == null)
@@ -55,33 +64,46 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public ActionResult TestData(int? id)
+        public ActionResult ApplyView(int? id)
         {
-            //var positionsDto = portfolioService.GetPortfolioPositions(id);
-            //Mapper.Initialize(cfg => cfg.CreateMap<PositionDTO, PositionModel>());
-            //var data = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
+            var viewTemplateColumns = viewTemplateService.GetViewTemplateColumns(id).OrderBy(c => c.DisplayIndex);
 
-            //var columns = new List <string>
-            //{
-            //    "Name", "SymbolName", "OpenPrice", "OpenDate", "OpenWeight", "CurrentPrice",
-            //    "TradeStatus","ClosePrice", "CloseDate", "Gain", "LastUpdateDate", "LastUpdatePrice",
-            //    "AbsoluteGain", "MaxGain"
-            //};
-            //var s = JsonConvert.SerializeObject(columns);
-            //var m = JsonConvert.SerializeObject(data);
-            ////        "columns": [
-            ////    [ "title": "Index" ],
-            ////    [ "title": "Name" ],
-            ////    [ "title": "Age" ],
-            ////    [ "title": "Image" ]
-            ////]
+            var columns = new List<dynamic>
+           {
+                new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "saveActionLink"},
+                new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "deleteActionLink"}
+            };
 
-            var columns = new[]
+            foreach(var column in viewTemplateColumns)
             {
-                new {data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "saveActionLink"},
-                new {data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "deleteActionLink"},
-                new {data = "Name", name = "Name", autoWidth = "true", width = "null", render = ""},
-                new {data = "SymbolName", name = "SymbolName", autoWidth = "true", width = "null", render = ""}
+                columns.Add(new
+                {
+                    title = column.Name,
+                    data = column.ColumnName.Replace(" ", string.Empty),
+                    name = column.ColumnName.Replace(" ", string.Empty),
+                    render = column.ColumnName.Replace(" ", string.Empty),
+                    autoWidth = "true"
+                });
+            }
+
+            var columns2 = new List<dynamic>
+            {
+                new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "saveActionLink"},
+                new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "deleteActionLink"},
+                new {title = "Name", data = "Name", name = "Name", autoWidth = "true", width = "null", render = ""},
+                new {title = "Symbol", data = "SymbolName", name = "SymbolName", autoWidth = "true", width = "null", render = ""},
+                new {title = "Open Price", data = "OpenPrice", name = "OpenPrice", autoWidth = "true", width = "null", render = ""},
+                new {title = "Open Date", data = "OpenDate", name = "OpenDate", autoWidth = "true", width = "null", render = "dateTime"},
+                new {title = "Open Weight", data = "OpenWeight", name = "OpenWeight", autoWidth = "true", width = "null", render = ""},
+                new {title = "Current Price", data = "CurrentPrice", name = "CurrentPrice", autoWidth = "true", width = "null", render = ""},
+                new {title = "Trade Status", data = "TradeStatus", name = "TradeStatus", autoWidth = "true", width = "null", render = "tradeStatus"},
+                new {title = "Close Price", data = "ClosePrice", name = "ClosePrice", autoWidth = "true", width = "null", render = ""},
+                new {title = "My column title", data = "CloseDate", name = "CloseDate", autoWidth = "true", width = "null", render = "dateTime"},
+                new {title = "Close Date", data = "Gain", name = "Gain", autoWidth = "true", width = "null", render = ""},
+                new {title = "Last Update Date", data = "LastUpdateDate", name = "LastUpdateDate", autoWidth = "true", width = "null", render = "dateTime"},
+                new {title = "Last Update Price", data = "LastUpdatePrice", name = "LastUpdatePrice", autoWidth = "true", width = "null", render = ""},
+                new {title = "Absolute Gain", data = "AbsoluteGain", name = "AbsoluteGain", autoWidth = "true", width = "null", render = ""},
+                new {title = "Max Gain", data = "MaxGain", name = "MaxGain", autoWidth = "true", width = "null", render = ""},
             };
             return Json(new { columns = columns }, JsonRequestBehavior.AllowGet);
         }
@@ -99,12 +121,12 @@ namespace PL.Controllers
             var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
-            //var symbolName = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
-            //var status = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
-            //var openDateFrom = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
-            //var openDateTo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
-            //var closeDateFrom = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
-            //var closeDateTo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
+            var symbolName = Request.Form.GetValues("columns[3][search][value]").FirstOrDefault();
+            var status = Request.Form.GetValues("columns[8][search][value]").FirstOrDefault();
+            var openDateFrom = Request.Form.GetValues("columns[5][search][value]").FirstOrDefault();
+            var openDateTo = Request.Form.GetValues("columns[6][search][value]").FirstOrDefault();
+            var closeDateFrom = Request.Form.GetValues("columns[10][search][value]").FirstOrDefault();
+            var closeDateTo = Request.Form.GetValues("columns[11][search][value]").FirstOrDefault();
 
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
@@ -113,34 +135,34 @@ namespace PL.Controllers
             var positionsDto = portfolioService.GetPortfolioPositions(id);
 
             #region Searching and sorting 
-            //if (!string.IsNullOrEmpty(openDateFrom))
-            //{
-            //    positionsDto = positionsDto.Where(p => p.OpenDate.Date >= openDateFrom.AsDateTime());
-            //}
-            //if (!string.IsNullOrEmpty(openDateTo))
-            //{
-            //    positionsDto = positionsDto.Where(p => p.OpenDate.Date <= openDateTo.AsDateTime());
-            //}
-            //if (!string.IsNullOrEmpty(closeDateFrom))
-            //{
-            //    positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date >= closeDateFrom.AsDateTime());
-            //}
-            //if (!string.IsNullOrEmpty(closeDateTo))
-            //{
-            //    positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date <= closeDateTo.AsDateTime());
-            //}
-            //if (!string.IsNullOrEmpty(symbolName))
-            //{
-            //    positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
-            //}
-            //if (!string.IsNullOrEmpty(status))
-            //{
-            //    positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == status);
-            //}
-            //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
-            //{
-            //    positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
-            //}
+            if (!string.IsNullOrEmpty(openDateFrom))
+            {
+                positionsDto = positionsDto.Where(p => p.OpenDate.Date >= openDateFrom.AsDateTime());
+            }
+            if (!string.IsNullOrEmpty(openDateTo))
+            {
+                positionsDto = positionsDto.Where(p => p.OpenDate.Date <= openDateTo.AsDateTime());
+            }
+            if (!string.IsNullOrEmpty(closeDateFrom))
+            {
+                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date >= closeDateFrom.AsDateTime());
+            }
+            if (!string.IsNullOrEmpty(closeDateTo))
+            {
+                positionsDto = positionsDto.Where(p => p.CloseDate != null && p.CloseDate.Value.Date <= closeDateTo.AsDateTime());
+            }
+            if (!string.IsNullOrEmpty(symbolName))
+            {
+                positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == status);
+            }
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                positionsDto = positionsDto.OrderBy(sortColumn + " " + sortColumnDir);
+            }
             #endregion
 
             totalRecords = positionsDto.Count();

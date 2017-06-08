@@ -11,11 +11,11 @@ namespace DAL.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public virtual ICollection<ColumnFormat> ColumnFormats { get; set; }
-        public virtual ICollection<ViewTemplateColumn> ViewTemplateColumns { get; set; }
+        //public virtual ICollection<ViewTemplateColumn> ViewTemplateColumns { get; set; }
         public Format()
         {
             ColumnFormats = new List<ColumnFormat>();
-            ViewTemplateColumns = new List<ViewTemplateColumn>();
+            //ViewTemplateColumns = new List<ViewTemplateColumn>();
         }
     }
 }

@@ -152,8 +152,17 @@
     <Compile Include="Migrations\201706070921088_addedIds.Designer.cs">
       <DependentUpon>201706070921088_addedIds.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706080843554_ChangeColumnViewTemplate.cs" />
+    <Compile Include="Migrations\201706080843554_ChangeColumnViewTemplate.Designer.cs">
+      <DependentUpon>201706080843554_ChangeColumnViewTemplate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706080900128_ChangeColumnViewTemplate2.cs" />
+    <Compile Include="Migrations\201706080900128_ChangeColumnViewTemplate2.Designer.cs">
+      <DependentUpon>201706080900128_ChangeColumnViewTemplate2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ColumnFormatRepository.cs" />
     <Compile Include="Repositories\ColumnRepository.cs" />
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\EFUnitOfWork.cs" />
@@ -247,6 +256,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706070921088_addedIds.resx">
       <DependentUpon>201706070921088_addedIds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706080843554_ChangeColumnViewTemplate.resx">
+      <DependentUpon>201706080843554_ChangeColumnViewTemplate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706080900128_ChangeColumnViewTemplate2.resx">
+      <DependentUpon>201706080900128_ChangeColumnViewTemplate2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

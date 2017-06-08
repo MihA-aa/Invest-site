@@ -83,6 +83,7 @@
     <Compile Include="Enums\TemplatePositions.cs" />
     <Compile Include="Enums\TradeStatuses.cs" />
     <Compile Include="Enums\TradeTypes.cs" />
+    <Compile Include="Interfaces\IColumnFormatRepository.cs" />
     <Compile Include="Interfaces\IColumnRepository.cs" />
     <Compile Include="Interfaces\ICustomerRepository.cs" />
     <Compile Include="Interfaces\IFormatRepository.cs" />

@@ -116,8 +116,8 @@
         @Html.ValidationMessageFor(a => a.Name)
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.FormatId, new { style = "margin-right: 63px; margin-left: 10px;" })
-        @Html.DropDownListFor(x => x.FormatId, new []{new SelectListItem {Text = "None", Value="1"}},
+        @Html.LabelFor(model => model.ColumnFormatId, new { style = "margin-right: 63px; margin-left: 10px;" })
+        @Html.DropDownListFor(x => x.ColumnFormatId, new []{new SelectListItem {Text = "None", Value="1"}},
             new {@class = "selectpicker", style = "width: 280px;", id= "DropDownListFormats" })
 
     </div>

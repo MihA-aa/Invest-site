@@ -484,6 +484,20 @@ namespace DALEF.EF
                 Name = "Max Gain",
                 Format = MoneyFormat
             };
+            Column LastUpdateDate = new Column
+            {
+                Id = 15,
+                Name = "Last Update Date",
+                Format = DateFormat
+            };
+
+            Column LastUpdatePrice = new Column
+            {
+                Id = 16,
+                Name = "Last Update Price",
+                Format = MoneyFormat
+            };
+            
             db.Columns.Add(Name);
             db.Columns.Add(SymbolName);
             db.Columns.Add(OpenPrice);
@@ -498,6 +512,8 @@ namespace DALEF.EF
             db.Columns.Add(Gain);
             db.Columns.Add(AbsoluteGain);
             db.Columns.Add(MaxGain);
+            db.Columns.Add(LastUpdateDate);
+            db.Columns.Add(LastUpdatePrice);
             #endregion
 
             #region ViewTemplateColumns Inizialize
@@ -507,7 +523,10 @@ namespace DALEF.EF
                 Name = "Name",
                 Column = Name,
                 ViewTemplateId = 1,
-                DisplayIndex = 1
+                DisplayIndex = 1,
+                ColumnFormat = Linked,
+                ColumnId = 1,
+                ColumnFormatId = 3
             };
             ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
             {
@@ -515,7 +534,10 @@ namespace DALEF.EF
                 Name = "Symbol",
                 Column = SymbolName,
                 ViewTemplateId = 1,
-                DisplayIndex = 2
+                DisplayIndex = 2,
+                ColumnFormat = None,
+                ColumnId = 2,
+                ColumnFormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn3 = new ViewTemplateColumn
             {
@@ -523,7 +545,10 @@ namespace DALEF.EF
                 Name = "Open Price",
                 Column = OpenPrice,
                 ViewTemplateId = 1,
-                DisplayIndex = 4
+                DisplayIndex = 4,
+                ColumnFormat = Money,
+                ColumnId = 3,
+                ColumnFormatId = 2
             };
             ViewTemplateColumn viewTemplateColumn4 = new ViewTemplateColumn
             {
@@ -531,7 +556,10 @@ namespace DALEF.EF
                 Name = "Open Date",
                 Column = OpenDate,
                 ViewTemplateId = 1,
-                DisplayIndex = 5
+                DisplayIndex = 5,
+                ColumnFormat = Date,
+                ColumnId = 4,
+                ColumnFormatId = 4
             };
             ViewTemplateColumn viewTemplateColumn5 = new ViewTemplateColumn
             {
@@ -539,7 +567,10 @@ namespace DALEF.EF
                 Name = "Weight",
                 Column = OpenWeight,
                 ViewTemplateId = 1,
-                DisplayIndex = 3
+                DisplayIndex = 3,
+                ColumnFormat = None,
+                ColumnId = 5,
+                ColumnFormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn6 = new ViewTemplateColumn
             {
@@ -547,7 +578,10 @@ namespace DALEF.EF
                 Name = "Current Price",
                 Column = CurrentPrice,
                 ViewTemplateId = 1,
-                DisplayIndex = 6
+                DisplayIndex = 6,
+                ColumnFormat = Linked,
+                ColumnId = 6,
+                ColumnFormatId = 3
             };
             ViewTemplateColumn viewTemplateColumn7 = new ViewTemplateColumn
             {
@@ -555,7 +589,10 @@ namespace DALEF.EF
                 Name = "Close Price",
                 Column = ClosePrice,
                 ViewTemplateId = 1,
-                DisplayIndex = 7
+                DisplayIndex = 7,
+                ColumnFormat = None,
+                ColumnId = 7,
+                ColumnFormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn8 = new ViewTemplateColumn
             {
@@ -563,7 +600,10 @@ namespace DALEF.EF
                 Name = "Close Date",
                 Column = CloseDate,
                 ViewTemplateId = 1,
-                DisplayIndex = 8
+                DisplayIndex = 8,
+                ColumnFormat = DateAndTime,
+                ColumnId = 8,
+                ColumnFormatId = 6
             };
             ViewTemplateColumn viewTemplateColumn9 = new ViewTemplateColumn
             {
@@ -571,7 +611,10 @@ namespace DALEF.EF
                 Name = "Trade Type",
                 Column = TradeType,
                 ViewTemplateId = 1,
-                DisplayIndex = 9
+                DisplayIndex = 9,
+                ColumnFormat = None,
+                ColumnId = 9,
+                ColumnFormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn10 = new ViewTemplateColumn
             {
@@ -579,7 +622,10 @@ namespace DALEF.EF
                 Name = "Trade Status",
                 Column = TradeStatus,
                 ViewTemplateId = 1,
-                DisplayIndex = 10
+                DisplayIndex = 10,
+                ColumnFormat = None,
+                ColumnId = 10,
+                ColumnFormatId = 1
             };
             ViewTemplateColumn viewTemplateColumn11 = new ViewTemplateColumn
             {
@@ -587,7 +633,10 @@ namespace DALEF.EF
                 Name = "Dividends",
                 Column = Dividends,
                 ViewTemplateId = 1,
-                DisplayIndex = 11
+                DisplayIndex = 11,
+                ColumnFormat = Money,
+                ColumnId = 11,
+                ColumnFormatId = 2
             };
             ViewTemplateColumn viewTemplateColumn12 = new ViewTemplateColumn
             {
@@ -595,7 +644,10 @@ namespace DALEF.EF
                 Name = "Absolute Gain",
                 Column = AbsoluteGain,
                 ViewTemplateId = 1,
-                DisplayIndex = 12
+                DisplayIndex = 12,
+                ColumnFormat = Percent,
+                ColumnId = 13,
+                ColumnFormatId = 7
             };
             ViewTemplateColumn viewTemplateColumn13 = new ViewTemplateColumn
             {
@@ -603,7 +655,10 @@ namespace DALEF.EF
                 Name = "Max Gain",
                 Column = MaxGain,
                 ViewTemplateId = 1,
-                DisplayIndex = 13
+                DisplayIndex = 13,
+                ColumnFormat = Money,
+                ColumnId = 14,
+                ColumnFormatId = 2
             };
             ViewTemplateColumn viewTemplateColumn14 = new ViewTemplateColumn
             {
@@ -611,15 +666,44 @@ namespace DALEF.EF
                 Name = "Gain",
                 Column = Gain,
                 ViewTemplateId = 1,
-                DisplayIndex = 14
+                DisplayIndex = 14,
+                ColumnFormat = Linked,
+                ColumnId = 12,
+                ColumnFormatId = 3
+            };
+            ViewTemplateColumn viewTemplateColumn15 = new ViewTemplateColumn
+            {
+                Id = 15,
+                Name = "Last Update Date",
+                Column = LastUpdateDate,
+                ViewTemplateId = 1,
+                DisplayIndex = 15,
+                ColumnFormat = DateAndTime,
+                ColumnId = 15,
+                ColumnFormatId = 6
+            };
+
+            ViewTemplateColumn viewTemplateColumn16 = new ViewTemplateColumn
+            {
+                Id = 16,
+                Name = "Last Update Price",
+                Column = LastUpdatePrice,
+                ViewTemplateId = 1,
+                DisplayIndex = 16,
+                ColumnFormat = Linked,
+                ColumnId = 16,
+                ColumnFormatId = 2
             };
             ViewTemplateColumn viewTemplateColumn21 = new ViewTemplateColumn
             {
-                Id = 15,
+                Id = 17,
                 Name = "Name",
                 Column = Name,
                 ViewTemplateId = 2,
-                DisplayIndex = 1
+                DisplayIndex = 1,
+                ColumnFormat = None,
+                ColumnId = 1,
+                ColumnFormatId = 1
             };
             db.ViewTemplateColumns.Add(viewTemplateColumn1);
             db.ViewTemplateColumns.Add(viewTemplateColumn2);
@@ -636,6 +720,8 @@ namespace DALEF.EF
             db.ViewTemplateColumns.Add(viewTemplateColumn12);
             db.ViewTemplateColumns.Add(viewTemplateColumn13);
             db.ViewTemplateColumns.Add(viewTemplateColumn14);
+            db.ViewTemplateColumns.Add(viewTemplateColumn15);
+            db.ViewTemplateColumns.Add(viewTemplateColumn16);
             db.ViewTemplateColumns.Add(viewTemplateColumn21);
             #endregion
 
@@ -652,7 +738,8 @@ namespace DALEF.EF
                     viewTemplateColumn1, viewTemplateColumn2, viewTemplateColumn3, viewTemplateColumn4,
                     viewTemplateColumn5, viewTemplateColumn6, viewTemplateColumn6, viewTemplateColumn7,
                     viewTemplateColumn8, viewTemplateColumn9, viewTemplateColumn10, viewTemplateColumn11,
-                    viewTemplateColumn12, viewTemplateColumn13, viewTemplateColumn13, viewTemplateColumn14
+                    viewTemplateColumn12, viewTemplateColumn13, viewTemplateColumn13, viewTemplateColumn14,
+                    viewTemplateColumn15, viewTemplateColumn16
                 }
             };
 

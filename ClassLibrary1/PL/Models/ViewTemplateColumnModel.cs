@@ -30,6 +30,6 @@ namespace PL.Models
 
         [Required]
         [Display(Name = "Format")]
-        public int? FormatId { get; set; }
+        public int? ColumnFormatId { get; set; }
     }
 }

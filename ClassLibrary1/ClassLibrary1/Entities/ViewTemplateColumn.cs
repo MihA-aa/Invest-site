@@ -7,7 +7,8 @@ namespace DAL.Entities
         public int Id { get; set; }
         public int DisplayIndex { get; set; }
         public string Name { get; set; }
-        public virtual Format Format { get; set; }
+        public virtual ColumnFormat ColumnFormat { get; set; }
+        public int? ColumnFormatId { get; set; }
         public int? FormatId { get; set; }
         public virtual Column Column { get; set; }
         public int? ColumnId { get; set; }

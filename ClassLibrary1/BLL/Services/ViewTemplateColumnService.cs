@@ -53,7 +53,7 @@ namespace BLL.Services
             db.ViewTemplateColumns.Create(viewTemplateColumn);
             AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
             AddColumnToTemplate(viewTemplateColumn, templateId);
-            ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.FormatId);
+            ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
             db.Save();
         }
 
@@ -76,11 +76,11 @@ namespace BLL.Services
                 throw new ValidationException("Column null Reference", "");
             if (FormatId == null)
                 throw new ValidationException("Format Id Not Set", "");
-            var format = db.Formats.Get(FormatId.Value);
+            var format = db.ColumnFormats.Get(FormatId.Value);
             if (format == null)
                 throw new ValidationException("Format Not Found", "");
-            column.FormatId = format.Id;
-            column.Format = format;
+            column.ColumnFormatId = format.Id;
+            column.ColumnFormat = format;
         }
 
 
@@ -104,7 +104,7 @@ namespace BLL.Services
             Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>());
             var viewTemplateColumn = Mapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
             AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
-            ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.FormatId);
+            ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
             db.ViewTemplateColumns.Update(viewTemplateColumn);
             db.Save();
         }

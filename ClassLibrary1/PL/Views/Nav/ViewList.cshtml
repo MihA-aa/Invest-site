@@ -1,0 +1,8 @@
+﻿@model IEnumerable<PL.Models.ViewModel>
+
+<ul class="dropdown-menu" role="menu" id="ViewListUl">
+    @for (var i = 0; i < Model.Count(); i++)
+    {
+        <li><a id="@Model.ToList()[i].Id" href="#" class="viewItem">@Model.ToList()[i].Name</a></li>
+    }
+</ul>

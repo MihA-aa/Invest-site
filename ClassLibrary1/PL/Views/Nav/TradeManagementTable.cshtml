@@ -9,26 +9,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li><a class="popup" href="/Position/Save/0">Add regular position </a></li>
-                @*<li><a href="#">Add combine position </a></li>
-                    <li><a href="#">Add stock</a></li>
-                    <li><a href="#">Add put option</a></li>
-                    <li><a href="#">Add call option</a></li>*@
             </ul>
         </div>
-        @*<button type="button" class="btn btn-default myNavBtn">Trade Groups</button>
-        <button type="button" class="btn btn-default myNavBtn">Income</button>
-        <button type="button" class="btn btn-default myNavBtn">Divide Trade</button>
-        <button type="button" class="btn btn-default myNavBtn">Custom Symbols</button>*@
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle myNavBtn" data-toggle="dropdown">
                 View <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Default View </a></li>
-                <li><a href="#">Default View 1</a></li>
-                <li><a href="#">Default View 2</a></li>
-                <li><a href="#">Default View 3</a></li>
-            </ul>
+            @Html.Action("ViewList", "Nav")
         </div>
     </div>
 

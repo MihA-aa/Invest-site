@@ -22,6 +22,7 @@ namespace DALEF.Repositories
         private ViewTemplateRepository viewTemplateRepository;
         private ViewTemplateColumnRepository viewTemplateColumnRepository;
         private ColumnRepository columnRepository;
+        private ColumnFormatRepository columnFormatRepository;
         private FormatRepository formatRepository;
         private ViewRepository viewRepository;
         private ApplicationUserManager userManager;
@@ -69,6 +70,16 @@ namespace DALEF.Repositories
                 if (formatRepository == null)
                     formatRepository = new FormatRepository(db);
                 return formatRepository;
+            }
+        }
+
+        public IColumnFormatRepository ColumnFormats
+        {
+            get
+            {
+                if (columnFormatRepository == null)
+                    columnFormatRepository = new ColumnFormatRepository(db);
+                return columnFormatRepository;
             }
         }
 

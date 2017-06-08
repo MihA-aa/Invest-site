@@ -60,7 +60,8 @@ namespace BLL.Services
             var viewTemplate = db.ViewTemplates.Get(viewTemplateId.Value);
             if (viewTemplate == null)
                 throw new ValidationException("View Template not found", "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumn, ViewTemplateColumnDTO>());
+            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumn, ViewTemplateColumnDTO>()
+            .ForMember("ColumnName", opt => opt.MapFrom(src => src.Column.Name)));
             return Mapper.Map<IEnumerable<ViewTemplateColumn>, List<ViewTemplateColumnDTO>>(viewTemplate.Columns.ToList());
         }
 

@@ -69,3 +69,5 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migration
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ss121.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.addedSortcolumnId.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.addedIds.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeColumnViewTemplate.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeColumnViewTemplate2.resources

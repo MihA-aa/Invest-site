@@ -18,6 +18,7 @@ namespace DAL.Interfaces
         IViewTemplateColumnRepository ViewTemplateColumns { get; }
         IFormatRepository Formats { get; }
         IColumnRepository Columns { get; }
+        IColumnFormatRepository ColumnFormats { get; }
         IViewRepository Views { get; }
         ApplicationUserManager UserManager { get; }
         ApplicationRoleManager RoleManager { get; }

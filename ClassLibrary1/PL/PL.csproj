@@ -741,6 +741,7 @@
     <Content Include="Views\Nav\ViewManagement.cshtml" />
     <Content Include="Views\View\Save.cshtml" />
     <Content Include="Views\View\Delete.cshtml" />
+    <Content Include="Views\Nav\ViewList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
