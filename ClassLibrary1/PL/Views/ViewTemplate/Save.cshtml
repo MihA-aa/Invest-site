@@ -1,4 +1,5 @@
-﻿@model PL.Models.ViewTemplateModel
+﻿@using System.Collections
+@model PL.Models.ViewTemplateModel
 <h2 style="margin-top: 5px;">Save</h2>
 
 <style>
@@ -14,47 +15,6 @@
     }
 </style>
 
-@{
-    #region
-    var showPositionslist = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text = "All",
-                    Value = "All"
-                },
-                new SelectListItem
-                {
-                    Text = "ClosedOnly",
-                    Value = "ClosedOnly"
-                },
-                new SelectListItem
-                {
-                    Text = "OpenAndWaiting",
-                    Value = "OpenAndWaiting"
-                },
-                new SelectListItem
-                {
-                    Text = "OpenOnly",
-                    Value = "OpenOnly"
-                }
-            };
-    var positionSortinglist = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text = "ASC",
-                    Value = "ASC"
-                },
-                new SelectListItem
-                {
-                    Text = "DESC",
-                    Value = "DESC"
-                }
-            };
-    #endregion
-}
-
 @using (Html.BeginForm("Save", "ViewTemplate", FormMethod.Post, new { id = "popupViewTampleteForm" }))
 {
     @Html.AntiForgeryToken()
@@ -68,7 +28,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Positions, new { style = "margin-right: 17px;" })
-        @Html.DropDownListFor(model => model.Positions, showPositionslist, new { @class = "selectpicker", style = "width: 280px;" })
+        @Html.DropDownListFor(model => model.Positions, ViewBag.ShowPositionsList as SelectList, new { @class = "selectpicker", style = "width: 280px;" })
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.ShowPortfolioStats, new
@@ -82,14 +42,13 @@
     {
         <div class="form-group">
             @Html.LabelFor(model => model.Columns, new { style = "margin-right: 37px;" })
-            @Html.DropDownListFor(model => model.SortColumnId, Model.Columns as SelectList, new { @class = "selectpicker", style = "width: 280px;" })
+            @Html.DropDownListFor(model => model.SortColumnId, Model.Columns, new { @class = "selectpicker", style = "width: 280px;" })
         </div>
         <div class="form-group">
             @Html.LabelFor(model => model.SortOrder, new { style = "margin-right: 52px;" })
-            @Html.DropDownListFor(model => model.SortOrder, positionSortinglist, new { @class = "selectpicker", style = "width: 280px;" })
+            @Html.DropDownListFor(model => model.SortOrder, ViewBag.SortingList as SelectList, new { @class = "selectpicker", style = "width: 280px;" })
         </div>
     }
-
 
     <div class="form-group" style="margin-bottom: 40px;">
         <div class="col-md-offset-2">

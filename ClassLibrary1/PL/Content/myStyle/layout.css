@@ -132,3 +132,9 @@ input[type="checkbox"].input-validation-error {
     bottom: 450px;
     right: 350px;
 }
+
+#trade-management-jq-table td, #trade-management-jq-table th{
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}

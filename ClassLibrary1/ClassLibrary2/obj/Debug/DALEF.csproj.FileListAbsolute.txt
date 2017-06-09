@@ -44,10 +44,7 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.Core.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csprojResolveAssemblyReference.cache
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.AddViewChange.resources
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csproj.GenerateResource.Cache
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.AddViewChangea.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.AddViewChangea1.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.AddViewChangea1qswasd.resources
@@ -71,3 +68,6 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migration
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.addedIds.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeColumnViewTemplate.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeColumnViewTemplate2.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csproj.GenerateResource.Cache
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb

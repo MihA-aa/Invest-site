@@ -170,7 +170,6 @@ C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\PL\obj\Debug\PL.csprojResolveAssemblyReference.cache
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\PL\obj\Debug\PL.dll
 C:\Users\m.ermolaev\Downloads\Invest-site-master\Invest-site-master\ClassLibrary1\PL\obj\Debug\PL.pdb
-D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\ApplicationInsights.config
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\roslyn\csc.exe
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -257,5 +256,6 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\Newtonsoft.Json.xml
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\DAL.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\DALEF.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.pdb

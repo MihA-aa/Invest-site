@@ -6,10 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.Enums;
 using BLL.Helpers;
 using BLL.Interfaces;
 using PL.Models;
 using BLL.Infrastructure;
+using PL.Util;
 
 namespace PL.Controllers
 {
@@ -26,6 +28,8 @@ namespace PL.Controllers
         public ActionResult Save(int? id)
         {
             PositionModel position = null;
+            ViewBag.TradeTypeList = HelperService.GetSelectListFromEnum<TradeTypesDTO>();
+            ViewBag.TradeStatusList = HelperService.GetSelectListFromEnum<TradeStatusesDTO>();
             try
             {
                 if (id == 0)

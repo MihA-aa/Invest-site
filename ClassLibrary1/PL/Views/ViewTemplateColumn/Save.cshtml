@@ -15,84 +15,6 @@
     }
 </style>
 
-@{
-    #region
-    var columnNamesList = new List<SelectListItem>
-    {
-                        new SelectListItem
-                {
-                    Text = "Absolute Gain",
-                    Value = "Absolute Gain"
-                },
-                new SelectListItem
-                {
-                    Text = "Close Date",
-                    Value = "Close Date"
-                },
-                new SelectListItem
-                {
-                    Text = "Close Price",
-                    Value = "Close Price"
-                },
-                new SelectListItem
-                {
-                    Text = "Current Price",
-                    Value = "Current Price"
-                },
-                new SelectListItem
-                {
-                    Text = "Dividends",
-                    Value = "Dividends"
-                },
-                new SelectListItem
-                {
-                    Text = "Gain",
-                    Value = "Gain"
-                },
-                new SelectListItem
-                {
-                    Text = "Max Gain",
-                    Value = "Max Gain"
-                },
-                new SelectListItem
-                {
-                    Text = "Name",
-                    Value = "Name"
-                },
-                new SelectListItem
-                {
-                    Text = "Open Date",
-                    Value = "Open Date"
-                },
-                new SelectListItem
-                {
-                    Text = "Open Price",
-                    Value = "Open Price"
-                },
-                new SelectListItem
-                {
-                    Text = "Symbol",
-                    Value = "Symbol Name"
-                },
-                new SelectListItem
-                {
-                    Text = "Trade Status",
-                    Value = "Trade Status"
-                },
-                new SelectListItem
-                {
-                    Text = "Trade Type",
-                    Value = "Trade Type"
-                },
-                new SelectListItem
-                {
-                    Text = "Weight",
-                    Value = "Open Weight"
-                }
-    };
-    #endregion
-}
-
 @using (Html.BeginForm("Save", "ViewTemplateColumn", FormMethod.Post, new { id = "popupViewTampleteColumnForm" }))
 {
     @Html.AntiForgeryToken()
@@ -106,7 +28,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.ColumnName, new { style = "margin-right: 57px; margin-left: 10px;" })
-        @Html.DropDownListFor(model => model.ColumnName, columnNamesList, new { @class = "selectpicker", style = "width: 280px;",
+        @Html.DropDownListFor(model => model.ColumnName, ViewBag.ColumnNamesList as SelectList, new { @class = "selectpicker", style = "width: 280px;",
                                                             id = "ColumnNameValue",    onchange = "columnNameCheck(this);"
    })
     </div>

@@ -332,11 +332,6 @@ namespace DALEF.EF
                 Id = 4,
                 Name = "Date"
             };
-            ColumnFormat LinkedCloseDate = new ColumnFormat
-            {
-                Id = 5,
-                Name = "LinkedCloseDate"
-            };
             ColumnFormat DateAndTime = new ColumnFormat
             {
                 Id = 6,
@@ -352,7 +347,6 @@ namespace DALEF.EF
             db.ColumnFormats.Add(Money);
             db.ColumnFormats.Add(Linked);
             db.ColumnFormats.Add(Date);
-            db.ColumnFormats.Add(LinkedCloseDate);
             db.ColumnFormats.Add(DateAndTime);
             db.ColumnFormats.Add(Percent);
 
@@ -810,25 +804,25 @@ namespace DALEF.EF
             }
             catch (System.Data.Entity.Infrastructure.DbUpdateConcurrencyException ex)
             {
-                Console.WriteLine(ex.InnerException);
+                throw new Exception(ex.InnerException.ToString());
             }
             catch (System.Data.Entity.Core.EntityCommandCompilationException ex)
             {
-                Console.WriteLine(ex.InnerException);
+                throw new Exception(ex.InnerException.ToString());
             }
             catch (System.Data.Entity.Core.UpdateException ex)
             {
-                Console.WriteLine(ex.InnerException);
+                throw new Exception(ex.InnerException.ToString());
             }
 
             catch (System.Data.Entity.Infrastructure.DbUpdateException ex) //DbContext
             {
-                Console.WriteLine(ex.InnerException);
+                throw new Exception(ex.InnerException.ToString());
             }
 
             catch (Exception ex)
             {
-                Console.WriteLine(ex.InnerException);
+                throw new Exception(ex.InnerException.ToString());
                 throw;
             }
 

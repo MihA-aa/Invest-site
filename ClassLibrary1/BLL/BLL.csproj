@@ -89,6 +89,7 @@
     <Compile Include="Infrastructure\ServiceModule.cs" />
     <Compile Include="Helpers\ValidationException.cs" />
     <Compile Include="Interfaces\ICalculationService.cs" />
+    <Compile Include="Interfaces\IColumnService.cs" />
     <Compile Include="Interfaces\ICustomerService.cs" />
     <Compile Include="Interfaces\IPortfolioService.cs" />
     <Compile Include="Interfaces\IPositionService.cs" />
@@ -106,6 +107,7 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\CalculationService.cs" />
+    <Compile Include="Services\ColumnService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\PortfolioService.cs" />
     <Compile Include="Services\PositionService.cs" />

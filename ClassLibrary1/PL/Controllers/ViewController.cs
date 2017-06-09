@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.Enums;
 using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
+using PL.Util;
 
 namespace PL.Controllers
 {
@@ -27,6 +29,7 @@ namespace PL.Controllers
         public ActionResult Save(int? id)
         {
             ViewModel view = null;
+            ViewBag.DateFormatsList = HelperService.GetSelectListFromEnum<DateFormatsDTO>();
             ViewBag.Templates = new SelectList(viewTemplateService.GetViewTemplates(), "Id", "Name");
             try
             {

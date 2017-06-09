@@ -28,8 +28,9 @@ namespace BLL.Infrastructure
         {
             CreateMap<ViewTemplate, ViewTemplateDTO>().ReverseMap();
             CreateMap<ViewTemplateColumn, ViewTemplateColumnDTO>()
-            .ForMember("ColumnName", opt => opt.MapFrom(src => src.Column.Name));
-            CreateMap<ViewTemplateColumn, ViewTemplateColumnDTO>().ReverseMap();
+            .ForMember("ColumnName", opt => opt.MapFrom(src => src.Column.Name))
+            .ForMember("FormatName", opt => opt.MapFrom(src => src.ColumnFormat.Name));
+            CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>();
             CreateMap<ColumnFormat, ColumnFormatDTO>();
             CreateMap<View, ViewDTO>().ReverseMap();
             CreateMap<DAL.Entities.Profile, ProfileDTO>();
@@ -37,6 +38,7 @@ namespace BLL.Infrastructure
             CreateMap<SymbolView, SymbolViewDTO>();
             CreateMap<Position, PositionDTO>().ReverseMap();
             CreateMap<Portfolio, PortfolioDTO>().ReverseMap();
+            CreateMap<Column, ColumnDTO>();
         }
     }
 }

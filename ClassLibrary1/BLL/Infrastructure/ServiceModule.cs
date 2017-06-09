@@ -51,6 +51,8 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<ViewService>().As<IViewService>().
                 InstancePerRequest();
+            builder.RegisterType<ColumnService>().As<IColumnService>().
+                InstancePerRequest();
             builder.Register(_ => new AutoMapperConfiguration().Configure().CreateMapper()).As<IMapper>().SingleInstance();
             base.Load(builder);
         }

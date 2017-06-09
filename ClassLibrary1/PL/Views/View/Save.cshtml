@@ -14,29 +14,6 @@
     }
 </style>
 
-@{
-    #region
-    var DateFormatslist = new List<SelectListItem>
-    {
-        new SelectListItem
-        {
-            Text = "MonthDayYear",
-            Value = "MonthDayYear"
-        },
-        new SelectListItem
-        {
-            Text = "DayMonthYear",
-            Value = "DayMonthYear"
-        },
-        new SelectListItem
-        {
-            Text = "DayMonthNameYear",
-            Value = "DayMonthNameYear"
-        }
-    };
-    #endregion
-}
-
 @using (Html.BeginForm("Save", "View", FormMethod.Post, new { id = "popupViewForm" }))
 {
     @Html.AntiForgeryToken()
@@ -64,7 +41,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.DateFormat, new { style = "margin-right: 41px;" })
-        @Html.DropDownListFor(model => model.DateFormat, DateFormatslist, new { @class = "selectpicker", style = "width: 280px;" })
+        @Html.DropDownListFor(model => model.DateFormat, ViewBag.DateFormatsList as SelectList, new { @class = "selectpicker", style = "width: 280px;" })
     </div>
 
     <div class="form-group">

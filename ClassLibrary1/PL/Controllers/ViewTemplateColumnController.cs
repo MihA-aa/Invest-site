@@ -15,10 +15,12 @@ namespace PL.Controllers
     {
         log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IViewTemplateColumnService viewTemplateColumnService;
+        private IColumnService columnService;
 
-        public ViewTemplateColumnController(IViewTemplateColumnService viewTemplateColumnService)
+        public ViewTemplateColumnController(IViewTemplateColumnService viewTemplateColumnService, IColumnService columnService)
         {
             this.viewTemplateColumnService = viewTemplateColumnService;
+            this.columnService = columnService;
         }
 
         [HttpGet]
@@ -36,6 +38,7 @@ namespace PL.Controllers
         public ActionResult Save(int? id)
         {
             ViewTemplateColumnModel viewTemplateColumn = null;
+            ViewBag.ColumnNamesList = new SelectList(columnService.GetColumns().OrderBy(c=>c.Name), "Name", "Name");
             try
             {
                 if (id == 0)

@@ -63,98 +63,90 @@ $(function () {
         var id = $(this).parent().find('.PositionId').attr('value');
         cleanActiveClass(id);
         loadTradeManagement()
-        ReloadTable()
+            applyViewCheck(viewManagementIndex);
+        // ReloadTable()
     });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href");
         if(target == "#tradeManagement"){
             loadTradeManagement();
-            ReloadTable()
+            applyViewCheck(viewManagementIndex);
+            // ReloadTable()
         }
     });
 
     $(".viewItem").click(function(e){
         e.preventDefault();
-        applyViewCheck(this);
+        applyViewCheck($(this).attr('id'));
     });
 
     $('#btnSearch').click(function () {
-        var symbolName = $('#txtSymbolName').val().trim();
-        var tradeStatus = $('#ddStatus').val().trim();
-        var openDateFrom = $('#open-date-from').val().trim();
-        var openDateTo = $('#open-date-to').val().trim();
-        var closeDateFrom = $('#close-date-from').val().trim();
-        var closeDateTo = $('#close-date-to').val().trim();
-        tableTradeManagement.columns(3).search(symbolName);
-        tableTradeManagement.columns(8).search(tradeStatus);
-        tableTradeManagement.columns(5).search(openDateFrom);
-        tableTradeManagement.columns(6).search(openDateTo);
-        tableTradeManagement.columns(10).search(closeDateFrom);
-        tableTradeManagement.columns(11).search(closeDateTo);
+        SearchSetting();
         tableTradeManagement.draw();
     });
 });
 
 var tradeManagementIndex;
+var viewManagementIndex;
 var tableTradeManagement;
-
+var htmlTable = '<table id="trade-management-jq-table" class="display" cellspacing="0" width="100%"><tbody></tbody></table>';
 $(document).ready(function(){
+  viewManagementIndex = 1
+  loadTradeManagement();
+  LoadDataTable(viewManagementIndex);
 
-        loadTradeManagement();
-        LoadDataTable(1);
+  $('.tablecontainer').on('click', 'a.popup', function (e) {
+      e.preventDefault();
+      OpenPopup($(this).attr('href'));
+  })
 
-$('.tablecontainer').on('click', 'a.popup', function (e) {
-    e.preventDefault();
-    OpenPopup($(this).attr('href'));
-})
+  function OpenPopup(pageUrl) {
+      var $pageContent = $('<div/>');
+      $pageContent.load(pageUrl, function () {
+          $('#popupForm', $pageContent).removeData('validator');
+          $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+          $.validator.unobtrusive.parse('form');
+      });
 
-function OpenPopup(pageUrl) {
-    var $pageContent = $('<div/>');
-    $pageContent.load(pageUrl, function () {
-        $('#popupForm', $pageContent).removeData('validator');
-        $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
-        $.validator.unobtrusive.parse('form');
-    });
+      $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+      .html($pageContent)
+      .dialog({
+          position: { my: 'top', at: 'top+150' },
+        draggable : false,
+        autoOpen : false,
+        resizable : false,
+        model : true,
+        title:'Popup Dialog',
+        height: 'auto',
+        width : 600,
+        closeText: "",
+        close: function () {
+            $dialog.dialog('destroy').remove();
+        }
+      })
 
-    $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
-    .html($pageContent)
-    .dialog({
-        position: { my: 'top', at: 'top+150' },
-      draggable : false,
-      autoOpen : false,
-      resizable : false,
-      model : true,
-      title:'Popup Dialog',
-      height: 'auto',
-      width : 600,
-      closeText: "",
-      close: function () {
-          $dialog.dialog('destroy').remove();
-      }
-    })
+      $('.popupWindow').on('submit', '#popupForm', function (e) {
+          var url = $('#popupForm')[0].action;
+          $.ajax({
+              type : "POST",
+              url : url,
+              data: $('#popupForm').serialize()+ "&portfolioId=" + tradeManagementIndex,
+              success: function (data) {
+                  if (data.status) {
+                      $dialog.dialog('close');
+                      tableTradeManagement.ajax.reload();
+                  }
+                  else{
+                      showClientError(data.prop, data.message);
+                  }
+              }
+          })
 
-    $('.popupWindow').on('submit', '#popupForm', function (e) {
-        var url = $('#popupForm')[0].action;
-        $.ajax({
-            type : "POST",
-            url : url,
-            data: $('#popupForm').serialize()+ "&portfolioId=" + tradeManagementIndex,
-            success: function (data) {
-                if (data.status) {
-                    $dialog.dialog('close');
-                    tableTradeManagement.ajax.reload();
-                }
-                else{
-                    showClientError(data.prop, data.message);
-                }
-            }
-        })
-
-        e.preventDefault();
-    })
-    $dialog.dialog('open');
-    $dialog.dialog({ closeText: "" });
-}
+          e.preventDefault();
+      })
+      $dialog.dialog('open');
+      $dialog.dialog({ closeText: "" });
+  }
 });
 
 function LoadDataTable(ViewId) {
@@ -190,6 +182,14 @@ function LoadDataTable(ViewId) {
             });
         }
     });
+    domTable = $('#trade-management-jq-table');
+}
+
+function applyViewCheck(value) {
+    $("#tableDiv").empty();
+    $('#tableDiv').append(htmlTable);
+    viewManagementIndex = value;
+    LoadDataTable(value);
 }
 
 $("#alertErrorDialog").dialog({
@@ -206,7 +206,34 @@ $("#alertErrorDialog").dialog({
     }
 });
 
+function SearchSetting() {
+  var symbolName = $('#txtSymbolName').val().trim();
+  var TradeStatus = $('#ddStatus').val().trim();
+  var openDateFrom = $('#open-date-from').val().trim();
+  var openDateTo = $('#open-date-to').val().trim();
+  var closeDateFrom = $('#close-date-from').val().trim();
+  var closeDateTo = $('#close-date-to').val().trim();
+  var columns = tableTradeManagement.settings().init().columns;
+  tableTradeManagement.columns().every(function(index) {
+   switch (columns[index].name) {
+    case "SymbolName":
+      tableTradeManagement.columns(index).search(symbolName);
+      break;
+    case "TradeStatus":
+      tableTradeManagement.columns(index).search(TradeStatus);
+      break;
+    case "OpenDate":
+      tableTradeManagement.columns(index).search(openDateFrom + "t" + openDateTo);
+      break;
+    case "CloseDate":
+      tableTradeManagement.columns(index).search(closeDateFrom + "t" + closeDateTo);
+      break;
+    }
+})
+}
+
 function RenderMatching(result) {
+  console.log(result);
     $.each(result.columns, function( index, value ) {
         switch (result.columns[index].render) 
         {
@@ -215,11 +242,6 @@ function RenderMatching(result) {
           break;
           case "deleteActionLink":
           result.columns[index].render = function (data) {return getDeleteActionLink(data);};
-          break;
-          case "OpenDate":
-          case "CloseDate":
-          case "LastUpdateDate":
-          result.columns[index].render = function (data) {return parseDateTime(data);};
           break;
           case "TradeStatus":
           result.columns[index].render = function (data) {return parseTradeStatus(data);};
@@ -230,6 +252,34 @@ function RenderMatching(result) {
           default:
           delete result.columns[index].render;
       }
+
+      switch (result.columns[index].format) 
+        {
+          case "Linked":
+          result.columns[index].render = function (data) 
+          {
+            if(result.columns[index].name == "OpenDate" || result.columns[index].name == "CloseDate"
+             || result.columns[index].name =="LastUpdateDate"){
+                return getActionLink(parseDate(data, result.dateFormat));
+            }
+            else{
+                return getActionLink(data);
+            }
+          };
+          break;
+          case "Money":
+          result.columns[index].render = function (data) {  return "$"+ data.toFixed(result.moneyPrecision); };
+          break;
+          case "Percent":
+          result.columns[index].render = function (data) {  return data.toFixed(result.percentyPrecision) + "%"};
+          break;
+          case "Date":
+          result.columns[index].render = function (data) {return parseDate(data, result.dateFormat);};
+          break;
+          case "DateAndTime":
+          result.columns[index].render = function (data) {return parseDateAndTime(data, result.dateFormat);};
+          break;
+        }
   });
 }
 
@@ -247,17 +297,12 @@ function showClientError(propName, message) {
     .appendTo( $("#"+propName).next() );
 }
 
-function buildSearchData(){
-    return {"id" : 1};
-}
-
 function ReloadTable(){
      tableTradeManagement.clear();
      tableTradeManagement.data('dt_params', { "name": "id" });
      tableTradeManagement.ajax.reload();
      tableTradeManagement.draw();
 }
-
 
 function loadTradeManagement(){
     tradeManagementIndex = getActiveInput();
@@ -342,12 +387,36 @@ function loadPortfolioRefresh(portfolios){
     });
 }
 
-function parseDateTime(data){
-    if(data == null)
-        return "";
-    var datet = new Date(parseInt(data.substr(6)));
-    var newData = datet.getDate()  + "/" + (datet.getMonth() + 1) + "/" + datet.getFullYear();
-    return newData;
+function parseDate(data, dateFormat){
+  if(data == null)
+    return "";
+  var subData = new Date(parseInt(data.substr(6)));
+  switch (dateFormat) {
+    case 0:
+      return ((subData.getMonth() + 1) + "/" + subData.getDate()  + "/" + subData.getFullYear());
+    case 1:
+      return (subData.getDate()  + "/" + (subData.getMonth() + 1) + "/" + subData.getFullYear());
+    case 2:
+      return (subData.getDate() + " " +subData.toLocaleString("en-us", { month: "long" })+ " " +subData.getFullYear());
+    default:
+      return( ' ' );
+  }
+}
+
+function parseDateAndTime(data, dateFormat){
+  if(data == null)
+    return "";
+  var subData = new Date(parseInt(data.substr(6)));
+  switch (dateFormat) {
+    case 0:
+      return ((subData.getMonth() + 1) + "/" + subData.getDate()  + "/" + subData.getFullYear() + " "+ subData.getHours() + ":" + subData.getMinutes() + ":" + subData.getSeconds());
+    case 1:
+      return (subData.getDate()  + "/" + (subData.getMonth() + 1) + "/" + subData.getFullYear() + " "+ subData.getHours() + ":" + subData.getMinutes() + ":" + subData.getSeconds());
+    case 2:
+      return (subData.getDate() + " " +subData.toLocaleString("en-us", { month: "long" })+ " " +subData.getFullYear() + " "+ subData.getHours() + ":" + subData.getMinutes() + ":" + subData.getSeconds());
+    default:
+      return( ' ' );
+  }
 }
 
 function parseTradeStatus(data){
@@ -363,18 +432,16 @@ function parseTradeStatus(data){
     }
 }
 
+function getActionLink(data){
+    return data != null ? '<a href="#">' + data +'</a>' : "";
+}
+
 function getSaveActionLink(data){
     return '<a class="popup" href="/Position/Save/' + data + '"><span class="glyphicon glyphicon-pencil" style="color: #80b78c;"></span></a>';
 }
 
 function getDeleteActionLink(data){
     return '<a class="popup" href="/Position/Delete/'+ data + '"><span class="glyphicon glyphicon-remove" style="color: #dc6c6c;"></span></a>';
-}
-
-function applyViewCheck(that) {
-    console.log($(that).attr('id'));
-    // ReloadTable();
-    LoadDataTable($(that).attr('id'));
 }
 
 function parseTradeType(data){
