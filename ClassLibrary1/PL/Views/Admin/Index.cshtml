@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Admin Panel";
+}
+<div class="row panel" style="margin: 10px; margin-left: 30px;">
+    <div class="col-xs-10">
+        @Html.Partial("TopMenu")
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/myScriptCustomerManagement")
+}

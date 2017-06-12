@@ -11,5 +11,10 @@ namespace BLL.Interfaces
     public interface ICustomerService
     {
         Customer GetCustomerByProfileId(string id);
+        IEnumerable<CustomerDTO> GetCustomers();
+        CustomerDTO GetCustomer(int? id);
+        void CreateOrUpdateCustomer(CustomerDTO customer);
+        void UpdateCustomer(CustomerDTO customerDto);
+        void DeleteCustomer(int? id);
     }
 }

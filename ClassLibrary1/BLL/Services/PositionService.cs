@@ -59,11 +59,11 @@ namespace BLL.Services
             if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0))
             {
                 position.CloseDate = null;
-                position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
+                position.CurrentPrice = null;
             }
             else
             {
-                position.CurrentPrice = null;
+                position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
             }
             var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);  //39817
             position.Dividends = calculationService.GetDividends(dividends, position.OpenWeight);

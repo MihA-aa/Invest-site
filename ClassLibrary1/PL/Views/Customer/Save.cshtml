@@ -1,0 +1,33 @@
+﻿@model PL.Models.CustomerModel
+<h2 style="margin-top: 5px;">Save</h2>
+
+<style>
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 280px;
+    }
+
+    .myLabelFor {
+        white-space: nowrap;
+        overflow: hidden;
+        margin-left: -5px;
+        margin-right: 5px;
+    }
+</style>
+
+@using (Html.BeginForm("Save", "Customer", FormMethod.Post, new { id = "popupCustomerForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary-errors" })
+    @Html.HiddenFor(m => m.Id);
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label ", style = "padding-top: 10px;" })
+        @Html.TextBoxFor(a => a.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Name)
+    </div>
+    <div class="form-group" style="margin-bottom: 40px;">
+        <div class="col-md-offset-2">
+            <input type="submit" value="Save" class="btn btn-default" id="FormSaveSubmit" />
+        </div>
+    </div>
+}

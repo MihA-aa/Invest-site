@@ -71,3 +71,7 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migration
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csproj.GenerateResource.Cache
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.pdb
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeIdInCustomer.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeIdInCustomer1.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeIdInCustomer11.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeIdInCustomer11123.resources

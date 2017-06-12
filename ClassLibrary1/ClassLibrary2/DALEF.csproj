@@ -160,6 +160,22 @@
     <Compile Include="Migrations\201706080900128_ChangeColumnViewTemplate2.Designer.cs">
       <DependentUpon>201706080900128_ChangeColumnViewTemplate2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706121451067_ChangeIdInCustomer.cs" />
+    <Compile Include="Migrations\201706121451067_ChangeIdInCustomer.Designer.cs">
+      <DependentUpon>201706121451067_ChangeIdInCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706121521085_ChangeIdInCustomer1.cs" />
+    <Compile Include="Migrations\201706121521085_ChangeIdInCustomer1.Designer.cs">
+      <DependentUpon>201706121521085_ChangeIdInCustomer1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706121527450_ChangeIdInCustomer11.cs" />
+    <Compile Include="Migrations\201706121527450_ChangeIdInCustomer11.Designer.cs">
+      <DependentUpon>201706121527450_ChangeIdInCustomer11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706121534169_ChangeIdInCustomer11123.cs" />
+    <Compile Include="Migrations\201706121534169_ChangeIdInCustomer11123.Designer.cs">
+      <DependentUpon>201706121534169_ChangeIdInCustomer11123.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ColumnFormatRepository.cs" />
@@ -262,6 +278,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706080900128_ChangeColumnViewTemplate2.resx">
       <DependentUpon>201706080900128_ChangeColumnViewTemplate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706121451067_ChangeIdInCustomer.resx">
+      <DependentUpon>201706121451067_ChangeIdInCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706121521085_ChangeIdInCustomer1.resx">
+      <DependentUpon>201706121521085_ChangeIdInCustomer1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706121527450_ChangeIdInCustomer11.resx">
+      <DependentUpon>201706121527450_ChangeIdInCustomer11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706121534169_ChangeIdInCustomer11123.resx">
+      <DependentUpon>201706121534169_ChangeIdInCustomer11123.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

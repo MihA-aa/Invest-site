@@ -26,11 +26,11 @@ namespace PL.App_Start
             CreateMap<ViewTemplateDTO, ViewTemplateModel>().ReverseMap();
             CreateMap<PortfolioDTO, PortfolioModel>().ReverseMap();
             CreateMap<ViewDTO, ViewModel>().ReverseMap();
-            CreateMap<PositionDTO, PositionModel>();
+            CreateMap<PositionDTO, PositionModel>().ReverseMap();
+            CreateMap<CustomerDTO, CustomerModel>().ReverseMap();
             CreateMap<ViewTemplateColumnDTO, ViewTemplateColumnModel>()
                 .ForMember("DT_RowId", opt => opt.MapFrom(src => src.Id));
             CreateMap<ViewTemplateColumnModel, ViewTemplateColumnDTO>();
-            CreateMap<PortfolioModel, PortfolioDTO>();
         }
     }
 }

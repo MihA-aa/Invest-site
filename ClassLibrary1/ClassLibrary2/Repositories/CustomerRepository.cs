@@ -16,5 +16,12 @@ namespace DALEF.Repositories
         {
             return dbSet.FirstOrDefault(x => x.Profiles.Any(p => p.Id == profileId));
         }
+
+        public bool IsExist(int id)
+        {
+            return dbSet
+                .AsNoTracking()
+                .Any(p => p.Id == id);
+        }
     }
 }

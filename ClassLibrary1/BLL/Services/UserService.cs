@@ -50,6 +50,20 @@ namespace BLL.Services
             }
         }
 
+        public async Task ChangeUsername(UserDTO userDto)
+        {
+            if (Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login) == null) 
+            {
+                var user = Database.UserManager.FindById(userDto.Id);
+                user.UserName = userDto.Login;
+                var updateResult = await Database.UserManager.UpdateAsync(user);
+                if (updateResult.Errors.Any())
+                    throw new ValidationException(updateResult.Errors.FirstOrDefault(), "");
+                await Database.SaveAsync();
+            }
+            throw new ValidationException("Please select a different username", "Login");
+        }
+
         public async Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
@@ -58,24 +72,6 @@ namespace BLL.Services
                 claim = await Database.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
-        }
-        
-        public ProfileDTO GetProfile(string userId)
-        {
-            if (userId == null)
-                throw new ValidationException(Resource.Resource.UserIdNotSet, "");
-            var profile = Database.Profiles.Get(userId);
-            if (profile == null)
-                throw new ValidationException(Resource.Resource.UserNotFound, "");
-            return IMapper.Map<Entity.Profile, ProfileDTO>(profile);
-        }
-
-        public void UpdateProfile(ProfileDTO profile)
-        {
-            //ProfileValidate
-            var user = Database.Profiles.Get(profile.Id);
-            user.Login = profile.Login;
-            Database.Profiles.Update(user);
         }
     }
 }

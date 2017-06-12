@@ -24,5 +24,12 @@ namespace DALEF.Repositories
         {
             return dbSet.Find(id);
         }
+
+        public bool IsExist(string id)
+        {
+            return dbSet
+                .AsNoTracking()
+                .Any(p => p.Id == id);
+        }
     }
 }

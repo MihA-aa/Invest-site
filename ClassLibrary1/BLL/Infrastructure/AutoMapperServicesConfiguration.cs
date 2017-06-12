@@ -33,11 +33,12 @@ namespace BLL.Infrastructure
             CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>();
             CreateMap<ColumnFormat, ColumnFormatDTO>();
             CreateMap<View, ViewDTO>().ReverseMap();
-            CreateMap<DAL.Entities.Profile, ProfileDTO>();
+            CreateMap<DAL.Entities.Profile, ProfileDTO>().ReverseMap();
             CreateMap<TradeSybolView, TradeSybolViewDTO>();
             CreateMap<SymbolView, SymbolViewDTO>();
             CreateMap<Position, PositionDTO>().ReverseMap();
             CreateMap<Portfolio, PortfolioDTO>().ReverseMap();
+            CreateMap<Customer, CustomerDTO>().ReverseMap();
             CreateMap<Column, ColumnDTO>();
         }
     }

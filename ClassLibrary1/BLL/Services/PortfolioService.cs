@@ -68,7 +68,6 @@ namespace BLL.Services
             }
             else
             {
-                portfolio.Customer = customerService.GetCustomerByProfileId(userId);
                 db.Portfolios.Create(portfolio);
             }
             db.Save();
@@ -93,7 +92,9 @@ namespace BLL.Services
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
                     .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
             var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
-            portfolio.Customer = customerService.GetCustomerByProfileId(userId);
+            var customer = customerService.GetCustomerByProfileId(userId);
+            portfolio.Customer = customer;
+            customer.Portfolios.Add(portfolio);
             db.Portfolios.Create(portfolio);
             db.Save();
         }

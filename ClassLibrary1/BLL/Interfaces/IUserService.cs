@@ -14,7 +14,6 @@ namespace BLL.Interfaces
         //Task<OperationDetails> Create(UserDTO userDto);
         Task CreateAsync(UserDTO userDto);
         Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto);
-        ProfileDTO GetProfile(string userId);
-        void UpdateProfile(ProfileDTO customer);
+        Task ChangeUsername(UserDTO userDto);
     }
 }

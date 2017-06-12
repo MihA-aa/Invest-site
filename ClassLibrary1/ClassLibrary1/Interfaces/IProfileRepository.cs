@@ -11,5 +11,6 @@ namespace DAL.Interfaces
     {
         void Delete(string id);
         Profile Get(string id);
+        bool IsExist(string id);
     }
 }
