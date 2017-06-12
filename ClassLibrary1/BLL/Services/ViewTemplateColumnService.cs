@@ -127,6 +127,14 @@ namespace BLL.Services
             return IMapper.Map<IEnumerable<ColumnFormat>, List<ColumnFormatDTO>>(formats);
         }
 
+        public int GetDisplayIndexForViewTemplateColumnById(int? id)
+        {
+            var column = db.ViewTemplateColumns.Get(id.Value);
+            if (column == null)
+                throw new ValidationException("Column Not Found", "");
+            return column.DisplayIndex;
+        }
+
         public void UpdateColumnOrder(int id, int fromPosition, int toPosition, string direction)
         {
             int templateId = db.ViewTemplates.GetTemplateIdByColumnId(id);

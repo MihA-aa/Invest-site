@@ -3,9 +3,9 @@ namespace BLL.DTO.Enums
 {
     public enum TemplatePositionsDTO
     {
-        All,
+        OpenOnly,
         ClosedOnly,
         OpenAndWaiting,
-        OpenOnly
+        All
     }
 }

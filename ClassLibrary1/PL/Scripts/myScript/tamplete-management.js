@@ -92,13 +92,13 @@ $(".selectpicker").selectpicker({
 function parseShowPositionStatus(data){
     switch (data) {
   case 0:
-    return ( 'All' );
+    return ( 'OpenOnly' );
   case 1:
     return( 'ClosedOnly' );
   case 2:
     return( 'OpenAndWaiting' );
   case 3:
-    return( 'OpenOnly' );
+    return( 'All' );
   default:
     return( ' ' );
     }

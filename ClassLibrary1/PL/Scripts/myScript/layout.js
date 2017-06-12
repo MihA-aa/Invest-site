@@ -148,7 +148,6 @@ $(document).ready(function(){
       $dialog.dialog({ closeText: "" });
   }
 });
-
 function LoadDataTable(ViewId) {
     $.ajax({
         url: "/Nav/ApplyView",
@@ -164,6 +163,8 @@ function LoadDataTable(ViewId) {
                 "serverSide": true,
                 "orderMulti": false,
                 "dom": '<"top"i>rt<"bottom"lp><"clear">',
+                "order": [ [ result.sortColumnDisplayIndex, result.sortOrder ]],
+                "search": {"search": result.showPosition},
                 "ajax": {
                     "url": "/Nav/LoadData",
                     "type": "POST",
@@ -250,9 +251,7 @@ function RenderMatching(result) {
           result.columns[index].render = function (data) {return parseTradeType(data);};
           break;
           default:
-          delete result.columns[index].render;
-      }
-
+          delete result.columns[index].render;}
       switch (result.columns[index].format) 
         {
           case "Linked":
@@ -281,6 +280,8 @@ function RenderMatching(result) {
           break;
         }
   });
+$('#ddStatus').val(result.showPosition);
+$('#ddStatus').selectpicker('refresh');
 }
 
 function MyAlert(message) {

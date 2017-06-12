@@ -9,6 +9,7 @@ using BLL.Interfaces;
 using PL.Models;
 using System.Linq.Dynamic;
 using System.Web.WebPages;
+using BLL.DTO.Enums;
 using Newtonsoft.Json;
 
 namespace PL.Controllers
@@ -64,8 +65,14 @@ namespace PL.Controllers
         public ActionResult ApplyView(int? id)
         {
             var view = viewService.GetView(id.Value);
-            var viewTemplateColumns = viewTemplateService.GetViewTemplateColumns(view.ViewTemplateId).OrderBy(c => c.DisplayIndex);
-
+            var viewTemplateColumns = viewTemplateService.GetViewTemplateColumns(view.ViewTemplateId)
+                .OrderBy(c => c.DisplayIndex);
+            var viewTemplate = viewTemplateService.GetViewTemplate(view.ViewTemplateId);
+            int sortColumnDisplayIndex =viewTemplateColumns.Where(c => c.Id == viewTemplate.SortColumnId)
+                .Select(c => c.DisplayIndex)
+                .FirstOrDefault();
+            var sortOrder = (SortingDTO) viewTemplate.SortOrder;
+            var tradeStatus = (TradeStatusesDTO)viewTemplate.Positions;
             var columns = new List<dynamic>
            {
                 new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "saveActionLink"},
@@ -85,7 +92,9 @@ namespace PL.Controllers
                 });
             }
             return Json(new { columns, dateFormat = view.DateFormat,moneyPrecision = view.MoneyPrecision,
-                                percentyPrecision = view.PercentyPrecision}, JsonRequestBehavior.AllowGet);
+            percentyPrecision = view.PercentyPrecision, showPosition = (int)tradeStatus == 3 ? "All": tradeStatus.ToString(),
+                sortOrder = sortOrder.ToString(), sortColumnDisplayIndex = sortColumnDisplayIndex+1
+            }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -97,7 +106,12 @@ namespace PL.Controllers
             var draw = Request.Form?.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();
             var length = Request.Form.GetValues("length").FirstOrDefault();
-            
+
+            var defaultSearchStatus = Request.Form.GetValues("search[value]").FirstOrDefault();
+            if (defaultSearchStatus == "All")
+                defaultSearchStatus = "";
+
+
             var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
@@ -142,6 +156,14 @@ namespace PL.Controllers
             if (!string.IsNullOrEmpty(symbolName))
             {
                 positionsDto = positionsDto.Where(a => a.SymbolName.Contains(symbolName));
+            }
+            if (string.IsNullOrEmpty(status) && !string.IsNullOrEmpty(defaultSearchStatus))
+            {
+                positionsDto = positionsDto.Where(m => m.TradeStatus.ToString() == defaultSearchStatus);
+            }
+            if (status == "All")
+            {
+                status = "";
             }
             if (!string.IsNullOrEmpty(status))
             {
