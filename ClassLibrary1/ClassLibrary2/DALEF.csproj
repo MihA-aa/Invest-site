@@ -176,6 +176,14 @@
     <Compile Include="Migrations\201706121534169_ChangeIdInCustomer11123.Designer.cs">
       <DependentUpon>201706121534169_ChangeIdInCustomer11123.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706130734238_12312wqhжюwer.cs" />
+    <Compile Include="Migrations\201706130734238_12312wqhжюwer.Designer.cs">
+      <DependentUpon>201706130734238_12312wqhжюwer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706130825555_12312wqhжюwer123.cs" />
+    <Compile Include="Migrations\201706130825555_12312wqhжюwer123.Designer.cs">
+      <DependentUpon>201706130825555_12312wqhжюwer123.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ColumnFormatRepository.cs" />
@@ -290,6 +298,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706121534169_ChangeIdInCustomer11123.resx">
       <DependentUpon>201706121534169_ChangeIdInCustomer11123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706130734238_12312wqhжюwer.resx">
+      <DependentUpon>201706130734238_12312wqhжюwer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706130825555_12312wqhжюwer123.resx">
+      <DependentUpon>201706130825555_12312wqhжюwer123.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

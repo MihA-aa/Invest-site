@@ -5,43 +5,41 @@ using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
 using BLL.DTO;
-using BLL.DTO.Enums;
 using BLL.Interfaces;
 using PL.Models;
-using PL.Util;
 using BLL.Helpers;
 
 namespace PL.Controllers
 {
-    public class CustomerController : BaseController
+    public class ProfileController : Controller
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(CustomerController));
-        private ICustomerService customerService;
+        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ProfileController));
+        private IProfileService profileService;
 
-        public CustomerController(ICustomerService customerService)
+        public ProfileController(IProfileService profileService)
         {
-            this.customerService = customerService;
+            this.profileService = profileService;
         }
 
         [HttpGet]
-        public ActionResult Save(int? id)
+        public ActionResult Save(string id)
         {
-            CustomerModel customer = null;
+            ProfileModel profile = null;
             try
             {
-                if (id == 0)
+                if (id == "0")
                     return PartialView();
-                customer = Mapper.Map<CustomerDTO, CustomerModel>(customerService.GetCustomer(id));
+                profile = Mapper.Map<ProfileDTO, ProfileModel>(profileService.GetProfile(id));
             }
             catch (ValidationException ex)
             {
                 logger.Error(ex.ToString());
             }
-            return PartialView(customer);
+            return PartialView(profile);
         }
 
         [HttpPost]
-        public ActionResult Save(CustomerModel customer)
+        public ActionResult Save(ProfileModel profile)
         {
             bool status = true;
             string message = "", property = "";
@@ -49,7 +47,7 @@ namespace PL.Controllers
             {
                 try
                 {
-                    customerService.CreateOrUpdateCustomer(Mapper.Map<CustomerModel, CustomerDTO>(customer));
+                    profileService.CreateOrUpdateProfile(Mapper.Map<ProfileModel, ProfileDTO>(profile));
                 }
                 catch (ValidationException ex)
                 {
@@ -63,11 +61,11 @@ namespace PL.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(string id)
         {
             try
             {
-                ViewBag.Id = customerService.GetCustomer(id).Id;
+                ViewBag.Id = profileService.GetProfile(id).Id;
             }
             catch (Exception ex)
             {
@@ -79,12 +77,12 @@ namespace PL.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult DeleteCustomer(int? id)
+        public ActionResult DeleteProfile(string id)
         {
             bool status = true;
             try
             {
-                customerService.DeleteCustomer(id);
+                profileService.DeleteProfile(id);
             }
             catch (Exception ex)
             {

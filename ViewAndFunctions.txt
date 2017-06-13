@@ -1,6 +1,7 @@
 SymbolView
-SELECT        SymbolID, Symbol, Name
-FROM            HistoricalDataNew.dbo.Symbol
+SELECT        S.SymbolID, S.Symbol, S.Name, C.Symbol AS CurrencySymbol
+FROM            HistoricalDataNew.dbo.Symbol AS S INNER JOIN
+                HistoricalDataNew.dbo.Currencies AS C ON S.CurrencyId = C.CurrencyId
 
 SymbolDividends
 SELECT        DividendAmount, SymbolID, TradeDate

@@ -19,7 +19,6 @@ namespace BLL.DTO
         public int? ViewTemplateId { get; set; }
         public int? ColumnFormatId { get; set; }
         public int? ColumnId { get; set; }
-        public int? FormatId { get; set; }
         public string FormatName { get; set; }
     }
 }

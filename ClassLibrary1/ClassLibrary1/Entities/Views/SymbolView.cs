@@ -15,5 +15,6 @@ namespace DAL.Entities.Views
         public int SymbolID { get; set; }
         public string Symbol { get; set; }
         public string Name { get; set; }
+        public string CurrencySymbol { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace DAL.Entities
         public string Name { get; set; }
         public virtual ColumnFormat ColumnFormat { get; set; }
         public int? ColumnFormatId { get; set; }
-        public int? FormatId { get; set; }
+/*        public int? FormatId { get; set; }     */         //WHY THIS CAN'T DELETE?????????
         public virtual Column Column { get; set; }
         public int? ColumnId { get; set; }
         public int? ViewTemplateId { get; set; }

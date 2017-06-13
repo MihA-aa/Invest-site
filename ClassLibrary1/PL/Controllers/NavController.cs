@@ -75,6 +75,7 @@ namespace PL.Controllers
             var tradeStatus = (TradeStatusesDTO)viewTemplate.Positions;
             var columns = new List<dynamic>
            {
+                new {title = "", data = "CurrencySymbol", name = "CurrencySymbol", autoWidth = "false", width = "10px", render = "", className = "hide_column"},
                 new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "saveActionLink"},
                 new {title = "", data = "Id", name = "Id", autoWidth = "false", width = "10px", render = "deleteActionLink"}
             };
@@ -178,6 +179,8 @@ namespace PL.Controllers
             totalRecords = positionsDto.Count();
             positionsDto = positionsDto.Skip(skip).Take(pageSize).ToList();
             var data = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positionsDto);
+            foreach (var pos in data)
+                pos.CurrencySymbol = symbolViewService.GetCurrencySymbolViewBySymbolId(pos.SymbolId);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
           }
 

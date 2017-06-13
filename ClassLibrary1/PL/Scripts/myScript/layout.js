@@ -267,7 +267,7 @@ function RenderMatching(result) {
           };
           break;
           case "Money":
-          result.columns[index].render = function (data) {  return "$"+ data.toFixed(result.moneyPrecision); };
+          result.columns[index].render = function (data, type, row) { return row.CurrencySymbol == null ? "" : row.CurrencySymbol + data.toFixed(result.moneyPrecision); };
           break;
           case "Percent":
           result.columns[index].render = function (data) {  return data.toFixed(result.percentyPrecision) + "%"};
@@ -455,4 +455,3 @@ function parseTradeType(data){
     return( ' ' );
     }
 }
-

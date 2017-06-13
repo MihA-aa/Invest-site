@@ -219,6 +219,7 @@
     <Compile Include="Controllers\NavController.cs" />
     <Compile Include="Controllers\PortfolioController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Controllers\ViewTemplateColumnController.cs" />
     <Compile Include="Controllers\ViewTemplateController.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\PortfolioModel.cs" />
     <Compile Include="Models\PositionModel.cs" />
+    <Compile Include="Models\ProfileModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Models\ViewTemplateColumnModel.cs" />
@@ -708,6 +710,17 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\myScript\customer-management.js" />
+    <Content Include="Scripts\myScript\layout.js" />
+    <Content Include="Scripts\myScript\save.js" />
+    <Content Include="Scripts\myScript\savePosition.js" />
+    <Content Include="Scripts\myScript\saveView.js" />
+    <Content Include="Scripts\myScript\saveViewColumnTamplete.js" />
+    <Content Include="Scripts\myScript\saveViewTamplete.js" />
+    <Content Include="Scripts\myScript\tamplete-column-managemen.js" />
+    <Content Include="Scripts\myScript\tamplete-management.js" />
+    <Content Include="Scripts\myScript\user-management.js" />
+    <Content Include="Scripts\myScript\view-management.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -759,6 +772,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Portfolio\" />
+    <Folder Include="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -55,5 +55,7 @@ namespace PL.Models
         public decimal? AbsoluteGain { get; set; }
         public decimal? MaxGain { get; set; }
         public decimal Dividends { get; set; }
+        public string CurrencySymbol { get; set; }
+
     }
 }

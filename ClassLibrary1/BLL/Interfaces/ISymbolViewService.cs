@@ -11,5 +11,6 @@ namespace BLL.Interfaces
     {
         SymbolViewDTO GetSymbolViewByName(string name);
         IEnumerable<string> SearchSymbolsByName(string name);
+        string GetCurrencySymbolViewBySymbolId(int id);
     }
 }

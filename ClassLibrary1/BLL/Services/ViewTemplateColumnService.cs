@@ -77,11 +77,11 @@ namespace BLL.Services
                 throw new ValidationException("Column null Reference", "");
             if (FormatId == null)
                 throw new ValidationException("Format Id Not Set", "");
-            var format = db.ColumnFormats.Get(FormatId.Value);
-            if (format == null)
+            var columnFormat = db.ColumnFormats.Get(FormatId.Value);
+            if (columnFormat == null)
                 throw new ValidationException("Format Not Found", "");
-            column.ColumnFormatId = format.Id;
-            column.ColumnFormat = format;
+            column.ColumnFormatId = columnFormat.Id;
+            column.ColumnFormat = columnFormat;
         }
 
 

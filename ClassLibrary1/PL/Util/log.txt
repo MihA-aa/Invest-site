@@ -6001,3 +6001,9 @@ Parameter name: source
 2017-06-12 19:29:14,895 [10] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: Customer Id Not Set
    at BLL.Services.CustomerService.GetCustomer(Nullable`1 id) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\CustomerService.cs:line 39
    at PL.Controllers.CustomerController.Delete(Nullable`1 id) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\CustomerController.cs:line 70
+2017-06-13 12:22:18,121 [9] ERROR PL.Controllers.PositionController http://localhost:22860/Error/Http404 not found
+2017-06-13 12:22:30,175 [9] ERROR PL.Controllers.PositionController http://localhost:22860/Error/Httpasd not found
+2017-06-13 12:22:33,469 [9] ERROR PL.Controllers.PositionController http://localhost:22860/Error/Httpasdasda not found
+2017-06-13 12:23:32,612 [11] ERROR PL.Controllers.PositionController System.Web.HttpException (0x80004005): A potentially dangerous Request.Path value was detected from the client (&).
+   at System.Web.HttpRequest.ValidateInputIfRequiredByConfig()
+   at System.Web.HttpApplication.PipelineStepManager.ValidateHelper(HttpContext context)

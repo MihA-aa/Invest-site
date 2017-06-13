@@ -28,6 +28,11 @@ namespace BLL.Services
             return IMapper.Map<SymbolView, SymbolViewDTO>(db.SymbolViews.GetSymbolViewByName(name));
         }
 
+        public string GetCurrencySymbolViewBySymbolId(int id)
+        {
+            return db.SymbolViews.Get(id)?.CurrencySymbol;
+        }
+
         public IEnumerable<string> SearchSymbolsByName(string name)
         {
             return db.SymbolViews.SearchSymbolsViewByName(name);

@@ -138,3 +138,7 @@ input[type="checkbox"].input-validation-error {
    overflow: hidden;
    text-overflow: ellipsis;
 }
+
+.hide_column{
+    display : none;
+}
