@@ -15,5 +15,7 @@ namespace DAL.Entities
         public string Id { get; set; }
         public string Login { get; set; }
         public virtual User User { get; set; }
+        public virtual Customer Customer { get; set; }
+        public int? CustomerId { get; set; }
     }
 }

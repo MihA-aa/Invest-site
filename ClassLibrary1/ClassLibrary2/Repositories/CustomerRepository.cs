@@ -23,5 +23,13 @@ namespace DALEF.Repositories
                 .AsNoTracking()
                 .Any(p => p.Id == id);
         }
+
+        public void AddProfileToCustomer(Profile profile, int? customerId)
+        {
+            var customer = dbSet.Find(customerId);
+            customer.Profiles.Add(profile);
+            profile.Customer = customer;
+            profile.CustomerId = customerId;
+        }
     }
 }

@@ -32,6 +32,11 @@ namespace BLL.Services
         {
             return IMapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(db.Portfolios.GetAll());
         }
+        public IEnumerable<PortfolioDTO> GetPortfoliosForUser(string id)
+        {
+            var profile = db.Profiles.Get(id);
+            return IMapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(profile?.Customer?.Portfolios);
+        }
 
         public IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId)
         {

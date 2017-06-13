@@ -77,3 +77,4 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migration
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.ChangeIdInCustomer11123.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations._12312wqhжюwer.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations._12312wqhжюwer123.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations._123123123131.resources

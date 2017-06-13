@@ -10,6 +10,7 @@ using PL.Models;
 using System.Linq.Dynamic;
 using System.Web.WebPages;
 using BLL.DTO.Enums;
+using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 
 namespace PL.Controllers
@@ -36,7 +37,7 @@ namespace PL.Controllers
         }
         public PartialViewResult LeftMenu()
         {
-            var portfoliosDto = portfolioService.GetPortfolios().OrderBy(m => m.DisplayIndex);
+            var portfoliosDto = portfolioService.GetPortfoliosForUser(User.Identity.GetUserId()).OrderBy(m => m.DisplayIndex);
             var portfolios =  Mapper.Map<IEnumerable<PortfolioDTO>, List<PortfolioModel>>(portfoliosDto);
             if (@TempData["PortfolioId"] == null && portfolios.Any())
                 @TempData["PortfolioId"] = portfolios.First().Id;
@@ -102,7 +103,7 @@ namespace PL.Controllers
         public ActionResult LoadData(int? id)
         {
             if (id == null)
-                return Json(new { Success = false });
+                return Json(new { draw = 0, recordsFiltered = 0, recordsTotal = 0, data = "" }, JsonRequestBehavior.AllowGet);
 
             var draw = Request.Form?.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();

@@ -767,12 +767,13 @@
     <Content Include="Views\Admin\UserManagementTable.cshtml" />
     <Content Include="Views\Customer\Save.cshtml" />
     <Content Include="Views\Customer\Delete.cshtml" />
+    <Content Include="Views\Profile\Save.cshtml" />
+    <Content Include="Views\Profile\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Portfolio\" />
-    <Folder Include="Views\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

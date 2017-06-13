@@ -11,5 +11,6 @@ namespace DAL.Interfaces
     {
         Customer GetCustomerByProfileId(string profileId);
         bool IsExist(int id);
+        void AddProfileToCustomer(Profile profile, int? customerId);
     }
 }

@@ -22,7 +22,7 @@
         </div>
         <div class="form-group">
 
-            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label", style= "white-space: nowrap;" })
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
             @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
         </div>

@@ -55,8 +55,15 @@ $(function () {
     });
 
     $('[href = "#general"]').click(function () {
-       var inputId = getActiveInput();
-       loadGeneralForInput(inputId);
+      if( !$('#panelList').find('li').length ){
+        var input = $("#generalForm > #id").detach();
+        $( "#generalForm" ).submit();
+        input.appendTo('#generalForm');
+        $('#myTab a:first').tab('show');
+      }
+      else{
+       loadGeneralForInput(getActiveInput());
+      }
    });
 
     $('.portfolio-item').click(function () {

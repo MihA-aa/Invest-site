@@ -18,5 +18,6 @@ namespace BLL.Interfaces
         void UpdatePortfolio(PortfolioDTO portfolio);
         void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios);
         void RecalculatePortfolioValue(int id);
+        IEnumerable<PortfolioDTO> GetPortfoliosForUser(string id);
     }
 }

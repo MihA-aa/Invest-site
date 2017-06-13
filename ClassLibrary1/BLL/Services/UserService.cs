@@ -29,7 +29,7 @@ namespace BLL.Services
             IMapper = map;
         }
 
-        public async Task CreateAsync(UserDTO userDto)
+        public async Task CreateAsync(UserDTO userDto, int? customerId = 0)
         {
             validateService.Validate(userDto);
             User user = await Database.UserManager.FindByNameAsync(userDto.Login);
@@ -41,6 +41,8 @@ namespace BLL.Services
                     throw new ValidationException(result.Errors.FirstOrDefault(), "");
                 await Database.UserManager.AddToRoleAsync(user.Id, userDto.Role);
                 var clientProfile = new Entity.Profile { Id = user.Id, Login = userDto.Login };
+                if(customerId != 0)
+                    AddProfileToCustomer(clientProfile, customerId);
                 Database.Profiles.Create(clientProfile);
                 await Database.SaveAsync();
             }
@@ -50,18 +52,26 @@ namespace BLL.Services
             }
         }
 
-        public async Task ChangeUsername(UserDTO userDto)
+        public async Task ChangeUserData(UserDTO userDto, int? customerId)
         {
-            if (Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login) == null) 
+            if (Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login) == null)
             {
                 var user = Database.UserManager.FindById(userDto.Id);
+                userDto.Password = "Kamoqw1_wer21";
+                validateService.Validate(userDto);
                 user.UserName = userDto.Login;
                 var updateResult = await Database.UserManager.UpdateAsync(user);
                 if (updateResult.Errors.Any())
                     throw new ValidationException(updateResult.Errors.FirstOrDefault(), "");
+                var profile = Database.Profiles.Get(userDto.Id);
+                profile.Login = userDto.Login;
+                AddProfileToCustomer(profile, customerId);
                 await Database.SaveAsync();
             }
-            throw new ValidationException("Please select a different username", "Login");
+            else
+            {
+                throw new ValidationException("Please select a different username", "Login");
+            }
         }
 
         public async Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto)
@@ -72,6 +82,16 @@ namespace BLL.Services
                 claim = await Database.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
+        }
+        public void AddProfileToCustomer(Entity.Profile profile, int? customerId)
+        {
+            if (profile == null)
+                throw new ValidationException("Profile null Reference", "");
+            if (customerId == null)
+                throw new ValidationException("Customer Id Not Set", "");
+            if (!Database.Customers.IsExist(customerId.Value))
+                throw new ValidationException("Profile Not Found", "");
+            Database.Customers.AddProfileToCustomer(profile, customerId.Value);
         }
     }
 }

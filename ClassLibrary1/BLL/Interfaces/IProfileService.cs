@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.DTO;
+using DAL.Entities;
 
 namespace BLL.Interfaces
 {
@@ -11,7 +12,7 @@ namespace BLL.Interfaces
     {
         IEnumerable<ProfileDTO> GetProfiles();
         ProfileDTO GetProfile(string id);
-        void CreateOrUpdateProfile(ProfileDTO profile);
+        Task CreateOrUpdateProfile(ProfileDTO profile);
         void DeleteProfile(string id);
     }
 }

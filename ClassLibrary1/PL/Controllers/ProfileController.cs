@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
@@ -11,20 +12,23 @@ using BLL.Helpers;
 
 namespace PL.Controllers
 {
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
         log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ProfileController));
         private IProfileService profileService;
+        private ICustomerService customerService;
 
-        public ProfileController(IProfileService profileService)
+        public ProfileController(IProfileService profileService, ICustomerService customerService)
         {
             this.profileService = profileService;
+            this.customerService = customerService;
         }
 
         [HttpGet]
         public ActionResult Save(string id)
         {
             ProfileModel profile = null;
+            ViewBag.CustomerList = new SelectList(customerService.GetCustomers().OrderBy(c => c.Name), "Id", "Name");
             try
             {
                 if (id == "0")
@@ -39,7 +43,7 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(ProfileModel profile)
+        public async Task<ActionResult> Save(ProfileModel profile)
         {
             bool status = true;
             string message = "", property = "";
@@ -47,7 +51,7 @@ namespace PL.Controllers
             {
                 try
                 {
-                    profileService.CreateOrUpdateProfile(Mapper.Map<ProfileModel, ProfileDTO>(profile));
+                    await profileService.CreateOrUpdateProfile(Mapper.Map<ProfileModel, ProfileDTO>(profile));
                 }
                 catch (ValidationException ex)
                 {

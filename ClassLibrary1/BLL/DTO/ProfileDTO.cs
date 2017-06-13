@@ -10,5 +10,6 @@ namespace BLL.DTO
     {
         public string Id { get; set; }
         public string Login { get; set; }
+        public int? CustomerId { get; set; }
     }
 }

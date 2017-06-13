@@ -312,9 +312,6 @@ namespace DALEF.EF
 
             #region Customer Inizialize
             Customer WallStreetDaily = new Customer { Id = 1, Name = "Wall Street Daily", Portfolios = new List<Portfolio> {portfolio1, portfolio2, portfolio3} };
-            WallStreetDaily.Portfolios.Add(portfolio1);
-            WallStreetDaily.Portfolios.Add(portfolio2);
-            WallStreetDaily.Portfolios.Add(portfolio3);
             Customer FleetStreetPublication = new Customer { Id = 2, Name = "Fleet Street Publication", Portfolios = new List<Portfolio> { portfolio4, portfolio5 } };
             Customer DailyEdge = new Customer { Id = 3, Name = "Daily Edge" };
             Customer HeidiShubert = new Customer { Id = 6, Name = "Heidi Shubert" };

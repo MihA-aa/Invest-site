@@ -41,16 +41,15 @@ namespace BLL.Services
             return IMapper.Map<Entity.Profile, ProfileDTO>(profile);
         }
 
-        public async void CreateOrUpdateProfile(ProfileDTO profile)
+        public async Task CreateOrUpdateProfile(ProfileDTO profile)
         {
             if (profile == null)
                 throw new ValidationException("Profile Null Reference", "");
             if (db.Profiles.IsExist(profile.Id))
-                await userService.ChangeUsername(new UserDTO { Id = profile.Id, Login = profile.Login, Password = "qwertyqwerty", Role = "user" });
+                await userService.ChangeUserData(new UserDTO { Id = profile.Id, Login = profile.Login}, profile.CustomerId);
             else
-            {
-                await userService.CreateAsync(new UserDTO { Id = profile.Id, Login = profile.Login });
-            }
+                await userService.CreateAsync(new UserDTO { Id = profile.Id,
+                    Login = profile.Login, Password = "Kamoqw1_wer21", Role = "user" }, profile.CustomerId);
         }
 
         public void DeleteProfile(string id)
