@@ -142,3 +142,9 @@ input[type="checkbox"].input-validation-error {
 .hide_column{
     display : none;
 }
+/*#trade-management-jq-table_paginate{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    position: absolute;
+}*/

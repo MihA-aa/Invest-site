@@ -91,6 +91,8 @@ $(function () {
         SearchSetting();
         tableTradeManagement.draw();
     });
+
+
 });
 
 var tradeManagementIndex;
@@ -170,7 +172,7 @@ function LoadDataTable(ViewId) {
                 "processing": false,
                 "serverSide": true,
                 "orderMulti": false,
-                "dom": '<"top"i>rt<"bottom"lp><"clear">',
+                "dom": '<"top"pl>rt<"bottom"i><"clear">',
                 "order": [ [ result.sortColumnDisplayIndex, result.sortOrder ]],
                 "search": {"search": result.showPosition},
                 "ajax": {

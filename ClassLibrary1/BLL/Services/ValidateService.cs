@@ -17,7 +17,7 @@ namespace BLL.Services
         public void Validate(PositionDTO position)
         {
             if (position.OpenWeight < 1 || position.OpenWeight >10000)
-                throw new ValidationException("The Weight value must be greater than 0 and less than or equal to 10,000.", "OpenWeight");
+                throw new ValidationException("The Weight value must be greater than 0 and less than or equal to 10,000.", /*nameof(position.OpenWeight)*/"OpenWeight");
         }
 
         public void Validate(PortfolioDTO portfolio)
