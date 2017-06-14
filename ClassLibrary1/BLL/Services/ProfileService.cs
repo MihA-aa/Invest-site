@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTO;
+using BLL.Resource;
 using Entity = DAL.Entities;
 using DAL.Interfaces;
 using BLL.Helpers;
@@ -34,17 +35,17 @@ namespace BLL.Services
         public ProfileDTO GetProfile(string id)
         {
             if (id == null)
-                throw new ValidationException("Profile Id Not Set", "");
+                throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
             var profile = db.Profiles.Get(id);
             if (profile == null)
-                throw new ValidationException("Profile Not Found", "");
+                throw new ValidationException(Resource.Resource.ProfileNotFound, "");
             return IMapper.Map<Entity.Profile, ProfileDTO>(profile);
         }
 
         public async Task CreateOrUpdateProfile(ProfileDTO profile)
         {
             if (profile == null)
-                throw new ValidationException("Profile Null Reference", "");
+                throw new ValidationException(Resource.Resource.ProfileNullReference, "");
             if (db.Profiles.IsExist(profile.Id))
                 await userService.ChangeUserData(new UserDTO { Id = profile.Id, Login = profile.Login}, profile.CustomerId);
             else
@@ -55,9 +56,9 @@ namespace BLL.Services
         public void DeleteProfile(string id)
         {
             if (id == null)
-                throw new ValidationException("Profile Id Not Set", "");
+                throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
             if (!db.Profiles.IsExist(id))
-                throw new ValidationException("Profile Not Found", "");
+                throw new ValidationException(Resource.Resource.ProfileNotFound, "");
             db.Profiles.Delete(id);
             userService.DeleteUser(id);
             db.Save();

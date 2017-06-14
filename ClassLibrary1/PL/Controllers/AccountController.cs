@@ -13,8 +13,8 @@ using BLL.Interfaces;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PL.Models;
-using BLL.Infrastructure;
 using BLL.Resource;
+using BLL.Infrastructure;
 
 namespace PL.Controllers
 {
@@ -42,7 +42,7 @@ namespace PL.Controllers
                 ClaimsIdentity claim = await UserService.AuthenticateAsync(userDto);
                 if (claim == null)
                 {
-                    ModelState.AddModelError("", Resource.WrongLogOrPass);
+                    ModelState.AddModelError("", "Wrong Login Or Password");
                 }
                 else
                 {

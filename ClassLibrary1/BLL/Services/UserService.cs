@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTO;
+using BLL.Resource;
 using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
@@ -74,7 +75,7 @@ namespace BLL.Services
             }
             else
             {
-                throw new ValidationException("Please select a different username", "Login");
+                throw new ValidationException(Resource.Resource.UserAlreadyExists, "Login");
             }
         }
 
@@ -98,11 +99,11 @@ namespace BLL.Services
         public void AddProfileToCustomer(Entity.Profile profile, int? customerId)
         {
             if (profile == null)
-                throw new ValidationException("Profile null Reference", "");
+                throw new ValidationException(Resource.Resource.ProfileNullReference, "");
             if (customerId == null)
-                throw new ValidationException("Customer Id Not Set", "");
+                throw new ValidationException(Resource.Resource.CustomerIdNotSet, "");
             if (!Database.Customers.IsExist(customerId.Value))
-                throw new ValidationException("Profile Not Found", "");
+                throw new ValidationException(Resource.Resource.ProfileNotFound, "");
             Database.Customers.AddProfileToCustomer(profile, customerId.Value);
         }
 

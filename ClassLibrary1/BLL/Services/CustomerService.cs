@@ -36,17 +36,17 @@ namespace BLL.Services
         public CustomerDTO GetCustomer(int? id)
         {
             if (id == null)
-                throw new ValidationException("Customer Id Not Set", "");
+                throw new ValidationException(Resource.Resource.CustomerIdNotSet, "");
             var customer = db.Customers.Get(id.Value);
             if (customer == null)
-                throw new ValidationException("Customer Not Found", "");
+                throw new ValidationException(Resource.Resource.CustomerNotFound, "");
             return IMapper.Map<Customer, CustomerDTO>(customer);
         }
 
         public void CreateOrUpdateCustomer(CustomerDTO customer)
         {
             if (customer == null)
-                throw new ValidationException("Customer Null Reference", "");
+                throw new ValidationException(Resource.Resource.CustomerNullReference, "");
             if (db.Customers.IsExist(customer.Id))
                 UpdateCustomer(customer);
             else
@@ -56,7 +56,7 @@ namespace BLL.Services
         public void CreateCustomer(CustomerDTO customerDto)
         {
             if (customerDto == null)
-                throw new ValidationException("CustomerDTO Null Reference", "");
+                throw new ValidationException(Resource.Resource.CustomerNullReference, "");
             db.Customers.Create(IMapper.Map<CustomerDTO, Customer>(customerDto));
             db.Save();
         }
@@ -64,9 +64,9 @@ namespace BLL.Services
         public void UpdateCustomer(CustomerDTO customerDto)
         {
             if (customerDto == null)
-                throw new ValidationException("CustomerDTO Null Reference", "");
+                throw new ValidationException(Resource.Resource.CustomerNullReference, "");
             if (!db.Customers.IsExist(customerDto.Id))
-                throw new ValidationException("Customer Not Found", "");
+                throw new ValidationException(Resource.Resource.CustomerNotFound, "");
             db.Customers.Update(IMapper.Map<CustomerDTO, Customer>(customerDto));
             db.Save();
         }
@@ -74,9 +74,9 @@ namespace BLL.Services
         public void DeleteCustomer(int? id)
         {
             if (id == null)
-                throw new ValidationException("Customer Id Not Set", "");
+                throw new ValidationException(Resource.Resource.CustomerIdNotSet, "");
             if (!db.Customers.IsExist(id.Value))
-                throw new ValidationException("Customer Not Found", "");
+                throw new ValidationException(Resource.Resource.CustomerNotFound, "");
             db.Customers.Delete(id.Value);
             db.Save();
         }

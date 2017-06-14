@@ -9,6 +9,9 @@
 //------------------------------------------------------------------------------
 
 namespace BLL.Resource {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -19,7 +22,7 @@ namespace BLL.Resource {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resource {
+    internal class Resource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -33,7 +36,7 @@ namespace BLL.Resource {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BLL.Resource.Resource", typeof(Resource).Assembly);
@@ -48,7 +51,7 @@ namespace BLL.Resource {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -58,9 +61,54 @@ namespace BLL.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not set id of Customer.
+        /// </summary>
+        internal static string CustomerIdNotSet {
+            get {
+                return ResourceManager.GetString("CustomerIdNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer not found.
+        /// </summary>
+        internal static string CustomerNotFound {
+            get {
+                return ResourceManager.GetString("CustomerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customer is null reference.
+        /// </summary>
+        internal static string CustomerNullReference {
+            get {
+                return ResourceManager.GetString("CustomerNullReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not set id of Format.
+        /// </summary>
+        internal static string FormatIdNotSet {
+            get {
+                return ResourceManager.GetString("FormatIdNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Format not found.
+        /// </summary>
+        internal static string FormatNotFound {
+            get {
+                return ResourceManager.GetString("FormatNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ^[A-Za-z0-9_]{3,16}$.
         /// </summary>
-        public static string loginPattern {
+        internal static string loginPattern {
             get {
                 return ResourceManager.GetString("loginPattern", resourceCulture);
             }
@@ -69,16 +117,25 @@ namespace BLL.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Login must be at least 3 characters and no more than 16 characters. Can contain any letter, number, underscore and hyphen..
         /// </summary>
-        public static string LoginValidateMessage {
+        internal static string LoginValidateMessage {
             get {
                 return ResourceManager.GetString("LoginValidateMessage", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Money Precision value must be greater or equal to 0 and less than or equal to 8.
+        /// </summary>
+        internal static string MoneyPrecisionValidate {
+            get {
+                return ResourceManager.GetString("MoneyPrecisionValidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&amp;*_-])[\S].{8,}$.
         /// </summary>
-        public static string passwordPattern {
+        internal static string passwordPattern {
             get {
                 return ResourceManager.GetString("passwordPattern", resourceCulture);
             }
@@ -87,16 +144,25 @@ namespace BLL.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Password must be at least 8 characters and contain uppercase letters, lowercase letters, numbers, special characters..
         /// </summary>
-        public static string PasswordValidateMessage {
+        internal static string PasswordValidateMessage {
             get {
                 return ResourceManager.GetString("PasswordValidateMessage", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not set id of portfolio.
+        ///   Looks up a localized string similar to The Percenty Precision value must be greater or equal to 0 and less than or equal to 8.
         /// </summary>
-        public static string PortfolioIdNotSet {
+        internal static string PercentyPrecisionValidate {
+            get {
+                return ResourceManager.GetString("PercentyPrecisionValidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not set id of Portfolio.
+        /// </summary>
+        internal static string PortfolioIdNotSet {
             get {
                 return ResourceManager.GetString("PortfolioIdNotSet", resourceCulture);
             }
@@ -105,7 +171,7 @@ namespace BLL.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Portfolio not found.
         /// </summary>
-        public static string PortfolioNotFound {
+        internal static string PortfolioNotFound {
             get {
                 return ResourceManager.GetString("PortfolioNotFound", resourceCulture);
             }
@@ -114,16 +180,25 @@ namespace BLL.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Portfolio is null reference.
         /// </summary>
-        public static string PortfolioNullReference {
+        internal static string PortfolioNullReference {
             get {
                 return ResourceManager.GetString("PortfolioNullReference", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not set id of position.
+        ///   Looks up a localized string similar to Percent Wins of portfolio cannot be less than zero.
         /// </summary>
-        public static string PositionIdNotSet {
+        internal static string PortfolioPercentWinsValidate {
+            get {
+                return ResourceManager.GetString("PortfolioPercentWinsValidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not set id of Position.
+        /// </summary>
+        internal static string PositionIdNotSet {
             get {
                 return ResourceManager.GetString("PositionIdNotSet", resourceCulture);
             }
@@ -132,7 +207,7 @@ namespace BLL.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Position not found.
         /// </summary>
-        public static string PositionNotFound {
+        internal static string PositionNotFound {
             get {
                 return ResourceManager.GetString("PositionNotFound", resourceCulture);
             }
@@ -141,25 +216,61 @@ namespace BLL.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Position is null reference.
         /// </summary>
-        public static string PositionNullReference {
+        internal static string PositionNullReference {
             get {
                 return ResourceManager.GetString("PositionNullReference", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Weight value must be greater than 0 and less than or equal to 10,000..
+        /// </summary>
+        internal static string PositionOpenWeightValidate {
+            get {
+                return ResourceManager.GetString("PositionOpenWeightValidate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not set id of Profile.
+        /// </summary>
+        internal static string ProfileIdNotSet {
+            get {
+                return ResourceManager.GetString("ProfileIdNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile not found.
+        /// </summary>
+        internal static string ProfileNotFound {
+            get {
+                return ResourceManager.GetString("ProfileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile is null reference.
+        /// </summary>
+        internal static string ProfileNullReference {
+            get {
+                return ResourceManager.GetString("ProfileNullReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with such login already exist.
         /// </summary>
-        public static string UserAlreadyExists {
+        internal static string UserAlreadyExists {
             get {
                 return ResourceManager.GetString("UserAlreadyExists", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not set id of user.
+        ///   Looks up a localized string similar to Not set id of User.
         /// </summary>
-        public static string UserIdNotSet {
+        internal static string UserIdNotSet {
             get {
                 return ResourceManager.GetString("UserIdNotSet", resourceCulture);
             }
@@ -168,16 +279,106 @@ namespace BLL.Resource {
         /// <summary>
         ///   Looks up a localized string similar to User not found.
         /// </summary>
-        public static string UserNotFound {
+        internal static string UserNotFound {
             get {
                 return ResourceManager.GetString("UserNotFound", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not set id of view.
+        /// </summary>
+        internal static string ViewIdNotSet {
+            get {
+                return ResourceManager.GetString("ViewIdNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View not found.
+        /// </summary>
+        internal static string ViewNotFound {
+            get {
+                return ResourceManager.GetString("ViewNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View is null reference.
+        /// </summary>
+        internal static string ViewNullReference {
+            get {
+                return ResourceManager.GetString("ViewNullReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not set id of ViewTemplateColumn.
+        /// </summary>
+        internal static string ViewTemplateColumnIdNotSet {
+            get {
+                return ResourceManager.GetString("ViewTemplateColumnIdNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not set Name of ViewTemplateColumn.
+        /// </summary>
+        internal static string ViewTemplateColumnNameNotSet {
+            get {
+                return ResourceManager.GetString("ViewTemplateColumnNameNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ViewTemplateColumn not found.
+        /// </summary>
+        internal static string ViewTemplateColumnNotFound {
+            get {
+                return ResourceManager.GetString("ViewTemplateColumnNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ViewTemplateColumn is null reference.
+        /// </summary>
+        internal static string ViewTemplateColumnNullReference {
+            get {
+                return ResourceManager.GetString("ViewTemplateColumnNullReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not set id of ViewTemplate.
+        /// </summary>
+        internal static string ViewTemplateIdNotSet {
+            get {
+                return ResourceManager.GetString("ViewTemplateIdNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ViewTemplate not found.
+        /// </summary>
+        internal static string ViewTemplateNotFound {
+            get {
+                return ResourceManager.GetString("ViewTemplateNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ViewTemplate is null reference.
+        /// </summary>
+        internal static string ViewTemplateNullReference {
+            get {
+                return ResourceManager.GetString("ViewTemplateNullReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong login or password.
         /// </summary>
-        public static string WrongLogOrPass {
+        internal static string WrongLogOrPass {
             get {
                 return ResourceManager.GetString("WrongLogOrPass", resourceCulture);
             }

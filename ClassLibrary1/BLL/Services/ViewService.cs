@@ -41,17 +41,17 @@ namespace BLL.Services
         public ViewDTO GetView(int? id)
         {
             if (id == null)
-                throw new ValidationException("View Id Not Set", "");
+                throw new ValidationException(Resource.Resource.ViewIdNotSet, "");
             var view = db.Views.Get(id.Value);
             if (view == null)
-                throw new ValidationException("View Not Found", "");
+                throw new ValidationException(Resource.Resource.ViewNotFound, "");
             return IMapper.Map<View, ViewDTO>(view);
         }
         
         public void CreateOrUpdateView(ViewDTO view, string userId)
         {
             if (view == null)
-                throw new ValidationException("ViewDTO Null Reference", "");
+                throw new ValidationException(Resource.Resource.ViewNullReference, "");
             if (db.Views.IsExist(view.Id))
                 UpdateView(view);
             else
@@ -61,7 +61,7 @@ namespace BLL.Services
         public void CreateView(ViewDTO viewDto, string userId)
         {
             if (viewDto == null)
-                throw new ValidationException("ViewDTO Null Reference", "");
+                throw new ValidationException(Resource.Resource.ViewNullReference, "");
             validateService.Validate(viewDto);
             var view = IMapper.Map<ViewDTO, View>(viewDto);
             AddViewTemplateToView(view, view.ViewTemplateId);
@@ -75,9 +75,9 @@ namespace BLL.Services
         public void UpdateView(ViewDTO viewDto)
         {
             if (viewDto == null)
-                throw new ValidationException("ViewDTO Null Reference", "");
+                throw new ValidationException(Resource.Resource.ViewNullReference, "");
             if (!db.Views.IsExist(viewDto.Id))
-                throw new ValidationException("View Not Found", "");
+                throw new ValidationException(Resource.Resource.ViewNotFound, "");
             validateService.Validate(viewDto);
             var view = IMapper.Map<ViewDTO, View>(viewDto);
             AddViewTemplateToView(view, view.ViewTemplateId);
@@ -88,9 +88,9 @@ namespace BLL.Services
         public void DeleteView(int? id)
         {
             if (id == null)
-                throw new ValidationException("View Id Not Set", "");
+                throw new ValidationException(Resource.Resource.ViewIdNotSet, "");
             if (!db.Views.IsExist(id.Value))
-                throw new ValidationException("View Not Found", "");
+                throw new ValidationException(Resource.Resource.ViewNotFound, "");
             db.Views.Delete(id.Value);
             db.Save();
         }
@@ -98,23 +98,23 @@ namespace BLL.Services
         public void AddViewTemplateToView(View view, int? ViewTemplateId)
         {
             if (view == null)
-                throw new ValidationException("View null Reference", "");
+                throw new ValidationException(Resource.Resource.ViewNullReference, "");
             if (ViewTemplateId == null)
-                throw new ValidationException("ViewTemplate Id Not Set", "");
+                throw new ValidationException(Resource.Resource.ViewTemplateIdNotSet, "");
             var viewTemplate = db.ViewTemplates.Get(ViewTemplateId.Value);
             if (viewTemplate == null)
-                throw new ValidationException("ViewTemplate Not Found", "");
+                throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
             view.ViewTemplate = viewTemplate;
         }
         public void AddPortfolioToView(View view, int? PortfolioId)
         {
             if (view == null)
-                throw new ValidationException("View null Reference", "");
+                throw new ValidationException(Resource.Resource.ViewNullReference, "");
             if (PortfolioId == null)
-                throw new ValidationException("Portfolio Id Not Set", "");
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
             var portfolio = db.Portfolios.Get(PortfolioId.Value);
             if (portfolio == null)
-                throw new ValidationException("Portfolio Not Found", "");
+                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             view.Portfolio = portfolio;
         }
 

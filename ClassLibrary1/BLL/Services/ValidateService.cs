@@ -17,21 +17,21 @@ namespace BLL.Services
         public void Validate(PositionDTO position)
         {
             if (position.OpenWeight < 1 || position.OpenWeight >10000)
-                throw new ValidationException("The Weight value must be greater than 0 and less than or equal to 10,000.", HelperService.GetMemberName((PositionDTO c) => c.OpenWeight)/*"OpenWeight"*/);
+                throw new ValidationException(Resource.Resource.PositionOpenWeightValidate, HelperService.GetMemberName((PositionDTO c) => c.OpenWeight));
         }
 
         public void Validate(PortfolioDTO portfolio)
         {
             if (portfolio.PercentWins < 0)
-                throw new ValidationException("Percent Wins of portfolio cannot be less than zero", HelperService.GetMemberName((PortfolioDTO c) => c.PercentWins));
+                throw new ValidationException(Resource.Resource.PortfolioPercentWinsValidate, HelperService.GetMemberName((PortfolioDTO c) => c.PercentWins));
         }
 
         public void Validate(ViewDTO view)
         {
             if (view.MoneyPrecision < 0 || view.MoneyPrecision > 8)
-                throw new ValidationException("The Money Precision value must be greater or equal to 0 and less than or equal to 8", HelperService.GetMemberName((ViewDTO c) => c.MoneyPrecision));
+                throw new ValidationException(Resource.Resource.MoneyPrecisionValidate, HelperService.GetMemberName((ViewDTO c) => c.MoneyPrecision));
             if (view.PercentyPrecision < 0 || view.PercentyPrecision > 8)
-                throw new ValidationException("The Percenty Precision value must be greater or equal to 0 and less than or equal to 8", HelperService.GetMemberName((ViewDTO c) => c.MoneyPrecision));
+                throw new ValidationException(Resource.Resource.PercentyPrecisionValidate, HelperService.GetMemberName((ViewDTO c) => c.MoneyPrecision));
         }
 
         public void Validate(UserDTO userDto)
