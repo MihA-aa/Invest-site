@@ -110,6 +110,7 @@
     <Compile Include="Services\CalculationService.cs" />
     <Compile Include="Services\ColumnService.cs" />
     <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\HelperService.cs" />
     <Compile Include="Services\PortfolioService.cs" />
     <Compile Include="Services\PositionService.cs" />
     <Compile Include="Services\ProfileService.cs" />
