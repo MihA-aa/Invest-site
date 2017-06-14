@@ -16,5 +16,6 @@ namespace BLL.Interfaces
         Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto);
         Task ChangeUserData(UserDTO userDto, int? customerId);
         void AddProfileToCustomer(Profile profile, int? customerId);
+        void DeleteUser(string userId);
     }
 }

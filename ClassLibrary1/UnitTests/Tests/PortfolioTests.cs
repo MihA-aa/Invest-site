@@ -263,7 +263,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(m => m.IsExist(It.IsAny<int>()))
                 .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
-                .Returns(new Customer {Id = "asdasd", Name = "Misha"});
+                .Returns(new Customer {Id = 23123, Name = "Misha"});
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
             
@@ -285,7 +285,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(m => m.IsExist(It.IsAny<int>()))
                 .Returns((int id) => ListPortfolios.Any(p => p.Id == id));
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
-                .Returns(new Customer { Id = "asdasd", Name = "Misha" });
+                .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
 
@@ -324,7 +324,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(m => m.Create(It.IsAny<Portfolio>()))
                 .Callback<Portfolio>(ListPortfolios.Add);
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
-                .Returns(new Customer { Id = "asdasd", Name = "Misha" });
+                .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
 

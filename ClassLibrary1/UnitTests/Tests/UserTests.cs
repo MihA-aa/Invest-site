@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BLL.Helpers;
 using BLL.Infrastructure;
+using BLL.Interfaces;
 using Microsoft.AspNet.Identity;
 using Profile = DAL.Entities.Profile;
 
@@ -25,6 +26,8 @@ namespace UnitTests.Tests
     {
         private Mock<IUnitOfWork> UnitOfWork;
         private UserService userService;
+        private Mock<IUserService> mockUserService;
+        private ProfileService profileService;
         private Mock<ApplicationUserManager> UserManager;
         private Mock<ApplicationRoleManager> RoleManager;
         private ValidateService validateService;
@@ -81,6 +84,7 @@ namespace UnitTests.Tests
             UserManager = new Mock<ApplicationUserManager>(userStore.Object);
             RoleManager = new Mock<ApplicationRoleManager>();
             profileRepository = new Mock<IProfileRepository>();
+            mockUserService = new Mock<IUserService>();
             validateService = new ValidateService();
             map = new AutoMapperConfiguration().Configure().CreateMapper();
         }
@@ -91,10 +95,10 @@ namespace UnitTests.Tests
             profileRepository.Setup(c => c.Get(It.IsAny<string>()))
                 .Returns((string i) => ListProfiles.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService, map);
+            profileService = new ProfileService(UnitOfWork.Object, map, mockUserService.Object);
 
-            ProfileDTO profile1 = userService.GetProfile("1");
-            ProfileDTO profile2 = userService.GetProfile("2");
+            ProfileDTO profile1 = profileService.GetProfile("1");
+            ProfileDTO profile2 = profileService.GetProfile("2");
 
             Assert.AreEqual(profile1.Login, "firstProfile");
             Assert.AreEqual(profile2.Login, "secondProfile");
@@ -106,9 +110,9 @@ namespace UnitTests.Tests
         public void CanNotGetPositionByNullId()
         {
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService, map);
+            profileService = new ProfileService(UnitOfWork.Object, map, mockUserService.Object);
 
-            userService.GetProfile(null);
+            profileService.GetProfile(null);
         }
 
         [TestMethod]
@@ -119,9 +123,9 @@ namespace UnitTests.Tests
             profileRepository.Setup(c => c.Get(It.IsAny<string>()))
                 .Returns((string i) => ListProfiles.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            userService = new UserService(UnitOfWork.Object, validateService, map);
+            profileService = new ProfileService(UnitOfWork.Object, map, mockUserService.Object);
 
-            userService.GetProfile("5");
+            profileService.GetProfile("5");
         }
 
         [TestMethod]

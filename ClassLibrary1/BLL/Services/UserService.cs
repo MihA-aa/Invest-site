@@ -61,7 +61,6 @@ namespace BLL.Services
                 || Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)?.Id == userDto.Id)
             {
                 var user = Database.UserManager.FindById(userDto.Id);
-                //userDto.Password = "Kamoqw1_wer21";
                 validateService.ValidateOnlyLogin(userDto);
                 user.UserName = userDto.Login;
                 var updateResult = await Database.UserManager.UpdateAsync(user);
@@ -88,6 +87,14 @@ namespace BLL.Services
                                             DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
         }
+
+        public void DeleteUser(string userId)
+        {
+            var user = Database.UserManager.FindById(userId);
+            if(user!=null)
+                Database.UserManager.Delete(user);
+        }
+
         public void AddProfileToCustomer(Entity.Profile profile, int? customerId)
         {
             if (profile == null)

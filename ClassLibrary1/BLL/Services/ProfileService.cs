@@ -59,6 +59,7 @@ namespace BLL.Services
             if (!db.Profiles.IsExist(id))
                 throw new ValidationException("Profile Not Found", "");
             db.Profiles.Delete(id);
+            userService.DeleteUser(id);
             db.Save();
         }
     }
