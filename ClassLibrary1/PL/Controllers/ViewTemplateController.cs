@@ -9,6 +9,7 @@ using BLL.DTO.Enums;
 using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
+using Microsoft.AspNet.Identity;
 using PL.Util;
 
 namespace PL.Controllers
@@ -52,7 +53,7 @@ namespace PL.Controllers
             {
                 try
                 {
-                    viewTemplateService.CreateOrUpdateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate));
+                    viewTemplateService.CreateOrUpdateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate), User.Identity.GetUserId());
                 }
                 catch (ValidationException ex)
                 {

@@ -13,6 +13,7 @@ namespace PL.Models
         public string Login { get; set; }
 
         [Display(Name = "Customer")]
+        [Required]
         public int? CustomerId { get; set; }
     }
 }

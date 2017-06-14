@@ -7,13 +7,13 @@ namespace DALEF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class _12312wqhжюwer123 : IMigrationMetadata
+    public sealed partial class _13212312 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(_12312wqhжюwer123));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_13212312));
         
         string IMigrationMetadata.Id
         {
-            get { return "201706130825555_12312wqhжюwer123"; }
+            get { return "201706140857589_13212312"; }
         }
         
         string IMigrationMetadata.Source

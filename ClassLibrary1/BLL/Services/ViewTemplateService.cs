@@ -17,16 +17,23 @@ namespace BLL.Services
     {
         IUnitOfWork db { get; }
         IMapper IMapper { get; }
+        ICustomerService customerService { get; }
 
-        public ViewTemplateService(IUnitOfWork uow, IMapper map)
+        public ViewTemplateService(IUnitOfWork uow, IMapper map, ICustomerService cs)
         {
             db = uow;
             IMapper = map;
+            customerService = cs;
         }
 
         public IEnumerable<ViewTemplateDTO> GetViewTemplates()
         {
             return IMapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(db.ViewTemplates.GetAll());
+        }
+        public IEnumerable<ViewTemplateDTO> GetViewTemplatesForUser(string id)
+        {
+            var profile = db.Profiles.Get(id);
+            return IMapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(profile?.Customer?.ViewTemplates);
         }
 
         public string GetNameByTemplateId(int? id)
@@ -59,21 +66,25 @@ namespace BLL.Services
             return IMapper.Map<IEnumerable<ViewTemplateColumn>, List<ViewTemplateColumnDTO>>(viewTemplate.Columns.ToList());
         }
 
-        public void CreateOrUpdateViewTemplate(ViewTemplateDTO viewTemplate)
+        public void CreateOrUpdateViewTemplate(ViewTemplateDTO viewTemplate, string userId)
         {
             if (viewTemplate == null)
                 throw new ValidationException("ViewTemplateDTO Null Reference", "");
             if (db.ViewTemplates.IsExist(viewTemplate.Id))
                 UpdateViewTemplate(viewTemplate);
             else
-                CreateViewTemplate(viewTemplate);
+                CreateViewTemplate(viewTemplate, userId);
         }
 
-        public void CreateViewTemplate(ViewTemplateDTO viewTemplateDto)
+        public void CreateViewTemplate(ViewTemplateDTO viewTemplateDto, string userId)
         {
             if (viewTemplateDto == null)
                 throw new ValidationException("ViewTemplateDTO Null Reference", "");
-            db.ViewTemplates.Create(IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto));
+            var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
+            var customer = customerService.GetCustomerByProfileId(userId);
+            viewTemplate.Customer = customer;
+            customer.ViewTemplates.Add(viewTemplate);
+            db.ViewTemplates.Create(viewTemplate);
             db.Save();
         }
 

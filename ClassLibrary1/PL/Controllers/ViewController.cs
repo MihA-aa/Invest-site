@@ -9,6 +9,7 @@ using BLL.DTO.Enums;
 using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
+using Microsoft.AspNet.Identity;
 using PL.Util;
 
 namespace PL.Controllers
@@ -30,7 +31,7 @@ namespace PL.Controllers
         {
             ViewModel view = null;
             ViewBag.DateFormatsList = HelperService.GetSelectListFromEnum<DateFormatsDTO>();
-            ViewBag.Templates = new SelectList(viewTemplateService.GetViewTemplates(), "Id", "Name");
+            ViewBag.Templates = new SelectList(viewTemplateService.GetViewTemplatesForUser(User.Identity.GetUserId()), "Id", "Name");
             try
             {
                 if (id == 0)
@@ -53,7 +54,7 @@ namespace PL.Controllers
             {
                 try
                 {
-                    viewService.CreateOrUpdateView(Mapper.Map<ViewModel, ViewDTO>(view));
+                    viewService.CreateOrUpdateView(Mapper.Map<ViewModel, ViewDTO>(view), User.Identity.GetUserId());
                 }
                 catch (ValidationException ex)
                 {

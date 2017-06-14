@@ -3,7 +3,7 @@ namespace DALEF.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _123123123131 : DbMigration
+    public partial class _13212312 : DbMigration
     {
         public override void Up()
         {

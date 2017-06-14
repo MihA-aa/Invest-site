@@ -769,6 +769,7 @@
     <Content Include="Views\Customer\Delete.cshtml" />
     <Content Include="Views\Profile\Save.cshtml" />
     <Content Include="Views\Profile\Delete.cshtml" />
+    <Content Include="Views\Account\UnassignedUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

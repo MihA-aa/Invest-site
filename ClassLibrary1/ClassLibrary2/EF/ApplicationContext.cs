@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using DAL.ApplicationManager;
 using DAL.Entities;
 using DAL.Enums;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DALEF.EF
@@ -37,22 +39,25 @@ namespace DALEF.EF
     {
         protected override void Seed(ApplicationContext db)
         {
-            #region User Inizialize
-            Role user = new Role { Name = "user" };
-            Role admin = new Role { Name = "admin" };
 
-            db.Roles.Add(user);
-            db.Roles.Add(admin);
 
-            User firstUser = new User
-            {
-                UserName = "firstUser",
-                Email = "firstUser@gmail.com",
-                PasswordHash = "Password"
-            };
+            //Role user = new Role { Name = "user" };
+            //Role employee = new Role { Name = "employee" };
+            //Role admin = new Role { Name = "admin" };
 
-            db.Users.Add(firstUser);
-            #endregion
+            //db.Roles.Add(user);
+            //db.Roles.Add(admin);
+            //db.Roles.Add(employee);
+
+            //User firstUser = new User
+            //{
+            //    UserName = "firstUser",
+            //    Email = "firstUser@gmail.com",
+            //    PasswordHash = "Password"
+            //};
+
+            //db.Users.Add(firstUser);
+            
 
             #region Positions Inizialize
             Position position1 = new Position
@@ -310,21 +315,6 @@ namespace DALEF.EF
             db.Portfolios.Add(portfolio5);
             #endregion
 
-            #region Customer Inizialize
-            Customer WallStreetDaily = new Customer { Id = 1, Name = "Wall Street Daily", Portfolios = new List<Portfolio> {portfolio1, portfolio2, portfolio3} };
-            Customer FleetStreetPublication = new Customer { Id = 2, Name = "Fleet Street Publication", Portfolios = new List<Portfolio> { portfolio4, portfolio5 } };
-            Customer DailyEdge = new Customer { Id = 3, Name = "Daily Edge" };
-            Customer HeidiShubert = new Customer { Id = 6, Name = "Heidi Shubert" };
-            Customer WeissResearch = new Customer { Id = 4, Name = "Weiss Research" };
-            Customer WSD = new Customer { Id = 5, Name = "WSD Custom Strategy" };
-
-            db.Customers.Add(DailyEdge);
-            db.Customers.Add(HeidiShubert);
-            db.Customers.Add(WallStreetDaily);
-            db.Customers.Add(WeissResearch);
-            db.Customers.Add(WSD);
-            db.Customers.Add(FleetStreetPublication);
-            #endregion
 
             #region ColumnFormat Inizialize
             ColumnFormat None = new ColumnFormat
@@ -797,6 +787,58 @@ namespace DALEF.EF
             db.Views.Add(previewAllView);
             db.Views.Add(defaultView);
             #endregion
+
+            #region Customer Inizialize
+            Customer WallStreetDaily = new Customer {
+                Id = 1,
+                Name = "Wall Street Daily",
+                Portfolios = new List<Portfolio> { portfolio1, portfolio2, portfolio3 },
+                Views = new List<View> { previewAllView, defaultView },
+                ViewTemplates = new List<ViewTemplate> { viewTemplate1 , viewTemplate2 }
+            };
+            Customer FleetStreetPublication = new Customer { Id = 2, Name = "Fleet Street Publication", Portfolios = new List<Portfolio> { portfolio4, portfolio5 } };
+            Customer DailyEdge = new Customer { Id = 3, Name = "Daily Edge" };
+            Customer HeidiShubert = new Customer { Id = 6, Name = "Heidi Shubert" };
+            Customer WeissResearch = new Customer { Id = 4, Name = "Weiss Research" };
+            Customer WSD = new Customer { Id = 5, Name = "WSD Custom Strategy" };
+
+            db.Customers.Add(DailyEdge);
+            db.Customers.Add(HeidiShubert);
+            db.Customers.Add(WallStreetDaily);
+            db.Customers.Add(WeissResearch);
+            db.Customers.Add(WSD);
+            db.Customers.Add(FleetStreetPublication);
+            #endregion
+
+            #region User Inizialize
+            var userManager = new ApplicationUserManager(new UserStore<User>(db));
+            var roleManager = new ApplicationRoleManager(new RoleStore<Role>(db));
+            List<Role> identityRoles = new List<Role>
+            {
+                new Role() {Name = "Admin"},
+                new Role() {Name = "User"},
+                new Role() {Name = "Employee"}
+            };
+
+            foreach (Role role in identityRoles)
+            {
+                roleManager.Create(role);
+            }
+            User admin = new User { Email = "Admin", UserName = "Admin" };
+            userManager.Create(admin, "Password");
+            userManager.AddToRole(admin.Id, "Admin");
+            userManager.AddToRole(admin.Id, "Employee");
+
+            var clientProfile = new Profile
+            {
+                Id = admin.Id,
+                Login = admin.UserName,
+                Customer = WallStreetDaily,
+                CustomerId = WallStreetDaily.Id
+            };
+            WallStreetDaily.Profiles.Add(clientProfile);
+            #endregion
+
             try
             {
                 db.SaveChanges();

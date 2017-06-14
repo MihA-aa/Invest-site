@@ -41,8 +41,11 @@ namespace BLL.Services
                     throw new ValidationException(result.Errors.FirstOrDefault(), "");
                 await Database.UserManager.AddToRoleAsync(user.Id, userDto.Role);
                 var clientProfile = new Entity.Profile { Id = user.Id, Login = userDto.Login };
-                if(customerId != 0)
+                if (customerId != 0)
+                {
                     AddProfileToCustomer(clientProfile, customerId);
+                    await Database.UserManager.AddToRoleAsync(user.Id, "Employee");
+                }
                 Database.Profiles.Create(clientProfile);
                 await Database.SaveAsync();
             }
@@ -54,11 +57,12 @@ namespace BLL.Services
 
         public async Task ChangeUserData(UserDTO userDto, int? customerId)
         {
-            if (Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login) == null)
+            if (Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)== null
+                || Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)?.Id == userDto.Id)
             {
                 var user = Database.UserManager.FindById(userDto.Id);
-                userDto.Password = "Kamoqw1_wer21";
-                validateService.Validate(userDto);
+                //userDto.Password = "Kamoqw1_wer21";
+                validateService.ValidateOnlyLogin(userDto);
                 user.UserName = userDto.Login;
                 var updateResult = await Database.UserManager.UpdateAsync(user);
                 if (updateResult.Errors.Any())
@@ -66,6 +70,7 @@ namespace BLL.Services
                 var profile = Database.Profiles.Get(userDto.Id);
                 profile.Login = userDto.Login;
                 AddProfileToCustomer(profile, customerId);
+                await Database.UserManager.AddToRoleAsync(user.Id, "Employee");
                 await Database.SaveAsync();
             }
             else
@@ -92,6 +97,13 @@ namespace BLL.Services
             if (!Database.Customers.IsExist(customerId.Value))
                 throw new ValidationException("Profile Not Found", "");
             Database.Customers.AddProfileToCustomer(profile, customerId.Value);
+        }
+
+        public bool UserIsInRole(string role, string id)
+        {
+            if (Database.UserManager.FindById(id) == null)
+                return false;
+            return Database.UserManager.IsInRole(id, role);
         }
     }
 }

@@ -13,11 +13,12 @@ namespace BLL.Interfaces
         IEnumerable<PortfolioDTO> GetPortfolios();
         IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId);
         int CreateOrUpdatePortfolio(PortfolioDTO portfolio, string userId);
-        void CreatePortfolio(PortfolioDTO portfolio, string userId);
+        int CreatePortfolio(PortfolioDTO portfolioDto, string userId);
         void DeletePortfolio(int? id);
         void UpdatePortfolio(PortfolioDTO portfolio);
         void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios);
         void RecalculatePortfolioValue(int id);
         IEnumerable<PortfolioDTO> GetPortfoliosForUser(string id);
+        void UpdatePortfolioNameAndNotes(PortfolioDTO portfolioDto);
     }
 }

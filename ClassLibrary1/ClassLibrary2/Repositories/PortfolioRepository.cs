@@ -60,6 +60,7 @@ namespace DALEF.Repositories
             db.Entry(portfolio).Property(x => x.Name).IsModified = true;
             db.Entry(portfolio).Property(x => x.Notes).IsModified = true;
             db.Entry(portfolio).Property(x => x.Visibility).IsModified = true;
+            db.Entry(portfolio).Property(x => x.LastUpdateDate).IsModified = true;
         }
 
         public bool IsExist(int id)

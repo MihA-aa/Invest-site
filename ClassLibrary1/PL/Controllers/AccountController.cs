@@ -90,5 +90,10 @@ namespace PL.Controllers
             }
             return View(model);
         }
+
+        public ActionResult UnassignedUser()
+        {
+            return View();
+        }
     }
 }

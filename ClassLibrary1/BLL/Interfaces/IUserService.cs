@@ -11,7 +11,7 @@ namespace BLL.Interfaces
 {
     public interface IUserService
     {
-        //Task<OperationDetails> Create(UserDTO userDto);
+        bool UserIsInRole(string role, string id);
         Task CreateAsync(UserDTO userDto, int? customerId = 0);
         Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto);
         Task ChangeUserData(UserDTO userDto, int? customerId);

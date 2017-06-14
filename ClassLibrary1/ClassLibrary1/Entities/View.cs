@@ -14,5 +14,6 @@ namespace DAL.Entities
         public int PercentyPrecision { get; set; }
         public virtual Portfolio Portfolio { get; set; }
         public int? PortfolioId { get; set; }
+        public virtual Customer Customer { get; set; }
     }
 }

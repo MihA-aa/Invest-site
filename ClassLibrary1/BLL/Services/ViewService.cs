@@ -16,18 +16,26 @@ namespace BLL.Services
     {
         IUnitOfWork db { get; }
         IValidateService validateService { get; }
+        ICustomerService customerService { get; }
         IMapper IMapper { get; }
 
-        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map)
+        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs)
         {
             db = uow;
             validateService = vd;
             IMapper = map;
+            customerService = cs;
         }
 
         public IEnumerable<ViewDTO> GetViews()
         {
             return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(db.Views.GetAll());
+        }
+
+        public IEnumerable<ViewDTO> GetViewsForUser(string id)
+        {
+            var profile = db.Profiles.Get(id);
+            return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(profile?.Customer?.Views);
         }
 
         public ViewDTO GetView(int? id)
@@ -40,23 +48,26 @@ namespace BLL.Services
             return IMapper.Map<View, ViewDTO>(view);
         }
         
-        public void CreateOrUpdateView(ViewDTO view)
+        public void CreateOrUpdateView(ViewDTO view, string userId)
         {
             if (view == null)
                 throw new ValidationException("ViewDTO Null Reference", "");
             if (db.Views.IsExist(view.Id))
                 UpdateView(view);
             else
-                CreateView(view);
+                CreateView(view, userId);
         }
 
-        public void CreateView(ViewDTO viewDto)
+        public void CreateView(ViewDTO viewDto, string userId)
         {
             if (viewDto == null)
                 throw new ValidationException("ViewDTO Null Reference", "");
             validateService.Validate(viewDto);
             var view = IMapper.Map<ViewDTO, View>(viewDto);
             AddViewTemplateToView(view, view.ViewTemplateId);
+            var customer = customerService.GetCustomerByProfileId(userId);
+            view.Customer = customer;
+            customer.Views.Add(view);
             db.Views.Create(view);
             db.Save();
         }

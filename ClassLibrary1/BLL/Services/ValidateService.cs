@@ -41,6 +41,11 @@ namespace BLL.Services
             if (!Regex.IsMatch(userDto.Password, Resource.Resource.passwordPattern))
                 throw new ValidationException(Resource.Resource.PasswordValidateMessage, "Password");
         }
+        public void ValidateOnlyLogin(UserDTO userDto)
+        {
+            if (!Regex.IsMatch(userDto.Login, Resource.Resource.loginPattern))
+                throw new ValidationException(Resource.Resource.LoginValidateMessage, "Login");
+        }
 
     }
 }

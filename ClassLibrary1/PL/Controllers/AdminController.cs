@@ -7,23 +7,31 @@ using AutoMapper;
 using BLL.DTO;
 using System.Linq.Dynamic;
 using BLL.Interfaces;
+using Microsoft.AspNet.Identity;
 using PL.Models;
 
 namespace PL.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
         private ICustomerService customerService;
         private IProfileService profileService;
+        private IUserService userService;
 
-        public AdminController(ICustomerService customerService, IProfileService profileService)
+        public AdminController(ICustomerService customerService, IProfileService profileService, IUserService userService)
         {
             this.customerService = customerService;
             this.profileService = profileService;
+            this.userService = userService;
         }
         public ActionResult Index()
         {
+            if (!userService.UserIsInRole("Admin", User.Identity.GetUserId()))
+            {
+                TempData["Message"] = "Access denied";
+                return RedirectToAction("UnassignedUser", "Account");
+            }
             return View();
         }
 

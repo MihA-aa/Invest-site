@@ -98,7 +98,8 @@ var viewManagementIndex;
 var tableTradeManagement;
 var htmlTable = '<table id="trade-management-jq-table" class="display" cellspacing="0" width="100%"><tbody></tbody></table>';
 $(document).ready(function(){
-  viewManagementIndex = 1
+  var firstViewValue = $("#ViewListUl").find(".viewItem").first().attr('id');
+   viewManagementIndex = firstViewValue == undefined ? 1 : firstViewValue;
   loadTradeManagement();
   LoadDataTable(viewManagementIndex);
 

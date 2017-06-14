@@ -12,6 +12,7 @@ namespace DAL.Entities
         public int? SortColumnId { get; set; }
         public ViewTemplateColumn SortColumn { get; set; }
         public Sorting SortOrder { get; set; }
+        public virtual Customer Customer { get; set; }
 
         public virtual ICollection<ViewTemplateColumn> Columns { get; set; }
         public virtual ICollection<View> Views { get; set; }

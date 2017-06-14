@@ -46,7 +46,7 @@ namespace PL.Controllers
 
         public PartialViewResult ViewList()
         {
-            var viewsDto = viewService.GetViews().OrderBy(v => v.Name);
+            var viewsDto = viewService.GetViewsForUser(User.Identity.GetUserId()).OrderBy(v => v.Id);
             var views = Mapper.Map<IEnumerable<ViewDTO>, List<ViewModel>>(viewsDto);
             return PartialView(views);
         }
@@ -65,7 +65,7 @@ namespace PL.Controllers
         [HttpPost]
         public ActionResult ApplyView(int? id)
         {
-            var view = viewService.GetView(id.Value);
+            var view = viewService.GetView(id ?? 1);
             var viewTemplateColumns = viewTemplateService.GetViewTemplateColumns(view.ViewTemplateId)
                 .OrderBy(c => c.DisplayIndex);
             var viewTemplate = viewTemplateService.GetViewTemplate(view.ViewTemplateId);
@@ -199,7 +199,7 @@ namespace PL.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var viewTemplatesDto = viewTemplateService.GetViewTemplates();
+            var viewTemplatesDto = viewTemplateService.GetViewTemplatesForUser(User.Identity.GetUserId());
             
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
@@ -256,7 +256,7 @@ namespace PL.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var viewsDto = viewService.GetViews();
+            var viewsDto = viewService.GetViewsForUser(User.Identity.GetUserId());
 
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
