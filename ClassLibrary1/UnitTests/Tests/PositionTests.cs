@@ -203,7 +203,7 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Not set id of position")]
+         "Not set id of Position")]
         public void CanNotGetPositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
@@ -244,7 +244,7 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Not set id of position")]
+         "Not set id of Position")]
         public void CanNotDeletePositionByNullId()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
@@ -289,7 +289,7 @@ namespace UnitTests.Tests
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
-            positionService.CreatePosition(new PositionDTO {OpenWeight = 12}, 1);
+            positionService.CreatePosition(new PositionDTO {OpenWeight = 12, CloseDate = new DateTime(2015, 7, 20) }, 1);
 
             Assert.IsTrue(ListPositions.Count() == 4);
         }
@@ -338,7 +338,7 @@ namespace UnitTests.Tests
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
-            positionService.CreateOrUpdatePosition(new PositionDTO { OpenWeight = 12 }, 1);
+            positionService.CreateOrUpdatePosition(new PositionDTO { OpenWeight = 12, CloseDate = new DateTime(2015, 7, 20) }, 1);
 
             Assert.IsTrue(ListPositions.Count() == 4);
         }
@@ -346,6 +346,7 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanUpdatePositionInCreateOrUpdate()
         {
+            portfolioRepository.Setup(m => m.GetAll()).Returns(ListPortfolios);
             positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
             positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
@@ -360,6 +361,7 @@ namespace UnitTests.Tests
             tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<TradeTypesDTO>()))
                 .Returns(new TradeInforamation { Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
@@ -368,7 +370,8 @@ namespace UnitTests.Tests
             {
                 Id = 1,
                 Name = "New update position",
-                OpenWeight = 123
+                OpenWeight = 123,
+                CloseDate = new DateTime(1, 1, 1, 0, 0, 0)
             };
             #endregion
             positionService.CreateOrUpdatePosition(updatePosition, 1);
@@ -391,6 +394,7 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanUpdatePosition()
         {
+            portfolioRepository.Setup(m => m.GetAll()).Returns(ListPortfolios);
             positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
             positionRepository.Setup(m => m.Update(It.IsAny<Position>())).Callback<Position>(p =>
@@ -405,6 +409,7 @@ namespace UnitTests.Tests
             tradeSybolService.Setup(c => c.GetMaxGainForSymbolBetweenDate(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<int>(), It.IsAny<TradeTypesDTO>()))
                 .Returns(new TradeInforamation { Price = 2.491m });
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
+            UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
             UnitOfWork.Setup(m => m.SymbolDividends).Returns(symbolDividendRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
@@ -413,7 +418,8 @@ namespace UnitTests.Tests
             {
                 Id = 1,
                 Name = "New update position",
-                OpenWeight = 123
+                OpenWeight = 123,
+                CloseDate =  new DateTime(1, 1, 1, 0, 0, 0)
             };
             #endregion
             positionService.UpdatePosition(updatePosition);
@@ -485,7 +491,7 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Not set id of portfolio")]
+         "Not set id of Portfolio")]
         public void CanNotAddPositionWithNotSetIdOfPortfolio()
         {
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);

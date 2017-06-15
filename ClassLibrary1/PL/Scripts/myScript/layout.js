@@ -7,32 +7,32 @@ $(function () {
     });
     $("#panelList").disableSelection();
 
-    $('#datetimepicker6').datetimepicker({
+    $('#OpenDateFromDatetimepicker').datetimepicker({
         format: 'DD/MM/YYYY'
     });
-    $('#datetimepicker7').datetimepicker({
+    $('#OpenDateToDatetimepicker').datetimepicker({
         format: 'DD/MM/YYYY',
         useCurrent: false
     });
-    $("#datetimepicker6").on("dp.change", function (e) {
-        $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+    $("#OpenDateFromDatetimepicker").on("dp.change", function (e) {
+        $('#OpenDateToDatetimepicker').data("DateTimePicker").minDate(e.date);
     });
-    $("#datetimepicker7").on("dp.change", function (e) {
-        $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    $("#OpenDateToDatetimepicker").on("dp.change", function (e) {
+        $('#OpenDateFromDatetimepicker').data("DateTimePicker").maxDate(e.date);
     });
 
-    $('#datetimepicker8').datetimepicker({
+    $('#CloseDateToDatetimepicker').datetimepicker({
         format: 'DD/MM/YYYY'
     });
     $('#datetimepicker9').datetimepicker({
         format: 'DD/MM/YYYY',
         useCurrent: false
     });
-    $("#datetimepicker8").on("dp.change", function (e) {
+    $("#CloseDateToDatetimepicker").on("dp.change", function (e) {
         $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
     });
     $("#datetimepicker9").on("dp.change", function (e) {
-        $('#datetimepicker8').data("DateTimePicker").maxDate(e.date);
+        $('#CloseDateToDatetimepicker').data("DateTimePicker").maxDate(e.date);
     });
 
     $('#addBtn').click(function () {
@@ -71,14 +71,12 @@ $(function () {
         cleanActiveClass(id);
         loadTradeManagement()
             applyViewCheck(viewManagementIndex);
-        // ReloadTable()
     });
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         var target = $(e.target).attr("href");
         if(target == "#tradeManagement"){
             loadTradeManagement();
             applyViewCheck(viewManagementIndex);
-            // ReloadTable()
         }
     });
 
@@ -173,7 +171,7 @@ function LoadDataTable(ViewId) {
                 "serverSide": true,
                 "orderMulti": false,
                 "dom": '<"top"pl>rt<"bottom"i><"clear">',
-                "order": [ [ result.sortColumnDisplayIndex, result.sortOrder ]],
+                "order": [ [ result.sortColumnDisplayIndex, result.sortOrder.toLowerCase() ]],
                 "search": {"search": result.showPosition},
                 "ajax": {
                     "url": "/Nav/LoadData",

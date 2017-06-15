@@ -106,8 +106,8 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Not set id of user")]
-        public void CanNotGetPositionByNullId()
+         "Not set id of Profile")]
+        public void CanNotGetProfileByNullId()
         {
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
             profileService = new ProfileService(UnitOfWork.Object, map, mockUserService.Object);
@@ -117,8 +117,8 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "User not found")]
-        public void CanNotGetNonexistentPositionByPositionId()
+         "Profile not found")]
+        public void CanNotGetNonexistentProfileById()
         {
             profileRepository.Setup(c => c.Get(It.IsAny<string>()))
                 .Returns((string i) => ListProfiles.FirstOrDefault(c => c.Id == i));

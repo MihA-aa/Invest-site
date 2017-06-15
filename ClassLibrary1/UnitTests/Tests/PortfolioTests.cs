@@ -191,7 +191,7 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Not set id of portfolio")]
+         "Not set id of Portfolio")]
         public void CanNotGetPortfolioByNullId()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
@@ -233,7 +233,7 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Not set id of portfolio")]
+         "Not set id of Portfolio")]
         public void CanNotGetPortfolioPositionsByNullId()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
@@ -400,7 +400,7 @@ namespace UnitTests.Tests
 
         [TestMethod]
         [MyExpectedException(typeof(ValidationException),
-         "Not set id of portfolio")]
+         "Not set id of Portfolio")]
         public void CanNotDeletePortfolioByNullId()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);

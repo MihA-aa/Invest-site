@@ -95,7 +95,7 @@ namespace PL.Controllers
             }
             return Json(new { columns, dateFormat = view.DateFormat,moneyPrecision = view.MoneyPrecision,
             percentyPrecision = view.PercentyPrecision, showPosition = (int)tradeStatus == 3 ? "All": tradeStatus.ToString(),
-                sortOrder = sortOrder.ToString(), sortColumnDisplayIndex = sortColumnDisplayIndex+1
+                sortOrder = sortOrder.ToString(), sortColumnDisplayIndex = sortColumnDisplayIndex+2
             }, JsonRequestBehavior.AllowGet);
         }
 

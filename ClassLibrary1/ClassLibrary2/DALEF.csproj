@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EF\ApplicationContext.cs" />
-    <Compile Include="EF\MyExistingDatabaseContext.cs" />
+    <Compile Include="EF\DatabaseFirstContext.cs" />
     <Compile Include="Migrations\201706011357457_AddViewChange.cs" />
     <Compile Include="Migrations\201706011357457_AddViewChange.Designer.cs">
       <DependentUpon>201706011357457_AddViewChange.cs</DependentUpon>

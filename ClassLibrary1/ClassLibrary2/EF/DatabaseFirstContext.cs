@@ -8,12 +8,12 @@ using DAL.Entities.Views;
 
 namespace DALEF.EF
 {
-    public class MyExistingDatabaseContext : DbContext
+    public class DatabaseFirstContext : DbContext
 {
-    public MyExistingDatabaseContext(string connectionString)
+    public DatabaseFirstContext(string connectionString)
         : base(connectionString)
     {
-        Database.SetInitializer<MyExistingDatabaseContext>(null);
+        Database.SetInitializer<DatabaseFirstContext>(null);
     }
 
         public virtual DbSet<SymbolView> SymbolViews { get; set; }

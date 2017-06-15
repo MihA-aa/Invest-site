@@ -13,9 +13,9 @@ namespace DALEF.Repositories
 {
     public class TradeSybolRepository: ITradeSybolRepository
     {
-        protected MyExistingDatabaseContext db;
+        protected DatabaseFirstContext db;
         protected DbSet<TradeSybolView> dbSet;
-        public TradeSybolRepository(MyExistingDatabaseContext context)
+        public TradeSybolRepository(DatabaseFirstContext context)
         {
             db = context;
             dbSet = context.Set<TradeSybolView>();

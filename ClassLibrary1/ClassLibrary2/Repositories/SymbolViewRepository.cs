@@ -15,9 +15,9 @@ namespace DALEF.Repositories
 {
     public class SymbolViewRepository: ISymbolViewRepository
     {
-        protected MyExistingDatabaseContext db;
+        protected DatabaseFirstContext db;
         protected DbSet<SymbolView> dbSet;
-        public SymbolViewRepository(MyExistingDatabaseContext context)
+        public SymbolViewRepository(DatabaseFirstContext context)
         {
             db = context;
             dbSet = context.Set<SymbolView>();

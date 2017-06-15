@@ -11,7 +11,7 @@ namespace DALEF.Repositories
     public class EFUnitOfWork : IUnitOfWork
     {
         private ApplicationContext db;
-        private MyExistingDatabaseContext  viewDb;
+        private DatabaseFirstContext viewDb;
         private SymbolViewRepository SymbolsViews;
         private CustomerRepository customerRepository;
         private PortfolioRepository portfolioRepository;
@@ -30,7 +30,7 @@ namespace DALEF.Repositories
         public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
         {
             db = new ApplicationContext(/*connectionString*/);
-            viewDb = new MyExistingDatabaseContext(connectionStringForExistDB);
+            viewDb = new DatabaseFirstContext(connectionStringForExistDB);
         } 
 
         public ApplicationUserManager UserManager

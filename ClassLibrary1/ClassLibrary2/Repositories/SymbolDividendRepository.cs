@@ -12,9 +12,9 @@ namespace DALEF.Repositories
 {
     public class SymbolDividendRepository: ISymbolDividendRepository
     {
-        protected MyExistingDatabaseContext db;
+        protected DatabaseFirstContext db;
         protected DbSet<SymbolDividend> dbSet;
-        public SymbolDividendRepository(MyExistingDatabaseContext context)
+        public SymbolDividendRepository(DatabaseFirstContext context)
         {
             db = context;
             dbSet = context.Set<SymbolDividend>();
