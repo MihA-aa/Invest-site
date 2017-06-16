@@ -39,26 +39,6 @@ namespace DALEF.EF
     {
         protected override void Seed(ApplicationContext db)
         {
-
-
-            //Role user = new Role { Name = "user" };
-            //Role employee = new Role { Name = "employee" };
-            //Role admin = new Role { Name = "admin" };
-
-            //db.Roles.Add(user);
-            //db.Roles.Add(admin);
-            //db.Roles.Add(employee);
-
-            //User firstUser = new User
-            //{
-            //    UserName = "firstUser",
-            //    Email = "firstUser@gmail.com",
-            //    PasswordHash = "Password"
-            //};
-
-            //db.Users.Add(firstUser);
-            
-
             #region Positions Inizialize
             Position position1 = new Position
             {
@@ -314,8 +294,7 @@ namespace DALEF.EF
             db.Portfolios.Add(portfolio4);
             db.Portfolios.Add(portfolio5);
             #endregion
-
-
+            
             #region ColumnFormat Inizialize
             ColumnFormat None = new ColumnFormat
             {

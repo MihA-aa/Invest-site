@@ -49,11 +49,5 @@ namespace BLL.Services
         {
             return dividends * opWeight;
         }
-
-        public decimal GetPortfolioValue(ICollection<decimal> positionsGain)
-        {
-            return positionsGain.Sum();
-            //МБ НАДО ПЕРЕСЧИТЫВАТЬ ABSGAIN ДЛЯ КАЖДОЙ POSITION???
-        }
     }
 }

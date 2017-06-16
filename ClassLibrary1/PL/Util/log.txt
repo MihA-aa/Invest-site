@@ -7260,3 +7260,5 @@ Parameter name: input
    at System.Web.HttpApplication.ExecuteStep(IExecutionStep step, Boolean& completedSynchronously)
 2017-06-15 11:17:00,853 [11] ERROR PL.Controllers.PositionController http://localhost:22860/Nav/TradeManagementTable not found
 2017-06-15 11:21:27,949 [9] ERROR PL.Controllers.PositionController http://localhost:22860/Nav/TradeManagementTable not found
+2017-06-16 13:14:22,285 [11] ERROR PL.Controllers.PositionController http://localhost:22860/api/portfolio not found
+2017-06-16 13:14:58,659 [10] ERROR PL.Controllers.PositionController http://localhost:22860/api/Values not found

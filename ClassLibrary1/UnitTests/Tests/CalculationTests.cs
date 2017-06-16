@@ -101,13 +101,13 @@ namespace UnitTests.Tests
             Assert.IsTrue(result == 866.7m);
         }
 
-        [TestMethod]
-        public void CanGetPortfolioValue()
-        {
-            var result = calculationService.GetPortfolioValue(new List<decimal>{100.0m, 200.0m, 300.0m });
+        //[TestMethod]
+        //public void CanGetPortfolioValue()
+        //{
+        //    var result = calculationService.GetPortfolioValue(new List<decimal>{100.0m, 200.0m, 300.0m });
 
-            Assert.IsTrue(result == 600.0m);
-        }
+        //    Assert.IsTrue(result == 600.0m);
+        //}
     }
 }
 //(121.12 + 8.667 - 100.02) * 120

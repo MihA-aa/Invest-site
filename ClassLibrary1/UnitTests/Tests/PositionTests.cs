@@ -230,8 +230,6 @@ namespace UnitTests.Tests
         {
             positionRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPositions.Any(c => c.Id == i));
-            positionRepository.Setup(c => c.Get(It.IsAny<int>()))
-                .Returns((int i) => ListPositions.FirstOrDefault(c => c.Id == i));
             positionRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListPositions.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);

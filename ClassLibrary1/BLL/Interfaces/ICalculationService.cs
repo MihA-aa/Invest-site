@@ -16,6 +16,5 @@ namespace BLL.Interfaces
         decimal GetAbsoluteGain(decimal? curPrice, decimal? clPrice, decimal opPrice,
             int opWeight, decimal dividends, TradeTypesDTO type);
         decimal GetDividends(decimal dividends, int opWeight);
-        decimal GetPortfolioValue(ICollection<decimal> positionsGain);
     }
 }

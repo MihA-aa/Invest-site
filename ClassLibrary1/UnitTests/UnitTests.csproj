@@ -115,6 +115,9 @@
     <Compile Include="Tests\PositionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\TradeSybolTests.cs" />
+    <Compile Include="Tests\TradeSymbolTests.cs" />
+    <Compile Include="Tests\ViewTemplateTests.cs" />
+    <Compile Include="Tests\ViewTests.cs" />
     <Compile Include="Tests\UserTests.cs" />
   </ItemGroup>
   <ItemGroup>
