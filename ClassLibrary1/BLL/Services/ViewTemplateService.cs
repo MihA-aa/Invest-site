@@ -33,7 +33,9 @@ namespace BLL.Services
         public IEnumerable<ViewTemplateDTO> GetViewTemplatesForUser(string id)
         {
             var profile = db.Profiles.Get(id);
-            return IMapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(profile?.Customer?.ViewTemplates);
+            if (profile == null)
+                throw new ValidationException(Resource.Resource.ProfileNotFound, "");
+            return IMapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(profile.Customer?.ViewTemplates);
         }
 
         public string GetNameByTemplateId(int? id)
@@ -103,12 +105,12 @@ namespace BLL.Services
         public void AddSortColumnToTemplate(ViewTemplate template, int? columnId)
         {
             if (template == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
+                throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
             if (columnId == null)
                 return;
             var column = db.ViewTemplateColumns.Get(columnId.Value);
             if (column == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateColumnIdNotSet, "");
+                throw new ValidationException(Resource.Resource.ViewTemplateColumnNotFound, "");
             template.SortColumn = column;
         }
 

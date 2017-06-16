@@ -12,9 +12,6 @@ namespace UnitTests.Tests
     public class TradeSybolTests
     {
 
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
+
     }
 }

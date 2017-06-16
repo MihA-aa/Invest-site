@@ -35,7 +35,9 @@ namespace BLL.Services
         public IEnumerable<ViewDTO> GetViewsForUser(string id)
         {
             var profile = db.Profiles.Get(id);
-            return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(profile?.Customer?.Views);
+            if (profile == null)
+                throw new ValidationException(Resource.Resource.ProfileNotFound, "");
+            return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(profile.Customer?.Views);
         }
 
         public ViewDTO GetView(int? id)

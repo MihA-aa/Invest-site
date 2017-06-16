@@ -9,6 +9,7 @@ using BLL.Services;
 using DAL.Entities;
 using DAL.Enums;
 using DAL.Interfaces;
+using Entity = DAL.Entities;
 using BLL.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -24,6 +25,7 @@ namespace UnitTests.Tests
         private Mock<IViewTemplateRepository> viewTemplateRepository;
         private Mock<IPortfolioRepository> portfolioRepository;
         private Mock<ICustomerService> customerService;
+        private Mock<IProfileRepository> profileRepository;
         private ViewService viewService;
         private ValidateService validateService;
         private IMapper map;
@@ -122,6 +124,7 @@ namespace UnitTests.Tests
             customerService = new Mock<ICustomerService>();
             viewTemplateRepository = new Mock<IViewTemplateRepository>();
             portfolioRepository = new Mock<IPortfolioRepository>();
+            profileRepository = new Mock<IProfileRepository>();
             map = new AutoMapperConfiguration().Configure().CreateMapper();
         }
 
@@ -140,7 +143,7 @@ namespace UnitTests.Tests
         }
 
         [TestMethod]
-        public void CanGetPositionById()
+        public void CanGetViewById()
         {
             viewRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViews.FirstOrDefault(c => c.Id == i));
@@ -152,6 +155,34 @@ namespace UnitTests.Tests
 
             Assert.AreEqual(view1.Name, "Preview All View");
             Assert.AreEqual(view2.Name, "Default View");
+        }
+
+        [TestMethod]
+        public void CanGeViewsForUser()
+        {
+            profileRepository.Setup(c => c.Get(It.IsAny<string>()))
+                .Returns(new Entity.Profile { Customer = new Customer { Views = new List<View> { new View { Id = 99, Name = "UserView" } } } });
+            UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
+            UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
+            viewService = new ViewService(UnitOfWork.Object, validateService, map, customerService.Object);
+
+            var views = viewService.GetViewsForUser("").ToList();
+
+            Assert.IsTrue(views.Count == 1);
+            Assert.AreEqual(views[0].Name, "UserView");
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+        "Profile not found")]
+        public void CanNotGeViewTemplatesForNonexistentUser()
+        {
+            profileRepository.Setup(c => c.Get(It.IsAny<string>())).Returns((Entity.Profile)null);
+            UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
+            UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
+            viewService = new ViewService(UnitOfWork.Object, validateService, map, customerService.Object);
+
+            viewService.GetViewsForUser("");
         }
 
         [TestMethod]
@@ -215,6 +246,58 @@ namespace UnitTests.Tests
             viewService = new ViewService(UnitOfWork.Object, validateService, map, customerService.Object);
 
             viewService.DeleteView(5);
+        }
+
+        [TestMethod]
+        public void CanCreateViewInCreateOrUpdate()
+        {
+            viewRepository.Setup(m => m.Create(It.IsAny<View>()))
+                .Callback<View>(ListViews.Add);
+            viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
+            customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
+                .Returns(new Customer { Id = 23123, Name = "Misha" });
+            UnitOfWork.Setup(m => m.Views).Returns(viewRepository.Object);
+            UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
+            viewService = new ViewService(UnitOfWork.Object, validateService, map, customerService.Object);
+
+            viewService.CreateOrUpdateView(new ViewDTO { ViewTemplateId = 1 }, "");
+
+            Assert.IsTrue(ListViews.Count() == 3);
+        }
+
+        [TestMethod]
+        public void CanUpdateViewInCreateOrUpdate()
+        {
+            viewRepository.Setup(c => c.IsExist(It.IsAny<int>()))
+                .Returns((int i) => ListViews.Any(c => c.Id == i));
+            viewRepository.Setup(m => m.Update(It.IsAny<View>())).Callback<View>(p =>
+            {
+                int index = ListViews.IndexOf(ListViews.FirstOrDefault(c => c.Id == p.Id));
+                ListViews[index] = p;
+            });
+            viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
+            customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
+                .Returns(new Customer { Id = 23123, Name = "Misha" });
+            UnitOfWork.Setup(m => m.Views).Returns(viewRepository.Object);
+            UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
+            viewService = new ViewService(UnitOfWork.Object, validateService, map, customerService.Object);
+
+            viewService.CreateOrUpdateView(new ViewDTO { Id = 1, Name = "Update Name", ViewTemplateId = 1 }, "");
+
+            Assert.IsTrue(ListViews.FirstOrDefault(c => c.Id == 1).Name == "Update Name");
+        }
+
+        [TestMethod]
+        [MyExpectedException(typeof(ValidationException),
+        "View is null reference")]
+        public void CanNotCreateNullReferenceViewInCreateOrUpdate()
+        {
+            UnitOfWork.Setup(m => m.Views).Returns(viewRepository.Object);
+            viewService = new ViewService(UnitOfWork.Object, validateService, map, customerService.Object);
+
+            viewService.CreateOrUpdateView(null, "1");
         }
 
         [TestMethod]
@@ -295,8 +378,6 @@ namespace UnitTests.Tests
 
         public void CanAddViewTemplateToView()
         {
-            viewRepository.Setup(m => m.Create(It.IsAny<View>()))
-                           .Callback<View>(ListViews.Add);
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Views).Returns(viewRepository.Object);
