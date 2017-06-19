@@ -38,6 +38,26 @@ namespace BLL.Services
             return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(db.Positions.GetAll());
         }
 
+        public IEnumerable<PositionDTO> GetPositionsForUser(string id)
+        {
+            var profile = db.Profiles.Get(id);
+            var positions = (IEnumerable<Position>) profile?.Customer?.Portfolios?.Select(p => p.Positions).ToList();
+            return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(positions);
+        }
+
+        public bool CheckAccess(string userId, int? positionId)
+        {
+            if (positionId == null)
+                throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
+            if (userId == null)
+                throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
+            var profile = db.Profiles.Get(userId);
+            var positions = (IEnumerable<Position>)profile?.Customer?.Portfolios?.Select(p => p.Positions).ToList();
+            if (positions?.FirstOrDefault(p => p.Id == positionId) != null)
+                return true;
+            return false;
+        }
+
         public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId)
         {
             if (position == null)

@@ -24,17 +24,24 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            var positions = PositionService.GetPositions();
+            var positions = PositionService.GetPositionsForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
             return Ok(Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positions));
         }
 
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            PositionModel position = new PositionModel();
+            PositionModel position;
             try
             {
-                position = Mapper.Map<PositionDTO, PositionModel>(PositionService.GetPosition(id));
+                if (PositionService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    position = Mapper.Map<PositionDTO, PositionModel>(PositionService.GetPosition(id));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to position with id: " + id);
+                }
             }
             catch (Exception ex)
             {
@@ -72,7 +79,14 @@ namespace WebApi.Controllers
             }
             try
             {
-                PositionService.UpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position));
+                if (PositionService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", position.Id))
+                {
+                    PositionService.UpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to position with id: " + position.Id);
+                }
             }
             catch (Exception ex)
             {
@@ -87,7 +101,14 @@ namespace WebApi.Controllers
         {
             try
             {
-                PositionService.DeletePosition(id);
+                if (PositionService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    PositionService.DeletePosition(id);
+                }
+                else
+                {
+                    throw new Exception("You don't have access to position with id: " + id);
+                }
             }
             catch (Exception ex)
             {

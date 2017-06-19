@@ -33,6 +33,19 @@ namespace BLL.Services
             return IMapper.Map<IEnumerable<ViewTemplate>, List<ViewTemplateDTO>>(profile.Customer?.ViewTemplates);
         }
 
+        public bool CheckAccess(string userId, int? viewTemplateId)
+        {
+            if (viewTemplateId == null)
+                throw new ValidationException(Resource.Resource.ViewTemplateIdNotSet, "");
+            if (userId == null)
+                throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
+            var profile = db.Profiles.Get(userId);
+            var viewTemplates = profile?.Customer?.ViewTemplates;
+            if (viewTemplates?.FirstOrDefault(p => p.Id == viewTemplateId) != null)
+                return true;
+            return false;
+        }
+
         public string GetNameByTemplateId(int? id)
         {
             if (id == null)

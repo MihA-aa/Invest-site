@@ -30,11 +30,17 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            ViewTemplateModel viewTemplate = new ViewTemplateModel();
+            ViewTemplateModel viewTemplate;
             try
             {
-                var viewTemplates = viewTemplateService.GetViewTemplatesForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
-                viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplateModel>(viewTemplates.FirstOrDefault(v => v.Id == id));
+                if (viewTemplateService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplateModel>(viewTemplateService.GetViewTemplate(id));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to ViewTemplate with id: " + id);
+                }
             }
             catch (Exception ex)
             {
@@ -72,7 +78,14 @@ namespace WebApi.Controllers
             }
             try
             {
-                viewTemplateService.UpdateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate));
+                if (viewTemplateService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", viewTemplate.Id))
+                {
+                    viewTemplateService.UpdateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to ViewTemplate with id: " + viewTemplate.Id);
+                }
             }
             catch (Exception ex)
             {
@@ -87,7 +100,14 @@ namespace WebApi.Controllers
         {
             try
             {
-                viewTemplateService.DeleteViewTemplate(id);
+                if (viewTemplateService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    viewTemplateService.DeleteViewTemplate(id);
+                }
+                else
+                {
+                    throw new Exception("You don't have access to ViewTemplate with id: " + id);
+                }
             }
             catch (Exception ex)
             {

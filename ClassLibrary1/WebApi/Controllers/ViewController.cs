@@ -31,10 +31,17 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            ViewModel view = new ViewModel();
+            ViewModel view;
             try
             {
-                view = Mapper.Map<ViewDTO, ViewModel>(viewService.GetView(id));
+                if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    view = Mapper.Map<ViewDTO, ViewModel>(viewService.GetView(id));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to view with id: " + id);
+                }
             }
             catch (Exception ex)
             {
@@ -72,7 +79,14 @@ namespace WebApi.Controllers
             }
             try
             {
-                viewService.UpdateView(Mapper.Map<ViewModel, ViewDTO>(view));
+                if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", view.Id))
+                {
+                    viewService.UpdateView(Mapper.Map<ViewModel, ViewDTO>(view));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to view with id: " + view.Id);
+                }
             }
             catch (Exception ex)
             {
@@ -87,7 +101,14 @@ namespace WebApi.Controllers
         {
             try
             {
-                viewService.DeleteView(id);
+                if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    viewService.DeleteView(id);
+                }
+                else
+                {
+                    throw new Exception("You don't have access to view with id: " + id);
+                }
             }
             catch (Exception ex)
             {

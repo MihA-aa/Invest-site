@@ -40,10 +40,11 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
             var profile = db.Profiles.Get(userId);
             var portfolios = profile?.Customer?.Portfolios;
-            if(portfolios!= null && portfolios.FirstOrDefault(p=>p.Id == portfolioId) != null)
+            if(portfolios?.FirstOrDefault(p=>p.Id == portfolioId) != null)
                 return true;
             return false;
         }
+
         public IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId)
         {
             if (portfolioId == null)

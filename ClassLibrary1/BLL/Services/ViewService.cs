@@ -34,6 +34,19 @@ namespace BLL.Services
             return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(profile.Customer?.Views);
         }
 
+        public bool CheckAccess(string userId, int? viewId)
+        {
+            if (viewId == null)
+                throw new ValidationException(Resource.Resource.ViewIdNotSet, "");
+            if (userId == null)
+                throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
+            var profile = db.Profiles.Get(userId);
+            var views = profile?.Customer?.Views;
+            if (views?.FirstOrDefault(p => p.Id == viewId) != null)
+                return true;
+            return false;
+        }
+
         public ViewDTO GetView(int? id)
         {
             if (id == null)

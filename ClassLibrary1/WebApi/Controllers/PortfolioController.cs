@@ -33,11 +33,17 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get(int id)
         {
-            PortfolioModel portfolio = new PortfolioModel();
+            PortfolioModel portfolio;
             try
             {
-                var portfolios = portfolioService.GetPortfoliosForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
-                portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolios.FirstOrDefault(v => v.Id == id));
+                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolioService.GetPortfolio(id));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to portfolio with id: " + id);
+                }
             }
             catch (Exception ex)
             {
@@ -75,7 +81,14 @@ namespace WebApi.Controllers
             }
             try
             {
-                portfolioService.UpdatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio));
+                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", portfolio.Id))
+                {
+                    portfolioService.UpdatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to portfolio with id: " + portfolio.Id);
+                }
             }
             catch (Exception ex)
             {
@@ -90,7 +103,14 @@ namespace WebApi.Controllers
         {
             try
             {
-                portfolioService.DeletePortfolio(id);
+                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    portfolioService.DeletePortfolio(id);
+                }
+                else
+                {
+                    throw new Exception("You don't have access to portfolio with id: " + id);
+                }
             }
             catch (Exception ex)
             {
@@ -106,8 +126,14 @@ namespace WebApi.Controllers
             var positions = new List<PositionModel>();
             try
             {
-                positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(portfolioService.GetPortfolioPositionsForUser(id, 
-                    "1aaa023d-e950-47fc-9c3f-54fbffcc99cf"));
+                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                {
+                    positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(portfolioService.GetPortfolioPositions(id));
+                }
+                else
+                {
+                    throw new Exception("You don't have access to portfolio with id: " + id);
+                }
             }
             catch (Exception ex)
             {
