@@ -12,8 +12,6 @@ namespace WebApi.Controllers
 {
     public class ViewTemplateController : BaseController
     {
-
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ViewTemplateController));
         private IViewTemplateService viewTemplateService;
 
         public ViewTemplateController(IViewTemplateService viewTemplateService)

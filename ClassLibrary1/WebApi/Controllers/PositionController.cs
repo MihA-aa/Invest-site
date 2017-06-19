@@ -14,7 +14,6 @@ namespace WebApi.Controllers
 {
     public class PositionController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IPositionService PositionService;
 
         public PositionController(IPositionService PositionService)

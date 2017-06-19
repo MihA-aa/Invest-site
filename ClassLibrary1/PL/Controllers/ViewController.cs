@@ -9,6 +9,7 @@ using BLL.DTO.Enums;
 using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
+using log4net;
 using Microsoft.AspNet.Identity;
 using PL.Util;
 
@@ -16,7 +17,6 @@ namespace PL.Controllers
 {
     public class ViewController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IViewService viewService;
         private IViewTemplateService viewTemplateService;
 

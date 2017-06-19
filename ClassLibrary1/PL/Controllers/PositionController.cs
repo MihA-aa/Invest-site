@@ -10,6 +10,7 @@ using BLL.DTO.Enums;
 using BLL.Helpers;
 using BLL.Interfaces;
 using PL.Models;
+using log4net;
 using BLL.Infrastructure;
 using PL.Util;
 
@@ -17,7 +18,6 @@ namespace PL.Controllers
 {
     public class PositionController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IPositionService positionService;
 
         public PositionController(IPositionService positionService)

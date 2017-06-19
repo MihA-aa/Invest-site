@@ -13,7 +13,6 @@ namespace WebApi.Controllers
 {
     public class ViewController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ViewController));
         private IViewService viewService;
 
         public ViewController(IViewService viewService)

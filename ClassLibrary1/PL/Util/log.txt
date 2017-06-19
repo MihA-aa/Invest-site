@@ -7262,3 +7262,5 @@ Parameter name: input
 2017-06-15 11:21:27,949 [9] ERROR PL.Controllers.PositionController http://localhost:22860/Nav/TradeManagementTable not found
 2017-06-16 13:14:22,285 [11] ERROR PL.Controllers.PositionController http://localhost:22860/api/portfolio not found
 2017-06-16 13:14:58,659 [10] ERROR PL.Controllers.PositionController http://localhost:22860/api/Values not found
+2017-06-19 13:43:57,730 [11] ERROR PL.Controllers.ErrorController http://localhost:22860/Error/Http404 not found
+2017-06-19 13:54:16,922 [12] ERROR PL.Controllers.ErrorController http://localhost:22860/Error/Http404 not found

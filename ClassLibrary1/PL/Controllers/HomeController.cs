@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity;
 namespace PL.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private IUserService userService;
 

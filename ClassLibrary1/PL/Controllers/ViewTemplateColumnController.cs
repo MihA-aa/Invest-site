@@ -8,12 +8,12 @@ using BLL.DTO;
 using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
+using log4net;
 
 namespace PL.Controllers
 {
     public class ViewTemplateColumnController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IViewTemplateColumnService viewTemplateColumnService;
         private IColumnService columnService;
 

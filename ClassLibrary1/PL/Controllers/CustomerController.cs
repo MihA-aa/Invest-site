@@ -10,12 +10,12 @@ using BLL.Interfaces;
 using PL.Models;
 using PL.Util;
 using BLL.Helpers;
+using log4net;
 
 namespace PL.Controllers
 {
     public class CustomerController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(CustomerController));
         private ICustomerService customerService;
 
         public CustomerController(ICustomerService customerService)

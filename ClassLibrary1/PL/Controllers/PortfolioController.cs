@@ -8,12 +8,12 @@ using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNet.Identity;
 using PL.Models;
+using log4net;
 
 namespace PL.Controllers
 {
     public class PortfolioController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PositionController));
         private IPortfolioService portfolioService;
 
         public PortfolioController(IPortfolioService PortfolioService)

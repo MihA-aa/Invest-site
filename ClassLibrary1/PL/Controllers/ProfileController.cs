@@ -9,12 +9,12 @@ using BLL.DTO;
 using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
+using log4net;
 
 namespace PL.Controllers
 {
     public class ProfileController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(ProfileController));
         private IProfileService profileService;
         private ICustomerService customerService;
 

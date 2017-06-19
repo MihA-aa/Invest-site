@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Routing;
 using BLL.DTO;
 using BLL.Interfaces;
+using log4net;
 using WebApi.Models;
 using Microsoft.AspNet.Identity;
 
@@ -14,7 +15,6 @@ namespace WebApi.Controllers
 {
     public class PortfolioController : BaseController
     {
-        log4net.ILog logger = log4net.LogManager.GetLogger(typeof(PortfolioController));
         private IPortfolioService portfolioService;
 
         public PortfolioController(IPortfolioService portfolioService)
