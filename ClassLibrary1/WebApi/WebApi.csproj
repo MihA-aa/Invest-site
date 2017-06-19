@@ -252,7 +252,6 @@
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
-    <Compile Include="Controllers\ViewTemplateColumnController.cs" />
     <Compile Include="Controllers\ViewTemplateController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

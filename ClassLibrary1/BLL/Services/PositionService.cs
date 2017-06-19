@@ -41,7 +41,7 @@ namespace BLL.Services
         public IEnumerable<PositionDTO> GetPositionsForUser(string id)
         {
             var profile = db.Profiles.Get(id);
-            var positions = (IEnumerable<Position>) profile?.Customer?.Portfolios?.Select(p => p.Positions).ToList();
+            var positions = profile?.Customer?.Portfolios?.SelectMany(p => p.Positions);
             return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(positions);
         }
 
@@ -52,7 +52,7 @@ namespace BLL.Services
             if (userId == null)
                 throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
             var profile = db.Profiles.Get(userId);
-            var positions = (IEnumerable<Position>)profile?.Customer?.Portfolios?.Select(p => p.Positions).ToList();
+            var positions = profile?.Customer?.Portfolios?.SelectMany(p => p.Positions);
             if (positions?.FirstOrDefault(p => p.Id == positionId) != null)
                 return true;
             return false;

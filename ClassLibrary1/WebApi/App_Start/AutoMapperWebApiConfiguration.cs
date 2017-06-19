@@ -25,6 +25,8 @@ namespace WebApi.App_Start
         {
             CreateMap<PortfolioDTO, PortfolioModel>().ReverseMap();
             CreateMap<PositionDTO, PositionModel>().ReverseMap();
+            CreateMap<ViewDTO, ViewModel>().ReverseMap();
+            CreateMap<ViewTemplateDTO, ViewTemplateModel>().ReverseMap();
         }
     }
 }
