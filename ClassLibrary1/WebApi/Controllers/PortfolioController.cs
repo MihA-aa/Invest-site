@@ -36,7 +36,8 @@ namespace WebApi.Controllers
             PortfolioModel portfolio = new PortfolioModel();
             try
             {
-                portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolioService.GetPortfolio(id));
+                var portfolios = portfolioService.GetPortfoliosForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
+                portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolios.FirstOrDefault(v => v.Id == id));
             }
             catch (Exception ex)
             {
@@ -105,7 +106,8 @@ namespace WebApi.Controllers
             var positions = new List<PositionModel>();
             try
             {
-                positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(portfolioService.GetPortfolioPositions(id));
+                positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(portfolioService.GetPortfolioPositionsForUser(id, 
+                    "1aaa023d-e950-47fc-9c3f-54fbffcc99cf"));
             }
             catch (Exception ex)
             {

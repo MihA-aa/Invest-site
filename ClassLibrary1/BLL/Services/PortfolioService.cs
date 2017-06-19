@@ -38,11 +38,34 @@ namespace BLL.Services
             return IMapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(profile?.Customer?.Portfolios);
         }
 
+        public bool CheckAccess(string userId, int? portfolioId)
+        {
+            if (portfolioId == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+            if (userId == null)
+                throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
+            var profile = db.Profiles.Get(userId);
+            var portfolios = profile?.Customer?.Portfolios;
+            if(portfolios!= null && portfolios.FirstOrDefault(p=>p.Id == portfolioId) != null)
+                return true;
+            return false;
+        }
         public IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId)
         {
             if (portfolioId == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
             var portfolio = db.Portfolios.Get(portfolioId.Value);
+            if (portfolio == null)
+                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());
+        }
+
+        public IEnumerable<PositionDTO> GetPortfolioPositionsForUser(int? portfolioId, string id)
+        {
+            if (portfolioId == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+            var portfolios = db.Profiles.Get(id)?.Customer?.Portfolios;
+            var portfolio = portfolios?.FirstOrDefault(p => p.Id == portfolioId.Value);
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());

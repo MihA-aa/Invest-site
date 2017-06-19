@@ -12,6 +12,7 @@ namespace BLL.Interfaces
         PortfolioDTO GetPortfolio(int? id);
         IEnumerable<PortfolioDTO> GetPortfolios();
         IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId);
+        IEnumerable<PositionDTO> GetPortfolioPositionsForUser(int? portfolioId, string id);
         int CreateOrUpdatePortfolio(PortfolioDTO portfolio, string userId);
         int CreatePortfolio(PortfolioDTO portfolioDto, string userId);
         void DeletePortfolio(int? id);
@@ -20,5 +21,6 @@ namespace BLL.Interfaces
         void RecalculatePortfolioValue(int id);
         IEnumerable<PortfolioDTO> GetPortfoliosForUser(string id);
         void UpdatePortfolioNameAndNotes(PortfolioDTO portfolioDto);
+        bool CheckAccess(string userId, int? portfolioId);
     }
 }

@@ -33,7 +33,8 @@ namespace WebApi.Controllers
             ViewTemplateModel viewTemplate = new ViewTemplateModel();
             try
             {
-                viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplateModel>(viewTemplateService.GetViewTemplate(id));
+                var viewTemplates = viewTemplateService.GetViewTemplatesForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
+                viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplateModel>(viewTemplates.FirstOrDefault(v => v.Id == id));
             }
             catch (Exception ex)
             {
