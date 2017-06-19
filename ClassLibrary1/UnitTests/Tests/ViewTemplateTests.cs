@@ -27,6 +27,7 @@ namespace UnitTests.Tests
         private Mock<IViewTemplateColumnRepository> viewTemplateColumnRepository;
         private Mock<IProfileRepository> profileRepository;
         private Mock<ICustomerService> customerService;
+        private Mock<IValidateService> validateService;
         private ViewTemplateService viewTemplateService;
         private IMapper map;
         List<ViewTemplate> ListViewTemplates;
@@ -83,6 +84,7 @@ namespace UnitTests.Tests
             viewTemplateRepository = new Mock<IViewTemplateRepository>();
             viewTemplateColumnRepository = new Mock<IViewTemplateColumnRepository>();
             profileRepository = new Mock<IProfileRepository>();
+            validateService = new Mock<IValidateService>();
             map = new AutoMapperConfiguration().Configure().CreateMapper();
         }
 
@@ -91,7 +93,7 @@ namespace UnitTests.Tests
         {
             viewTemplateRepository.Setup(m => m.GetAll()).Returns(ListViewTemplates);
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             var viewTemplates = viewTemplateService.GetViewTemplates().ToList();
 
@@ -107,7 +109,7 @@ namespace UnitTests.Tests
                 .Returns(new Entity.Profile { Customer = new Customer { ViewTemplates = new List<ViewTemplate> { new ViewTemplate { Id = 99, Name = "UserViewTemplate" } } } });
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             var viewTemplates = viewTemplateService.GetViewTemplatesForUser("").ToList();
 
@@ -123,7 +125,7 @@ namespace UnitTests.Tests
             profileRepository.Setup(c => c.Get(It.IsAny<string>())).Returns((Entity.Profile) null);
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.GetViewTemplatesForUser("");
         }
@@ -134,7 +136,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             var view1Name = viewTemplateService.GetNameByTemplateId(1);
             var view2Name = viewTemplateService.GetNameByTemplateId(2);
@@ -149,7 +151,7 @@ namespace UnitTests.Tests
         public void CanNotGetNameOfViewTemplateByNullId()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.GetNameByTemplateId(null);
         }
@@ -162,7 +164,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.GetNameByTemplateId(5);
         }
@@ -173,7 +175,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             var columns1 = viewTemplateService.GetViewTemplateColumns(1);
             var columns2 = viewTemplateService.GetViewTemplateColumns(2);
@@ -188,7 +190,7 @@ namespace UnitTests.Tests
         public void CanNotGetViewTemplateColumnsByNullId()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.GetViewTemplateColumns(null);
         }
@@ -201,7 +203,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.GetViewTemplateColumns(5);
         }
@@ -212,7 +214,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             var view1 = viewTemplateService.GetViewTemplate(1);
             var view2 = viewTemplateService.GetViewTemplate(2);
@@ -227,7 +229,7 @@ namespace UnitTests.Tests
         public void CanNotGetViewTemplateByNullId()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.GetViewTemplate(null);
         }
@@ -240,7 +242,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.GetViewTemplate(5);
         }
@@ -253,7 +255,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListViewTemplates.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.DeleteViewTemplate(1);
 
@@ -266,7 +268,7 @@ namespace UnitTests.Tests
         public void CanNotDeleteViewTemplateByNullId()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.DeleteViewTemplate(null);
         }
@@ -279,7 +281,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.DeleteViewTemplate(5);
         }
@@ -294,7 +296,7 @@ namespace UnitTests.Tests
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
                 .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.CreateOrUpdateViewTemplate(new ViewTemplateDTO { Id=4}, "");
 
@@ -317,7 +319,7 @@ namespace UnitTests.Tests
                 .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
             UnitOfWork.Setup(m => m.ViewTemplateColumns).Returns(viewTemplateColumnRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.CreateOrUpdateViewTemplate(new ViewTemplateDTO { Id = 1, Name = "Update Name", SortColumnId = 1 }, "");
 
@@ -330,7 +332,7 @@ namespace UnitTests.Tests
         public void CanNotCreateOrUpdateNullReferenceViewTemplate()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.CreateOrUpdateViewTemplate(null, "1");
         }
@@ -345,7 +347,7 @@ namespace UnitTests.Tests
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
                 .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.CreateViewTemplate(new ViewTemplateDTO { }, "");
 
@@ -358,7 +360,7 @@ namespace UnitTests.Tests
         public void CanNotCreateNullReferenceViewTemplate()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.CreateViewTemplate(null, "1");
         }
@@ -379,7 +381,7 @@ namespace UnitTests.Tests
                 .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
             UnitOfWork.Setup(m => m.ViewTemplateColumns).Returns(viewTemplateColumnRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.UpdateViewTemplate(new ViewTemplateDTO { Id = 1, Name = "Update Name", SortColumnId = 1});
 
@@ -392,7 +394,7 @@ namespace UnitTests.Tests
         public void CanNotUpdateNullReferencePosition()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.UpdateViewTemplate(null);
         }
@@ -406,7 +408,7 @@ namespace UnitTests.Tests
             viewTemplateRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.UpdateViewTemplate(new ViewTemplateDTO { Id = 6, Name = "Update Name"});
         }
@@ -418,7 +420,7 @@ namespace UnitTests.Tests
                 .Returns((int i) => ListViewTemplateColumns.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplateColumns).Returns(viewTemplateColumnRepository.Object);
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.AddSortColumnToTemplate(viewTemplate1, 1);
 
@@ -431,7 +433,7 @@ namespace UnitTests.Tests
         public void CanNotAddNullReferenceViewTemplateToColumn()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.AddSortColumnToTemplate(null, 1);
         }
@@ -440,7 +442,7 @@ namespace UnitTests.Tests
         public void CanNotAddViewTemplateWithNotSetIdOfColumn()
         {
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.AddSortColumnToTemplate(new ViewTemplate(), null);
         }
@@ -454,7 +456,7 @@ namespace UnitTests.Tests
                 .Returns((int i) => ListViewTemplateColumns.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.ViewTemplateColumns).Returns(viewTemplateColumnRepository.Object);
             UnitOfWork.Setup(m => m.ViewTemplates).Returns(viewTemplateRepository.Object);
-            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, map, customerService.Object);
+            viewTemplateService = new ViewTemplateService(UnitOfWork.Object, validateService.Object, map, customerService.Object);
 
             viewTemplateService.AddSortColumnToTemplate(new ViewTemplate(), 11);
         }

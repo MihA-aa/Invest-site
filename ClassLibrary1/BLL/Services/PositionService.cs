@@ -11,22 +11,16 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class PositionService : IPositionService
+    public class PositionService :BaseService, IPositionService
     {
-        IUnitOfWork db { get; }
-        IValidateService validateService { get; }
         ITradeSybolService tradeSybolService { get; }
         ICalculationService calculationService { get; }
-        IMapper IMapper { get; }
 
         public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tss, 
-                                                        ICalculationService cs, IMapper map)
+                                                        ICalculationService cs, IMapper map) : base(uow, vd, map)
         {
-            db = uow;
-            validateService = vd;
             tradeSybolService = tss;
             calculationService = cs;
-            IMapper = map;
         }
 
         public PositionDTO GetPosition(int? id)

@@ -13,19 +13,13 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class PortfolioService : IPortfolioService
+    public class PortfolioService : BaseService, IPortfolioService
     {
-        IUnitOfWork db { get; }
-        IValidateService validateService { get; }
         ICustomerService customerService { get; }
-        IMapper IMapper { get; }
 
-        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map)
+        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map) : base(uow, vd, map)
         {
-            db = uow;
-            validateService = vd;
             customerService = cs;
-            IMapper = map;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()

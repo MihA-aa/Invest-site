@@ -17,38 +17,29 @@ using BLL.Infrastructure;
 
 namespace BLL.Services
 {
-    public class UserService : IUserService
+    public class UserService : BaseService, IUserService
     {
-        IUnitOfWork Database { get; set; }
-        IValidateService validateService { get; }
-        IMapper IMapper { get; }
-
-        public UserService(IUnitOfWork uow, IValidateService vd, IMapper map)
-        {
-            Database = uow;
-            validateService = vd;
-            IMapper = map;
-        }
+        public UserService(IUnitOfWork uow, IValidateService vd, IMapper map): base(uow, vd, map){}
 
         public async Task CreateAsync(UserDTO userDto, int? customerId = 0)
         {
             validateService.Validate(userDto);
-            User user = await Database.UserManager.FindByNameAsync(userDto.Login);
+            User user = await db.UserManager.FindByNameAsync(userDto.Login);
             if (user == null)
             {
                 user = new User { Email = userDto.Login, UserName = userDto.Login };
-                var result = await Database.UserManager.CreateAsync(user, userDto.Password);
+                var result = await db.UserManager.CreateAsync(user, userDto.Password);
                 if (result.Errors.Any())
                     throw new ValidationException(result.Errors.FirstOrDefault(), "");
-                await Database.UserManager.AddToRoleAsync(user.Id, userDto.Role);
+                await db.UserManager.AddToRoleAsync(user.Id, userDto.Role);
                 var clientProfile = new Entity.Profile { Id = user.Id, Login = userDto.Login };
                 if (customerId != 0)
                 {
                     AddProfileToCustomer(clientProfile, customerId);
-                    await Database.UserManager.AddToRoleAsync(user.Id, "Employee");
+                    await db.UserManager.AddToRoleAsync(user.Id, "Employee");
                 }
-                Database.Profiles.Create(clientProfile);
-                await Database.SaveAsync();
+                db.Profiles.Create(clientProfile);
+                await db.SaveAsync();
             }
             else
             {
@@ -58,20 +49,20 @@ namespace BLL.Services
 
         public async Task ChangeUserData(UserDTO userDto, int? customerId)
         {
-            if (Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)== null
-                || Database.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)?.Id == userDto.Id)
+            if (db.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)== null
+                || db.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)?.Id == userDto.Id)
             {
-                var user = Database.UserManager.FindById(userDto.Id);
+                var user = db.UserManager.FindById(userDto.Id);
                 validateService.ValidateOnlyLogin(userDto);
                 user.UserName = userDto.Login;
-                var updateResult = await Database.UserManager.UpdateAsync(user);
+                var updateResult = await db.UserManager.UpdateAsync(user);
                 if (updateResult.Errors.Any())
                     throw new ValidationException(updateResult.Errors.FirstOrDefault(), "");
-                var profile = Database.Profiles.Get(userDto.Id);
+                var profile = db.Profiles.Get(userDto.Id);
                 profile.Login = userDto.Login;
                 AddProfileToCustomer(profile, customerId);
-                await Database.UserManager.AddToRoleAsync(user.Id, "Employee");
-                await Database.SaveAsync();
+                await db.UserManager.AddToRoleAsync(user.Id, "Employee");
+                await db.SaveAsync();
             }
             else
             {
@@ -82,18 +73,18 @@ namespace BLL.Services
         public async Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
-            User user = await Database.UserManager.FindAsync(userDto.Login, userDto.Password);
+            User user = await db.UserManager.FindAsync(userDto.Login, userDto.Password);
             if (user != null)
-                claim = await Database.UserManager.CreateIdentityAsync(user,
+                claim = await db.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
         }
 
         public void DeleteUser(string userId)
         {
-            var user = Database.UserManager.FindById(userId);
+            var user = db.UserManager.FindById(userId);
             if(user!=null)
-                Database.UserManager.Delete(user);
+                db.UserManager.Delete(user);
         }
 
         public void AddProfileToCustomer(Entity.Profile profile, int? customerId)
@@ -102,16 +93,16 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ProfileNullReference, "");
             if (customerId == null)
                 throw new ValidationException(Resource.Resource.CustomerIdNotSet, "");
-            if (!Database.Customers.IsExist(customerId.Value))
+            if (!db.Customers.IsExist(customerId.Value))
                 throw new ValidationException(Resource.Resource.ProfileNotFound, "");
-            Database.Customers.AddProfileToCustomer(profile, customerId.Value);
+            db.Customers.AddProfileToCustomer(profile, customerId.Value);
         }
 
         public bool UserIsInRole(string role, string id)
         {
-            if (Database.UserManager.FindById(id) == null)
+            if (db.UserManager.FindById(id) == null)
                 return false;
-            return Database.UserManager.IsInRole(id, role);
+            return db.UserManager.IsInRole(id, role);
         }
     }
 }

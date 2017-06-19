@@ -107,6 +107,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\CalculationService.cs" />
     <Compile Include="Services\ColumnService.cs" />
     <Compile Include="Services\CustomerService.cs" />

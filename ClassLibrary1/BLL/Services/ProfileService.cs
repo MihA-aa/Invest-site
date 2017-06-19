@@ -14,17 +14,13 @@ using BLL.Interfaces;
 
 namespace BLL.Services
 {
-    public class ProfileService: IProfileService
+    public class ProfileService: BaseService,IProfileService
     {
-        IUnitOfWork db { get; }
-        IMapper IMapper { get; }
         IUserService userService { get; }
 
-        public ProfileService(IUnitOfWork uow, IMapper map, IUserService userService)
+        public ProfileService(IUnitOfWork uow, IMapper map, IValidateService vd, IUserService us):base(uow, vd, map)
         {
-            db = uow;
-            IMapper = map;
-            this.userService = userService;
+            userService = us;
         }
 
         public IEnumerable<ProfileDTO> GetProfiles()

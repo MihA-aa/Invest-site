@@ -12,16 +12,9 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class SymbolViewService: ISymbolViewService
+    public class SymbolViewService:BaseService, ISymbolViewService
     {
-        IUnitOfWork db { get; }
-        IMapper IMapper { get; }
-
-        public SymbolViewService(IUnitOfWork uow, IMapper map)
-        {
-            db = uow;
-            IMapper = map;
-        }
+        public SymbolViewService(IUnitOfWork uow, IValidateService vd, IMapper map) : base(uow, vd, map) { }
 
         public SymbolViewDTO GetSymbolViewByName(string name)
         {

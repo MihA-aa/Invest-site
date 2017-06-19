@@ -12,16 +12,9 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class TradeSybolService: ITradeSybolService
+    public class TradeSybolService: BaseService, ITradeSybolService
     {
-        IUnitOfWork db { get; }
-        IMapper IMapper { get; }
-
-        public TradeSybolService(IUnitOfWork uow, IMapper map)
-        {
-            db = uow;
-            IMapper = map;
-        }
+        public TradeSybolService(IUnitOfWork uow, IValidateService vd, IMapper map) : base(uow, vd, map) { }
         public decimal GetPriceForDate(DateTime date, int symbolId)
         {
             return db.TradeSybols.GetPriceForDate(date, symbolId);

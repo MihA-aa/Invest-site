@@ -13,16 +13,11 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class ViewTemplateService: IViewTemplateService
+    public class ViewTemplateService: BaseService, IViewTemplateService
     {
-        IUnitOfWork db { get; }
-        IMapper IMapper { get; }
         ICustomerService customerService { get; }
-
-        public ViewTemplateService(IUnitOfWork uow, IMapper map, ICustomerService cs)
+        public ViewTemplateService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs) : base(uow, vd, map)
         {
-            db = uow;
-            IMapper = map;
             customerService = cs;
         }
 

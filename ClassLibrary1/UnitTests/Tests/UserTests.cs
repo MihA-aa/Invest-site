@@ -29,7 +29,6 @@ namespace UnitTests.Tests
         private Mock<IUserService> mockUserService;
         private ProfileService profileService;
         private Mock<ApplicationUserManager> UserManager;
-        private Mock<ApplicationRoleManager> RoleManager;
         private ValidateService validateService;
         private Mock<IProfileRepository> profileRepository;
         private IMapper map;
@@ -82,7 +81,6 @@ namespace UnitTests.Tests
             var userStore = new Mock<IUserStore<User>>();
             UnitOfWork = new Mock<IUnitOfWork>();
             UserManager = new Mock<ApplicationUserManager>(userStore.Object);
-            RoleManager = new Mock<ApplicationRoleManager>();
             profileRepository = new Mock<IProfileRepository>();
             mockUserService = new Mock<IUserService>();
             validateService = new ValidateService();
@@ -95,7 +93,7 @@ namespace UnitTests.Tests
             profileRepository.Setup(c => c.Get(It.IsAny<string>()))
                 .Returns((string i) => ListProfiles.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            profileService = new ProfileService(UnitOfWork.Object, map, mockUserService.Object);
+            profileService = new ProfileService(UnitOfWork.Object, map, validateService, mockUserService.Object);
 
             ProfileDTO profile1 = profileService.GetProfile("1");
             ProfileDTO profile2 = profileService.GetProfile("2");
@@ -110,7 +108,7 @@ namespace UnitTests.Tests
         public void CanNotGetProfileByNullId()
         {
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            profileService = new ProfileService(UnitOfWork.Object, map, mockUserService.Object);
+            profileService = new ProfileService(UnitOfWork.Object, map, validateService, mockUserService.Object);
 
             profileService.GetProfile(null);
         }
@@ -123,7 +121,7 @@ namespace UnitTests.Tests
             profileRepository.Setup(c => c.Get(It.IsAny<string>()))
                 .Returns((string i) => ListProfiles.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Profiles).Returns(profileRepository.Object);
-            profileService = new ProfileService(UnitOfWork.Object, map, mockUserService.Object);
+            profileService = new ProfileService(UnitOfWork.Object, map, validateService, mockUserService.Object);
 
             profileService.GetProfile("5");
         }

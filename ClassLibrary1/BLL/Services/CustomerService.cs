@@ -12,16 +12,9 @@ using BLL.Helpers;
 
 namespace BLL.Services
 {
-    public class CustomerService: ICustomerService
+    public class CustomerService: BaseService, ICustomerService
     {
-        IUnitOfWork db { get; }
-        IMapper IMapper { get; }
-
-        public CustomerService(IUnitOfWork uow, IMapper map)
-        {
-            db = uow;
-            IMapper = map;
-        }
+        public CustomerService(IUnitOfWork uow, IValidateService vd, IMapper map) : base(uow, vd, map){}
         
         public Customer GetCustomerByProfileId(string id)
         {

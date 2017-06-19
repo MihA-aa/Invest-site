@@ -11,15 +11,9 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class ColumnService: IColumnService
+    public class ColumnService: BaseService, IColumnService
     {
-        IUnitOfWork db { get; }
-        IMapper IMapper { get; }
-        public ColumnService(IUnitOfWork uow, IMapper map)
-        {
-            db = uow;
-            IMapper = map;
-        }
+        public ColumnService(IUnitOfWork uow, IValidateService vd, IMapper map) : base(uow, vd, map) { }
         public IEnumerable<ColumnDTO> GetColumns()
         {
             return IMapper.Map<IEnumerable<Column>, List<ColumnDTO>>(db.Columns.GetAll());

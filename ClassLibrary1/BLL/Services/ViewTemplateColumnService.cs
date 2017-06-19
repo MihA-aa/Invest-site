@@ -12,18 +12,10 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class ViewTemplateColumnService: IViewTemplateColumnService
+    public class ViewTemplateColumnService: BaseService, IViewTemplateColumnService
     {
-        IUnitOfWork db { get; }
-        IValidateService validateService { get; }
-        IMapper IMapper { get; }
-        public ViewTemplateColumnService(IUnitOfWork uow, IValidateService vd, IMapper map)
-        {
-            db = uow;
-            validateService = vd;
-            IMapper = map;
-        }
-
+        public ViewTemplateColumnService(IUnitOfWork uow, IValidateService vd, IMapper map) : base(uow, vd, map) { }
+        
         public ViewTemplateColumnDTO GetViewTemplateColumn(int? id)
         {
             if (id == null)

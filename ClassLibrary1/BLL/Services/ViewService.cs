@@ -12,18 +12,12 @@ using BLL.Helpers;
 
 namespace BLL.Services
 {
-    public class ViewService: IViewService
+    public class ViewService: BaseService, IViewService
     {
-        IUnitOfWork db { get; }
-        IValidateService validateService { get; }
         ICustomerService customerService { get; }
-        IMapper IMapper { get; }
 
-        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs)
+        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs) : base(uow, vd, map)
         {
-            db = uow;
-            validateService = vd;
-            IMapper = map;
             customerService = cs;
         }
 
