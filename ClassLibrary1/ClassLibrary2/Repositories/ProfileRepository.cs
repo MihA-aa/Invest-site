@@ -25,6 +25,16 @@ namespace DALEF.Repositories
             return dbSet.Find(id);
         }
 
+        public bool ProfileAccess(string userid, int portfolioId)
+        {
+            bool check = false;
+            var profile = dbSet.AsNoTracking().FirstOrDefault(p => p.Id == userid);
+            var portfolios = profile?.Customer?.Portfolios;
+            if (portfolios != null && portfolios.Any(p => p.Id == portfolioId))
+                check = true;
+            return check;
+        }
+
         public bool IsExist(string id)
         {
             return dbSet

@@ -23,6 +23,7 @@ namespace WebApi.App_Start
     {
         public MapperProfile()
         {
+            CreateMap<PortfolioDTO, PortfolioInformationModel>();
             CreateMap<PortfolioDTO, PortfolioModel>().ReverseMap();
             CreateMap<PositionDTO, PositionModel>().ReverseMap();
             CreateMap<ViewDTO, ViewModel>().ReverseMap();

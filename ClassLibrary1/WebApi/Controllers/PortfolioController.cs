@@ -77,7 +77,7 @@ namespace WebApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest("ModelState");
             }
             try
             {
@@ -120,6 +120,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [Route("api/portfolio/{id}/positions")]
         [HttpGet]
         public IHttpActionResult GetPortfolioPosition(int id)
         {

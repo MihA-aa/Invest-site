@@ -249,6 +249,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PortfolioController.cs" />
+    <Compile Include="Controllers\PortfolioInformationController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\PortfolioInformationModel.cs" />
     <Compile Include="Models\PortfolioModel.cs" />
     <Compile Include="Models\PositionModel.cs" />
     <Compile Include="Models\ViewModel.cs" />

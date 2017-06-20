@@ -38,11 +38,9 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
             if (userId == null)
                 throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
-            var profile = db.Profiles.Get(userId);
-            var portfolios = profile?.Customer?.Portfolios;
-            if(portfolios?.FirstOrDefault(p=>p.Id == portfolioId) != null)
-                return true;
-            return false;
+            if (!db.Portfolios.IsExist(portfolioId.Value))
+                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            return db.Profiles.ProfileAccess(userId, portfolioId.Value);
         }
 
         public IEnumerable<PositionDTO> GetPortfolioPositions(int? portfolioId)
