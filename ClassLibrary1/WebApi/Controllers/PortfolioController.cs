@@ -25,8 +25,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            var portfolios = portfolioService.GetPortfoliosForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf"
-                /*RequestContext.Principal.Identity.GetUserId()*/);
+            var portfolios = portfolioService.GetPortfoliosForUser(RequestContext.Principal.Identity.GetUserId());
             return Ok(Mapper.Map<IEnumerable<PortfolioDTO>, List<PortfolioModel>>(portfolios));
         }
 
@@ -36,7 +35,7 @@ namespace WebApi.Controllers
             PortfolioModel portfolio;
             try
             {
-                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     portfolio = Mapper.Map<PortfolioDTO, PortfolioModel>(portfolioService.GetPortfolio(id));
                 }
@@ -62,7 +61,7 @@ namespace WebApi.Controllers
             }
             try
             {
-                portfolioService.CreatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio), "1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
+                portfolioService.CreatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio), RequestContext.Principal.Identity.GetUserId());
             }
             catch (Exception ex)
             {
@@ -81,7 +80,7 @@ namespace WebApi.Controllers
             }
             try
             {
-                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", portfolio.Id))
+                if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), portfolio.Id))
                 {
                     portfolioService.UpdatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio));
                 }
@@ -103,7 +102,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     portfolioService.DeletePortfolio(id);
                 }
@@ -127,7 +126,7 @@ namespace WebApi.Controllers
             var positions = new List<PositionModel>();
             try
             {
-                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     positions = Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(portfolioService.GetPortfolioPositions(id));
                 }

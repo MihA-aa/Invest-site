@@ -15,14 +15,17 @@ namespace ConsoleApplicationForTestingAPI.Services
     public class PortfolioService
     {
         private HttpClient client;
-        public PortfolioService()
+        private string path;
+
+        public PortfolioService(string path, HttpClient client)
         {
-            client = new HttpClient();
+            this.path = path;
+            this.client = client;
         }
         public async Task<IEnumerable<PortfolioModel>> GetAllPortfolio()
         {
             IEnumerable<PortfolioModel> portfolios = null;
-            var result = await client.GetAsync("http://localhost:9101/api/portfolio");
+            var result = await client.GetAsync(path + "api/portfolio");
             if (result.IsSuccessStatusCode)
             {
                 portfolios = await result.Content.ReadAsAsync<IEnumerable<PortfolioModel>>();
@@ -33,10 +36,11 @@ namespace ConsoleApplicationForTestingAPI.Services
             }
             return portfolios;
         }
+
         public async Task<IEnumerable<PortfolioInformationModel>> GetAllPortfolioInformation()
         {
             IEnumerable<PortfolioInformationModel> portfolios = null;
-            var result = await client.GetAsync("http://localhost:9101/api/PortfolioInformation");
+            var result = await client.GetAsync(path + "api/PortfolioInformation");
             if (result.IsSuccessStatusCode)
             {
                 portfolios =  await result.Content.ReadAsAsync<IEnumerable<PortfolioInformationModel>>();
@@ -51,7 +55,7 @@ namespace ConsoleApplicationForTestingAPI.Services
         public async Task<PortfolioModel> GetPortfolio(int portfolioId)
         {
             PortfolioModel portfolio = null;
-            var result = await client.GetAsync("http://localhost:9101/api/Portfolio/" + portfolioId);
+            var result = await client.GetAsync(path + "api/Portfolio/" + portfolioId);
             if (result.IsSuccessStatusCode)
             {
                 portfolio = await result.Content.ReadAsAsync<PortfolioModel>();
@@ -66,7 +70,7 @@ namespace ConsoleApplicationForTestingAPI.Services
         public async Task<IEnumerable<PositionModel>> GetPortfolioPosition(int portfolioId)
         {
             IEnumerable <PositionModel> positions = null;
-            var result = await client.GetAsync("http://localhost:9101/api/portfolio/" + portfolioId + "/positions");
+            var result = await client.GetAsync(path + "api/portfolio/" + portfolioId + "/positions");
             if (result.IsSuccessStatusCode)
             {
                 positions = await result.Content.ReadAsAsync<IEnumerable<PositionModel>>();
@@ -82,7 +86,7 @@ namespace ConsoleApplicationForTestingAPI.Services
         public async Task<PortfolioInformationModel> GetPortfolioInformation(int portfolioId)
         {
             PortfolioInformationModel portfolio = null;
-            var result = await client.GetAsync("http://localhost:9101/api/PortfolioInformation/" + portfolioId);
+            var result = await client.GetAsync(path + "api/PortfolioInformation/" + portfolioId);
             if (result.IsSuccessStatusCode)
             {
                 portfolio = await result.Content.ReadAsAsync<PortfolioInformationModel>();
@@ -96,7 +100,7 @@ namespace ConsoleApplicationForTestingAPI.Services
 
         public async Task CreatePortfolio(PortfolioModel portfolio)
         {
-            var result = await client.PostAsJsonAsync("http://localhost:9101/api/Portfolio", portfolio);
+            var result = await client.PostAsJsonAsync(path + "api/Portfolio", portfolio);
             if (!result.IsSuccessStatusCode)
             {
                 Console.WriteLine("Portfolio creation was unsuccessful\n" + result.Content.ReadAsStringAsync().Result);
@@ -109,7 +113,7 @@ namespace ConsoleApplicationForTestingAPI.Services
 
         public async Task UpdatePortfolio(PortfolioModel portfolio)
         {
-            var result = await client.PutAsJsonAsync("http://localhost:9101/api/Portfolio", portfolio);
+            var result = await client.PutAsJsonAsync(path + "api/Portfolio", portfolio);
             if (!result.IsSuccessStatusCode)
             {
                 Console.WriteLine("Portfolio update was unsuccessful\n" + result.Content.ReadAsStringAsync().Result);
@@ -123,7 +127,7 @@ namespace ConsoleApplicationForTestingAPI.Services
         public async Task DeletePortfolio(int portfolioId)
         {
             PortfolioModel portfolio = null;
-            var result = await client.DeleteAsync("http://localhost:9101/api/Portfolio/" + portfolioId);
+            var result = await client.DeleteAsync(path + "api/Portfolio/" + portfolioId);
             if (result.IsSuccessStatusCode)
             {
                 Console.WriteLine("Portfolio delte was successful");

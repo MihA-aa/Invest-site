@@ -11,9 +11,12 @@ namespace ConsoleApplicationForTestingAPI.Services
     public class PositionService
     {
         private HttpClient client;
-        public PositionService()
+        private string path;
+
+        public PositionService(string path, HttpClient client)
         {
-            client = new HttpClient();
+            this.path = path;
+            this.client = client;
         }
 
         public void ShowPosition(PositionModel position)
@@ -43,7 +46,7 @@ namespace ConsoleApplicationForTestingAPI.Services
         
         public async Task UpdateAllPosition()
         {
-            var result = await client.PutAsJsonAsync("http://localhost:9101/api/position/AllUpdate", "");
+            var result = await client.PutAsJsonAsync(path + "api/position/AllUpdate", "");
             if (!result.IsSuccessStatusCode)
             {
                 Console.WriteLine("All positions updated unsuccessfully\n" + result.Content.ReadAsStringAsync().Result);

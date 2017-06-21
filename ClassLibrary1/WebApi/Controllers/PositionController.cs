@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            var positions = PositionService.GetPositionsForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
+            var positions = PositionService.GetPositionsForUser(RequestContext.Principal.Identity.GetUserId());
             return Ok(Mapper.Map<IEnumerable<PositionDTO>, List<PositionModel>>(positions));
         }
 
@@ -34,7 +34,7 @@ namespace WebApi.Controllers
             PositionModel position;
             try
             {
-                if (PositionService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (PositionService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     position = Mapper.Map<PositionDTO, PositionModel>(PositionService.GetPosition(id));
                 }
@@ -79,7 +79,7 @@ namespace WebApi.Controllers
             }
             try
             {
-                if (PositionService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", position.Id))
+                if (PositionService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), position.Id))
                 {
                     PositionService.UpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position));
                 }
@@ -117,7 +117,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                if (PositionService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (PositionService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     PositionService.DeletePosition(id);
                 }
