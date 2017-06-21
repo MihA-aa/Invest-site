@@ -19,10 +19,10 @@ namespace ConsoleApplicationForTestingAPI.Services
             this.client = client;
         }
 
-        public string GetUserInfo(string token)
+        public void GetUserInfo()
         {
             var response = client.GetAsync(path + "api/Account/UserInfo").Result;
-            return response.Content.ReadAsStringAsync().Result;
+            Console.WriteLine(response.Content.ReadAsStringAsync().Result);
         }
 
 

@@ -20,6 +20,9 @@ namespace DALEF.Repositories
         {
            return dbSet.AsNoTracking();
         }
-
+        public IQueryable<Position> GetPositionQuery(int id)
+        {
+            return dbSet.AsNoTracking().Where(p => p.Id == id);
+        }
     }
 }

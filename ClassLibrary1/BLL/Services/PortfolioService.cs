@@ -16,10 +16,12 @@ namespace BLL.Services
     public class PortfolioService : BaseService, IPortfolioService
     {
         ICustomerService customerService { get; }
+        IPositionService positionService { get; }
 
-        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map) : base(uow, vd, map)
+        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map, IPositionService ps) : base(uow, vd, map)
         {
             customerService = cs;
+            positionService = ps;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()
@@ -144,6 +146,20 @@ namespace BLL.Services
             db.Save();
         }
 
+        public void UpdatePortfolio(int? id)
+        {
+            if (id == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+            var portfolio = db.Portfolios.GetPortfolioQuery(id.Value).FirstOrDefault();
+            if (portfolio == null)
+                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            foreach (var Id in portfolio.Positions.Select(p=>p.Id))
+            {
+                positionService.UpdateOnlyPosition(Id);
+            }
+            RecalculatePortfolioValue(id);
+        }
+
         public void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios)
         {
             foreach (var portfolio in portfolios)
@@ -152,12 +168,14 @@ namespace BLL.Services
             }
         }
 
-        public void RecalculatePortfolioValue(int id)
+        public void RecalculatePortfolioValue(int? id)
         {
-            var portfolio = db.Portfolios.Get(id);
+            if (id == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+            var portfolio = db.Portfolios.Get(id.Value);
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            db.Portfolios.RecalculatePortfolioValue(id);
+            db.Portfolios.RecalculatePortfolioValue(id.Value);
         }
     }
 }

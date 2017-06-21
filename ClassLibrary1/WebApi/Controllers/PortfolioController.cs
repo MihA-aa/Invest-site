@@ -97,6 +97,22 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [Route("api/Portfolio/Update")]
+        [HttpPut]
+        public IHttpActionResult Update([FromBody]int? id)
+        {
+            try
+            {
+                portfolioService.UpdatePortfolio(id);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+                return BadRequest(ex.ToString());
+            }
+            return Ok();
+        }
+
         [HttpDelete]
         public IHttpActionResult Delete(int id)
         {

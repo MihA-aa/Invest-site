@@ -96,6 +96,22 @@ namespace WebApi.Controllers
             return Ok();
         }
 
+        [Route("api/Position/Update")]
+        [HttpPut]
+        public IHttpActionResult Update([FromBody]int? id)
+        {
+            try
+            {
+                PositionService.UpdatePosition(id);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
+                return BadRequest(ex.ToString());
+            }
+            return Ok();
+        }
+
         [Route("api/position/AllUpdate")]
         [HttpPut]
         public IHttpActionResult Update()

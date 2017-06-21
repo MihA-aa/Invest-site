@@ -14,5 +14,6 @@ namespace DAL.Interfaces
         bool IsExist(int id);
         void UpdatePortfolioNameAndNotes(Portfolio portfolio);
         void RecalculatePortfolioValue(int id);
+        IQueryable<Portfolio> GetPortfolioQuery(int id);
     }
 }

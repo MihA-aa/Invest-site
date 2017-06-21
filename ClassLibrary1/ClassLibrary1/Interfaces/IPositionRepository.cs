@@ -11,5 +11,6 @@ namespace DAL.Interfaces
     {
         bool IsExist(int id);
         IQueryable<Position> GetPositionsQuery();
+        IQueryable<Position> GetPositionQuery(int id);
     }
 }

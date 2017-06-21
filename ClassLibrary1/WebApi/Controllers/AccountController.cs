@@ -70,7 +70,8 @@ namespace WebApi.Controllers
 
             return new UserInfoViewModel
             {
-                Email = RequestContext.Principal.Identity.GetUserId(),//User.Identity.GetUserName(),
+                Id = RequestContext.Principal.Identity.GetUserId(),
+                Login = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };

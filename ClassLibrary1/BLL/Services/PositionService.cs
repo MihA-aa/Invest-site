@@ -159,6 +159,27 @@ namespace BLL.Services
             db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
         }
 
+        public void UpdateOnlyPosition(int? id)
+        {
+            if (id == null)
+                throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
+            var position = db.Positions.GetPositionQuery(id.Value).FirstOrDefault();
+            if (position == null)
+                throw new ValidationException(Resource.Resource.PositionNotFound, "");
+            var positionDto = CalculateAllParams(IMapper.Map<Position, PositionDTO>(position));
+            var newposition = IMapper.Map<PositionDTO, Position>(positionDto);
+            db.Positions.Update(newposition);
+            db.Save();
+        }
+
+        public void UpdatePosition(int? id)
+        {
+            UpdateOnlyPosition(id);
+            Portfolio portfolio = db.Portfolios.GetAll()
+                .FirstOrDefault(x => x.Positions.Any(p => p.Id == id));
+            db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
+        }
+
         public void UpdateAllPositionAndPortfolio()
         {
             var positions = IMapper.Map<IQueryable<Position>,List<PositionDTO>>(db.Positions.GetPositionsQuery());

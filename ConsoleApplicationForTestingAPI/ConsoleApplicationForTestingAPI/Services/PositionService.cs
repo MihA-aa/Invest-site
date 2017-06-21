@@ -19,6 +19,19 @@ namespace ConsoleApplicationForTestingAPI.Services
             this.client = client;
         }
 
+        public async Task UpdatePosition(int? id)
+        {
+            var result = await client.PutAsJsonAsync(path + "api/Position/Update", id);
+            if (!result.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Position update was unsuccessful\n" + result.Content.ReadAsStringAsync().Result);
+            }
+            else
+            {
+                Console.WriteLine("Position update was successful");
+            }
+        }
+
         public void ShowPosition(PositionModel position)
         {
             Console.WriteLine("Id:\t\t{0}\nName:\t\t{1}\nSymbolId:\t{2}\nOpenDate:\t{3}\nOpenPrice:\t{4}\nOpenWeight:\t{5}\n" +

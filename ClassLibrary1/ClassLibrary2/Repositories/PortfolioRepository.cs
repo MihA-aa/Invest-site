@@ -71,5 +71,10 @@ namespace DALEF.Repositories
                 .AsNoTracking()
                 .Any(p => p.Id == id);
         }
+
+        public IQueryable<Portfolio> GetPortfolioQuery(int id)
+        {
+            return dbSet.AsNoTracking().Where(p=>p.Id == id);
+        }
     }
 }

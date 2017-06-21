@@ -32,17 +32,7 @@ namespace ConsoleApplicationForTestingAPI
 
         static async Task RunAsync()
         {
-            //var w = await portfolioService.GetAllPortfolio();
-            //portfolioService.ShowPortfolios(w.ToList());
-            //await portfolioService.CreatePortfolio(new PortfolioModel {Id = 1024, Name = "New Portfolio", DisplayIndex = 7, Notes = "Some Notes", Visibility = true});
-            //await portfolioService.UpdatePortfolio(new PortfolioModel { Id = 1007, Name = "Update234 Portfolio", DisplayIndex = 7, Notes = "Some Notes", Visibility = true }); 
-            //var w = await portfolioService.GetPortfolioPosition(1);
-            //positionService.ShowPositions(w.ToList());
-            //await positionService.UpdateAllPosition();
-            //string userInfo = userService.GetUserInfo(token);
-            //Console.WriteLine(userInfo);
-            var we = await portfolioService.GetPortfolio(1);
-            portfolioService.ShowPortfolio(we);
+            userService.GetUserInfo();
         }
 
         static HttpClient CreateClient(string accessToken = "")

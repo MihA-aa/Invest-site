@@ -22,6 +22,20 @@ namespace ConsoleApplicationForTestingAPI.Services
             this.path = path;
             this.client = client;
         }
+
+        public async Task UpdatePortfolio(int? id)
+        {
+            var result = await client.PutAsJsonAsync(path + "api/Portfolio/Update", id);
+            if (!result.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Portfolio update was unsuccessful\n" + result.Content.ReadAsStringAsync().Result);
+            }
+            else
+            {
+                Console.WriteLine("Portfolio update was successful");
+            }
+        }
+
         public async Task<IEnumerable<PortfolioModel>> GetAllPortfolio()
         {
             IEnumerable<PortfolioModel> portfolios = null;
@@ -171,6 +185,5 @@ namespace ConsoleApplicationForTestingAPI.Services
                     portfolio.BiggestLoser, portfolio.AvgGain, portfolio.MonthAvgGain, portfolio.PortfolioValue);
             }
         }
-
     }
 }
