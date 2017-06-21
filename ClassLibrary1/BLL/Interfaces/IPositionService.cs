@@ -20,5 +20,6 @@ namespace BLL.Interfaces
         void CreateOrUpdatePosition(PositionDTO position, int? portfolioId);
         void AddPositionToPortfolio(Position position, int? portfolioId);
         PositionDTO CalculateAllParams(PositionDTO position);
+        void UpdateAllPositionAndPortfolio();
     }
 }

@@ -36,13 +36,14 @@ namespace DALEF.Repositories
             portfolio.Quantity = portfolio.Positions.Count();
             portfolio.LastUpdateDate = DateTime.Now;
             portfolio.PercentWins = GetPercentWins(id);
-            portfolio.BiggestWinner =  portfolio.Positions.Max(p => p.Gain);
-            portfolio.BiggestLoser = portfolio.Positions.Min(p => p.Gain);
-            portfolio.AvgGain = portfolio.Positions.Average(p => p.Gain);
+            portfolio.BiggestWinner =  portfolio.Positions.DefaultIfEmpty().Max(p => p?.Gain ?? 0);
+            portfolio.BiggestLoser = portfolio.Positions.DefaultIfEmpty().Min(p => p?.Gain ?? 0);
+            portfolio.AvgGain = portfolio.Positions.DefaultIfEmpty().Average(p => p?.Gain ?? 0);
             portfolio.MonthAvgGain = portfolio.Positions
                 .Where(p => p.OpenDate.Month <= DateTime.Today.Month && p.OpenDate.Year <= DateTime.Today.Year)
                 .Where(p => p.CloseDate == null || p.CloseDate.Value.Month >= DateTime.Today.Month && p.CloseDate.Value.Year >= DateTime.Today.Year)
-                .Average(p => p.Gain);
+                .DefaultIfEmpty()
+                .Average(p => p == null ? 0 : p.Gain);
             Update(portfolio);
             db.SaveChanges();
         }

@@ -10,5 +10,6 @@ namespace DAL.Interfaces
     public interface IPositionRepository : IRepository<Position>
     {
         bool IsExist(int id);
+        IQueryable<Position> GetPositionsQuery();
     }
 }

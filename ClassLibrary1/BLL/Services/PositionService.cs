@@ -70,7 +70,7 @@ namespace BLL.Services
 
         public PositionDTO CalculateAllParams(PositionDTO position)
         {
-            if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0))
+            if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0) || position.CloseDate == null)
             {
                 position.CloseDate = null;
                 position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
@@ -80,12 +80,12 @@ namespace BLL.Services
                 position.ClosePrice = tradeSybolService.GetPriceForDate(position.CloseDate.Value, position.SymbolId);
                 position.CurrentPrice = null;
             }
-            var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);  //39817
+            var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);
             position.Dividends = calculationService.GetDividends(dividends, position.OpenWeight);
             position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
                 position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
             position.Gain = calculationService.GetGain(position.CurrentPrice, position.ClosePrice,
-            position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
             var tradeInfo = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now,
                 position.SymbolId, position.TradeType);
             if (tradeInfo != null)
@@ -157,6 +157,23 @@ namespace BLL.Services
             Portfolio portfolio = db.Portfolios.GetAll()
                 .FirstOrDefault(x => x.Positions.Any(p => p.Id == positionDto.Id));
             db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
+        }
+
+        public void UpdateAllPositionAndPortfolio()
+        {
+            var positions = IMapper.Map<IQueryable<Position>,List<PositionDTO>>(db.Positions.GetPositionsQuery());
+            for (int i = 0; i < positions.Count(); i++)
+            {
+                positions[i] = CalculateAllParams(positions[i]);
+                var position = IMapper.Map<PositionDTO, Position>(positions[i]);
+                db.Positions.Update(position);
+            }
+            db.Save();
+            var portfoliosId = db.Portfolios.GetAll().Select(p => p.Id);
+            foreach (var id in portfoliosId)
+            {
+                db.Portfolios.RecalculatePortfolioValue(id);
+            }
         }
     }
 }

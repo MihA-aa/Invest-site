@@ -31,7 +31,7 @@ namespace ConsoleApplicationForTestingAPI
             //await portfolioService.UpdatePortfolio(new PortfolioModel { Id = 1007, Name = "Update234 Portfolio", DisplayIndex = 7, Notes = "Some Notes", Visibility = true }); 
             //var w = await portfolioService.GetPortfolioPosition(1);
             //positionService.ShowPositions(w.ToList());
-
+            await positionService.UpdateAllPosition();
 
         }
     }

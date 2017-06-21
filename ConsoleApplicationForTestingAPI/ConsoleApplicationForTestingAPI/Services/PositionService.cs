@@ -40,5 +40,18 @@ namespace ConsoleApplicationForTestingAPI.Services
                     position.Gain, position.AbsoluteGain, position.MaxGain, position.Dividends, position.CurrencySymbol);
             }
         }
+        
+        public async Task UpdateAllPosition()
+        {
+            var result = await client.PutAsJsonAsync("http://localhost:9101/api/position/AllUpdate", "");
+            if (!result.IsSuccessStatusCode)
+            {
+                Console.WriteLine("All positions updated unsuccessfully\n" + result.Content.ReadAsStringAsync().Result);
+            }
+            else
+            {
+                Console.WriteLine("All positions updated successfully");
+            }
+        }
     }
 }
