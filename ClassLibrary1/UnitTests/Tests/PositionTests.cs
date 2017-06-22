@@ -433,7 +433,7 @@ namespace UnitTests.Tests
             UnitOfWork.Setup(m => m.Positions).Returns(positionRepository.Object);
             positionService = new PositionService(UnitOfWork.Object, validateService, tradeSybolService.Object, calculationService, map);
 
-            positionService.UpdatePosition(null);
+            positionService.UpdatePosition((PositionDTO)null);
         }
 
         [TestMethod]

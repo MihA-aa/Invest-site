@@ -32,6 +32,19 @@ namespace ConsoleApplicationForTestingAPI.Services
             }
         }
 
+        public async Task UpdateAllPosition()
+        {
+            var result = await client.PutAsJsonAsync(path + "api/position/AllUpdate", "");
+            if (!result.IsSuccessStatusCode)
+            {
+                Console.WriteLine("All positions updated unsuccessfully\n" + result.Content.ReadAsStringAsync().Result);
+            }
+            else
+            {
+                Console.WriteLine("All positions updated successfully");
+            }
+        }
+
         public void ShowPosition(PositionModel position)
         {
             Console.WriteLine("Id:\t\t{0}\nName:\t\t{1}\nSymbolId:\t{2}\nOpenDate:\t{3}\nOpenPrice:\t{4}\nOpenWeight:\t{5}\n" +
@@ -54,19 +67,6 @@ namespace ConsoleApplicationForTestingAPI.Services
                     position.Id, position.Name, position.SymbolId, position.OpenDate, position.OpenPrice, position.OpenWeight, position.TradeType,
                     position.TradeStatus, position.CloseDate, position.ClosePrice, position.CurrentPrice, position.LastUpdateDate, position.LastUpdatePrice,
                     position.Gain, position.AbsoluteGain, position.MaxGain, position.Dividends, position.CurrencySymbol);
-            }
-        }
-        
-        public async Task UpdateAllPosition()
-        {
-            var result = await client.PutAsJsonAsync(path + "api/position/AllUpdate", "");
-            if (!result.IsSuccessStatusCode)
-            {
-                Console.WriteLine("All positions updated unsuccessfully\n" + result.Content.ReadAsStringAsync().Result);
-            }
-            else
-            {
-                Console.WriteLine("All positions updated successfully");
             }
         }
     }

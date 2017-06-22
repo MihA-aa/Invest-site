@@ -24,6 +24,7 @@ namespace UnitTests.Tests
         private PortfolioService portfolioService;
         private ValidateService validateService;
         private Mock<ICustomerService> customerService;
+        private Mock<IPositionService> positionService;
         private Mock<IPortfolioRepository> portfolioRepository;
         List<Portfolio> ListPortfolios;
         private IMapper map;
@@ -156,6 +157,7 @@ namespace UnitTests.Tests
             portfolioRepository = new Mock<IPortfolioRepository>();
             validateService = new ValidateService();
             customerService = new Mock<ICustomerService>();
+            positionService = new Mock<IPositionService>();
             map = new AutoMapperConfiguration().Configure().CreateMapper();
 
         }
@@ -164,7 +166,7 @@ namespace UnitTests.Tests
         {
             portfolioRepository.Setup(m => m.GetAll()).Returns(ListPortfolios);
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             IEnumerable<PortfolioDTO> result = portfolioService.GetPortfolios();
 
@@ -180,7 +182,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             PortfolioDTO portfolio1 = portfolioService.GetPortfolio(1);
             PortfolioDTO portfolio2 = portfolioService.GetPortfolio(2);
@@ -195,7 +197,7 @@ namespace UnitTests.Tests
         public void CanNotGetPortfolioByNullId()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.GetPortfolio(null);
         }
@@ -208,7 +210,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.GetPortfolio(5);
         }
@@ -219,7 +221,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             IEnumerable<PositionDTO> positions1 = portfolioService.GetPortfolioPositions(1);
             IEnumerable<PositionDTO> positions2 = portfolioService.GetPortfolioPositions(2);
@@ -237,7 +239,7 @@ namespace UnitTests.Tests
         public void CanNotGetPortfolioPositionsByNullId()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.GetPortfolioPositions(null);
         }
@@ -250,7 +252,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.GetPortfolioPositions(5);
         }
@@ -265,7 +267,7 @@ namespace UnitTests.Tests
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
                 .Returns(new Customer {Id = 23123, Name = "Misha"});
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
             
             portfolioService.CreateOrUpdatePortfolio(new PortfolioDTO(), "");
 
@@ -287,7 +289,7 @@ namespace UnitTests.Tests
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
                 .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.CreateOrUpdatePortfolio(new PortfolioDTO {Id=1, Name = "Update Name", Notes = "New Notes"}, "");
 
@@ -302,7 +304,7 @@ namespace UnitTests.Tests
         public void CanNotCreateOrUpdateNullReferencePortfolio()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.CreateOrUpdatePortfolio(null,"");
         }
@@ -313,7 +315,7 @@ namespace UnitTests.Tests
         public void CanNotCreateOrUpdatePortfolioWithPercenWinsLessThanZero()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.CreateOrUpdatePortfolio(new PortfolioDTO { PercentWins = -1 }, "");
         }
@@ -326,7 +328,7 @@ namespace UnitTests.Tests
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
                 .Returns(new Customer { Id = 23123, Name = "Misha" });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.CreatePortfolio(new PortfolioDTO(), "");
 
@@ -339,7 +341,7 @@ namespace UnitTests.Tests
         public void CanNotCreateNullReferencePortfolio()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.CreatePortfolio(null, "");
         }
@@ -350,7 +352,7 @@ namespace UnitTests.Tests
         public void CanNotCreatePortfolioWithPercenWinsLessThanZero()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.CreatePortfolio(new PortfolioDTO { PercentWins = -1 }, "");
         }
@@ -391,7 +393,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(m => m.Delete(It.IsAny<int>()))
                 .Callback<int>(i => ListPortfolios.RemoveAll(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.DeletePortfolio(1);
 
@@ -404,7 +406,7 @@ namespace UnitTests.Tests
         public void CanNotDeletePortfolioByNullId()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.DeletePortfolio(null);
         }
@@ -417,7 +419,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.DeletePortfolio(5);
         }
@@ -434,7 +436,7 @@ namespace UnitTests.Tests
                 ListPortfolios[index] = p;
             });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             #region
             PortfolioDTO updatePortfolio = new PortfolioDTO
@@ -467,7 +469,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
             portfolioService.UpdatePortfolio(new PortfolioDTO { Id =1, PercentWins = -1 });
         }
@@ -478,9 +480,9 @@ namespace UnitTests.Tests
         public void CanNotUpdateNullReferencePortfolio()
         {
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
 
-            portfolioService.UpdatePortfolio(null);
+            portfolioService.UpdatePortfolio((PortfolioDTO)null);
         }
 
         [TestMethod]
@@ -491,7 +493,7 @@ namespace UnitTests.Tests
             portfolioRepository.Setup(c => c.IsExist(It.IsAny<int>()))
                 .Returns((int i) => ListPortfolios.Any(c => c.Id == i));
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
             
             portfolioService.UpdatePortfolio(new PortfolioDTO { Id = 5 });
         }
@@ -507,7 +509,7 @@ namespace UnitTests.Tests
                         portfolio.DisplayIndex = index;
                 });
             UnitOfWork.Setup(m => m.Portfolios).Returns(portfolioRepository.Object);
-            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map);
+            portfolioService = new PortfolioService(UnitOfWork.Object, validateService, customerService.Object, map, positionService.Object);
             var portfolios = new Dictionary<string, string>{
                 { "1", "2" },
                 { "2", "1" }

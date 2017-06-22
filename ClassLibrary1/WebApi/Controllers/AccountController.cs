@@ -329,29 +329,29 @@ namespace WebApi.Controllers
             return logins;
         }
 
-        //[AllowAnonymous]
-        //[Route("api/Account/Register")]
-        //public async Task<IHttpActionResult> Register(RegisterModel model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    try
-        //    {
-        //        Mapper.Initialize(cfg => cfg.CreateMap<RegisterModel, UserDTO>()
-        //        .ForMember("Role", opt => opt.MapFrom(src => "user")));
-        //        UserDTO userDto = Mapper.Map<RegisterModel, UserDTO>(model);
+        [AllowAnonymous]
+        [Route("api/Account/Register")]
+        public async Task<IHttpActionResult> Register(RegisterModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                Mapper.Initialize(cfg => cfg.CreateMap<RegisterModel, UserDTO>()
+                .ForMember("Role", opt => opt.MapFrom(src => "user")));
+                UserDTO userDto = Mapper.Map<RegisterModel, UserDTO>(model);
 
-        //        await UserService.CreateAsync(userDto);
-        //    }
-        //    catch (ValidationException ex)
-        //    {
-        //        ModelState.AddModelError(ex.Property, ex.Message);
-        //    }
+                await UserService.CreateAsync(userDto);
+            }
+            catch (ValidationException ex)
+            {
+                ModelState.AddModelError(ex.Property, ex.Message);
+            }
 
-        //    return Ok();
-        //}
+            return Ok();
+        }
 
 
         // POST api/Account/Register
