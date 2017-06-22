@@ -32,9 +32,10 @@ namespace ConsoleApplicationForTestingAPI
 
         static async Task RunAsync()
         {
-            userService.GetUserInfo();
-            var sd = await portfolioService.GetAllPortfolio();
-            portfolioService.ShowPortfolios(sd.ToList());
+            //userService.GetUserInfo();
+            //var sd = await portfolioService.GetAllPortfolio();
+            //portfolioService.ShowPortfolios(sd.ToList());
+            await positionService.UpdateAllPosition();
         }
 
         static HttpClient CreateClient(string accessToken = "")

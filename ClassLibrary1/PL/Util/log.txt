@@ -7264,3 +7264,94 @@ Parameter name: input
 2017-06-16 13:14:58,659 [10] ERROR PL.Controllers.PositionController http://localhost:22860/api/Values not found
 2017-06-19 13:43:57,730 [11] ERROR PL.Controllers.ErrorController http://localhost:22860/Error/Http404 not found
 2017-06-19 13:54:16,922 [12] ERROR PL.Controllers.ErrorController http://localhost:22860/Error/Http404 not found
+2017-06-22 14:50:25,086 [11] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:51:25,070 [13] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:54:46,108 [14] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:56:32,272 [21] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|The Percenty Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:57:40,949 [25] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|The Percenty Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:58:37,372 [17] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|The Percenty Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:59:05,723 [17] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|The Percenty Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:59:15,140 [25] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|The Percenty Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 14:59:20,508 [25] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Percenty Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 15:00:59,857 [20] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Weight value must be greater than 0 and less than or equal to 10,000.
+   at BLL.Services.ValidateService.Validate(PositionDTO position) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 20
+   at BLL.Services.PositionService.UpdatePosition(PositionDTO positionDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 152
+   at BLL.Services.PositionService.CreateOrUpdatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 66
+   at PL.Controllers.PositionController.Save(PositionModel position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\PositionController.cs:line 55
+2017-06-22 15:02:06,987 [20] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Weight value must be greater than 0 and less than or equal to 10,000.
+   at BLL.Services.ValidateService.Validate(PositionDTO position) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 20
+   at BLL.Services.PositionService.UpdatePosition(PositionDTO positionDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 152
+   at BLL.Services.PositionService.CreateOrUpdatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 66
+   at PL.Controllers.PositionController.Save(PositionModel position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\PositionController.cs:line 55
+2017-06-22 15:04:22,554 [28] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Weight value must be greater than 0 and less than or equal to 10,000.
+   at BLL.Services.ValidateService.Validate(PositionDTO position) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 20
+   at BLL.Services.PositionService.UpdatePosition(PositionDTO positionDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 152
+   at BLL.Services.PositionService.CreateOrUpdatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 66
+   at PL.Controllers.PositionController.Save(PositionModel position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\PositionController.cs:line 55
+2017-06-22 15:06:52,214 [44] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Weight value must be greater than 0 and less than or equal to 10,000.
+   at BLL.Services.ValidateService.Validate(PositionDTO position) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 20
+   at BLL.Services.PositionService.UpdatePosition(PositionDTO positionDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 152
+   at BLL.Services.PositionService.CreateOrUpdatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 66
+   at PL.Controllers.PositionController.Save(PositionModel position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\PositionController.cs:line 55
+2017-06-22 15:07:00,781 [54] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|The Percenty Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 15:07:03,178 [54] ERROR PL.Controllers.ViewController BLL.Helpers.ValidationException: The Money Precision value must be greater or equal to 0 and less than or equal to 8|
+   at BLL.Services.ValidateService.CheckForExceptions(IEnumerable`1 exceptionList) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 60
+   at BLL.Services.ValidateService.Validate(ViewDTO view) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 36
+   at BLL.Services.ViewService.UpdateView(ViewDTO viewDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 90
+   at BLL.Services.ViewService.CreateOrUpdateView(ViewDTO view, String userId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ViewService.cs:line 65
+   at PL.Controllers.ViewController.Save(ViewModel view) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\ViewController.cs:line 57
+2017-06-22 15:07:16,731 [54] ERROR PL.Controllers.PositionController BLL.Helpers.ValidationException: The Weight value must be greater than 0 and less than or equal to 10,000.
+   at BLL.Services.ValidateService.Validate(PositionDTO position) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\ValidateService.cs:line 20
+   at BLL.Services.PositionService.UpdatePosition(PositionDTO positionDto) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 152
+   at BLL.Services.PositionService.CreateOrUpdatePosition(PositionDTO position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\BLL\Services\PositionService.cs:line 66
+   at PL.Controllers.PositionController.Save(PositionModel position, Nullable`1 portfolioId) in D:\project\git\Invest-site\ClassLibrary1\PL\Controllers\PositionController.cs:line 55

@@ -153,9 +153,18 @@ namespace BLL.Services
             var portfolio = db.Portfolios.GetPortfolioQuery(id.Value).FirstOrDefault();
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            foreach (var Id in portfolio.Positions.Select(p=>p.Id))
+            var transaction = db.BeginTransaction();
+            try
             {
-                positionService.UpdateOnlyPosition(Id);
+                foreach (var Id in portfolio.Positions.Select(p => p.Id))
+                {
+                    positionService.UpdateOnlyPosition(Id);
+                }
+                db.Commit(transaction);
+            }
+            catch (Exception)
+            {
+                db.RollBack(transaction);
             }
             RecalculatePortfolioValue(id);
         }

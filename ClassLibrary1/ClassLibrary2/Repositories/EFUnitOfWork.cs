@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using DAL.ApplicationManager;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -183,6 +184,21 @@ namespace DALEF.Repositories
         {
             db.SaveChanges();
         }
+
+        public DbContextTransaction BeginTransaction()
+        {
+            return db.Database.BeginTransaction();
+        }
+
+        public void Commit(DbContextTransaction transaction)
+        {
+            transaction.Commit();
+        }
+        public void RollBack(DbContextTransaction transaction)
+        {
+            transaction.Rollback();
+        }
+
         public async Task SaveAsync() 
         {
             await db.SaveChangesAsync();

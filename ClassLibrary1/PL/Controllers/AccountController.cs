@@ -15,6 +15,7 @@ using Microsoft.Owin.Security;
 using PL.Models;
 using BLL.Resource;
 using BLL.Infrastructure;
+using PL.Util;
 
 namespace PL.Controllers
 {
@@ -85,7 +86,11 @@ namespace PL.Controllers
                 }
                 catch (ValidationException ex)
                 {
-                    ModelState.AddModelError(ex.Property, ex.Message);
+                    var exceptions = HelperService.ParseExceptionList(ex);
+                    foreach (var exception in exceptions)
+                    {
+                        ModelState.AddModelError(exception.Key, exception.Value);
+                    }
                 }
             }
             return View(model);

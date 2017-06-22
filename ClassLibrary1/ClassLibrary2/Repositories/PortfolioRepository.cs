@@ -31,21 +31,32 @@ namespace DALEF.Repositories
 
         public void RecalculatePortfolioValue(int id)
         {
-            var portfolio = dbSet.Find(id);
-            portfolio.PortfolioValue = portfolio.Positions.Sum(p => p.AbsoluteGain);
-            portfolio.Quantity = portfolio.Positions.Count();
-            portfolio.LastUpdateDate = DateTime.Now;
-            portfolio.PercentWins = GetPercentWins(id);
-            portfolio.BiggestWinner =  portfolio.Positions.DefaultIfEmpty().Max(p => p?.Gain ?? 0);
-            portfolio.BiggestLoser = portfolio.Positions.DefaultIfEmpty().Min(p => p?.Gain ?? 0);
-            portfolio.AvgGain = portfolio.Positions.DefaultIfEmpty().Average(p => p?.Gain ?? 0);
-            portfolio.MonthAvgGain = portfolio.Positions
-                .Where(p => p.OpenDate.Month <= DateTime.Today.Month && p.OpenDate.Year <= DateTime.Today.Year)
-                .Where(p => p.CloseDate == null || p.CloseDate.Value.Month >= DateTime.Today.Month && p.CloseDate.Value.Year >= DateTime.Today.Year)
-                .DefaultIfEmpty()
-                .Average(p => p == null ? 0 : p.Gain);
-            Update(portfolio);
-            db.SaveChanges();
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    var portfolio = dbSet.Find(id);
+                    portfolio.PortfolioValue = portfolio.Positions.Sum(p => p.AbsoluteGain);
+                    portfolio.Quantity = portfolio.Positions.Count();
+                    portfolio.LastUpdateDate = DateTime.Now;
+                    portfolio.PercentWins = GetPercentWins(id);
+                    portfolio.BiggestWinner = portfolio.Positions.DefaultIfEmpty().Max(p => p?.Gain ?? 0);
+                    portfolio.BiggestLoser = portfolio.Positions.DefaultIfEmpty().Min(p => p?.Gain ?? 0);
+                    portfolio.AvgGain = portfolio.Positions.DefaultIfEmpty().Average(p => p?.Gain ?? 0);
+                    portfolio.MonthAvgGain = portfolio.Positions
+                        .Where(p => p.OpenDate.Month <= DateTime.Today.Month && p.OpenDate.Year <= DateTime.Today.Year)
+                        .Where(p => p.CloseDate == null || p.CloseDate.Value.Month >= DateTime.Today.Month && p.CloseDate.Value.Year >= DateTime.Today.Year)
+                        .DefaultIfEmpty()
+                        .Average(p => p == null ? 0 : p.Gain);
+                    Update(portfolio);
+                    db.SaveChanges();
+                    transaction.Commit();
+                }
+                catch (Exception)
+                {
+                    transaction.Rollback();
+                }
+            }
         }
 
         public decimal GetPercentWins(int id)

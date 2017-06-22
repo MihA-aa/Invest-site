@@ -298,6 +298,19 @@ function MyAlert(message) {
 }
 
 function showClientError(propName, message) {
+    if(propName.indexOf('|') == -1){
+      showValidateError(propName, message)
+      return;
+    }
+    var properties = propName.split('|');
+    var messages = message.split('|');
+    console.log(properties)
+    for (var i = 0; i < properties.length -1; i++) {
+      showValidateError(properties[i],messages[i]);
+    };
+}
+
+function showValidateError(propName, message){
     $("#"+propName).removeClass("valid")
      .addClass( "input-validation-error" );
     $("#"+propName).next().removeClass("field-validation-valid")

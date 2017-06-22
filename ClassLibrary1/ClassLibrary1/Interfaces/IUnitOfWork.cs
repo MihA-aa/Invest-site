@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using DAL.ApplicationManager;
 using DAL.Entities;
 using System.Threading.Tasks;
@@ -25,5 +26,8 @@ namespace DAL.Interfaces
 
         void Save();
         Task SaveAsync();
+        DbContextTransaction BeginTransaction();
+        void Commit(DbContextTransaction transaction);
+        void RollBack(DbContextTransaction transaction);
     }
 }
