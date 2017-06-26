@@ -46,10 +46,11 @@ namespace PL.Controllers
         [HttpPost]
         public ActionResult Save(PositionModel position, int? portfolioId)
         {
-            bool status = true;
+            bool status = false;
             string message="", property="";
             if (ModelState.IsValid)
             {
+                status = true;
                 try
                 {
                     positionService.CreateOrUpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId);
@@ -76,7 +77,7 @@ namespace PL.Controllers
             catch (Exception ex)
             {
                 logger.Error(ex.ToString());
-                return HttpNotFound();
+                return RedirectToAction("Http404", "Error");
             }
             return PartialView();
         }

@@ -102,3 +102,5 @@ D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\DAL.pdb
 D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\DALEF.pdb
 D:\project\git\Invest-site\ClassLibrary1\WebApi\obj\Debug\WebApi.dll
 D:\project\git\Invest-site\ClassLibrary1\WebApi\obj\Debug\WebApi.pdb
+D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\WebApi.dll.CodeAnalysisLog.xml
+D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\WebApi.dll.lastcodeanalysissucceeded

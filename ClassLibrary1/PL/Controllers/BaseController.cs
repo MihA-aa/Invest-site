@@ -15,9 +15,16 @@ namespace PL.Controllers
         protected ILog logger;
         public BaseController()
         {
-            logger = LogManager.GetLogger(Type.GetType("PL.Controllers." + this.GetType().Name));
+            try
+            {
+                logger = LogManager.GetLogger(Type.GetType("PL.Controllers." + this.GetType().Name));
+            }
+            catch (Exception)
+            {
+                logger = LogManager.GetLogger("Unit test");
+            }
         }
-        protected IMapper Mapper
+        public  virtual IMapper Mapper
         {
             get
             {

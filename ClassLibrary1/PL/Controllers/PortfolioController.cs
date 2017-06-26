@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
+using BLL.Helpers;
 using Microsoft.AspNet.Identity;
 using PL.Models;
 using log4net;
@@ -28,8 +29,15 @@ namespace PL.Controllers
         [HttpPost]
         public ActionResult CreateUpdatePortfolio(PortfolioModel portfolioModel)
         {
-            var portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);
-            TempData["PortfolioId"] = portfolioService.CreateOrUpdatePortfolio(portfolioDto, User.Identity.GetUserId());
+            try
+            { 
+                var portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);
+                TempData["PortfolioId"] = portfolioService.CreateOrUpdatePortfolio(portfolioDto, User.Identity.GetUserId());
+            }
+            catch (ValidationException ex)
+            {
+                logger.Error(ex.ToString());
+            }
             return RedirectToAction("Index", "Home");
         }
 

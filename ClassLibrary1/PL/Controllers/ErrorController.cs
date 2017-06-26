@@ -4,11 +4,16 @@ using System.Linq;
 using System.Web;
 using log4net;
 using System.Web.Mvc;
+using AutoMapper;
 
 namespace PL.Controllers
 {
-    public class ErrorController : BaseController
+    public class ErrorController :BaseController
     {
+        public ErrorController()
+        {
+            LogManager.GetLogger(Type.GetType("PL.Controllers." + this.GetType().Name));
+        }
         public ActionResult General(Exception exception)
         {
             logger.Error(exception.ToString());

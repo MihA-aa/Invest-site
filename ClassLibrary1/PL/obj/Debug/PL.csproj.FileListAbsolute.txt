@@ -259,3 +259,8 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\Microsoft.AspNet.Identity.Entity
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.pdb
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.Ado.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.AspNet.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.Core.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.EF6.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.Mvc5.dll

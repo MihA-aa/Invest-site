@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Core;
 using Autofac.Integration.Mvc;
+using AutoMapper;
 using BLL.Infrastructure;
 using BLL.Interfaces;
 using BLL.Services;
@@ -21,6 +22,7 @@ namespace PL.Util
             
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
             builder.RegisterModule(new ServiceModule("DefaultConnection", "test"));
+            //builder.Register(_ => MvcApplication.MapperConfiguration.CreateMapper()).As<IMapper>().SingleInstance();
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication)
                 .As<IAuthenticationManager>();
 

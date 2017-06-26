@@ -89,7 +89,3 @@ function OpenTampleteTablePopup(pageUrl) {
 tableViewTampleteColumnManagement.rowReordering({ 
     sURL: "/Nav/UpdateColumnOrder" });
 });
-
-function buildColumnSearchData(){
-    return {"id" : columnTampleteIndex};
-}
