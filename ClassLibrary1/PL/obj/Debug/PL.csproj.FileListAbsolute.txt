@@ -264,4 +264,8 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.AspNet.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.Core.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.EF6.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Glimpse.Mvc5.dll
-D:\project\git\Invest-site\ClassLibrary1\PL\bin\DotNet.Highcharts.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highstock.Web.Mvc.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.MVC.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.pdb
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.MVC.pdb

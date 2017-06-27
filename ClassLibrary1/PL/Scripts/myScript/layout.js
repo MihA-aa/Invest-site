@@ -458,7 +458,7 @@ function parseTradeStatus(data){
 }
 
 function getActionLinkForSymbol(data, row){
-    return '<a class="popup" href="/Position/ChartOfGain/'+ row.Id +'">'+ data +'</a>';
+    return '<a target="_blank" href="/Position/ChartOfGain/'+ row.Id +'">'+ data +'</a>';
 }
 
 function getActionLink(data){

@@ -12,6 +12,7 @@ using BLL.Interfaces;
 using PL.Models;
 using log4net;
 using BLL.Infrastructure;
+using Highsoft.Web.Mvc.Stocks;
 using PL.Util;
 
 namespace PL.Controllers
@@ -102,7 +103,9 @@ namespace PL.Controllers
         public ActionResult ChartOfGain([Bind(Prefix = "id")]int positionId)
         {
             var chart = positionService.GetChartForPosition(positionId);
-            return PartialView(chart);
+            ViewData["sybolData"] = chart.Select(c => new LineSeriesData {X = c.Key, Y = (double) c.Value}).ToList();
+            ViewData["Position"] = positionService.GetPosition(positionId).Name;
+            return View();
         }
     }
 }

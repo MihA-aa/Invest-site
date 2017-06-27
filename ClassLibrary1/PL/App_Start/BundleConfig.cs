@@ -24,6 +24,12 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/jQueryUI").Include(
                         "~/Scripts/jquery-ui-1.12.1.min.js"));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
+                        "~/Scripts/highstock.js",
+                        "~/Scripts/highcharts.js"));
+
+
             bundles.Add(new ScriptBundle("~/bundles/myScriptLayot").Include(
                         "~/Scripts/myScript/layout.js"));
 

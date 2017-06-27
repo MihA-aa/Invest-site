@@ -112,7 +112,7 @@ namespace BLL.Services
             return position;
         }
 
-        public Highcharts GetChartForPosition(int? id)
+        public Dictionary<double, decimal> GetChartForPosition(int? id)
         {
             if (id == null)
                 throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
@@ -121,15 +121,12 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PositionNotFound, "");
             var tradeInfo = tradeSybolService.GetDateForSymbolInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now,
                 position.SymbolId);
-            var dates =  tradeInfo.Select(d=>d.TradeDate.ToString());
+            var dates = tradeInfo.Select(d => HelperService.ConvertToUnixTimestamp(d.TradeDate)*1000);
             var gains = tradeInfo.Select(d => calculationService.GetGain(d.Price, position.ClosePrice,
-                                           position.OpenPrice, position.OpenWeight, d.Dividends, position.TradeType))
-                                           .Cast<Object>().ToArray();
-            var chart = new Highcharts("chart")
-                .SetXAxis(new XAxis {Categories = dates.ToArray(), Type = AxisTypes.Datetime, Min = 6, Max=10})
-                .SetSeries(new Series {Data = new Data(gains), Name = position.Name})
-                .SetTitle(new Title {Text = "Chart of Gain"});
-            return chart;
+                             position.OpenPrice, position.OpenWeight, d.Dividends, position.TradeType));
+            var dic = dates.Zip(gains, (k, v) => new { k, v })
+              .ToDictionary(x => x.k, x => x.v);
+            return dic;
         }
 
         public void CreatePosition(PositionDTO positionDto, int? portfolioId)
