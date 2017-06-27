@@ -16,6 +16,8 @@ namespace BLL.Interfaces
         TradeInforamation GetMaxGainForSymbolBetweenDate(DateTime dateFrom, DateTime dateTo, int symbolId,
             TradeTypesDTO type);
 
+        IEnumerable<TradeInforamation> GetDateForSymbolInDateInterval(DateTime dateFrom, DateTime dateTo, int symbolId);
+
         TradeSybolViewDTO GetPriceAndDateLastUpdate(int symbolId);
     }
 }

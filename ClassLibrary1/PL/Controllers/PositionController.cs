@@ -98,5 +98,11 @@ namespace PL.Controllers
             }
             return new JsonResult { Data = new { status = status } };
         }
+        
+        public ActionResult ChartOfGain([Bind(Prefix = "id")]int positionId)
+        {
+            var chart = positionService.GetChartForPosition(positionId);
+            return PartialView(chart);
+        }
     }
 }

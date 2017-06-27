@@ -70,5 +70,4 @@ D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.Resource.Resource.res
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.csproj.GenerateResource.Cache
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.pdb
-D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\BLL.dll.CodeAnalysisLog.xml
-D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\BLL.dll.lastcodeanalysissucceeded
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\DotNet.Highcharts.dll

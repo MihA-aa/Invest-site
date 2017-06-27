@@ -8,6 +8,11 @@ using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
+using DotNet.Highcharts;
+using DotNet.Highcharts.Enums;
+using DotNet.Highcharts.Helpers;
+using DotNet.Highcharts.Options;
+using Position = DAL.Entities.Position;
 
 namespace BLL.Services
 {
@@ -105,6 +110,26 @@ namespace BLL.Services
                 position.LastUpdatePrice = info.TradeIndex;
             }
             return position;
+        }
+
+        public Highcharts GetChartForPosition(int? id)
+        {
+            if (id == null)
+                throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
+            var position = IMapper.Map<Position, PositionDTO>(db.Positions.Get(id.Value));
+            if (position == null)
+                throw new ValidationException(Resource.Resource.PositionNotFound, "");
+            var tradeInfo = tradeSybolService.GetDateForSymbolInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now,
+                position.SymbolId);
+            var dates =  tradeInfo.Select(d=>d.TradeDate.ToString());
+            var gains = tradeInfo.Select(d => calculationService.GetGain(d.Price, position.ClosePrice,
+                                           position.OpenPrice, position.OpenWeight, d.Dividends, position.TradeType))
+                                           .Cast<Object>().ToArray();
+            var chart = new Highcharts("chart")
+                .SetXAxis(new XAxis {Categories = dates.ToArray(), Type = AxisTypes.Datetime, Min = 6, Max=10})
+                .SetSeries(new Series {Data = new Data(gains), Name = position.Name})
+                .SetTitle(new Title {Text = "Chart of Gain"});
+            return chart;
         }
 
         public void CreatePosition(PositionDTO positionDto, int? portfolioId)

@@ -46,5 +46,12 @@ namespace DALEF.Repositories
                                             dateFrom.ToString("yyyy-MM-dd"), dateTo.ToString("yyyy-MM-dd"), symbolId);
             return db.Database.SqlQuery<TradeInforamation>(myQuery2).ToList();
         }
+        public IEnumerable<TradeInforamation> GetDateForSymbolInDateInterval(DateTime dateFrom, DateTime dateTo, int symbolId)
+        {
+            var myQuery2 = String.Format("SELECT * FROM getPriceDividendForSymbolInDateInterval ('{0}', '{1}', {2})",
+                                            dateFrom.ToString("yyyy-MM-dd"), dateTo.ToString("yyyy-MM-dd"), symbolId);
+            return db.Database.SqlQuery<TradeInforamation>(myQuery2).ToList();
+        }
+        
     }
 }

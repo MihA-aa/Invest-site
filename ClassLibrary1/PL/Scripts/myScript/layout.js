@@ -21,17 +21,17 @@ $(function () {
         $('#OpenDateFromDatetimepicker').data("DateTimePicker").maxDate(e.date);
     });
 
-    $('#CloseDateToDatetimepicker').datetimepicker({
+    $('#CloseDateFromDatetimepicker').datetimepicker({
         format: 'DD/MM/YYYY'
     });
-    $('#datetimepicker9').datetimepicker({
+    $('#CloseDateToDatetimepicker').datetimepicker({
         format: 'DD/MM/YYYY',
         useCurrent: false
     });
-    $("#CloseDateToDatetimepicker").on("dp.change", function (e) {
-        $('#datetimepicker9').data("DateTimePicker").minDate(e.date);
+    $("#CloseDateFromDatetimepicker").on("dp.change", function (e) {
+        $('#CloseDateToDatetimepicker').data("DateTimePicker").minDate(e.date);
     });
-    $("#datetimepicker9").on("dp.change", function (e) {
+    $("#CloseDateToDatetimepicker").on("dp.change", function (e) {
         $('#CloseDateToDatetimepicker').data("DateTimePicker").maxDate(e.date);
     });
 
@@ -263,11 +263,14 @@ function RenderMatching(result) {
       switch (result.columns[index].format) 
         {
           case "Linked":
-          result.columns[index].render = function (data) 
+          result.columns[index].render = function (data, type, row) 
           {
             if(result.columns[index].name == "OpenDate" || result.columns[index].name == "CloseDate"
              || result.columns[index].name =="LastUpdateDate"){
                 return getActionLink(parseDate(data, result.dateFormat));
+            }
+            else if(result.columns[index].name == "SymbolName"){
+              return getActionLinkForSymbol(data, row);
             }
             else{
                 return getActionLink(data);
@@ -452,6 +455,10 @@ function parseTradeStatus(data){
   default:
     return( ' ' );
     }
+}
+
+function getActionLinkForSymbol(data, row){
+    return '<a class="popup" href="/Position/ChartOfGain/'+ row.Id +'">'+ data +'</a>';
 }
 
 function getActionLink(data){

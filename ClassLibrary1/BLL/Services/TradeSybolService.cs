@@ -33,5 +33,10 @@ namespace BLL.Services
             else
                 return tradeDates.Skip(1).FirstOrDefault();
         }
+
+        public IEnumerable<TradeInforamation> GetDateForSymbolInDateInterval(DateTime dateFrom, DateTime dateTo, int symbolId)
+        {
+            return db.TradeSybols.GetDateForSymbolInDateInterval(dateFrom, dateTo, symbolId);
+        }
     }
 }

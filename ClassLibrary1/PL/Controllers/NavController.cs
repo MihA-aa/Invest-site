@@ -51,7 +51,6 @@ namespace PL.Controllers
             return PartialView(views);
         }
 
-
         public ActionResult _General(int? id)
         {
             if(id == null)

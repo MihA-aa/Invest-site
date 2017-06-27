@@ -158,3 +158,4 @@ D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\System.Web.Optimiza
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\log4net.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Autofac.Integration.Mvc.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\DotNet.Highcharts.dll
