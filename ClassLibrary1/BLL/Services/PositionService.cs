@@ -22,7 +22,7 @@ namespace BLL.Services
         ICalculationService calculationService { get; }
 
         public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tss, 
-                                                        ICalculationService cs, IMapper map) : base(uow, vd, map)
+                               ICalculationService cs, IMapper map) : base(uow, vd, map)
         {
             tradeSybolService = tss;
             calculationService = cs;
@@ -92,11 +92,11 @@ namespace BLL.Services
             position.Gain = calculationService.GetGain(position.CurrentPrice, position.ClosePrice,
                 position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
             var tradeInfo = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now,
-                position.SymbolId, position.TradeType);
+                                                                             position.SymbolId, position.TradeType);
             if (tradeInfo != null)
             {
-                position.MaxGain = calculationService.GetGain(tradeInfo.Price, position.ClosePrice,
-                    position.OpenPrice, position.OpenWeight, tradeInfo.Dividends, position.TradeType);
+                position.MaxGain = calculationService.GetGain(tradeInfo.Price, position.ClosePrice, position.OpenPrice, 
+                                                              position.OpenWeight, tradeInfo.Dividends, position.TradeType);
             }
             TradeSybolViewDTO info = tradeSybolService.GetPriceAndDateLastUpdate(position.SymbolId);
             if (info == null)

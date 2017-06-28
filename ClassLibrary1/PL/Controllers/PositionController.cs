@@ -103,9 +103,28 @@ namespace PL.Controllers
         public ActionResult ChartOfGain([Bind(Prefix = "id")]int positionId)
         {
             var chart = positionService.GetChartForPosition(positionId);
-            ViewData["sybolData"] = chart.Select(c => new LineSeriesData {X = c.Key, Y = (double) c.Value}).ToList();
+            var newData = chart.Select(c => new LineSeriesData {X = c.Key, Y = (double) c.Value}).ToList();
+            //newData.OrderByDescending(s=>s.Y).First().Marker.Symbol = "url(http://www.highcharts.com/demo/gfx/sun.png)";
+            ViewBag.FlagsData = new List<FlagsSeriesData>
+            {
+                new FlagsSeriesData
+                {
+                    X = newData.OrderByDescending(s=>s.Y).First().X
+                }
+            };
+
+            ViewData["sybolData"] = newData;
             ViewData["Position"] = positionService.GetPosition(positionId).Name;
-            return View();
+            return View(ViewBag);
+        }
+
+        public double DateToUTC(DateTime theDate)
+        {
+            DateTime d1 = new DateTime(1970, 1, 1);
+            DateTime d2 = theDate.ToUniversalTime();
+            TimeSpan ts = new TimeSpan(d2.Ticks - d1.Ticks);
+
+            return ts.TotalMilliseconds;
         }
     }
 }

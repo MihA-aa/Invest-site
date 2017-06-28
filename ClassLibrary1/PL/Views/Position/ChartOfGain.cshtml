@@ -1,12 +1,14 @@
 ﻿
 @using Highsoft.Web.Mvc.Stocks
-
+<style>
+    image[href="http://www.highcharts.com/demo/gfx/sun.png"] { visibility: visible; }
+</style>
 @(Html.Highsoft().Highstock(
         new Highstock
         {
             RangeSelector = new RangeSelector
             {
-                Selected = 1
+                Selected = 0
             },
             Title = new Title
             {
@@ -18,11 +20,24 @@
                 {
                     Data = ViewData["sybolData"] as List<LineSeriesData>,
                     Name =  ViewData["Position"] as string,
+                    Id = "currency",
                     Tooltip = new LineSeriesTooltip
                     {
                         ValueDecimals = 2
                     }
+                },
+                new FlagsSeries
+                {
+                    Data = ViewBag.FlagsData as List<FlagsSeriesData>,
+                    Title = "Best Position",
+                    OnSeries = "currency",
+                    Shape = FlagsSeriesShape.Flag
                 }
+            },
+            Tooltip = new Tooltip
+            {
+                ValueDecimals = 2,
+                Shared = true
             },
             PlotOptions = new PlotOptions
             {
@@ -32,5 +47,5 @@
                 }
             }
         },
-        "chart"
+            "chart"
       ))
