@@ -1,6 +1,7 @@
 ﻿<ul class="nav nav-tabs" id="myTab">
     <li class="active"><a href="#customerManagement" data-toggle="tab">Customer Management</a></li>
     <li><a href="#userManagement" data-toggle="tab">User Management</a></li>
+    <li><a href="#recordManagement" data-toggle="tab">Event Record Management</a></li>
 </ul>
 <div class="tab-content">
     <div class="tab-pane fade in active" id="customerManagement">
@@ -8,5 +9,8 @@
     </div>
     <div class="tab-pane fade in" id="userManagement">
         @Html.Partial("UserManagementTable")
+    </div>
+    <div class="tab-pane fade in" id="recordManagement">
+        @Html.Partial("RecordManagementTable")
     </div>
 </div>

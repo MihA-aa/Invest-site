@@ -60,6 +60,9 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/myScriptCustomerManagement").Include(
                         "~/Scripts/myScript/customer-management.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/myScriptRecordManagement").Include(
+                        "~/Scripts/myScript/record-management.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/myScriptProfileManagement").Include(
                         "~/Scripts/myScript/profile-management.js"));
             

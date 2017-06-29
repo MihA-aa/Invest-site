@@ -13,6 +13,7 @@ namespace PL.Models
         public bool Successfully { get; set; }
         public int EntityId { get; set; }
         public string UserId { get; set; }
+        public DateTime DateTime { get; set; }
         public EntitiesDTO Entity { get; set; }
         public OperationsDTO Operation { get; set; }
     }

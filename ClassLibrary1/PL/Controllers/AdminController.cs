@@ -18,12 +18,14 @@ namespace PL.Controllers
         private ICustomerService customerService;
         private IProfileService profileService;
         private IUserService userService;
+        private IRecordService recordService;
 
-        public AdminController(ICustomerService customerService, IProfileService profileService, IUserService userService)
+        public AdminController(ICustomerService cs, IProfileService ps, IUserService us, IRecordService rs)
         {
-            this.customerService = customerService;
-            this.profileService = profileService;
-            this.userService = userService;
+            customerService = cs;
+            profileService = ps;
+            userService = us;
+            recordService = rs;
         }
         public ActionResult Index()
         {
@@ -59,6 +61,33 @@ namespace PL.Controllers
             totalRecords = customersDto.Count();
             customersDto = customersDto.Skip(skip).Take(pageSize).ToList();
             var data = Mapper.Map<IEnumerable<CustomerDTO>, List<CustomerModel>>(customersDto);
+            return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult LoadRecordData()
+        {
+            var draw = Request.Form?.GetValues("draw").FirstOrDefault();
+            var start = Request.Form.GetValues("start").FirstOrDefault();
+            var length = Request.Form.GetValues("length").FirstOrDefault();
+
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+
+            int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            int skip = start != null ? Convert.ToInt32(start) : 0;
+            int totalRecords = 0;
+
+            var recordsDto = recordService.GeRecords();
+
+            if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            {
+                recordsDto = recordsDto.OrderBy(sortColumn + " " + sortColumnDir);
+            }
+
+            totalRecords = recordsDto.Count();
+            recordsDto = recordsDto.Skip(skip).Take(pageSize).ToList();
+            var data = Mapper.Map<IEnumerable<RecordDTO>, List<RecordModel>>(recordsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
 

@@ -805,6 +805,7 @@
     <Content Include="Views\Profile\Delete.cshtml" />
     <Content Include="Views\Account\UnassignedUser.cshtml" />
     <Content Include="Views\Position\ChartOfGain.cshtml" />
+    <Content Include="Views\Admin\RecordManagementTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

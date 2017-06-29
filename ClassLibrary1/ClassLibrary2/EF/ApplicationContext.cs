@@ -827,7 +827,7 @@ namespace DALEF.EF
                 Operation = Operations.Create,
                 Successfully = true,
                 EntityId = 1,
-                DateTime = DateTime.Now.AddDays(-1),
+                DateTime = DateTime.Now
              };
             Record record2 = new Record
             {
@@ -836,7 +836,7 @@ namespace DALEF.EF
                 Operation = Operations.Delete,
                 Successfully = false,
                 EntityId = 1,
-                DateTime = DateTime.Now.AddDays(-2),
+                DateTime = DateTime.Now
             };
             Record record3 = new Record
             {
@@ -845,7 +845,7 @@ namespace DALEF.EF
                 Operation = Operations.Update,
                 Successfully = true,
                 EntityId = 2,
-                DateTime = DateTime.Now.AddDays(-3),
+                DateTime = DateTime.Now
             };
             db.Records.Add(record1);
             db.Records.Add(record2);
