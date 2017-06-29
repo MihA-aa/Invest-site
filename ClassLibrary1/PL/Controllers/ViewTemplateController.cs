@@ -88,7 +88,7 @@ namespace PL.Controllers
             bool status = true;
             try
             {
-                viewTemplateService.DeleteViewTemplate(id);
+                viewTemplateService.DeleteViewTemplate(id, User.Identity.GetUserId());
             }
             catch (Exception ex)
             {

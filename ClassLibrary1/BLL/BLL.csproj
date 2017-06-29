@@ -74,8 +74,9 @@
     <Compile Include="DTO\ColumnFormatDTO.cs" />
     <Compile Include="DTO\CustomerDTO.cs" />
     <Compile Include="DTO\DividendDTO.cs" />
-    <Compile Include="DTO\Enums\ColumnNamesDTO.cs" />
     <Compile Include="DTO\Enums\DateFormatsDTO.cs" />
+    <Compile Include="DTO\Enums\EntitiesDTO.cs" />
+    <Compile Include="DTO\Enums\OperationsDTO.cs" />
     <Compile Include="DTO\Enums\SortingDTO.cs" />
     <Compile Include="DTO\Enums\SymbolsDTO.cs" />
     <Compile Include="DTO\Enums\TemplatePositionsDTO.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="DTO\PortfolioDTO.cs" />
     <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\ProfileDTO.cs" />
+    <Compile Include="DTO\RecordDTO.cs" />
     <Compile Include="DTO\SymbolViewDTO.cs" />
     <Compile Include="DTO\TradeSybolViewDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="Interfaces\IPortfolioService.cs" />
     <Compile Include="Interfaces\IPositionService.cs" />
     <Compile Include="Interfaces\IProfileService.cs" />
+    <Compile Include="Interfaces\IRecordService.cs" />
     <Compile Include="Interfaces\ISymbolViewService.cs" />
     <Compile Include="Interfaces\ITradeSybolService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -120,6 +123,7 @@
     <Compile Include="Services\PortfolioService.cs" />
     <Compile Include="Services\PositionService.cs" />
     <Compile Include="Services\ProfileService.cs" />
+    <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\SymbolViewService.cs" />
     <Compile Include="Services\TradeSybolService.cs" />
     <Compile Include="Services\UserService.cs" />

@@ -16,11 +16,11 @@ namespace BLL.Interfaces
         IEnumerable<PositionDTO> GetPositionsForUser(string id);
         Dictionary<double, decimal> GetChartForPosition(int? id);
         bool CheckAccess(string userId, int? portfolioId);
-        void CreatePosition(PositionDTO position, int? portfolioId);
-        void DeletePosition(int? id);
-        void UpdatePosition(PositionDTO position);
+        void CreatePosition(PositionDTO positionDto, int? portfolioId, string userId);
+        void DeletePosition(int? id, string userId);
+        void UpdatePosition(PositionDTO positionDto, string userId);
         void UpdateOnlyPosition(int? id);
-        void CreateOrUpdatePosition(PositionDTO position, int? portfolioId);
+        void CreateOrUpdatePosition(PositionDTO position, int? portfolioId, string userId);
         void AddPositionToPortfolio(Position position, int? portfolioId);
         PositionDTO CalculateAllParams(PositionDTO position);
         void UpdateAllPositionAndPortfolio();

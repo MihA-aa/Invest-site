@@ -55,6 +55,8 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<ProfileService>().As<IProfileService>().
                 InstancePerRequest();
+            builder.RegisterType<RecordService>().As<IRecordService>().
+                InstancePerRequest();
             builder.Register(_ => new AutoMapperConfiguration().Configure().CreateMapper()).As<IMapper>().SingleInstance();
             base.Load(builder);
         }

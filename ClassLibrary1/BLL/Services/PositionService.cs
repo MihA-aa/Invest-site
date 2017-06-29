@@ -8,10 +8,6 @@ using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
-using DotNet.Highcharts;
-using DotNet.Highcharts.Enums;
-using DotNet.Highcharts.Helpers;
-using DotNet.Highcharts.Options;
 using Position = DAL.Entities.Position;
 
 namespace BLL.Services
@@ -20,12 +16,14 @@ namespace BLL.Services
     {
         ITradeSybolService tradeSybolService { get; }
         ICalculationService calculationService { get; }
+        IRecordService recordService { get; }
 
         public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tss, 
-                               ICalculationService cs, IMapper map) : base(uow, vd, map)
+                               ICalculationService cs, IMapper map, IRecordService rs) : base(uow, vd, map)
         {
             tradeSybolService = tss;
             calculationService = cs;
+            recordService = rs;
         }
 
         public PositionDTO GetPosition(int? id)
@@ -63,55 +61,16 @@ namespace BLL.Services
             return false;
         }
 
-        public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId)
+        public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId, string userId)
         {
             if (position == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
             if (db.Positions.IsExist(position.Id))
-                UpdatePosition(position);
+                UpdatePosition(position, userId);
             else
-                CreatePosition(position, portfolioId);
+                CreatePosition(position, portfolioId, userId);
         }
-
-        public PositionDTO CalculateAllParams(PositionDTO position)
-        {
-            if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0) || position.CloseDate == null)
-            {
-                position.CloseDate = null;
-                position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
-            }
-            else
-            {
-                position.ClosePrice = tradeSybolService.GetPriceForDate(position.CloseDate.Value, position.SymbolId);
-                position.CurrentPrice = null;
-            }
-            var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);
-            position.Dividends = calculationService.GetDividends(dividends, position.OpenWeight);
-            position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
-                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
-            position.Gain = calculationService.GetGain(position.CurrentPrice, position.ClosePrice,
-                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
-            var tradeInfo = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now,
-                                                                             position.SymbolId, position.TradeType);
-            if (tradeInfo != null)
-            {
-                position.MaxGain = calculationService.GetGain(tradeInfo.Price, position.ClosePrice, position.OpenPrice, 
-                                                              position.OpenWeight, tradeInfo.Dividends, position.TradeType);
-            }
-            TradeSybolViewDTO info = tradeSybolService.GetPriceAndDateLastUpdate(position.SymbolId);
-            if (info == null)
-            {
-                position.LastUpdateDate = null;
-                position.LastUpdatePrice = null;
-            }
-            else
-            {
-                position.LastUpdateDate = info.TradeDate;
-                position.LastUpdatePrice = info.TradeIndex;
-            }
-            return position;
-        }
-
+        
         public Dictionary<double, decimal> GetChartForPosition(int? id)
         {
             if (id == null)
@@ -129,8 +88,9 @@ namespace BLL.Services
             return dic;
         }
 
-        public void CreatePosition(PositionDTO positionDto, int? portfolioId)
+        public void CreatePosition(PositionDTO positionDto, int? portfolioId, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Create, userId);
             if (positionDto == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
             if (portfolioId == null)
@@ -142,6 +102,8 @@ namespace BLL.Services
             AddPositionToPortfolio(position, portfolioId);
             db.Save();
             db.Portfolios.RecalculatePortfolioValue(portfolioId.Value);
+            recordService.SetEntityId(position.Id, recordId);
+            recordService.EstablishSuccess(recordId);
         }
 
         public void AddPositionToPortfolio(Position position, int? portfolioId)
@@ -155,18 +117,21 @@ namespace BLL.Services
             db.Portfolios.AddPositionToPortfolio(position, portfolioId.Value);
         }
 
-        public void DeletePosition(int? id)
+        public void DeletePosition(int? id, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Delete, userId, id ?? 0);
             if (id == null)
                 throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
             if (!db.Positions.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.PositionNotFound, "");
             db.Positions.Delete(id.Value);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
-        public void UpdatePosition(PositionDTO positionDto)
+        public void UpdatePosition(PositionDTO positionDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Update, userId, positionDto.Id);
             if (positionDto == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
             if (!db.Positions.IsExist(positionDto.Id))
@@ -179,6 +144,7 @@ namespace BLL.Services
             Portfolio portfolio = db.Portfolios.GetAll()
                 .FirstOrDefault(x => x.Positions.Any(p => p.Id == positionDto.Id));
             db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
+            recordService.EstablishSuccess(recordId);
         }
 
         public void UpdateOnlyPosition(int? id)
@@ -217,6 +183,45 @@ namespace BLL.Services
             {
                 db.Portfolios.RecalculatePortfolioValue(id);
             }
+        }
+
+        public PositionDTO CalculateAllParams(PositionDTO position)
+        {
+            if (position.CloseDate == new DateTime(1, 1, 1, 0, 0, 0) || position.CloseDate == null)
+            {
+                position.CloseDate = null;
+                position.CurrentPrice = tradeSybolService.GetPriceForDate(DateTime.Now.Date, position.SymbolId);
+            }
+            else
+            {
+                position.ClosePrice = tradeSybolService.GetPriceForDate(position.CloseDate.Value, position.SymbolId);
+                position.CurrentPrice = null;
+            }
+            var dividends = db.SymbolDividends.GetDividendsInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now, position.SymbolId);
+            position.Dividends = calculationService.GetDividends(dividends, position.OpenWeight);
+            position.AbsoluteGain = calculationService.GetAbsoluteGain(position.CurrentPrice, position.ClosePrice,
+                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+            position.Gain = calculationService.GetGain(position.CurrentPrice, position.ClosePrice,
+                position.OpenPrice, position.OpenWeight, position.Dividends, position.TradeType);
+            var tradeInfo = tradeSybolService.GetMaxGainForSymbolBetweenDate(position.OpenDate, position.CloseDate ?? DateTime.Now,
+                                                                             position.SymbolId, position.TradeType);
+            if (tradeInfo != null)
+            {
+                position.MaxGain = calculationService.GetGain(tradeInfo.Price, position.ClosePrice, position.OpenPrice,
+                                                              position.OpenWeight, tradeInfo.Dividends, position.TradeType);
+            }
+            TradeSybolViewDTO info = tradeSybolService.GetPriceAndDateLastUpdate(position.SymbolId);
+            if (info == null)
+            {
+                position.LastUpdateDate = null;
+                position.LastUpdatePrice = null;
+            }
+            else
+            {
+                position.LastUpdateDate = info.TradeDate;
+                position.LastUpdatePrice = info.TradeIndex;
+            }
+            return position;
         }
     }
 }

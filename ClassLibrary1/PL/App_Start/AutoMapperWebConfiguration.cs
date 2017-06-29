@@ -32,6 +32,7 @@ namespace PL.App_Start
                 .ForMember("DT_RowId", opt => opt.MapFrom(src => src.Id));
             CreateMap<ViewTemplateColumnModel, ViewTemplateColumnDTO>();
             CreateMap<ProfileDTO, ProfileModel>().ReverseMap();
+            CreateMap<RecordDTO, RecordModel>().ReverseMap();
         }
     }
 }

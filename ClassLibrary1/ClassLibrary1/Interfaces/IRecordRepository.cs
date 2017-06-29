@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Entities;
 
-namespace DAL.Enums
+namespace DAL.Interfaces
 {
-    public enum SetsOfFormats
+    public interface IRecordRepository : IRepository<Record>
     {
-        Percent,
-        Automatic,
-        Decimal
+        bool IsExist(int id);
     }
 }

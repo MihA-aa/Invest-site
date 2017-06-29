@@ -46,7 +46,7 @@ namespace PL.Controllers
         {
             try
             {
-                portfolioService.DeletePortfolio(id);
+                portfolioService.DeletePortfolio(id, User.Identity.GetUserId());
             }
             catch (Exception ex)
             {

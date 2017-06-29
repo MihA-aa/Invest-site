@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.Enums;
 using BLL.Helpers;
 using BLL.Infrastructure;
 using BLL.Interfaces;
@@ -16,9 +17,12 @@ namespace BLL.Services
     public class ViewTemplateService: BaseService, IViewTemplateService
     {
         ICustomerService customerService { get; }
-        public ViewTemplateService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs) : base(uow, vd, map)
+        IRecordService recordService { get; }
+        public ViewTemplateService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs,
+                                    IRecordService rs) : base(uow, vd, map)
         {
             customerService = cs;
+            recordService = rs;
         }
 
         public IEnumerable<ViewTemplateDTO> GetViewTemplates()
@@ -81,13 +85,14 @@ namespace BLL.Services
             if (viewTemplate == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
             if (db.ViewTemplates.IsExist(viewTemplate.Id))
-                UpdateViewTemplate(viewTemplate);
+                UpdateViewTemplate(viewTemplate, userId);
             else
                 CreateViewTemplate(viewTemplate, userId);
         }
 
         public void CreateViewTemplate(ViewTemplateDTO viewTemplateDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Create, userId);
             if (viewTemplateDto == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
             var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
@@ -96,10 +101,13 @@ namespace BLL.Services
             customer.ViewTemplates.Add(viewTemplate);
             db.ViewTemplates.Create(viewTemplate);
             db.Save();
+            recordService.SetEntityId(viewTemplate.Id, recordId);
+            recordService.EstablishSuccess(recordId);
         }
 
-        public void UpdateViewTemplate(ViewTemplateDTO viewTemplateDto)
+        public void UpdateViewTemplate(ViewTemplateDTO viewTemplateDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Update, userId);
             if (viewTemplateDto == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
             if (!db.ViewTemplates.IsExist(viewTemplateDto.Id))
@@ -108,6 +116,7 @@ namespace BLL.Services
             AddSortColumnToTemplate(viewTemplate, viewTemplate.SortColumnId);
             db.ViewTemplates.Update(viewTemplate);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
         public void AddSortColumnToTemplate(ViewTemplate template, int? columnId)
@@ -122,14 +131,16 @@ namespace BLL.Services
             template.SortColumn = column;
         }
 
-        public void DeleteViewTemplate(int? id)
+        public void DeleteViewTemplate(int? id, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Delete, userId);
             if (id == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateIdNotSet, "");
             if (!db.ViewTemplates.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
             db.ViewTemplates.Delete(id.Value);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
     }
 }

@@ -13,6 +13,7 @@ using PL.Models;
 using log4net;
 using BLL.Infrastructure;
 using Highsoft.Web.Mvc.Stocks;
+using Microsoft.AspNet.Identity;
 using PL.Util;
 
 namespace PL.Controllers
@@ -54,7 +55,8 @@ namespace PL.Controllers
                 status = true;
                 try
                 {
-                    positionService.CreateOrUpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId);
+                    positionService.CreateOrUpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position),
+                                                            portfolioId, User.Identity.GetUserId());
                 }
                 catch (ValidationException ex)
                 {
@@ -90,7 +92,7 @@ namespace PL.Controllers
             bool status = true;
             try
             {
-               positionService.DeletePosition(id);
+               positionService.DeletePosition(id, User.Identity.GetUserId());
             }
             catch (Exception ex)
             {
@@ -104,7 +106,6 @@ namespace PL.Controllers
         {
             var chart = positionService.GetChartForPosition(positionId);
             var newData = chart.Select(c => new LineSeriesData {X = c.Key, Y = (double) c.Value}).ToList();
-            //newData.OrderByDescending(s=>s.Y).First().Marker.Symbol = "url(http://www.highcharts.com/demo/gfx/sun.png)";
             ViewBag.FlagsData = new List<FlagsSeriesData>
             {
                 new FlagsSeriesData
@@ -116,15 +117,6 @@ namespace PL.Controllers
             ViewData["sybolData"] = newData;
             ViewData["Position"] = positionService.GetPosition(positionId).Name;
             return View(ViewBag);
-        }
-
-        public double DateToUTC(DateTime theDate)
-        {
-            DateTime d1 = new DateTime(1970, 1, 1);
-            DateTime d2 = theDate.ToUniversalTime();
-            TimeSpan ts = new TimeSpan(d2.Ticks - d1.Ticks);
-
-            return ts.TotalMilliseconds;
         }
     }
 }

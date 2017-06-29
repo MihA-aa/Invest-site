@@ -188,6 +188,22 @@
     <Compile Include="Migrations\201706141059035_13212312q.Designer.cs">
       <DependentUpon>201706141059035_13212312q.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706290950028_Addedrecords.cs" />
+    <Compile Include="Migrations\201706290950028_Addedrecords.Designer.cs">
+      <DependentUpon>201706290950028_Addedrecords.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706291022516_Addedrecords2.cs" />
+    <Compile Include="Migrations\201706291022516_Addedrecords2.Designer.cs">
+      <DependentUpon>201706291022516_Addedrecords2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706291052261_Addedrecords3.cs" />
+    <Compile Include="Migrations\201706291052261_Addedrecords3.Designer.cs">
+      <DependentUpon>201706291052261_Addedrecords3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706291239460_Addedrecords4.cs" />
+    <Compile Include="Migrations\201706291239460_Addedrecords4.Designer.cs">
+      <DependentUpon>201706291239460_Addedrecords4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ColumnFormatRepository.cs" />
@@ -199,6 +215,7 @@
     <Compile Include="Repositories\PortfolioRepository.cs" />
     <Compile Include="Repositories\PositionRepository.cs" />
     <Compile Include="Repositories\ProfileRepository.cs" />
+    <Compile Include="Repositories\RecordRepository.cs" />
     <Compile Include="Repositories\SymbolDividendRepository.cs" />
     <Compile Include="Repositories\SymbolViewRepository.cs" />
     <Compile Include="Repositories\TradeSybolRepository.cs" />
@@ -311,6 +328,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706141059035_13212312q.resx">
       <DependentUpon>201706141059035_13212312q.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706290950028_Addedrecords.resx">
+      <DependentUpon>201706290950028_Addedrecords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706291022516_Addedrecords2.resx">
+      <DependentUpon>201706291022516_Addedrecords2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706291052261_Addedrecords3.resx">
+      <DependentUpon>201706291052261_Addedrecords3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706291239460_Addedrecords4.resx">
+      <DependentUpon>201706291239460_Addedrecords4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

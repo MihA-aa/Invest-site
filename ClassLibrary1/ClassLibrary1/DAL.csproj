@@ -63,6 +63,7 @@
     <Compile Include="Entities\ColumnFormat.cs" />
     <Compile Include="Entities\Format.cs" />
     <Compile Include="Entities\Profile.cs" />
+    <Compile Include="Entities\Record.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\Portfolio.cs" />
@@ -74,10 +75,9 @@
     <Compile Include="Entities\ViewTemplate.cs" />
     <Compile Include="Entities\ViewTemplateColumn.cs" />
     <Compile Include="Entities\Views\SymbolView.cs" />
-    <Compile Include="Enums\ColumnNames.cs" />
     <Compile Include="Enums\DateFormats.cs" />
-    <Compile Include="Enums\Roles.cs" />
-    <Compile Include="Enums\SetsOfFormats.cs" />
+    <Compile Include="Enums\Entities.cs" />
+    <Compile Include="Enums\Operations.cs" />
     <Compile Include="Enums\Sorting.cs" />
     <Compile Include="Enums\Symbols .cs" />
     <Compile Include="Enums\TemplatePositions.cs" />
@@ -90,6 +90,7 @@
     <Compile Include="Interfaces\IPortfolioRepository.cs" />
     <Compile Include="Interfaces\IPositionRepository.cs" />
     <Compile Include="Interfaces\IProfileRepository.cs" />
+    <Compile Include="Interfaces\IRecordRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ISymbolDividendRepository.cs" />
     <Compile Include="Interfaces\ISymbolViewRepository.cs" />

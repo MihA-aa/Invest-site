@@ -89,7 +89,7 @@ namespace PL.Controllers
             bool status = true;
             try
             {
-                viewService.DeleteView(id);
+                viewService.DeleteView(id, User.Identity.GetUserId());
             }
             catch (Exception ex)
             {

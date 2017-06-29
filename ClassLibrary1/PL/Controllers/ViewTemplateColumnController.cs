@@ -9,6 +9,7 @@ using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
 using log4net;
+using Microsoft.AspNet.Identity;
 
 namespace PL.Controllers
 {
@@ -63,7 +64,7 @@ namespace PL.Controllers
                 try
                 {
                     var viewTemplateColumnDTO = Mapper.Map<ViewTemplateColumnModel, ViewTemplateColumnDTO>(viewTemplateColumn);
-                    viewTemplateColumnService.CreateOrUpdateViewTemplateColumn(viewTemplateColumnDTO, templateId);
+                    viewTemplateColumnService.CreateOrUpdateViewTemplateColumn(viewTemplateColumnDTO, templateId, User.Identity.GetUserId());
                 }
                 catch (ValidationException ex)
                 {
@@ -98,7 +99,7 @@ namespace PL.Controllers
             bool status = true;
             try
             {
-                viewTemplateColumnService.DeleteViewTemplateColumn(id);
+                viewTemplateColumnService.DeleteViewTemplateColumn(id, User.Identity.GetUserId());
             }
             catch (Exception ex)
             {

@@ -39,6 +39,7 @@ namespace BLL.Infrastructure
             CreateMap<Position, PositionDTO>().ReverseMap();
             CreateMap<Portfolio, PortfolioDTO>().ReverseMap();
             CreateMap<Customer, CustomerDTO>().ReverseMap();
+            CreateMap<Record, RecordDTO>().ReverseMap();
             CreateMap<Column, ColumnDTO>();
         }
     }

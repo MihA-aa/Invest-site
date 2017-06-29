@@ -33,6 +33,7 @@ namespace DALEF.EF
         public virtual DbSet<View> Views { get; set; }
         public virtual DbSet<ViewTemplateColumn> ViewTemplateColumns { get; set; }
         public virtual DbSet<Column> Columns { get; set; }
+        public virtual DbSet<Record> Records { get; set; }
     }
 
     public class StoreDbInitializer : DropCreateDatabaseIfModelChanges<ApplicationContext>
@@ -818,11 +819,44 @@ namespace DALEF.EF
             WallStreetDaily.Profiles.Add(clientProfile);
             #endregion
 
+            #region Records Inizialize
+            Record record1 = new Record
+            {
+                UserId = "1aaa023d-e950-47fc-9c3f-54fbffcc99cf",
+                Entity = Entities.Position,
+                Operation = Operations.Create,
+                Successfully = true,
+                EntityId = 1,
+                DateTime = DateTime.Now.AddDays(-1),
+             };
+            Record record2 = new Record
+            {
+                UserId = "1aaa023d-e950-47fc-9c3f-54fbffcc99cf",
+                Entity = Entities.Position,
+                Operation = Operations.Delete,
+                Successfully = false,
+                EntityId = 1,
+                DateTime = DateTime.Now.AddDays(-2),
+            };
+            Record record3 = new Record
+            {
+                UserId = "2da9e5e9-ee3e-473c-a131-c39050b26760",
+                Entity = Entities.Portfolio,
+                Operation = Operations.Update,
+                Successfully = true,
+                EntityId = 2,
+                DateTime = DateTime.Now.AddDays(-3),
+            };
+            db.Records.Add(record1);
+            db.Records.Add(record2);
+            db.Records.Add(record3);
+            #endregion
+
             try
             {
                 db.SaveChanges();
             }
-            catch (System.Data.Entity.Infrastructure.DbUpdateConcurrencyException ex)
+            catch (DbUpdateConcurrencyException ex)
             {
                 throw new Exception(ex.InnerException.ToString());
             }
@@ -835,7 +869,7 @@ namespace DALEF.EF
                 throw new Exception(ex.InnerException.ToString());
             }
 
-            catch (System.Data.Entity.Infrastructure.DbUpdateException ex) //DbContext
+            catch (DbUpdateException ex) //DbContext
             {
                 throw new Exception(ex.InnerException.ToString());
             }
@@ -843,7 +877,6 @@ namespace DALEF.EF
             catch (Exception ex)
             {
                 throw new Exception(ex.InnerException.ToString());
-                throw;
             }
 
 

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.Enums;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
@@ -15,10 +16,13 @@ namespace BLL.Services
     public class ViewService: BaseService, IViewService
     {
         ICustomerService customerService { get; }
+        IRecordService recordService { get; }
 
-        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs) : base(uow, vd, map)
+        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs,
+                           IRecordService rs) : base(uow, vd, map)
         {
             customerService = cs;
+            recordService = rs;
         }
 
         public IEnumerable<ViewDTO> GetViews()
@@ -62,13 +66,14 @@ namespace BLL.Services
             if (view == null)
                 throw new ValidationException(Resource.Resource.ViewNullReference, "");
             if (db.Views.IsExist(view.Id))
-                UpdateView(view);
+                UpdateView(view, userId);
             else
                 CreateView(view, userId);
         }
 
         public void CreateView(ViewDTO viewDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId);
             if (viewDto == null)
                 throw new ValidationException(Resource.Resource.ViewNullReference, "");
             validateService.Validate(viewDto);
@@ -79,10 +84,13 @@ namespace BLL.Services
             customer.Views.Add(view);
             db.Views.Create(view);
             db.Save();
+            recordService.SetEntityId(view.Id, recordId);
+            recordService.EstablishSuccess(recordId);
         }
 
-        public void UpdateView(ViewDTO viewDto)
+        public void UpdateView(ViewDTO viewDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId);
             if (viewDto == null)
                 throw new ValidationException(Resource.Resource.ViewNullReference, "");
             if (!db.Views.IsExist(viewDto.Id))
@@ -92,16 +100,19 @@ namespace BLL.Services
             AddViewTemplateToView(view, view.ViewTemplateId);
             db.Views.Update(view);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
-        public void DeleteView(int? id)
+        public void DeleteView(int? id, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Delete, userId);
             if (id == null)
                 throw new ValidationException(Resource.Resource.ViewIdNotSet, "");
             if (!db.Views.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.ViewNotFound, "");
             db.Views.Delete(id.Value);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
         public void AddViewTemplateToView(View view, int? ViewTemplateId)

@@ -11,8 +11,6 @@ namespace DALEF.Repositories
 {
     public class FormatRepository: GenericRepository<Format>, IFormatRepository
     {
-        public FormatRepository(ApplicationContext context) : base(context)
-        {
-        }
+        public FormatRepository(ApplicationContext context) : base(context) {}
     }
 }

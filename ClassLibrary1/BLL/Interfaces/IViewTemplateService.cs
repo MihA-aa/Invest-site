@@ -17,9 +17,9 @@ namespace BLL.Interfaces
         IEnumerable<ViewTemplateColumnDTO> GetViewTemplateColumns(int? viewTemplateId);
         void CreateOrUpdateViewTemplate(ViewTemplateDTO viewTemplate, string userId);
         void CreateViewTemplate(ViewTemplateDTO viewTemplateDto, string userId);
-        void UpdateViewTemplate(ViewTemplateDTO viewTemplateDto);
+        void UpdateViewTemplate(ViewTemplateDTO viewTemplateDto, string userId);
         void AddSortColumnToTemplate(ViewTemplate template, int? columnId);
-        void DeleteViewTemplate(int? id);
+        void DeleteViewTemplate(int? id, string userId);
         IEnumerable<ViewTemplateDTO> GetViewTemplatesForUser(string id);
     }
 }

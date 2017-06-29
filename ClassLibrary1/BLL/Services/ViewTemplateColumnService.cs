@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTO;
+using BLL.DTO.Enums;
 using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
@@ -14,7 +15,13 @@ namespace BLL.Services
 {
     public class ViewTemplateColumnService: BaseService, IViewTemplateColumnService
     {
-        public ViewTemplateColumnService(IUnitOfWork uow, IValidateService vd, IMapper map) : base(uow, vd, map) { }
+        IRecordService recordService { get; }
+
+        public ViewTemplateColumnService(IUnitOfWork uow, IValidateService vd, IMapper map, 
+                                                    IRecordService rs) : base(uow, vd, map)
+        {
+            recordService = rs;
+        }
         
         public ViewTemplateColumnDTO GetViewTemplateColumn(int? id)
         {
@@ -26,18 +33,19 @@ namespace BLL.Services
             return IMapper.Map<ViewTemplateColumn, ViewTemplateColumnDTO>(viewTemplateColumn);
         }
 
-        public void CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, int? templateId)
+        public void CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, int? templateId, string userId)
         {
             if (viewTemplateColumn == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateColumnNullReference, "");
             if (db.ViewTemplateColumns.IsExist(viewTemplateColumn.Id))
-                UpdateViewTemplateColumn(viewTemplateColumn);
+                UpdateViewTemplateColumn(viewTemplateColumn, userId);
             else
-                CreateViewTemplateColumn(viewTemplateColumn, templateId);
+                CreateViewTemplateColumn(viewTemplateColumn, templateId, userId);
         }
 
-        public void CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, int? templateId)
+        public void CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, int? templateId, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Create, userId);
             if (viewTemplateColumnDto == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateColumnNullReference, "");
             Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>()
@@ -48,6 +56,8 @@ namespace BLL.Services
             AddColumnToTemplate(viewTemplateColumn, templateId);
             ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
             db.Save();
+            recordService.SetEntityId(viewTemplateColumn.Id, recordId);
+            recordService.EstablishSuccess(recordId);
         }
 
         public void AddColumnToViewTemplateColumn(ViewTemplateColumn viewTemplateColumn, string columnName)
@@ -75,8 +85,7 @@ namespace BLL.Services
             column.ColumnFormatId = columnFormat.Id;
             column.ColumnFormat = columnFormat;
         }
-
-
+        
         public void AddColumnToTemplate(ViewTemplateColumn column, int? templateId)
         {
             if (column == null)
@@ -88,8 +97,9 @@ namespace BLL.Services
             db.ViewTemplates.AddColumnToTemplate(column, templateId.Value);
         }
 
-        public void UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto)
+        public void UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Update, userId);
             if (viewTemplateColumnDto == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateColumnNullReference, "");
             if (!db.ViewTemplateColumns.IsExist(viewTemplateColumnDto.Id))
@@ -99,10 +109,12 @@ namespace BLL.Services
             ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
             db.ViewTemplateColumns.Update(viewTemplateColumn);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
-        public void DeleteViewTemplateColumn(int? id)
+        public void DeleteViewTemplateColumn(int? id, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Delete, userId);
             if (id == null)
                 throw new ValidationException(Resource.Resource.ViewTemplateColumnIdNotSet, "");
             if (!db.ViewTemplateColumns.IsExist(id.Value))
@@ -112,6 +124,7 @@ namespace BLL.Services
             db.Save();
             db.ViewTemplateColumns.SortDisplayIndex(templateId);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
         public IEnumerable<ColumnFormatDTO> GetFormatsByColumnName(string column)
         {

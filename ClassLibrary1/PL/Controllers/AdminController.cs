@@ -12,7 +12,7 @@ using PL.Models;
 
 namespace PL.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
         private ICustomerService customerService;

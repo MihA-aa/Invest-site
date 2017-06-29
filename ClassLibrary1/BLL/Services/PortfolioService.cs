@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using BLL.DTO;
 using BLL.Infrastructure;
 using AutoMapper;
+using BLL.DTO.Enums;
 using BLL.Helpers;
 using DAL.Entities;
+using DAL.Enums;
 using DAL.Interfaces;
 
 namespace BLL.Services
@@ -17,11 +19,14 @@ namespace BLL.Services
     {
         ICustomerService customerService { get; }
         IPositionService positionService { get; }
+        IRecordService recordService { get; }
 
-        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map, IPositionService ps) : base(uow, vd, map)
+        public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map, 
+                                 IPositionService ps, IRecordService rs) : base(uow, vd, map)
         {
             customerService = cs;
             positionService = ps;
+            recordService = rs;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()
@@ -82,7 +87,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
             if (db.Portfolios.IsExist(portfolioDto.Id))
             {
-                UpdatePortfolioNameAndNotes(portfolioDto);
+                UpdatePortfolioNameAndNotes(portfolioDto, userId);
                 return portfolioDto.Id;
             }
             else
@@ -91,18 +96,21 @@ namespace BLL.Services
                 return portfolioId;
             }
         }
-        public void DeletePortfolio(int? id)
+        public void DeletePortfolio(int? id, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Delete, userId, id ?? 0);
             if (id == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
             if (!db.Portfolios.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             db.Portfolios.Delete(id.Value);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
         public int CreatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Create, userId);
             if (portfolioDto == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
             validateService.Validate(portfolioDto);
@@ -115,11 +123,14 @@ namespace BLL.Services
             customer.Portfolios.Add(portfolio);
             db.Portfolios.Create(portfolio);
             db.Save();
+            recordService.SetEntityId(portfolio.Id, recordId);
+            recordService.EstablishSuccess(recordId);
             return portfolio.Id;
         }
 
-        public void UpdatePortfolioNameAndNotes(PortfolioDTO portfolioDto)
+        public void UpdatePortfolioNameAndNotes(PortfolioDTO portfolioDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id);
             if (portfolioDto == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
             if (!db.Portfolios.IsExist(portfolioDto.Id))
@@ -130,10 +141,12 @@ namespace BLL.Services
             var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
             db.Portfolios.UpdatePortfolioNameAndNotes(portfolio);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
-        public void UpdatePortfolio(PortfolioDTO portfolioDto)
+        public void UpdatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
+            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id);
             if (portfolioDto == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
             if (!db.Portfolios.IsExist(portfolioDto.Id))
@@ -144,6 +157,7 @@ namespace BLL.Services
             var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
             db.Portfolios.Update(portfolio);
             db.Save();
+            recordService.EstablishSuccess(recordId);
         }
 
         public void UpdatePortfolio(int? id)

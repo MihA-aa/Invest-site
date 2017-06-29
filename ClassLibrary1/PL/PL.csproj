@@ -264,6 +264,7 @@
     <Compile Include="Models\PortfolioModel.cs" />
     <Compile Include="Models\PositionModel.cs" />
     <Compile Include="Models\ProfileModel.cs" />
+    <Compile Include="Models\RecordModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\ViewModel.cs" />
     <Compile Include="Models\ViewTemplateColumnModel.cs" />
