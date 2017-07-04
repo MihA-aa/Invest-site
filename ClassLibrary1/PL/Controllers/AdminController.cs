@@ -78,7 +78,7 @@ namespace PL.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var recordsDto = recordService.GeRecords();
+            var recordsDto = (IEnumerable<RecordDTO>)recordService.GeRecords().OrderByDescending(r=>r.DateTime);
 
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {

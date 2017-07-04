@@ -827,8 +827,8 @@ namespace DALEF.EF
                 Operation = Operations.Create,
                 Successfully = true,
                 EntityId = 1,
-                DateTime = DateTime.Now
-             };
+                DateTime = new DateTime(2017, 4, 1)
+            };
             Record record2 = new Record
             {
                 UserId = "1aaa023d-e950-47fc-9c3f-54fbffcc99cf",
@@ -836,7 +836,7 @@ namespace DALEF.EF
                 Operation = Operations.Delete,
                 Successfully = false,
                 EntityId = 1,
-                DateTime = DateTime.Now
+                DateTime = new DateTime(2017, 4, 3)
             };
             Record record3 = new Record
             {
@@ -845,7 +845,7 @@ namespace DALEF.EF
                 Operation = Operations.Update,
                 Successfully = true,
                 EntityId = 2,
-                DateTime = DateTime.Now
+                DateTime = new DateTime(2017, 4,4)
             };
             db.Records.Add(record1);
             db.Records.Add(record2);
