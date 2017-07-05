@@ -20,6 +20,12 @@ namespace BLL.Services
         {
             return IMapper.Map<IEnumerable<Record>, List<RecordDTO>>(db.Records.GetAll());
         }
+
+        public IEnumerable<RecordDTO> GetRecordsByUserId(string userId)
+        {
+            return IMapper.Map<IEnumerable<Record>, List<RecordDTO>>(db.Records.GetAll().Where(r=>r.UserId == userId));
+        }
+
         public RecordDTO GetRecord(int? id)
         {
             if (id == null)

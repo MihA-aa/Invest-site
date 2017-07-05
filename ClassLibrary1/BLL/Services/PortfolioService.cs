@@ -36,6 +36,8 @@ namespace BLL.Services
         public IEnumerable<PortfolioDTO> GetPortfoliosForUser(string id)
         {
             var profile = db.Profiles.Get(id);
+            if (profile == null)
+                throw new ValidationException(Resource.Resource.ProfileNotFound, "");
             return IMapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(profile?.Customer?.Portfolios);
         }
 
@@ -146,6 +148,7 @@ namespace BLL.Services
 
         public void UpdatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
+            //try
             int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id);
             if (portfolioDto == null)
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
@@ -157,6 +160,7 @@ namespace BLL.Services
             var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
             db.Portfolios.Update(portfolio);
             db.Save();
+            //catch
             recordService.EstablishSuccess(recordId);
         }
 
@@ -174,13 +178,18 @@ namespace BLL.Services
                 {
                     positionService.UpdateOnlyPosition(Id);
                 }
+                RecalculatePortfolioValue(id);
                 db.Commit(transaction);
             }
             catch (Exception)
             {
                 db.RollBack(transaction);
+                //создание фэйловой записи
             }
-            RecalculatePortfolioValue(id);
+            finally
+            {
+                transaction.Dispose();
+            }
         }
 
         public void UpdatePortfoliosDisplayIndex(Dictionary<string, string> portfolios)

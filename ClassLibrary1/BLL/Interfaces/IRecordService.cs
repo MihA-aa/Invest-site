@@ -12,6 +12,7 @@ namespace BLL.Interfaces
     {
         IEnumerable<RecordDTO> GeRecords();
         RecordDTO GetRecord(int? id);
+        IEnumerable<RecordDTO> GetRecordsByUserId(string userId);
         int CreateRecord(RecordDTO recordDTO);
         void DeleteRecord(int? id);
         void EstablishSuccess(int? id);

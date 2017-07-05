@@ -17,7 +17,10 @@ $(document).ready(function(){
                     MyAlert(xhr.statusText);
                 }
             },
-            "columns": [
+            "columns": [                    
+                    { "data": "Id", "name": "Id", "width": "5px", 
+                    "render": function (data) {
+                      return '<img rel="'+data+'" class="details-control" src = "/Content/img/details_open.png" style="cursor: pointer;">';}},
                     { "data": "Id", "name": "Id", "width": "5px", 
                     "render": function (data) {return '<a class="popup" href="/Profile/Save/'
                      + data + '"><span class="glyphicon glyphicon-pencil" style="color: #80b78c;"></span></a>';}},
@@ -31,6 +34,22 @@ $(document).ready(function(){
         e.preventDefault();
         OpenProfileTablePopup($(this).attr('href'));
     })
+
+$('#profile-management-jq-table tbody').on('click', 'td img.details-control', function () {
+    var tr = $(this).parent().closest('tr');
+    var row = profileManagement.row( tr );
+ 
+    if ( row.child.isShown() ) {
+        row.child.hide();
+        tr.removeClass('shown');
+        $(this).attr("src","/Content/img/details_open.png");
+    }
+    else {
+        $(this).attr("src","/Content/img/details_close.png");
+        row.child( format(row.data()) ).show();
+        tr.addClass('shown');
+    }
+} );
 
 function OpenProfileTablePopup(pageUrl) {
     var $profileTablePageContent = $('<div/>');
@@ -79,4 +98,30 @@ function OpenProfileTablePopup(pageUrl) {
     $profileDialog.dialog('open');
     $profileDialog.dialog({ closeText: "" });
 }
+
 });
+
+
+function format ( rowData ) {
+  $("#loader").show();
+    var div = $('<div/>')
+        .text( 'Loading...' );
+    console.log(rowData);
+    $.ajax( {
+        type: 'POST',
+        url: '/Admin/GetUserRecords',
+        data: { "userId": rowData.Id},
+            dataType: "html",
+        success: function ( data ) {
+          console.log(data);
+            div.html( data )
+            $("#loader").hide();
+        },
+        "error": function (xhr) {
+          alert(xhr.statusText);
+            $("#loader").hide();
+        }
+    } );
+ 
+    return div;
+}

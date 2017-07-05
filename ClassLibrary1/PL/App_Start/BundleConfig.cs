@@ -63,6 +63,9 @@ namespace PL
             bundles.Add(new ScriptBundle("~/bundles/myScriptRecordManagement").Include(
                         "~/Scripts/myScript/record-management.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/myScriptPartialRecordManagement").Include(
+                        "~/Scripts/myScript/partial-record-management.js"));
+            
             bundles.Add(new ScriptBundle("~/bundles/myScriptProfileManagement").Include(
                         "~/Scripts/myScript/profile-management.js"));
             

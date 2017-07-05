@@ -65,7 +65,7 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoadRecordData()
+        public ActionResult LoadRecordData(string id)
         {
             var draw = Request.Form?.GetValues("draw").FirstOrDefault();
             var start = Request.Form.GetValues("start").FirstOrDefault();
@@ -78,7 +78,16 @@ namespace PL.Controllers
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
 
-            var recordsDto = (IEnumerable<RecordDTO>)recordService.GeRecords().OrderByDescending(r=>r.DateTime);
+            IEnumerable<RecordDTO> recordsDto;
+
+            if (id != null)
+            {
+                recordsDto = recordService.GetRecordsByUserId(id).OrderByDescending(r => r.DateTime);
+            }
+            else
+            {
+                recordsDto = recordService.GeRecords().OrderByDescending(r => r.DateTime);
+            }
 
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
@@ -91,6 +100,19 @@ namespace PL.Controllers
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
 
+        //[HttpPost]
+        //public ActionResult GetUserRecords(string userId)
+        //{
+        //    var records = recordService.GetRecordsByUserId(userId);
+        //    return Json(new { success = true, price = "S" });
+        //}
+
+        [HttpPost]
+        public PartialViewResult GetUserRecords(string userId)
+        {
+            return PartialView("RecordPartialManagementTable", userId);
+        }
+        
         [HttpPost]
         public ActionResult LoadProfileData()
         {

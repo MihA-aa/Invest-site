@@ -806,6 +806,7 @@
     <Content Include="Views\Account\UnassignedUser.cshtml" />
     <Content Include="Views\Position\ChartOfGain.cshtml" />
     <Content Include="Views\Admin\RecordManagementTable.cshtml" />
+    <Content Include="Views\Admin\RecordPartialManagementTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

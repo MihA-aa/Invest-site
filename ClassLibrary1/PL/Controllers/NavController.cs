@@ -113,7 +113,7 @@ namespace PL.Controllers
                 defaultSearchStatus = "";
 
 
-            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault().Replace(" ", ""); ;
             var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
 
             var searchColumnsList = new Dictionary<string, string>();
@@ -267,8 +267,7 @@ namespace PL.Controllers
             var data = Mapper.Map<IEnumerable<ViewDTO>, List<ViewModel>>(viewsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
-
-
+        
         public ActionResult AutocompleteSymbolSearch(string term)
         {
             var symbols = symbolViewService.SearchSymbolsByName(term);
