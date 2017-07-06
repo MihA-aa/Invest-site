@@ -98,93 +98,154 @@ namespace BLL.Services
                 return portfolioId;
             }
         }
-        public void DeletePortfolio(int? id, string userId)
-        {
-            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Delete, userId, id ?? 0);
-            if (id == null)
-                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            if (!db.Portfolios.IsExist(id.Value))
-                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            db.Portfolios.Delete(id.Value);
-            db.Save();
-            recordService.EstablishSuccess(recordId);
-        }
 
         public int CreatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
-            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Create, userId);
-            if (portfolioDto == null)
-                throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
-            validateService.Validate(portfolioDto);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
-                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
-                    .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
-            var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
-            var customer = customerService.GetCustomerByProfileId(userId);
-            portfolio.Customer = customer;
-            customer.Portfolios.Add(portfolio);
-            db.Portfolios.Create(portfolio);
-            db.Save();
-            recordService.SetEntityId(portfolio.Id, recordId);
-            recordService.EstablishSuccess(recordId);
-            return portfolio.Id;
+            var transaction = db.BeginTransaction();
+            int portfolioId = 0;
+            try
+            {
+                if (portfolioDto == null)
+                    throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
+                validateService.Validate(portfolioDto);
+                Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
+                        .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
+                        .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
+                var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
+                var customer = customerService.GetCustomerByProfileId(userId);
+                portfolio.Customer = customer;
+                customer.Portfolios.Add(portfolio);
+                db.Portfolios.Create(portfolio);
+                db.Save();
+                portfolioId = portfolio.Id;
+
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Create, userId, portfolioId, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Create, userId, 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
+            return portfolioId;
         }
 
         public void UpdatePortfolioNameAndNotes(PortfolioDTO portfolioDto, string userId)
         {
-            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id);
-            if (portfolioDto == null)
-                throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
-            if (!db.Portfolios.IsExist(portfolioDto.Id))
-                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            validateService.Validate(portfolioDto);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
-                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
-            var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
-            db.Portfolios.UpdatePortfolioNameAndNotes(portfolio);
-            db.Save();
-            recordService.EstablishSuccess(recordId);
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (portfolioDto == null)
+                    throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
+                if (!db.Portfolios.IsExist(portfolioDto.Id))
+                    throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+                validateService.Validate(portfolioDto);
+                Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
+                        .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
+                var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
+                db.Portfolios.UpdatePortfolioNameAndNotes(portfolio);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto?.Id ?? 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
         }
 
         public void UpdatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
-            //try
-            int recordId = recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id);
-            if (portfolioDto == null)
-                throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
-            if (!db.Portfolios.IsExist(portfolioDto.Id))
-                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            validateService.Validate(portfolioDto);
-            Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
-                    .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
-            var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
-            db.Portfolios.Update(portfolio);
-            db.Save();
-            //catch
-            recordService.EstablishSuccess(recordId);
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (portfolioDto == null)
+                    throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
+                if (!db.Portfolios.IsExist(portfolioDto.Id))
+                    throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+                validateService.Validate(portfolioDto);
+                Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
+                        .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
+                var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
+                db.Portfolios.Update(portfolio);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto?.Id ?? 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
         }
 
         public void UpdatePortfolio(int? id)
         {
-            if (id == null)
-                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            var portfolio = db.Portfolios.GetPortfolioQuery(id.Value).FirstOrDefault();
-            if (portfolio == null)
-                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
             var transaction = db.BeginTransaction();
             try
             {
+                if (id == null)
+                    throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+                var portfolio = db.Portfolios.GetPortfolioQuery(id.Value).FirstOrDefault();
+                if (portfolio == null)
+                    throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
                 foreach (var Id in portfolio.Positions.Select(p => p.Id))
                 {
                     positionService.UpdateOnlyPosition(Id);
                 }
                 RecalculatePortfolioValue(id);
+
                 db.Commit(transaction);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 db.RollBack(transaction);
-                //создание фэйловой записи
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
+        }
+
+        public void DeletePortfolio(int? id, string userId)
+        {
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (id == null)
+                    throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+                if (!db.Portfolios.IsExist(id.Value))
+                    throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+                db.Portfolios.Delete(id.Value);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, id.Value, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, id ?? 0, false);
+                throw ex;
             }
             finally
             {

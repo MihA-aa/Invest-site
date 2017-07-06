@@ -34,7 +34,7 @@ namespace PL.Controllers
                 var portfolioDto = Mapper.Map<PortfolioModel, PortfolioDTO>(portfolioModel);
                 TempData["PortfolioId"] = portfolioService.CreateOrUpdatePortfolio(portfolioDto, User.Identity.GetUserId());
             }
-            catch (ValidationException ex)
+            catch (Exception ex)
             {
                 logger.Error(ex.ToString());
             }

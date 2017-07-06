@@ -17,6 +17,6 @@ namespace BLL.Interfaces
         void DeleteRecord(int? id);
         void EstablishSuccess(int? id);
         void SetEntityId(int? entityId, int? recordId);
-        int CreateRecord(EntitiesDTO entity, OperationsDTO operation, string userId, int entityId = 0);
+        int CreateRecord(EntitiesDTO entity, OperationsDTO operation, string userId, int entityId = 0, bool success = false);
     }
 }

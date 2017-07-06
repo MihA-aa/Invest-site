@@ -92,31 +92,60 @@ namespace BLL.Services
 
         public void CreateViewTemplate(ViewTemplateDTO viewTemplateDto, string userId)
         {
-            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Create, userId);
-            if (viewTemplateDto == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
-            var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
-            var customer = customerService.GetCustomerByProfileId(userId);
-            viewTemplate.Customer = customer;
-            customer.ViewTemplates.Add(viewTemplate);
-            db.ViewTemplates.Create(viewTemplate);
-            db.Save();
-            recordService.SetEntityId(viewTemplate.Id, recordId);
-            recordService.EstablishSuccess(recordId);
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (viewTemplateDto == null)
+                    throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
+                var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
+                var customer = customerService.GetCustomerByProfileId(userId);
+                viewTemplate.Customer = customer;
+                customer.ViewTemplates.Add(viewTemplate);
+                db.ViewTemplates.Create(viewTemplate);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Create, userId, viewTemplate.Id, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Create, userId, 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
         }
 
         public void UpdateViewTemplate(ViewTemplateDTO viewTemplateDto, string userId)
         {
-            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Update, userId);
-            if (viewTemplateDto == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
-            if (!db.ViewTemplates.IsExist(viewTemplateDto.Id))
-                throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
-            var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
-            AddSortColumnToTemplate(viewTemplate, viewTemplate.SortColumnId);
-            db.ViewTemplates.Update(viewTemplate);
-            db.Save();
-            recordService.EstablishSuccess(recordId);
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (viewTemplateDto == null)
+                    throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
+                if (!db.ViewTemplates.IsExist(viewTemplateDto.Id))
+                    throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
+                var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
+                AddSortColumnToTemplate(viewTemplate, viewTemplate.SortColumnId);
+                db.ViewTemplates.Update(viewTemplate);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Update, userId, viewTemplate.Id, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Update, userId, viewTemplateDto?.Id ?? 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
         }
 
         public void AddSortColumnToTemplate(ViewTemplate template, int? columnId)
@@ -133,14 +162,29 @@ namespace BLL.Services
 
         public void DeleteViewTemplate(int? id, string userId)
         {
-            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Delete, userId);
-            if (id == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateIdNotSet, "");
-            if (!db.ViewTemplates.IsExist(id.Value))
-                throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
-            db.ViewTemplates.Delete(id.Value);
-            db.Save();
-            recordService.EstablishSuccess(recordId);
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (id == null)
+                    throw new ValidationException(Resource.Resource.ViewTemplateIdNotSet, "");
+                if (!db.ViewTemplates.IsExist(id.Value))
+                    throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
+                db.ViewTemplates.Delete(id.Value);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Delete, userId, id.Value, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Delete, userId, id ?? 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
         }
     }
 }

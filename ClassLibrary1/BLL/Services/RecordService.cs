@@ -36,14 +36,14 @@ namespace BLL.Services
             return IMapper.Map<Record, RecordDTO>(record);
         }
 
-        public int CreateRecord(EntitiesDTO entity, OperationsDTO operation, string userId, int entityId = 0)
+        public int CreateRecord(EntitiesDTO entity, OperationsDTO operation, string userId, int entityId = 0, bool success = false)
         {
             var record = new RecordDTO
             {
                 UserId = userId,
                 Entity = entity,
                 Operation = operation,
-                Successfully = false,
+                Successfully = success,
                 EntityId = entityId,
                 DateTime = DateTime.Now
             };

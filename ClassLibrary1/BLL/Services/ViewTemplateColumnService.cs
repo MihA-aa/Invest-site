@@ -45,19 +45,66 @@ namespace BLL.Services
 
         public void CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, int? templateId, string userId)
         {
-            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Create, userId);
-            if (viewTemplateColumnDto == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateColumnNullReference, "");
-            Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>()
-            .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.ViewTemplates.GetCountColumnInTemplate(templateId.Value) + 1)));
-            var viewTemplateColumn = Mapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
-            db.ViewTemplateColumns.Create(viewTemplateColumn);
-            AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
-            AddColumnToTemplate(viewTemplateColumn, templateId);
-            ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
-            db.Save();
-            recordService.SetEntityId(viewTemplateColumn.Id, recordId);
-            recordService.EstablishSuccess(recordId);
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (viewTemplateColumnDto == null)
+                    throw new ValidationException(Resource.Resource.ViewTemplateColumnNullReference, "");
+
+                Mapper.Initialize(cfg => cfg.CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>()
+                .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.ViewTemplates.GetCountColumnInTemplate(templateId.Value) + 1)));
+                var viewTemplateColumn = Mapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
+
+                db.ViewTemplateColumns.Create(viewTemplateColumn);
+                AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
+                AddColumnToTemplate(viewTemplateColumn, templateId);
+                ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Create, userId, viewTemplateColumn.Id, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Create, userId, 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
+        }
+
+        public void UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, string userId)
+        {
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (viewTemplateColumnDto == null)
+                    throw new ValidationException(Resource.Resource.ViewTemplateColumnNullReference, "");
+                if (!db.ViewTemplateColumns.IsExist(viewTemplateColumnDto.Id))
+                    throw new ValidationException(Resource.Resource.ViewTemplateColumnNotFound, "");
+
+                var viewTemplateColumn = IMapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
+                AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
+                ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
+                db.ViewTemplateColumns.Update(viewTemplateColumn);
+                db.Save();
+
+                recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Update, userId, viewTemplateColumnDto.Id, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Update, userId, viewTemplateColumnDto?.Id ?? 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
         }
 
         public void AddColumnToViewTemplateColumn(ViewTemplateColumn viewTemplateColumn, string columnName)
@@ -85,7 +132,7 @@ namespace BLL.Services
             column.ColumnFormatId = columnFormat.Id;
             column.ColumnFormat = columnFormat;
         }
-        
+
         public void AddColumnToTemplate(ViewTemplateColumn column, int? templateId)
         {
             if (column == null)
@@ -97,35 +144,37 @@ namespace BLL.Services
             db.ViewTemplates.AddColumnToTemplate(column, templateId.Value);
         }
 
-        public void UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, string userId)
-        {
-            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Update, userId);
-            if (viewTemplateColumnDto == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateColumnNullReference, "");
-            if (!db.ViewTemplateColumns.IsExist(viewTemplateColumnDto.Id))
-                throw new ValidationException(Resource.Resource.ViewTemplateColumnNotFound, "");
-            var viewTemplateColumn = IMapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
-            AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
-            ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
-            db.ViewTemplateColumns.Update(viewTemplateColumn);
-            db.Save();
-            recordService.EstablishSuccess(recordId);
-        }
-
         public void DeleteViewTemplateColumn(int? id, string userId)
         {
-            int recordId = recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Delete, userId);
-            if (id == null)
-                throw new ValidationException(Resource.Resource.ViewTemplateColumnIdNotSet, "");
-            if (!db.ViewTemplateColumns.IsExist(id.Value))
-                throw new ValidationException(Resource.Resource.ViewTemplateColumnNotFound, "");
-            int templateId = db.ViewTemplates.GetTemplateIdByColumnId(id.Value);
-            db.ViewTemplateColumns.Delete(id.Value);
-            db.Save();
-            db.ViewTemplateColumns.SortDisplayIndex(templateId);
-            db.Save();
-            recordService.EstablishSuccess(recordId);
+            var transaction = db.BeginTransaction();
+            try
+            {
+                if (id == null)
+                    throw new ValidationException(Resource.Resource.ViewTemplateColumnIdNotSet, "");
+                if (!db.ViewTemplateColumns.IsExist(id.Value))
+                    throw new ValidationException(Resource.Resource.ViewTemplateColumnNotFound, "");
+
+                int templateId = db.ViewTemplates.GetTemplateIdByColumnId(id.Value);
+                db.ViewTemplateColumns.Delete(id.Value);
+                db.Save();
+                db.ViewTemplateColumns.SortDisplayIndex(templateId);
+                db.Save();
+                
+                recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Delete, userId, id.Value, true);
+                db.Commit(transaction);
+            }
+            catch (Exception ex)
+            {
+                db.RollBack(transaction);
+                recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Delete, userId, id ?? 0, false);
+                throw ex;
+            }
+            finally
+            {
+                transaction.Dispose();
+            }
         }
+
         public IEnumerable<ColumnFormatDTO> GetFormatsByColumnName(string column)
         {
             var formats = db.Columns.GetFormatsByColumnName(column).ColumnFormats;
