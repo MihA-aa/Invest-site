@@ -12,7 +12,7 @@ using PL.Models;
 
 namespace PL.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminController : BaseController
     {
         private ICustomerService customerService;
@@ -77,21 +77,15 @@ namespace PL.Controllers
             int pageSize = length != null ? Convert.ToInt32(length) : 0;
             int skip = start != null ? Convert.ToInt32(start) : 0;
             int totalRecords = 0;
-
-            IEnumerable<RecordDTO> recordsDto;
-
-            if (id != null)
-            {
-                recordsDto = recordService.GetRecordsByUserId(id).OrderByDescending(r => r.DateTime);
-            }
-            else
-            {
-                recordsDto = recordService.GeRecords().OrderByDescending(r => r.DateTime);
-            }
+            
+            IEnumerable<RecordDTO> recordsDto = id == null ? recordService.GeRecords() : recordService.GetRecordsByUserId(id);
 
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             {
-                recordsDto = recordsDto.OrderBy(sortColumn + " " + sortColumnDir);
+                if (sortColumn == "DateTime")
+                    recordsDto = sortColumnDir == "desc" ? recordsDto.OrderByDescending(r => r.DateTime) : recordsDto.OrderBy(r => r.DateTime);
+                else
+                    recordsDto = recordsDto.OrderBy(sortColumn + " " + sortColumnDir);
             }
 
             totalRecords = recordsDto.Count();
@@ -99,14 +93,7 @@ namespace PL.Controllers
             var data = Mapper.Map<IEnumerable<RecordDTO>, List<RecordModel>>(recordsDto);
             return Json(new { draw = draw, recordsFiltered = totalRecords, recordsTotal = totalRecords, data = data }, JsonRequestBehavior.AllowGet);
         }
-
-        //[HttpPost]
-        //public ActionResult GetUserRecords(string userId)
-        //{
-        //    var records = recordService.GetRecordsByUserId(userId);
-        //    return Json(new { success = true, price = "S" });
-        //}
-
+        
         [HttpPost]
         public PartialViewResult GetUserRecords(string userId)
         {

@@ -8309,3 +8309,7 @@ The statement has been terminated.
 2017-07-05 17:46:30,665 [30] ERROR PL.Controllers.ErrorController '.' or '(' expected (at index 9)
 2017-07-05 18:26:54,986 [11] ERROR PL.Controllers.ErrorController http://localhost:22860/Admin/RecordPartialManagementTable not found
 2017-07-05 19:20:44,023 [11] ERROR PL.Controllers.ErrorController http://localhost:22860/Admin/RecordPartialManagementTable not found
+2017-07-06 10:29:50,828 [11] ERROR PL.Controllers.ErrorController http://localhost:22860/Admin/RecordPartialManagementTable not found
+2017-07-06 10:35:16,688 [22] ERROR PL.Controllers.ErrorController '.' or '(' expected (at index 9)
+2017-07-06 10:35:34,621 [31] ERROR PL.Controllers.ErrorController '.' or '(' expected (at index 9)
+2017-07-06 10:38:56,039 [10] ERROR PL.Controllers.ErrorController '.' or '(' expected (at index 9)

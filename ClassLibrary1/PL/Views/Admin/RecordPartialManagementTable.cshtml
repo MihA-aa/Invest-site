@@ -1,11 +1,9 @@
 ﻿@model String
 @Styles.Render("~/Content/DataTables")
-<div class="recordPartialManagmentContainer" id ="@Model">
-    <input type="hidden" id="tradeManagementIndex" value="@Model" />
+<div class="recordPartialManagmentContainer">
     <table id="record-partial-management-jq-table-@Model" class="display" cellspacing="0" width="100%">
         <thead>
             <tr>
-                <th>User Id</th>
                 <th>Entity</th>
                 <th>Entity Id</th>
                 <th>Operation</th>
@@ -15,24 +13,10 @@
         </thead>
     </table>
 </div>
-<div class="fuckingDiv" id="@Model">
     <script id ="myScript">
         var tradeManagementIndex;
         $(document).ready(function () {
-            //containerIndex = $(document.body.lastChild).closest('div').attr("id");
-            //var div = $(document.body.lastChild).closest('div');
-            //console.log(div.attr("id"));
-            //var input = $('script').last().prev();
-            //console.log($("script").prev("div").attr("id"));
-
-            //console.log($("#myScript:last").parent().attr("id"));
-
-
-            tradeManagementIndex =$(".fuckingDiv:last").attr("id");
-
-
-            //tradeManagementIndex = $(".recordPartialManagmentContainer #tradeManagementIndex").attr("value");
-            console.log(tradeManagementIndex);
+            tradeManagementIndex ="@Model";
             $('#record-partial-management-jq-table-' + tradeManagementIndex)
             .on('processing.dt', function (e, settings, processing)
             { $('#loader').css('display', processing ? 'block' : 'none'); })
@@ -40,7 +24,7 @@
                 "processing": false,
                 "serverSide": true,
                 "orderMulti": false,
-                "dom": '<"top"i>rt<"bottom"lp><"clear">',
+                "dom": '<"top">rt<"bottom"lp><"clear">',
                 "ajax": {
                     "url": "/Admin/LoadRecordData",
                     "type": "POST",
@@ -51,7 +35,6 @@
                     }
                 },
                 "columns": [
-                        { "data": "UserId", "name": "UserId", "autoWidth": true },
                         {
                             "data": "Entity", "name": "Entity", "autoWidth": true,
                             "render": function (data) { return parseEntity(data); }
@@ -108,5 +91,3 @@
             return newData;
         }
     </script>
-    @*@Scripts.Render("~/bundles/myScriptPartialRecordManagement")*@
-</div>
