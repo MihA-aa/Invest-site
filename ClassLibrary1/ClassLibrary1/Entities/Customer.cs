@@ -7,8 +7,8 @@ namespace DAL.Entities
     public class Customer
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
         public virtual ICollection<Portfolio> Portfolios { get; set; }
         public virtual ICollection<Profile> Profiles { get; set; }
         public virtual ICollection<View> Views { get; set; }

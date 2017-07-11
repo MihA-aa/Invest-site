@@ -12,10 +12,10 @@ namespace DAL.Entities
     {
         [Key]
         [ForeignKey("User")]
-        public string Id { get; set; }
-        public string Login { get; set; }
+        public virtual string Id { get; set; }
+        public virtual string Login { get; set; }
         public virtual User User { get; set; }
         public virtual Customer Customer { get; set; }
-        public int? CustomerId { get; set; }
+        public virtual int? CustomerId { get; set; }
     }
 }

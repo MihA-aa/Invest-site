@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NHibernate.AspNet.Identity;
 
-namespace DAL.Entities
+namespace DALNhibernate
 {
-    public class Role : IdentityRole
+    public class Class1
     {
     }
 }

@@ -5,13 +5,13 @@ namespace DAL.Entities
 {
     public class ViewTemplate
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public TemplatePositions Positions { get; set; }
-        public bool ShowPortfolioStats { get; set; }
-        public int? SortColumnId { get; set; }
-        public ViewTemplateColumn SortColumn { get; set; }
-        public Sorting SortOrder { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
+        public virtual TemplatePositions Positions { get; set; }
+        public virtual bool ShowPortfolioStats { get; set; }
+        public virtual int? SortColumnId { get; set; }
+        public virtual ViewTemplateColumn SortColumn { get; set; }
+        public virtual Sorting SortOrder { get; set; }
         public virtual Customer Customer { get; set; }
 
         public virtual ICollection<ViewTemplateColumn> Columns { get; set; }

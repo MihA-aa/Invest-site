@@ -1,5 +1,4 @@
-﻿using DAL.Enums;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using NHibernate.AspNet.Identity;
 
 namespace DAL.Entities
 {
