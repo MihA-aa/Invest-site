@@ -12,8 +12,18 @@ namespace DAL.Entities
     {
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
-        private ISet<Format> _formats;
 
+        private ISet<Format> _formats;
+        private IList<ViewTemplateColumn> _viewTemplateColumns;
+
+        public virtual IList<ViewTemplateColumn> ViewTemplateColumns
+        {
+            get
+            {
+                return _viewTemplateColumns ?? (_viewTemplateColumns = new List<ViewTemplateColumn>());
+            }
+            set { _viewTemplateColumns = value; }
+        }
         public virtual ISet<Format> Formats
         {
             get
@@ -37,6 +47,9 @@ namespace DAL.Entities
                 c.Table("Format_ColumnFormat"); c.Inverse(true);
             },
             r => r.ManyToMany(m => m.Column("FormatId")));
+            Bag(x => x.ViewTemplateColumns,
+            c => { c.Key(k => k.Column("ColumnFormat_Id")); c.Inverse(true); },
+            r => r.OneToMany());
         }
     }
 }

@@ -170,17 +170,17 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
             view.ViewTemplate = viewTemplate;
         }
-        public void AddPortfolioToView(View view, int? PortfolioId)
-        {
-            if (view == null)
-                throw new ValidationException(Resource.Resource.ViewNullReference, "");
-            if (PortfolioId == null)
-                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            var portfolio = db.Portfolios.Get(PortfolioId.Value);
-            if (portfolio == null)
-                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            view.Portfolio = portfolio;
-        }
+        //public void AddPortfolioToView(View view, int? PortfolioId)
+        //{
+        //    if (view == null)
+        //        throw new ValidationException(Resource.Resource.ViewNullReference, "");
+        //    if (PortfolioId == null)
+        //        throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+        //    var portfolio = db.Portfolios.Get(PortfolioId.Value);
+        //    if (portfolio == null)
+        //        throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+        //    view.Portfolio = portfolio;
+        //}
 
     }
 }

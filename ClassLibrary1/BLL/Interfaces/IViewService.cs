@@ -18,7 +18,7 @@ namespace BLL.Interfaces
         void UpdateView(ViewDTO viewDto, string userId);
         void DeleteView(int? id, string userId);
         void AddViewTemplateToView(View view, int? ViewTemplateId);
-        void AddPortfolioToView(View view, int? PortfolioId);
+        //void AddPortfolioToView(View view, int? PortfolioId);
         bool CheckAccess(string userId, int? viewId);
     }
 }

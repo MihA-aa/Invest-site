@@ -1,5 +1,7 @@
 ﻿using System;
 using DAL.Enums;
+using NHibernate.Mapping.ByCode;
+using NHibernate.Mapping.ByCode.Conformist;
 
 namespace DAL.Entities
 {
@@ -50,6 +52,37 @@ namespace DAL.Entities
                 LastUpdatePrice = this.LastUpdatePrice,
                 LastUpdateDate = this.LastUpdateDate
             };
+        }
+    }
+
+    public class PositionMap : ClassMapping<Position>
+    {
+        private PositionMap()
+        {
+            Id(x => x.Id, map => map.Generator(Generators.Native));
+            Property(x => x.Name);
+            Property(x => x.SymbolId);
+            Property(x => x.SymbolType);
+            Property(x => x.SymbolName);
+            Property(x => x.OpenDate);
+            Property(x => x.OpenPrice);
+            Property(x => x.OpenWeight);
+            Property(x => x.TradeType);
+            Property(x => x.TradeStatus);
+            Property(x => x.Dividends);
+            Property(x => x.CloseDate);
+            Property(x => x.ClosePrice);
+            Property(x => x.CurrentPrice);
+            Property(x => x.LastUpdateDate);
+            Property(x => x.LastUpdatePrice);
+            Property(x => x.Gain);
+            Property(x => x.AbsoluteGain);
+            Property(x => x.MaxGain);
+            ManyToOne(x => x.Portfolio,
+            c => {
+                c.Cascade(Cascade.Persist);
+                c.Column("Portfolio_Id");
+            });
         }
     }
 }

@@ -12,6 +12,7 @@ namespace DAL.Entities
     {
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
+
         private ISet<ColumnFormat> _columnFormats;
         private IList<Column> _columns;
 
@@ -23,7 +24,6 @@ namespace DAL.Entities
             }
             set { _columnFormats = value; }
         }
-
         public virtual IList<Column> Columns
         {
             get
@@ -40,7 +40,6 @@ namespace DAL.Entities
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);
-
             Set(a => a.ColumnFormats,
             c => {
                 c.Cascade(Cascade.Persist);
@@ -48,7 +47,6 @@ namespace DAL.Entities
                 c.Table("Format_ColumnFormat");
             },
             r => r.ManyToMany(m => m.Column("ColumnFormatId")));
-
             Bag(x => x.Columns,
             c => { c.Key(k => k.Column("Format_Id")); c.Inverse(true); },
             r => r.OneToMany());
