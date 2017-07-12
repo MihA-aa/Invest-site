@@ -36,7 +36,7 @@ namespace DAL.Entities
 
     public class ColumnFormatMap : ClassMapping<ColumnFormat>
     {
-        private ColumnFormatMap()
+        public ColumnFormatMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

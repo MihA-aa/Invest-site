@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     public class PortfolioRepository : GenericRepository<Portfolio>, IPortfolioRepository
     {
-        public PortfolioRepository(ApplicationContext context) : base(context)
+        public PortfolioRepository(ISession session) : base(session)
         {
         }
 
         public void AddPositionToPortfolio(Position position, int portfolioId)
         {
-            var portfolio = dbSet.Find(portfolioId);
+            var portfolio = Session.Get<Portfolio>(portfolioId);
             portfolio.Positions.Add(position);
             position.Portfolio = portfolio;
         }
@@ -25,44 +25,33 @@ namespace DALEF.Repositories
         public void ChangePortfolioDisplayIndex(int id, int displayIndex)
         {
             var portfolio = new Portfolio {Id = id, DisplayIndex = displayIndex};
-            dbSet.Attach(portfolio);
-            db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
-            db.SaveChanges();
+            //dbSet.Attach(portfolio);
+            //db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
+            //db.SaveChanges();
         }
 
         public void RecalculatePortfolioValue(int id)
         {
-            using (var transaction = db.Database.BeginTransaction())
-            {
-                try
-                {
-                    var portfolio = dbSet.Find(id);
-                    portfolio.PortfolioValue = portfolio.Positions.Sum(p => p.AbsoluteGain);
-                    portfolio.Quantity = portfolio.Positions.Count();
-                    portfolio.LastUpdateDate = DateTime.Now;
-                    portfolio.PercentWins = GetPercentWins(id);
-                    portfolio.BiggestWinner = portfolio.Positions.DefaultIfEmpty().Max(p => p?.Gain ?? 0);
-                    portfolio.BiggestLoser = portfolio.Positions.DefaultIfEmpty().Min(p => p?.Gain ?? 0);
-                    portfolio.AvgGain = portfolio.Positions.DefaultIfEmpty().Average(p => p?.Gain ?? 0);
-                    portfolio.MonthAvgGain = portfolio.Positions
-                        .Where(p => p.OpenDate.Month <= DateTime.Today.Month && p.OpenDate.Year <= DateTime.Today.Year)
-                        .Where(p => p.CloseDate == null || p.CloseDate.Value.Month >= DateTime.Today.Month && p.CloseDate.Value.Year >= DateTime.Today.Year)
-                        .DefaultIfEmpty()
-                        .Average(p => p == null ? 0 : p.Gain);
-                    Update(portfolio);
-                    db.SaveChanges();
-                    transaction.Commit();
-                }
-                catch (Exception)
-                {
-                    transaction.Rollback();
-                }
-            }
+            var portfolio = Session.Get<Portfolio>(id);
+            portfolio.PortfolioValue = portfolio.Positions.Sum(p => p.AbsoluteGain);
+            portfolio.Quantity = portfolio.Positions.Count();
+            portfolio.LastUpdateDate = DateTime.Now;
+            portfolio.PercentWins = GetPercentWins(id);
+            portfolio.BiggestWinner = portfolio.Positions.DefaultIfEmpty().Max(p => p?.Gain ?? 0);
+            portfolio.BiggestLoser = portfolio.Positions.DefaultIfEmpty().Min(p => p?.Gain ?? 0);
+            portfolio.AvgGain = portfolio.Positions.DefaultIfEmpty().Average(p => p?.Gain ?? 0);
+            portfolio.MonthAvgGain = portfolio.Positions
+                .Where(p => p.OpenDate.Month <= DateTime.Today.Month && p.OpenDate.Year <= DateTime.Today.Year)
+                .Where(p => p.CloseDate == null || p.CloseDate.Value.Month >= DateTime.Today.Month && p.CloseDate.Value.Year >= DateTime.Today.Year)
+                .DefaultIfEmpty()
+                .Average(p => p == null ? 0 : p.Gain);
+            Update(portfolio);
+            
         }
 
         public decimal GetPercentWins(int id)
         {
-            var portfolio = dbSet.Find(id);
+            var portfolio = Session.Get<Portfolio>(id);
             var winValuecount = portfolio.Positions.Count(pos => pos.Gain > 0);
             var allCount = portfolio.Positions.Count();
             return allCount == 0 ? 0 : winValuecount/allCount;
@@ -70,23 +59,22 @@ namespace DALEF.Repositories
 
         public void UpdatePortfolioNameAndNotes(Portfolio portfolio)
         {
-            dbSet.Attach(portfolio);
-            db.Entry(portfolio).Property(x => x.Name).IsModified = true;
-            db.Entry(portfolio).Property(x => x.Notes).IsModified = true;
-            db.Entry(portfolio).Property(x => x.Visibility).IsModified = true;
-            db.Entry(portfolio).Property(x => x.LastUpdateDate).IsModified = true;
+            //dbSet.Attach(portfolio);
+            //db.Entry(portfolio).Property(x => x.Name).IsModified = true;
+            //db.Entry(portfolio).Property(x => x.Notes).IsModified = true;
+            //db.Entry(portfolio).Property(x => x.Visibility).IsModified = true;
+            //db.Entry(portfolio).Property(x => x.LastUpdateDate).IsModified = true;
         }
 
         public bool IsExist(int id)
         {
-            return dbSet
-                .AsNoTracking()
+            return Session.Query<Portfolio>()
                 .Any(p => p.Id == id);
         }
 
         public IQueryable<Portfolio> GetPortfolioQuery(int id)
         {
-            return dbSet.AsNoTracking().Where(p=>p.Id == id);
+            return Session.Query<Portfolio>().Where(p=>p.Id == id);
         }
     }
 }

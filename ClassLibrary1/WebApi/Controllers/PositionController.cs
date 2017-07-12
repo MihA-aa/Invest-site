@@ -60,7 +60,7 @@ namespace WebApi.Controllers
             }
             try
             {
-                PositionService.CreatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId);
+                PositionService.CreatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId, RequestContext.Principal.Identity.GetUserId());
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace WebApi.Controllers
             {
                 if (PositionService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), position.Id))
                 {
-                    PositionService.UpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position));
+                    PositionService.UpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position), RequestContext.Principal.Identity.GetUserId());
                 }
                 else
                 {
@@ -135,7 +135,7 @@ namespace WebApi.Controllers
             {
                 if (PositionService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
-                    PositionService.DeletePosition(id);
+                    PositionService.DeletePosition(id, RequestContext.Principal.Identity.GetUserId());
                 }
                 else
                 {

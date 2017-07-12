@@ -5,26 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     public class ViewTemplateColumnRepository : GenericRepository<ViewTemplateColumn>, IViewTemplateColumnRepository
     {
-        public ViewTemplateColumnRepository(ApplicationContext context) : base(context)
+        public ViewTemplateColumnRepository(ISession session) : base(session)
         {
         }
 
         public bool IsExist(int id)
         {
-            return dbSet
-                .AsNoTracking()
+            return Session.Query<ViewTemplateColumn>()
                 .Any(p => p.Id == id);
         }
 
         public void SortDisplayIndex(int templateId)
         {
-            var movedColumns = dbSet
+            var movedColumns = Session.Query<ViewTemplateColumn>()
                             .Where(c => (c.ViewTemplateId == templateId))
                             .ToList()
                             .OrderBy(c => c.DisplayIndex)
@@ -48,7 +48,7 @@ namespace DALEF.Repositories
         {
             if (direction == "back")
             {
-                var movedColumns = dbSet
+                var movedColumns = Session.Query<ViewTemplateColumn>()
                             .Where(c => (toPosition <= c.DisplayIndex && c.DisplayIndex <= fromPosition && c.ViewTemplateId == templateId))
                             .ToList();
 
@@ -59,7 +59,7 @@ namespace DALEF.Repositories
             }
             else
             {
-                var movedColumns = dbSet
+                var movedColumns = Session.Query<ViewTemplateColumn>()
                             .Where(c => (fromPosition <= c.DisplayIndex && c.DisplayIndex <= toPosition && c.ViewTemplateId == templateId))
                             .ToList();
                 foreach (var column in movedColumns)
@@ -68,7 +68,7 @@ namespace DALEF.Repositories
                 }
             }
 
-            dbSet.Find(id).DisplayIndex = toPosition;
+            Session.Get<ViewTemplateColumn>(id).DisplayIndex = toPosition;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace PL.Util
             var builder = new ContainerBuilder();
             
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
-            builder.RegisterModule(new ServiceModule("DefaultConnection", "test"));
+            builder.RegisterModule(new ServiceModule(/*"DefaultConnection", "test"*/));
             //builder.Register(_ => MvcApplication.MapperConfiguration.CreateMapper()).As<IMapper>().SingleInstance();
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication)
                 .As<IAuthenticationManager>();

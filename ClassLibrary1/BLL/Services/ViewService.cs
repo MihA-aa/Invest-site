@@ -73,7 +73,7 @@ namespace BLL.Services
 
         public void CreateView(ViewDTO viewDto, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (viewDto == null)
@@ -85,26 +85,26 @@ namespace BLL.Services
                 view.Customer = customer;
                 customer.Views.Add(view);
                 db.Views.Create(view);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId, view.Id, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId, 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
         public void UpdateView(ViewDTO viewDto, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (viewDto == null)
@@ -115,26 +115,26 @@ namespace BLL.Services
                 var view = IMapper.Map<ViewDTO, View>(viewDto);
                 AddViewTemplateToView(view, view.ViewTemplateId);
                 db.Views.Update(view);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId, view.Id, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+               // db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId, viewDto?.Id ?? 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
         public void DeleteView(int? id, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (id == null)
@@ -142,20 +142,20 @@ namespace BLL.Services
                 if (!db.Views.IsExist(id.Value))
                     throw new ValidationException(Resource.Resource.ViewNotFound, "");
                 db.Views.Delete(id.Value);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Delete, userId, id.Value, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Delete, userId, id ?? 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 

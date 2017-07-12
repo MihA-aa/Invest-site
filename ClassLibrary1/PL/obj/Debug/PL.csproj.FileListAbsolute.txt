@@ -223,7 +223,6 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\System.Web.WebPages.Razor.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\WebGrease.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\DAL.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\DALEF.dll
-D:\project\git\Invest-site\ClassLibrary1\PL\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\BLL.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Autofac.xml
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Autofac.Integration.Mvc.xml
@@ -255,7 +254,6 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\Antlr3.Runtime.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Newtonsoft.Json.xml
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\DAL.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\DALEF.pdb
-D:\project\git\Invest-site\ClassLibrary1\PL\bin\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\obj\Debug\PL.pdb
@@ -269,3 +267,8 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.MVC.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Highcharts.MVC.pdb
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\NHibernate.AspNet.Identity.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Iesi.Collections.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Iesi.Collections.xml
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\NHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\NHibernate.xml

@@ -12,6 +12,7 @@ using BLL.Helpers;
 using DAL.Entities;
 using DAL.Enums;
 using DAL.Interfaces;
+using NHibernate;
 
 namespace BLL.Services
 {
@@ -20,13 +21,15 @@ namespace BLL.Services
         ICustomerService customerService { get; }
         IPositionService positionService { get; }
         IRecordService recordService { get; }
+        ISession session { get; }
 
         public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map, 
-                                 IPositionService ps, IRecordService rs) : base(uow, vd, map)
+                                 IPositionService ps, IRecordService rs, ISession ss) : base(uow, vd, map)
         {
             customerService = cs;
             positionService = ps;
             recordService = rs;
+            session = ss;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()
@@ -35,7 +38,8 @@ namespace BLL.Services
         }
         public IEnumerable<PortfolioDTO> GetPortfoliosForUser(string id)
         {
-            var profile = db.Profiles.Get(id);
+            var profile = session.Get<DAL.Entities.Profile>(id); // Session.Query<Profile>().FirstOrDefault(p => p.Id == id);// 
+            //var profile = db.Profiles.Get(id);
             if (profile == null)
                 throw new ValidationException(Resource.Resource.ProfileNotFound, "");
             return IMapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(profile?.Customer?.Portfolios);
@@ -101,7 +105,7 @@ namespace BLL.Services
 
         public int CreatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             int portfolioId = 0;
             try
             {
@@ -116,28 +120,28 @@ namespace BLL.Services
                 portfolio.Customer = customer;
                 customer.Portfolios.Add(portfolio);
                 db.Portfolios.Create(portfolio);
-                db.Save();
+                //db.Save();
                 portfolioId = portfolio.Id;
 
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Create, userId, portfolioId, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Create, userId, 0, false);
                 throw ex;
             }
-            finally
-            {
-                transaction.Dispose();
-            }
+            //finally
+            //{
+            //    transaction.Dispose();
+            //}
             return portfolioId;
         }
 
         public void UpdatePortfolioNameAndNotes(PortfolioDTO portfolioDto, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (portfolioDto == null)
@@ -149,26 +153,26 @@ namespace BLL.Services
                         .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
                 var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
                 db.Portfolios.UpdatePortfolioNameAndNotes(portfolio);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto?.Id ?? 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
         public void UpdatePortfolio(PortfolioDTO portfolioDto, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (portfolioDto == null)
@@ -180,26 +184,26 @@ namespace BLL.Services
                         .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
                 var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
                 db.Portfolios.Update(portfolio);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto?.Id ?? 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
         public void UpdatePortfolio(int? id)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (id == null)
@@ -213,22 +217,22 @@ namespace BLL.Services
                 }
                 RecalculatePortfolioValue(id);
 
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
         public void DeletePortfolio(int? id, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (id == null)
@@ -236,20 +240,20 @@ namespace BLL.Services
                 if (!db.Portfolios.IsExist(id.Value))
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
                 db.Portfolios.Delete(id.Value);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, id.Value, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, id ?? 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 

@@ -5,20 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     public class ViewRepository : GenericRepository<View>, IViewRepository
     {
-        public ViewRepository(ApplicationContext context) : base(context)
+        public ViewRepository(ISession session) : base(session)
         {
         }
 
         public bool IsExist(int id)
         {
-            return dbSet
-                .AsNoTracking()
+            return Session.Query<View>()
                 .Any(p => p.Id == id);
         }
     }

@@ -4,31 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
-using DALEF.EF;
 using DAL.Interfaces;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     class ProfileRepository : GenericRepository<Profile>, IProfileRepository
     {
-        public ProfileRepository(ApplicationContext context) : base(context)
+        public ProfileRepository(ISession session) : base(session)
         {
         }
         public void Delete(string id)
         {
-            Profile item = dbSet.Find(id);
+            Profile item = Session.Get<Profile>(id);
             if (item != null)
-                dbSet.Remove(item);
+                Session.Delete(Session.Load<Profile>(id));
         }
         public Profile Get(string id)
         {
-            return dbSet.Find(id);
+            var profile = Session.Query<Profile>().FirstOrDefault(p => p.Id == id);// Session.Get<Profile>(id);
+            return new Profile {Id = "2b640904-e2f1-4822-83f1-9f5e48246051", Login = "Admin", CustomerId = 1};
+            //return Session.Get<Profile>(id);
         }
 
         public bool ProfileAccess(string userid, int portfolioId)
         {
             bool check = false;
-            var profile = dbSet.AsNoTracking().FirstOrDefault(p => p.Id == userid);
+            var profile = Session.Query<Profile>().FirstOrDefault(p => p.Id == userid);
             var portfolios = profile?.Customer?.Portfolios;
             if (portfolios != null && portfolios.Any(p => p.Id == portfolioId))
                 check = true;
@@ -37,8 +40,7 @@ namespace DALEF.Repositories
 
         public bool IsExist(string id)
         {
-            return dbSet
-                .AsNoTracking()
+            return Session.Query<Profile>()
                 .Any(p => p.Id == id);
         }
     }

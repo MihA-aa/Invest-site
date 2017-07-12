@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
 
 namespace DALEF.Repositories
 {
     public class FormatRepository: GenericRepository<Format>, IFormatRepository
     {
-        public FormatRepository(ApplicationContext context) : base(context) {}
+        public FormatRepository(ISession session) : base(session) {}
     }
 }

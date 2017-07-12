@@ -45,7 +45,7 @@ namespace BLL.Services
 
         public void CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, int? templateId, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (viewTemplateColumnDto == null)
@@ -59,26 +59,26 @@ namespace BLL.Services
                 AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
                 AddColumnToTemplate(viewTemplateColumn, templateId);
                 ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Create, userId, viewTemplateColumn.Id, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Create, userId, 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
         public void UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (viewTemplateColumnDto == null)
@@ -90,20 +90,20 @@ namespace BLL.Services
                 AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
                 ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
                 db.ViewTemplateColumns.Update(viewTemplateColumn);
-                db.Save();
+                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Update, userId, viewTemplateColumnDto.Id, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Update, userId, viewTemplateColumnDto?.Id ?? 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
@@ -146,7 +146,7 @@ namespace BLL.Services
 
         public void DeleteViewTemplateColumn(int? id, string userId)
         {
-            var transaction = db.BeginTransaction();
+            //var transaction = db.BeginTransaction();
             try
             {
                 if (id == null)
@@ -156,22 +156,22 @@ namespace BLL.Services
 
                 int templateId = db.ViewTemplates.GetTemplateIdByColumnId(id.Value);
                 db.ViewTemplateColumns.Delete(id.Value);
-                db.Save();
+                //db.Save();
                 db.ViewTemplateColumns.SortDisplayIndex(templateId);
-                db.Save();
+                //db.Save();
                 
                 recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Delete, userId, id.Value, true);
-                db.Commit(transaction);
+                //db.Commit(transaction);
             }
             catch (Exception ex)
             {
-                db.RollBack(transaction);
+                //db.RollBack(transaction);
                 recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Delete, userId, id ?? 0, false);
                 throw ex;
             }
             finally
             {
-                transaction.Dispose();
+                //transaction.Dispose();
             }
         }
 
@@ -194,7 +194,7 @@ namespace BLL.Services
             int templateId = db.ViewTemplates.GetTemplateIdByColumnId(id);
             db.ViewTemplateColumns.UpdateColumnOrder(id, fromPosition, toPosition, direction, templateId);
             db.ViewTemplateColumns.SortDisplayIndex(templateId);
-            db.Save();
+            //db.Save();
         }
     }
 }

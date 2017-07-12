@@ -11,6 +11,9 @@ using BLL.Services;
 using DAL.Entities;
 using DAL.Interfaces;
 using DALEF.Repositories;
+using Microsoft.AspNet.Identity;
+using NHibernate;
+using NHibernate.AspNet.Identity;
 
 namespace BLL.Infrastructure
 {
@@ -18,16 +21,16 @@ namespace BLL.Infrastructure
     {
         private string connectionString;
         private string connectionStringForExistDB;
-        public ServiceModule(string connection, string connectionForExistDB)
+        public ServiceModule(/*string connection, string connectionForExistDB*/)
         {
-            connectionString = connection;
-            connectionStringForExistDB = connectionForExistDB;
+            //connectionString = connection;
+            //connectionStringForExistDB = connectionForExistDB;
         }
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>()
-                .WithParameters(new List<Parameter> { new NamedParameter("connectionString", connectionString),
-            new NamedParameter("connectionStringForExistDB", connectionStringForExistDB) }).
+            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>().
+            //    .WithParameters(new List<Parameter> { new NamedParameter("connectionString", connectionString),
+            //new NamedParameter("connectionStringForExistDB", connectionStringForExistDB) }).
                 InstancePerRequest();
             builder.RegisterType<PortfolioService>().As<IPortfolioService>().
                 InstancePerRequest();
@@ -58,6 +61,14 @@ namespace BLL.Infrastructure
             builder.RegisterType<RecordService>().As<IRecordService>().
                 InstancePerRequest();
             builder.Register(_ => new AutoMapperConfiguration().Configure().CreateMapper()).As<IMapper>().SingleInstance();
+
+
+            builder.Register(c => NHibernateSessionFactory.SessionFactory.OpenSession()).As<ISession>();
+
+            //builder.RegisterType<RoleStore<Role>>()
+            //       .As<IRoleStore<IdentityRole>>().InstancePerRequest();
+            //builder.RegisterType<UserStore<User>>()
+            //       .As<IUserStore<User>>().InstancePerRequest();
             base.Load(builder);
         }
     }

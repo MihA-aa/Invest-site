@@ -20,7 +20,7 @@ namespace DAL.Entities
 
     public class ViewMap : ClassMapping<View>
     {
-        private ViewMap()
+        public ViewMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

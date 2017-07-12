@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Data.Entity;
+//using System.Data.Entity;
 using DAL.ApplicationManager;
 using DAL.Entities;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace DAL.Interfaces
 {
@@ -22,13 +23,16 @@ namespace DAL.Interfaces
         IColumnRepository Columns { get; }
         IColumnFormatRepository ColumnFormats { get; }
         IViewRepository Views { get; }
-        ApplicationUserManager UserManager { get; }
+        UserManager<User> UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
 
-        void Save();
-        Task SaveAsync();
-        DbContextTransaction BeginTransaction();
-        void Commit(DbContextTransaction transaction);
-        void RollBack(DbContextTransaction transaction);
+        //void Save();
+        //Task SaveAsync();
+        void BeginTransaction();
+        void Commit();
+        void Rollback();
+        //DbContextTransaction BeginTransaction();
+        //void Commit(DbContextTransaction transaction);
+        //void RollBack(DbContextTransaction transaction);
     }
 }

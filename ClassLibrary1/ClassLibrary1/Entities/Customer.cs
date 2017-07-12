@@ -53,7 +53,7 @@ namespace DAL.Entities
 
     public class CustomerMap : ClassMapping<Customer>
     {
-        CustomerMap()
+        public CustomerMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

@@ -28,9 +28,11 @@ namespace DAL.Entities
 
     public class ProfileMap : ClassMapping<Profile>
     {
-        private ProfileMap()
+        public ProfileMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
+            //CompositeId().KeyReference(x => x.User, "Id");
+            Id(x => x.Id, map => map.Generator(Generators.GuidComb));
+            Property(x => x.Id);
             Property(x => x.Login);
             Property(x => x.CustomerId);
             ManyToOne(x => x.Customer,
@@ -38,7 +40,8 @@ namespace DAL.Entities
                 c.Cascade(Cascade.Persist);
                 c.Column("Customer_Id");
             });
-            OneToOne(x => x.User, c => {
+            OneToOne(x => x.User, c =>
+            {
                 c.Cascade(Cascade.All);
                 c.Constrained(true);
             });

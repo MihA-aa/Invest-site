@@ -27,7 +27,7 @@ namespace DAL.Entities
 
     public class ColumnMap : ClassMapping<Column>
     {
-        ColumnMap()
+        public ColumnMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

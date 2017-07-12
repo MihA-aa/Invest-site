@@ -5,26 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     public class ViewTemplateRepository : GenericRepository<ViewTemplate>, IViewTemplateRepository
     {
-        public ViewTemplateRepository(ApplicationContext context) : base(context)
+        public ViewTemplateRepository(ISession session) : base(session)
         {
         }
 
         public bool IsExist(int id)
         {
-            return dbSet
-                .AsNoTracking()
+            return Session.Query<ViewTemplate>()
                 .Any(p => p.Id == id);
         }
 
         public void AddColumnToTemplate(ViewTemplateColumn column, int templateId)
         {
-            var template = dbSet.Find(templateId);
+            var template = Session.Get<ViewTemplate>(templateId);
             template.Columns.Add(column);
             column.ViewTemplate = template;
             column.ViewTemplateId = templateId;
@@ -32,12 +32,12 @@ namespace DALEF.Repositories
 
         public int GetCountColumnInTemplate(int templateId)
         {
-            return dbSet.Find(templateId)?.Columns.Count() ?? 0;
+            return Session.Get<ViewTemplate>(templateId)?.Columns.Count() ?? 0;
         }
 
         public int GetTemplateIdByColumnId(int columnId)
         {
-            return dbSet.FirstOrDefault(x => x.Columns.Any(p => p.Id == columnId))?.Id ?? 0;
+            return Session.Query<ViewTemplate>().FirstOrDefault(x => x.Columns.Any(p => p.Id == columnId))?.Id ?? 0;
         }
     }
 }

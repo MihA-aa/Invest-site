@@ -57,7 +57,7 @@ namespace BLL.Services
                 throw new ValidationException("Record Null Reference", "");
             var record = IMapper.Map<RecordDTO, Record>(recordDTO);
             db.Records.Create(record);
-            db.Save();
+            //db.Save();
             return record.Id;
         }
 
@@ -68,7 +68,7 @@ namespace BLL.Services
             if (!db.Records.IsExist(id.Value))
                 throw new ValidationException("Record Not Found", "");
             db.Records.Delete(id.Value);
-            db.Save();
+            //db.Save();
         }
 
         public void EstablishSuccess(int? id)
@@ -80,7 +80,7 @@ namespace BLL.Services
                 throw new ValidationException("Record Not Found", "");
             record.Successfully = true;
             db.Records.Update(record);
-            db.Save();
+            //db.Save();
         }
 
         public void SetEntityId(int? entityId, int? recordId)
@@ -94,7 +94,7 @@ namespace BLL.Services
                 throw new ValidationException("Record Not Found", "");
             record.EntityId = entityId.Value;
             db.Records.Update(record);
-            db.Save();
+            //db.Save();
         }
     }
 }

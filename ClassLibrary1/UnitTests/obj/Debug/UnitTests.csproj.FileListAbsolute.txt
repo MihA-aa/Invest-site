@@ -158,4 +158,9 @@ D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\System.Web.Optimiza
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\log4net.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Autofac.Integration.Mvc.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml
-D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\DotNet.Highcharts.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\NHibernate.AspNet.Identity.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\NHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Highstock.Web.Mvc.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Iesi.Collections.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\NHibernate.xml
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Iesi.Collections.xml

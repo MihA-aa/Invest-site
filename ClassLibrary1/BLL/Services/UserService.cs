@@ -23,6 +23,7 @@ namespace BLL.Services
 
         public async Task CreateAsync(UserDTO userDto, int? customerId = 0)
         {
+            db.BeginTransaction();
             validateService.Validate(userDto);
             User user = await db.UserManager.FindByNameAsync(userDto.Login);
             if (user == null)
@@ -39,12 +40,13 @@ namespace BLL.Services
                     await db.UserManager.AddToRoleAsync(user.Id, "Employee");
                 }
                 db.Profiles.Create(clientProfile);
-                await db.SaveAsync();
+                //await db.SaveAsync();
             }
             else
             {
                 throw new ValidationException(Resource.Resource.UserAlreadyExists, "Login");
             }
+            db.Commit();
         }
 
         public async Task ChangeUserData(UserDTO userDto, int? customerId)
@@ -62,7 +64,7 @@ namespace BLL.Services
                 profile.Login = userDto.Login;
                 AddProfileToCustomer(profile, customerId);
                 await db.UserManager.AddToRoleAsync(user.Id, "Employee");
-                await db.SaveAsync();
+                //await db.SaveAsync();
             }
             else
             {

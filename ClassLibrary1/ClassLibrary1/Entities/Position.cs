@@ -57,7 +57,7 @@ namespace DAL.Entities
 
     public class PositionMap : ClassMapping<Position>
     {
-        private PositionMap()
+        public PositionMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

@@ -18,7 +18,7 @@ namespace DAL.Entities
 
     public class RecordMap : ClassMapping<Record>
     {
-        private RecordMap()
+        public RecordMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.DateTime);

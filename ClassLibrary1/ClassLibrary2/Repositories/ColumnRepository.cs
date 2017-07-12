@@ -5,23 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     public class ColumnRepository : GenericRepository<Column>, IColumnRepository
     {
-        public ColumnRepository(ApplicationContext context) : base(context)
+        public ColumnRepository(ISession session) : base(session)
         {
         }
+
         public Format GetFormatsByColumnName(string column)
         {
-            return dbSet.FirstOrDefault(c => c.Name == column)?.Format;
+            return Session.Query<Column>()
+                .FirstOrDefault(c => c.Name == column)?.Format;
         }
 
         public Column GetColumnByColumnName(string column)
         {
-            return dbSet.FirstOrDefault(c => c.Name == column);
+            return Session.Query<Column>()
+                .FirstOrDefault(c => c.Name == column);
         }
     }
 }

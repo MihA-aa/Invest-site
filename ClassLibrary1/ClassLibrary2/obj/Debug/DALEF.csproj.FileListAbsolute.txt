@@ -36,13 +36,11 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DAL.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.SqlServer.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.Core.dll
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\System.Linq.Dynamic.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DAL.pdb
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\EntityFramework.SqlServer.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.Core.xml
-D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.AddViewChange.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.AddViewChangea.resources
@@ -82,3 +80,9 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migration
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.Addedrecords2.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.Addedrecords3.resources
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\obj\Debug\DALEF.Migrations.Addedrecords4.resources
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\DALEF.dll.config
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Iesi.Collections.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\NHibernate.AspNet.Identity.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\NHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Iesi.Collections.xml
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\NHibernate.xml

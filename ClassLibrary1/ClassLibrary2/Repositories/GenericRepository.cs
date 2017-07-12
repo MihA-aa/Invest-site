@@ -1,67 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Linq;
 using DAL.Interfaces;
-using DALEF.EF;
+//using DALEF.EF;
 using System.Threading.Tasks;
+using DAL.Entities;
+using DAL.Enums;
+using NHibernate;
+using NHibernate.Event.Default;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-        protected ApplicationContext db;
-        protected DbSet<T> dbSet;
-        public GenericRepository(ApplicationContext context)
+        //protected ApplicationContext db;
+        //protected DbSet<T> dbSet;
+        protected readonly ISession Session;
+
+        public GenericRepository(ISession session)
         {
-            this.db = context;
-            this.dbSet = context.Set<T>();
+            Session = session;
         }
 
         public void Create(T item)
         {
-            dbSet.Add(item);
+            Session.Save(item);
         }
 
         public void Delete(int id)
         {
-            T item = dbSet.Find(id);
-            dbSet.Remove(item);
+            Session.Delete(Session.Load<T>(id));
         }
 
         public IEnumerable<T> Find(Func<T, bool> predicate)
         {
-            return dbSet.Where(predicate).ToList();
+            return Session
+            .Query<T>()
+            .Where(predicate);
         }
         
         public T Get(int id)
         {
-            return dbSet.Find(id);
-        }
-
-        public async Task<T> GetAsync(int id)
-        {
-            return await dbSet.FindAsync(id);
+            return Session.Get<T>(id);
         }
 
         public IEnumerable<T> GetAll()
         {
-            return dbSet.ToList(); ;
-        }
-
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            return await dbSet.ToListAsync();
+            return Session.Query<T>();
         }
 
         public void Update(T item)
         {
-            db.Entry(item).State = EntityState.Modified;
+            Session.Update(item);
         }
 
         public int Count()
         {
-            return dbSet.Count();
+            return Session
+            .Query<T>()
+            .Count();
         }
     }
 }

@@ -56,7 +56,6 @@ D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\DALEF.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\EntityFramework.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\EntityFramework.SqlServer.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.Core.dll
-D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\DAL.pdb
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\DALEF.pdb
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Autofac.xml
@@ -64,10 +63,14 @@ D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\AutoMapper.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\EntityFramework.SqlServer.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.Core.xml
-D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.csprojResolveAssemblyReference.cache
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.Resource.Resource.resources
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.csproj.GenerateResource.Cache
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\obj\Debug\BLL.pdb
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\DotNet.Highcharts.dll
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Iesi.Collections.dll
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\NHibernate.AspNet.Identity.dll
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\NHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Iesi.Collections.xml
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\NHibernate.xml

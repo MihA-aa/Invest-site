@@ -5,15 +5,15 @@ namespace DALEF.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DALEF.EF.ApplicationContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = false;
-        }
+    //internal sealed class Configuration : DbMigrationsConfiguration<DALEF.EF.ApplicationContext>
+    //{
+    //    public Configuration()
+    //    {
+    //        AutomaticMigrationsEnabled = false;
+    //    }
 
-        protected override void Seed(DALEF.EF.ApplicationContext context)
-        {
-        }
-    }
+    //    protected override void Seed(DALEF.EF.ApplicationContext context)
+    //    {
+    //    }
+    //}
 }

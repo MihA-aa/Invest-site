@@ -51,7 +51,7 @@ namespace BLL.Services
             if (customerDto == null)
                 throw new ValidationException(Resource.Resource.CustomerNullReference, "");
             db.Customers.Create(IMapper.Map<CustomerDTO, Customer>(customerDto));
-            db.Save();
+            //db.Save();
         }
 
         public void UpdateCustomer(CustomerDTO customerDto)
@@ -61,7 +61,7 @@ namespace BLL.Services
             if (!db.Customers.IsExist(customerDto.Id))
                 throw new ValidationException(Resource.Resource.CustomerNotFound, "");
             db.Customers.Update(IMapper.Map<CustomerDTO, Customer>(customerDto));
-            db.Save();
+            //db.Save();
         }
 
         public void DeleteCustomer(int? id)
@@ -71,7 +71,7 @@ namespace BLL.Services
             if (!db.Customers.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.CustomerNotFound, "");
             db.Customers.Delete(id.Value);
-            db.Save();
+            //db.Save();
         }
     }
 }

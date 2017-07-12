@@ -7,6 +7,7 @@ using System.Web.Http;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
+using Microsoft.AspNet.Identity;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -81,7 +82,7 @@ namespace WebApi.Controllers
             {
                 if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", view.Id))
                 {
-                    viewService.UpdateView(Mapper.Map<ViewModel, ViewDTO>(view));
+                    viewService.UpdateView(Mapper.Map<ViewModel, ViewDTO>(view), RequestContext.Principal.Identity.GetUserId());
                 }
                 else
                 {
@@ -103,7 +104,7 @@ namespace WebApi.Controllers
             {
                 if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
                 {
-                    viewService.DeleteView(id);
+                    viewService.DeleteView(id, RequestContext.Principal.Identity.GetUserId());
                 }
                 else
                 {

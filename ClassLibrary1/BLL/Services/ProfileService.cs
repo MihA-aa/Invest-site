@@ -57,7 +57,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ProfileNotFound, "");
             db.Profiles.Delete(id);
             userService.DeleteUser(id);
-            db.Save();
+           // db.Save();
         }
     }
 }

@@ -39,7 +39,7 @@ namespace DAL.Entities
 
     public class ViewTemplateMap : ClassMapping<ViewTemplate>
     {
-        private ViewTemplateMap()
+        public ViewTemplateMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

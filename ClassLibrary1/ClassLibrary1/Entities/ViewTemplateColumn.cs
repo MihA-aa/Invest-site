@@ -31,7 +31,7 @@ namespace DAL.Entities
 
     public class ViewTemplateColumnMap : ClassMapping<ViewTemplateColumn>
     {
-        private ViewTemplateColumnMap()
+        public ViewTemplateColumnMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

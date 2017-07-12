@@ -10,7 +10,7 @@ using DALEF.EF;
 
 namespace DALEF.Repositories
 {
-    public class SymbolDividendRepository: ISymbolDividendRepository
+    public class SymbolDividendRepository : ISymbolDividendRepository
     {
         protected DatabaseFirstContext db;
         protected DbSet<SymbolDividend> dbSet;

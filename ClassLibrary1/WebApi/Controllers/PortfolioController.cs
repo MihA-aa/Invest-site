@@ -82,7 +82,7 @@ namespace WebApi.Controllers
             {
                 if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), portfolio.Id))
                 {
-                    portfolioService.UpdatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio));
+                    portfolioService.UpdatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio), RequestContext.Principal.Identity.GetUserId());
                 }
                 else
                 {
@@ -120,7 +120,7 @@ namespace WebApi.Controllers
             {
                 if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
-                    portfolioService.DeletePortfolio(id);
+                    portfolioService.DeletePortfolio(id, RequestContext.Principal.Identity.GetUserId());
                 }
                 else
                 {

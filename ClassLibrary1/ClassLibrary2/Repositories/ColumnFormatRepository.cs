@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
 
 namespace DALEF.Repositories
 {
     class ColumnFormatRepository : GenericRepository<ColumnFormat>, IColumnFormatRepository
     {
-        public ColumnFormatRepository(ApplicationContext context) : base(context)
+        public ColumnFormatRepository(ISession session) : base(session)
         {
         }
     }

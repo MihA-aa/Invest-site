@@ -2,31 +2,31 @@
 using System.Linq.Dynamic;
 using DAL.Entities;
 using DAL.Interfaces;
-using DALEF.EF;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
     public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository
     {
-        public CustomerRepository(ApplicationContext context) : base(context)
+        public CustomerRepository(ISession session) : base(session)
         {
         }
 
         public Customer GetCustomerByProfileId(string profileId)
         {
-            return dbSet.FirstOrDefault(x => x.Profiles.Any(p => p.Id == profileId));
+            return Session.Query<Customer>().FirstOrDefault(x => x.Profiles.Any(p => p.Id == profileId));
         }
 
         public bool IsExist(int id)
         {
-            return dbSet
-                .AsNoTracking()
+            return Session.Query<Customer>()
                 .Any(p => p.Id == id);
         }
 
         public void AddProfileToCustomer(Profile profile, int? customerId)
         {
-            var customer = dbSet.Find(customerId);
+            var customer = Session.Get<Customer>(customerId);
             customer.Profiles.Add(profile);
             profile.Customer = customer;
             profile.CustomerId = customerId;

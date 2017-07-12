@@ -36,7 +36,7 @@ namespace DAL.Entities
 
     public class FormatMap : ClassMapping<Format>
     {
-        FormatMap()
+        public FormatMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);

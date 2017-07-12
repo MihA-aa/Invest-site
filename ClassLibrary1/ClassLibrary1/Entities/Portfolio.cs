@@ -35,7 +35,7 @@ namespace DAL.Entities
 
     public class PortfolioMap : ClassMapping<Portfolio>
     {
-        PortfolioMap()
+        public PortfolioMap()
         {
             Id(x => x.Id, map => map.Generator(Generators.Native));
             Property(x => x.Name);
