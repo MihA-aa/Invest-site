@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 //using System.Data.Entity;
 using DAL.ApplicationManager;
 using DAL.Entities;
@@ -25,14 +26,9 @@ namespace DAL.Interfaces
         IViewRepository Views { get; }
         UserManager<User> UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
-
-        //void Save();
-        //Task SaveAsync();
-        void BeginTransaction();
+        
+        void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
         void Commit();
         void Rollback();
-        //DbContextTransaction BeginTransaction();
-        //void Commit(DbContextTransaction transaction);
-        //void RollBack(DbContextTransaction transaction);
     }
 }

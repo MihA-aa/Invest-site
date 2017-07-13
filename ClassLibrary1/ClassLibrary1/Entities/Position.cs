@@ -29,7 +29,7 @@ namespace DAL.Entities
         
         public virtual Portfolio Portfolio { get; set; }
 
-        public object Clone()
+        public virtual object Clone()
         {
             return new Position
             {

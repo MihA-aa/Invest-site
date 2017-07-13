@@ -14,15 +14,15 @@ namespace DAL.Entities
         public virtual string Name { get; set; }
         public virtual Format Format { get; set; }
 
-        private IList<ViewTemplateColumn> _viewTemplateColumns;
-        public virtual IList<ViewTemplateColumn> ViewTemplateColumns
-        {
-            get
-            {
-                return _viewTemplateColumns ?? (_viewTemplateColumns = new List<ViewTemplateColumn>());
-            }
-            set { _viewTemplateColumns = value; }
-        }
+        //private IList<ViewTemplateColumn> _viewTemplateColumns;
+        //public virtual IList<ViewTemplateColumn> ViewTemplateColumns
+        //{
+        //    get
+        //    {
+        //        return _viewTemplateColumns ?? (_viewTemplateColumns = new List<ViewTemplateColumn>());
+        //    }
+        //    set { _viewTemplateColumns = value; }
+        //}
     }
 
     public class ColumnMap : ClassMapping<Column>
@@ -36,9 +36,9 @@ namespace DAL.Entities
                 c.Cascade(Cascade.Persist);
                 c.Column("Format_Id");
             });
-            Bag(x => x.ViewTemplateColumns,
-            c => { c.Key(k => k.Column("Column_Id")); c.Inverse(true); },
-            r => r.OneToMany());
+            //Bag(x => x.ViewTemplateColumns,
+            //c => { c.Key(k => k.Column("Column_Id")); c.Inverse(true); },
+            //r => r.OneToMany());
         }
     }
 }

@@ -27,7 +27,7 @@ namespace BLL.Services
 
         public IEnumerable<ViewDTO> GetViews()
         {
-            return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(db.Views.GetAll());
+            return IMapper.Map<IEnumerable<ViewForTable>, List<ViewDTO>>(db.Views.GetAll());
         }
 
         public IEnumerable<ViewDTO> GetViewsForUser(string id)
@@ -35,7 +35,7 @@ namespace BLL.Services
             var profile = db.Profiles.Get(id);
             if (profile == null)
                 throw new ValidationException(Resource.Resource.ProfileNotFound, "");
-            return IMapper.Map<IEnumerable<View>, List<ViewDTO>>(profile.Customer?.Views);
+            return IMapper.Map<IEnumerable<ViewForTable>, List<ViewDTO>>(profile.Customer?.Views);
         }
 
         public bool CheckAccess(string userId, int? viewId)
@@ -55,10 +55,10 @@ namespace BLL.Services
         {
             if (id == null)
                 throw new ValidationException(Resource.Resource.ViewIdNotSet, "");
-            var view = db.Views.Get(id.Value);
-            if (view == null)
+            if (db.Views.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.ViewNotFound, "");
-            return IMapper.Map<View, ViewDTO>(view);
+            var view = db.Views.Get(id.Value);
+            return IMapper.Map<ViewForTable, ViewDTO>(view);
         }
         
         public void CreateOrUpdateView(ViewDTO view, string userId)
@@ -79,7 +79,7 @@ namespace BLL.Services
                 if (viewDto == null)
                     throw new ValidationException(Resource.Resource.ViewNullReference, "");
                 validateService.Validate(viewDto);
-                var view = IMapper.Map<ViewDTO, View>(viewDto);
+                var view = IMapper.Map<ViewDTO, ViewForTable>(viewDto);
                 AddViewTemplateToView(view, view.ViewTemplateId);
                 var customer = customerService.GetCustomerByProfileId(userId);
                 view.Customer = customer;
@@ -112,7 +112,7 @@ namespace BLL.Services
                 if (!db.Views.IsExist(viewDto.Id))
                     throw new ValidationException(Resource.Resource.ViewNotFound, "");
                 validateService.Validate(viewDto);
-                var view = IMapper.Map<ViewDTO, View>(viewDto);
+                var view = IMapper.Map<ViewDTO, ViewForTable>(viewDto);
                 AddViewTemplateToView(view, view.ViewTemplateId);
                 db.Views.Update(view);
                 //db.Save();
@@ -159,7 +159,7 @@ namespace BLL.Services
             }
         }
 
-        public void AddViewTemplateToView(View view, int? ViewTemplateId)
+        public void AddViewTemplateToView(ViewForTable view, int? ViewTemplateId)
         {
             if (view == null)
                 throw new ValidationException(Resource.Resource.ViewNullReference, "");

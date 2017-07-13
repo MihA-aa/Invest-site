@@ -4,7 +4,7 @@ using NHibernate.Mapping.ByCode.Conformist;
 
 namespace DAL.Entities
 {
-    public class View
+    public class ViewForTable
     {
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
@@ -12,13 +12,12 @@ namespace DAL.Entities
         public virtual DateFormats DateFormat { get; set; }
         public virtual int MoneyPrecision { get; set; }
         public virtual int PercentyPrecision { get; set; }
-        public virtual int? PortfolioId { get; set; }
         public virtual int? ViewTemplateId { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ViewTemplate ViewTemplate { get; set; }
     }
 
-    public class ViewMap : ClassMapping<View>
+    public class ViewMap : ClassMapping<ViewForTable>
     {
         public ViewMap()
         {
@@ -28,15 +27,16 @@ namespace DAL.Entities
             Property(x => x.DateFormat);
             Property(x => x.MoneyPrecision);
             Property(x => x.PercentyPrecision);
-            Property(x => x.PortfolioId);
             Property(x => x.ViewTemplateId);
             ManyToOne(x => x.Customer,
-            c => {
+            c =>
+            {
                 c.Cascade(Cascade.Persist);
                 c.Column("Customer_Id");
             });
             ManyToOne(x => x.ViewTemplate,
-            c => {
+            c =>
+            {
                 c.Cascade(Cascade.Persist);
                 c.Column("ViewTemplate_Id");
             });

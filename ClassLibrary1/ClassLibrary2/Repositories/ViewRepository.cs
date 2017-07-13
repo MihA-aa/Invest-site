@@ -10,7 +10,7 @@ using NHibernate.Linq;
 
 namespace DALEF.Repositories
 {
-    public class ViewRepository : GenericRepository<View>, IViewRepository
+    public class ViewRepository : GenericRepository<ViewForTable>, IViewRepository
     {
         public ViewRepository(ISession session) : base(session)
         {
@@ -18,7 +18,7 @@ namespace DALEF.Repositories
 
         public bool IsExist(int id)
         {
-            return Session.Query<View>()
+            return Session.Query<ViewForTable>()
                 .Any(p => p.Id == id);
         }
     }

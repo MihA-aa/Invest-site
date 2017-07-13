@@ -51,7 +51,8 @@ namespace DAL.Entities
             Property(x => x.MonthAvgGain);
             Property(x => x.PortfolioValue);
             ManyToOne(x => x.Customer,
-            c => {
+            c =>
+            {
                 c.Cascade(Cascade.Persist);
                 c.Column("Customer_Id");
             });

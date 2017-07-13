@@ -7,7 +7,7 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IViewRepository : IRepository<View>
+    public interface IViewRepository : IRepository<ViewForTable>
     {
         bool IsExist(int id);
     }

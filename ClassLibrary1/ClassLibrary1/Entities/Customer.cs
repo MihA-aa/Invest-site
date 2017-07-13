@@ -14,7 +14,7 @@ namespace DAL.Entities
 
         private IList<Portfolio> _portfolios;
         private IList<Profile> _profiles;
-        private IList<View> _views;
+        private IList<ViewForTable> _views;
         private IList<ViewTemplate> _viewTemplates;
 
         public virtual IList<Portfolio> Portfolios
@@ -33,11 +33,11 @@ namespace DAL.Entities
             }
             set { _profiles = value; }
         }
-        public virtual IList<View> Views
+        public virtual IList<ViewForTable> Views
         {
             get
             {
-                return _views ?? (_views = new List<View>());
+                return _views ?? (_views = new List<ViewForTable>());
             }
             set { _views = value; }
         }

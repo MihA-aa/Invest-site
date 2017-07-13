@@ -124,12 +124,10 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\Book.cs" />
     <Compile Include="Services\CalculationService.cs" />
     <Compile Include="Services\ColumnService.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\HelperService.cs" />
-    <Compile Include="Services\NHibernateSessionFactory.cs" />
     <Compile Include="Services\PortfolioService.cs" />
     <Compile Include="Services\PositionService.cs" />
     <Compile Include="Services\ProfileService.cs" />

@@ -32,7 +32,7 @@ namespace BLL.Infrastructure
             .ForMember("FormatName", opt => opt.MapFrom(src => src.ColumnFormat.Name));
             CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>();
             CreateMap<ColumnFormat, ColumnFormatDTO>();
-            CreateMap<View, ViewDTO>().ReverseMap();
+            CreateMap<ViewForTable, ViewDTO>().ReverseMap();
             CreateMap<DAL.Entities.Profile, ProfileDTO>().ReverseMap();
             CreateMap<TradeSybolView, TradeSybolViewDTO>();
             CreateMap<SymbolView, SymbolViewDTO>();

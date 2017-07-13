@@ -16,7 +16,7 @@ namespace DAL.Entities
         public virtual Customer Customer { get; set; }
         public virtual ViewTemplateColumn SortColumn { get; set; }
 
-        private IList<View> _views;
+        private IList<ViewForTable> _views;
         private IList<ViewTemplateColumn> _columns;
 
         public virtual IList<ViewTemplateColumn> Columns
@@ -27,11 +27,11 @@ namespace DAL.Entities
             }
             set { _columns = value; }
         }
-        public virtual IList<View> Views
+        public virtual IList<ViewForTable> Views
         {
             get
             {
-                return _views ?? (_views = new List<View>());
+                return _views ?? (_views = new List<ViewForTable>());
             }
             set { _views = value; }
         }

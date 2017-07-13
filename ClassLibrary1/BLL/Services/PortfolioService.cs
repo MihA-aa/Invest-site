@@ -21,15 +21,13 @@ namespace BLL.Services
         ICustomerService customerService { get; }
         IPositionService positionService { get; }
         IRecordService recordService { get; }
-        ISession session { get; }
 
         public PortfolioService(IUnitOfWork uow, IValidateService vd, ICustomerService cs, IMapper map, 
-                                 IPositionService ps, IRecordService rs, ISession ss) : base(uow, vd, map)
+                                 IPositionService ps, IRecordService rs) : base(uow, vd, map)
         {
             customerService = cs;
             positionService = ps;
             recordService = rs;
-            session = ss;
         }
         
         public IEnumerable<PortfolioDTO> GetPortfolios()
@@ -38,8 +36,8 @@ namespace BLL.Services
         }
         public IEnumerable<PortfolioDTO> GetPortfoliosForUser(string id)
         {
-            var profile = session.Get<DAL.Entities.Profile>(id); // Session.Query<Profile>().FirstOrDefault(p => p.Id == id);// 
-            //var profile = db.Profiles.Get(id);
+            //var profile = session.Get<DAL.Entities.Profile>(id); // Session.Query<Profile>().FirstOrDefault(p => p.Id == id);// 
+            var profile = db.Profiles.Get(id);
             if (profile == null)
                 throw new ValidationException(Resource.Resource.ProfileNotFound, "");
             return IMapper.Map<IEnumerable<Portfolio>, List<PortfolioDTO>>(profile?.Customer?.Portfolios);

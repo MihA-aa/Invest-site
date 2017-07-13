@@ -72,7 +72,6 @@
   <ItemGroup>
     <Compile Include="EF\ApplicationContext.cs" />
     <Compile Include="EF\DatabaseFirstContext.cs" />
-    <Compile Include="EF\Employee.cs" />
     <Compile Include="Migrations\201706011357457_AddViewChange.cs" />
     <Compile Include="Migrations\201706011357457_AddViewChange.Designer.cs">
       <DependentUpon>201706011357457_AddViewChange.cs</DependentUpon>
@@ -214,6 +213,7 @@
       <DependentUpon>201706291239460_Addedrecords4.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="NHibernateHelp\NHibernateSessionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ColumnFormatRepository.cs" />
     <Compile Include="Repositories\ColumnRepository.cs" />

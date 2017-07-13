@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 //using System.Data.Entity;
@@ -8,7 +10,9 @@ using DAL.Interfaces;
 //using DALEF.EF;
 using NHibernate.AspNet.Identity;
 using System.Threading.Tasks;
+using DAL.Enums;
 using DALEF.EF;
+using DALEF.NHibernateHelp;
 using Microsoft.AspNet.Identity;
 using NHibernate;
 using NHibernate.AspNet.Identity.Helpers;
@@ -22,7 +26,6 @@ namespace DALEF.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        //private ApplicationContext db;
         private DatabaseFirstContext viewDb;
         private SymbolViewRepository SymbolsViews;
         private CustomerRepository customerRepository;
@@ -40,56 +43,16 @@ namespace DALEF.Repositories
         private RecordRepository recordRepository;
         private UserManager<User> userManager;
         private ApplicationRoleManager roleManager;
-
-        private readonly ISessionFactory sessionFactory;
+        
         private ITransaction _transaction;
         public ISession Session { get; private set; }
 
-        public EFUnitOfWork(/*ISessionFactory sessionFactory*//*string connectionString, string connectionStringForExistDB*/)
+        public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
         {
-            viewDb = new DatabaseFirstContext("test");
-
-            //this.sessionFactory = sessionFactory;
-            //Session = sessionFactory.OpenSession();
-
-            //sessionFactory = Fluently.Configure()
-            //.Database(MsSqlConfiguration.MsSql2008.ConnectionString(x => x.FromConnectionStringWithKey("UnitOfWorkExample")))
-            //.Mappings(x => x.AutoMappings.Add(
-            //    AutoMap.AssemblyOf<Product>(new AutomappingConfiguration()).UseOverridesFromAssemblyOf<ProductOverrides>()))
-            //.ExposeConfiguration(config => new SchemaUpdate(config).Execute(false, true))
-            //.BuildSessionFactory();
-
-            Configuration _configuration = new Configuration();
-            _configuration
-               .Configure()
-                .SetNamingStrategy(DefaultNamingStrategy.Instance)
-                .SetProperty(NHibernate.Cfg.Environment.UseProxyValidator, "true")
-                .DataBaseIntegration(db => {
-                    db.ConnectionString = @"Data Source=ERMOLAEVM;Initial Catalog=NewMyDB;Integrated Security=True;MultipleActiveResultSets=True";
-                    db.Dialect<MsSql2008Dialect>();
-                });
-
-
-            var mapper = new ModelMapper();
-            var myEntities1 = new[] { typeof(Employee) };
-            //mapper.AddMappings(myEntities1);
-            Type[] sa = new Type[] { typeof(DAL.Entities.Book), typeof(DAL.Entities.BookMap) };
-            mapper.AddMappings(sa);
-            var T = Assembly.GetExecutingAssembly().GetExportedTypes();
-            mapper.AddMappings(Assembly.GetExecutingAssembly().GetExportedTypes());
-            HbmMapping mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
-            _configuration.AddMapping(mapping);
-
-            //var myEntities = new[] { typeof(User) };
-            //_configuration.AddDeserializedMapping(MappingHelper.GetIdentityMappings(myEntities), null);
-
-            new SchemaUpdate(_configuration).Execute(true, true);
-            sessionFactory = _configuration.BuildSessionFactory();
-
-            Session = sessionFactory.OpenSession();
-            Session.Save(new DAL.Entities.Book { Id = 1, Name = "12312", Description = "adasd" });
-            Session.Save(new Employee { Id = 1, Name = "12312", Description = "adasd" });
-        } 
+            viewDb = new DatabaseFirstContext(connectionStringForExistDB);
+            Session = NHibernateSessionFactory.getSession(connectionString);
+            StoreDbInitializer.Inizialize(Session);
+        }
 
         public UserManager<User> UserManager
         {
@@ -247,25 +210,22 @@ namespace DALEF.Repositories
                 return positionRepository;
             }
         }
-        public void BeginTransaction()
+        public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
-            _transaction = Session.BeginTransaction();
+            _transaction = Session.BeginTransaction(isolationLevel);
         }
 
         public void Commit()
         {
             try
             {
-                // commit transaction if there is one active
                 if (_transaction != null && _transaction.IsActive)
                     _transaction.Commit();
             }
             catch
             {
-                // rollback if there was an exception
                 if (_transaction != null && _transaction.IsActive)
                     _transaction.Rollback();
-
                 throw;
             }
             finally
@@ -286,25 +246,34 @@ namespace DALEF.Repositories
                 Session.Dispose();
             }
         }
-        //public virtual void Dispose(bool disposing)
-        //{
-        //    if (!this.disposed)
-        //    {
-        //        if (disposing)
-        //        {
-        //            db.Dispose();
-        //            //userManager.Dispose();
-        //            //roleManager.Dispose();
-        //        }
-        //        this.disposed = true;
-        //    }
-        //}
+
+        private bool disposed = false;
+        public virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    if (this._transaction != null)
+                    {
+                        this._transaction.Dispose();
+                        this._transaction = null;
+                    }
+
+                    if (this.Session != null)
+                    {
+                        this.Session.Dispose();
+                        Session = null;
+                    }
+                }
+                this.disposed = true;
+            }
+        }
 
         public void Dispose()
         {
-            _transaction?.Dispose();
-            //Dispose(true);
-            //GC.SuppressFinalize(this);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

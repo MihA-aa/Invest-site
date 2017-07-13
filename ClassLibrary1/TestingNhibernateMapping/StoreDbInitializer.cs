@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using DAL.ApplicationManager;
 using DAL.Entities;
 using DAL.Enums;
@@ -9,38 +10,112 @@ using Microsoft.AspNet.Identity;
 using NHibernate;
 using NHibernate.AspNet.Identity;
 
-namespace DALEF.EF
+namespace TestingNhibernateMapping
 {
-    //public class ApplicationContext : IdentityDbContext<User>, IDbContextFactory<ApplicationContext>
-    //{
-    //    public ApplicationContext(/*string connectionString*/) : base(/*connectionString*/"DefaultConnection") { }
-    //    static ApplicationContext()
-    //    {
-    //        Database.SetInitializer(new StoreDbInitializer());
-    //    }
-
-    //    public ApplicationContext Create()
-    //    {
-    //        return new ApplicationContext();
-    //    }
-
-    //    public virtual DbSet<Customer> Customers { get; set; }
-    //    public virtual DbSet<Profile> Profiles { get; set; }
-    //    public virtual DbSet<Portfolio> Portfolios { get; set; }
-    //    public virtual DbSet<Position> Positions { get; set; }
-    //    public virtual DbSet<Format> Formats { get; set; }
-    //    public virtual DbSet<ColumnFormat> ColumnFormats { get; set; }
-    //    public virtual DbSet<ViewTemplate> ViewTemplates { get; set; }
-    //    public virtual DbSet<View> Views { get; set; }
-    //    public virtual DbSet<ViewTemplateColumn> ViewTemplateColumns { get; set; }
-    //    public virtual DbSet<Column> Columns { get; set; }
-    //    public virtual DbSet<Record> Records { get; set; }
-    //}
-
     public static class StoreDbInitializer
     {
         public static void Inizialize(ISession Session)
         {
+
+            #region Portfolios Inizialize
+            Portfolio portfolio1 = new Portfolio
+            {
+                Id = 1,
+                Name = "Strategic Investment Open Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 1,
+                LastUpdateDate = new DateTime(2017, 4, 28),
+                Visibility = false,
+                Quantity = 2,
+                PercentWins = 73.23m,
+                BiggestWinner = 234.32m,
+                BiggestLoser = 12.65m,
+                AvgGain = 186.65m,
+                MonthAvgGain = 99.436m,
+                PortfolioValue = 1532.42m,
+
+                //Customer = new Customer { Id = 123, Name = "as"},
+                //Positions = new List<Position>
+                //{
+                //    position1, position10, position11, position12,
+                //    position13, position14, position15, position16,
+                //    position17, position18, position19, position2,
+                //    position20, position21, position22,
+                //    position23, position24, position25, position26,
+                //    position27, position28, position29,
+                //}
+            };
+
+            Portfolio portfolio2 = new Portfolio
+            {
+                Id = 2,
+                Name = "Strategic Investment Income Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 2,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m
+                ////Positions = new List<Position> { position3, position4, position5 }
+            };
+            Portfolio portfolio3 = new Portfolio
+            {
+                Id = 3,
+                Name = "HDFC Bank",
+                DisplayIndex = 4,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+            };
+            Portfolio portfolio4 = new Portfolio
+            {
+                Id = 4,
+                Name = "IndusInd Bank",
+                DisplayIndex = 5,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+            };
+            Portfolio portfolio5 = new Portfolio
+            {
+                Id = 5,
+                Name = "UltraTechCement",
+                DisplayIndex = 3,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+            };
+
+            Session.Save(portfolio1);
+            Session.Save(portfolio2);
+            Session.Save(portfolio3);
+            Session.Save(portfolio4);
+            Session.Save(portfolio5);
+            #endregion
+
             #region Positions Inizialize
             Position position1 = new Position
             {
@@ -60,8 +135,10 @@ namespace DALEF.EF
                 AbsoluteGain = 110.34m,
                 MaxGain = 154.34m,
                 LastUpdateDate = new DateTime(2016, 1, 1),
-                LastUpdatePrice = 218.32m
+                LastUpdatePrice = 218.32m,
+                Portfolio = portfolio1
             };
+
             Position position2 = new Position
             {
                 Id = 2,
@@ -80,7 +157,8 @@ namespace DALEF.EF
                 AbsoluteGain = 1.60m,
                 MaxGain = 1.60m,
                 LastUpdateDate = new DateTime(2016, 1, 1),
-                LastUpdatePrice = 218.32m
+                LastUpdatePrice = 218.32m,
+                Portfolio = portfolio1
             };
             Position position3 = new Position
             {
@@ -101,7 +179,8 @@ namespace DALEF.EF
                 AbsoluteGain = 9.45m,
                 MaxGain = 14.34m,
                 LastUpdateDate = new DateTime(2016, 5, 1),
-                LastUpdatePrice = 53.32m
+                LastUpdatePrice = 53.32m,
+                Portfolio = portfolio2
             };
             Position position4 = new Position
             {
@@ -122,7 +201,8 @@ namespace DALEF.EF
                 AbsoluteGain = 3.65m,
                 MaxGain = 3.65m,
                 LastUpdateDate = new DateTime(2011, 10, 11),
-                LastUpdatePrice = 53.32m
+                LastUpdatePrice = 53.32m,
+                Portfolio = portfolio2
             };
             Position position5 = new Position
             {
@@ -142,7 +222,8 @@ namespace DALEF.EF
                 CurrentPrice = 12.56m,
                 Gain = 14.39m,
                 AbsoluteGain = 11.34m,
-                MaxGain = 13.34m
+                MaxGain = 13.34m,
+                Portfolio = portfolio2
             };
 
             var position10 = (Position)position1.Clone();
@@ -192,109 +273,6 @@ namespace DALEF.EF
             Session.Save(position3);
             Session.Save(position4);
             Session.Save(position5);
-            #endregion
-
-            #region Portfolios Inizialize
-            Portfolio portfolio1 = new Portfolio
-            {
-                Id = 1,
-                Name = "Strategic Investment Open Portfolio",
-                Notes = "A portfolio is a grouping of financial assets such as stocks," +
-                "bonds and cash equivalents, as well as their funds counterparts, " +
-                "including mutual, exchange-traded and closed funds. Portfolios are held" +
-                "directly by investors and/or managed by financial professionals. ",
-                DisplayIndex = 1,
-                //LastUpdateDate = new DateTime(2017, 4, 28),
-                Visibility = false,
-                Quantity = 2,
-                PercentWins = 73.23m,
-                BiggestWinner = 234.32m,
-                BiggestLoser = 12.65m,
-                AvgGain = 186.65m,
-                MonthAvgGain = 99.436m,
-                PortfolioValue = 1532.42m,
-                //Positions = new List<Position>
-                //{
-                //    position1, position10, position11, position12,
-                //    position13, position14, position15, position16,
-                //    position17, position18, position19, position2,
-                //    position20, position21, position22,
-                //    position23, position24, position25, position26,
-                //    position27, position28, position29,
-                //}
-            };
-
-            Portfolio portfolio2 = new Portfolio
-            {
-                Id = 2,
-                Name = "Strategic Investment Income Portfolio",
-                Notes = "A portfolio is a grouping of financial assets such as stocks," +
-                "bonds and cash equivalents, as well as their funds counterparts, " +
-                "including mutual, exchange-traded and closed funds. Portfolios are held" +
-                "directly by investors and/or managed by financial professionals. ",
-                DisplayIndex = 2,
-                //LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-                //Positions = new List<Position> { position3, position4, position5 }
-            };
-            Portfolio portfolio3 = new Portfolio
-            {
-                Id = 3,
-                Name = "HDFC Bank",
-                DisplayIndex = 4,
-               // LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-            };
-            Portfolio portfolio4 = new Portfolio
-            {
-                Id = 4,
-                Name = "IndusInd Bank",
-                DisplayIndex = 5,
-                //LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-            };
-            Portfolio portfolio5 = new Portfolio
-            {
-                Id = 5,
-                Name = "UltraTechCement",
-                DisplayIndex = 3,
-                //LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-            };
-
-            Session.Save(portfolio1);
-            Session.Save(portfolio2);
-            Session.Save(portfolio3);
-            Session.Save(portfolio4);
-            Session.Save(portfolio5);
             #endregion
 
             #region ColumnFormat Inizialize
@@ -383,16 +361,26 @@ namespace DALEF.EF
 
             Column Name = new Column
             {
+                
+                //Name = "Name",
+                //Format = LineFormat
+                //ViewTemplateColumns = (IList<ViewTemplateColumn>)null
+            };
+
+            Session.Save(new Column
+            {
                 Id = 1,
                 Name = "Name",
                 Format = LineFormat
-            };
+                //ViewTemplateColumns = (IList<ViewTemplateColumn>)null
+            });
             Column SymbolName = new Column
             {
                 Id = 2,
                 Name = "Symbol Name",
                 Format = LineFormat
             };
+            Session.Save(SymbolName);
             Column OpenPrice = new Column
             {
                 Id = 3,
@@ -479,8 +467,6 @@ namespace DALEF.EF
                 Format = MoneyFormat
             };
 
-            Session.Save(Name);
-            Session.Save(SymbolName);
             Session.Save(OpenPrice);
             Session.Save(OpenDate);
             Session.Save(OpenWeight);

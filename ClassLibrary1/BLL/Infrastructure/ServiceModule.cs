@@ -19,18 +19,18 @@ namespace BLL.Infrastructure
 {
     public class ServiceModule : Module
     {
-        private string connectionString;
-        private string connectionStringForExistDB;
-        public ServiceModule(/*string connection, string connectionForExistDB*/)
+        private readonly string _connectionString;
+        private readonly string _connectionStringForExistDb;
+        public ServiceModule(string connection, string connectionForExistDB)
         {
-            //connectionString = connection;
-            //connectionStringForExistDB = connectionForExistDB;
+            _connectionString = connection;
+            _connectionStringForExistDb = connectionForExistDB;
         }
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>().
-            //    .WithParameters(new List<Parameter> { new NamedParameter("connectionString", connectionString),
-            //new NamedParameter("connectionStringForExistDB", connectionStringForExistDB) }).
+            builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>()
+                .WithParameters(new List<Parameter> { new NamedParameter("connectionString", _connectionString),
+            new NamedParameter("connectionStringForExistDB", _connectionStringForExistDb) }).
                 InstancePerRequest();
             builder.RegisterType<PortfolioService>().As<IPortfolioService>().
                 InstancePerRequest();
@@ -61,9 +61,7 @@ namespace BLL.Infrastructure
             builder.RegisterType<RecordService>().As<IRecordService>().
                 InstancePerRequest();
             builder.Register(_ => new AutoMapperConfiguration().Configure().CreateMapper()).As<IMapper>().SingleInstance();
-
-
-            builder.Register(c => NHibernateSessionFactory.SessionFactory.OpenSession()).As<ISession>();
+            
 
             //builder.RegisterType<RoleStore<Role>>()
             //       .As<IRoleStore<IdentityRole>>().InstancePerRequest();
