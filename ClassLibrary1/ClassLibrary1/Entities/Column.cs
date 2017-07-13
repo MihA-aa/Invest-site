@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentNHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -13,32 +14,17 @@ namespace DAL.Entities
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
         public virtual Format Format { get; set; }
-
-        //private IList<ViewTemplateColumn> _viewTemplateColumns;
-        //public virtual IList<ViewTemplateColumn> ViewTemplateColumns
-        //{
-        //    get
-        //    {
-        //        return _viewTemplateColumns ?? (_viewTemplateColumns = new List<ViewTemplateColumn>());
-        //    }
-        //    set { _viewTemplateColumns = value; }
-        //}
+        public virtual IList<ViewTemplateColumn> ViewTemplateColumns { get; set; }
     }
 
-    public class ColumnMap : ClassMapping<Column>
+    public class ColumnMap : ClassMap<Column>
     {
         public ColumnMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            ManyToOne(x => x.Format,
-            c => {
-                c.Cascade(Cascade.Persist);
-                c.Column("Format_Id");
-            });
-            //Bag(x => x.ViewTemplateColumns,
-            //c => { c.Key(k => k.Column("Column_Id")); c.Inverse(true); },
-            //r => r.OneToMany());
+            Id(x => x.Id);
+            Map(x => x.Name).Not.Nullable().Length(200);
+            References(x => x.Format).Column("Format").Not.Nullable();
+            HasMany(x => x.ViewTemplateColumns).Inverse().Cascade.All().KeyColumn("ColumnEntiy");
         }
     }
 }

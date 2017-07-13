@@ -1,4 +1,6 @@
 ﻿using DAL.Enums;
+using FluentNHibernate.Mapping;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -17,29 +19,19 @@ namespace DAL.Entities
         public virtual ViewTemplate ViewTemplate { get; set; }
     }
 
-    public class ViewMap : ClassMapping<ViewForTable>
+    public class ViewMap : ClassMap<ViewForTable>
     {
         public ViewMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            Property(x => x.ShowName);
-            Property(x => x.DateFormat);
-            Property(x => x.MoneyPrecision);
-            Property(x => x.PercentyPrecision);
-            Property(x => x.ViewTemplateId);
-            ManyToOne(x => x.Customer,
-            c =>
-            {
-                c.Cascade(Cascade.Persist);
-                c.Column("Customer_Id");
-            });
-            ManyToOne(x => x.ViewTemplate,
-            c =>
-            {
-                c.Cascade(Cascade.Persist);
-                c.Column("ViewTemplate_Id");
-            });
+            Id(x => x.Id);
+            Map(x => x.Name).Length(200);
+            Map(x => x.ShowName).Not.Nullable();
+            Map(x => x.DateFormat).Not.Nullable();
+            Map(x => x.MoneyPrecision).Not.Nullable();
+            Map(x => x.PercentyPrecision).Not.Nullable();
+            Map(x => x.ViewTemplateId);
+            References(x => x.Customer).Column("Customer").Not.Nullable();
+            References(x => x.ViewTemplate).Column("ViewTemplate").Not.Nullable();
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentNHibernate.Mapping;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -13,43 +15,19 @@ namespace DAL.Entities
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
 
-        private ISet<Format> _formats;
-        private IList<ViewTemplateColumn> _viewTemplateColumns;
-
-        public virtual IList<ViewTemplateColumn> ViewTemplateColumns
-        {
-            get
-            {
-                return _viewTemplateColumns ?? (_viewTemplateColumns = new List<ViewTemplateColumn>());
-            }
-            set { _viewTemplateColumns = value; }
-        }
-        public virtual ISet<Format> Formats
-        {
-            get
-            {
-                return _formats ?? (_formats = new HashSet<Format>());
-            }
-            set { _formats = value; }
-        }
+        public virtual IList<ViewTemplateColumn> ViewTemplateColumns { get; set; }//many to one
+        public virtual IList<Format> Formats { get; set; }//ManyToManyPart>
     }
 
-    public class ColumnFormatMap : ClassMapping<ColumnFormat>
+    public class ColumnFormatMap : ClassMap<ColumnFormat>
     {
         public ColumnFormatMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            Set(a => a.Formats,
-            c => {
-                c.Cascade(Cascade.All);
-                c.Key(k => k.Column("ColumnFormatId"));
-                c.Table("Format_ColumnFormat"); c.Inverse(true);
-            },
-            r => r.ManyToMany(m => m.Column("FormatId")));
-            Bag(x => x.ViewTemplateColumns,
-            c => { c.Key(k => k.Column("ColumnFormat_Id")); c.Inverse(true); },
-            r => r.OneToMany());
+
+            Id(x => x.Id);
+            Map(x => x.Name).Not.Nullable().Length(200);
+            HasMany(x => x.ViewTemplateColumns).Inverse().Cascade.All().KeyColumn("ColumnFormat");
+            HasManyToMany(x => x.Formats).Cascade.All().Inverse().Table("ColumnFormat_Format");
         }
     }
 }

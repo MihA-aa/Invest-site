@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentNHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -13,43 +14,18 @@ namespace DAL.Entities
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
 
-        private ISet<ColumnFormat> _columnFormats;
-        private IList<Column> _columns;
-
-        public virtual ISet<ColumnFormat> ColumnFormats
-        {
-            get
-            {
-                return _columnFormats ?? (_columnFormats = new HashSet<ColumnFormat>());
-            }
-            set { _columnFormats = value; }
-        }
-        public virtual IList<Column> Columns
-        {
-            get
-            {
-                return _columns ?? (_columns = new List<Column>());
-            }
-            set { _columns = value; }
-        }
+        public virtual IList<ColumnFormat> ColumnFormats { get; set; } //ManyToMany
+        public virtual IList<Column> Columns { get; set; }
     }
 
-    public class FormatMap : ClassMapping<Format>
+    public class FormatMap : ClassMap<Format>
     {
         public FormatMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            Set(a => a.ColumnFormats,
-            c => {
-                c.Cascade(Cascade.Persist);
-                c.Key(k => k.Column("FormatId"));
-                c.Table("Format_ColumnFormat");
-            },
-            r => r.ManyToMany(m => m.Column("ColumnFormatId")));
-            Bag(x => x.Columns,
-            c => { c.Key(k => k.Column("Format_Id")); c.Inverse(true); },
-            r => r.OneToMany());
+            Id(x => x.Id);
+            Map(x => x.Name).Not.Nullable().Length(200);
+            HasManyToMany(x => x.ColumnFormats).Cascade.All().Table("Format_ColumnFormat");
+            HasMany(x => x.Columns).Inverse().Cascade.All().KeyColumn("Format");
         }
     }
 }

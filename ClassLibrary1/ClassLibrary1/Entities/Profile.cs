@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentNHibernate.Mapping;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -18,33 +20,18 @@ namespace DAL.Entities
         public virtual string Login { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual int? CustomerId { get; set; }
-        private User _user;
-        public virtual User User
-        {
-            get { return _user ?? (_user = new User()); }
-            set { _user = value; }
-        }
+        //public virtual User User { get; set; }
     }
 
-    public class ProfileMap : ClassMapping<Profile>
+    public class ProfileMap : ClassMap<Profile>
     {
         public ProfileMap()
         {
-            //CompositeId().KeyReference(x => x.User, "Id");
-            Id(x => x.Id, map => map.Generator(Generators.GuidComb));
-            Property(x => x.Id);
-            Property(x => x.Login);
-            Property(x => x.CustomerId);
-            ManyToOne(x => x.Customer,
-            c => {
-                c.Cascade(Cascade.Persist);
-                c.Column("Customer_Id");
-            });
-            OneToOne(x => x.User, c =>
-            {
-                c.Cascade(Cascade.All);
-                c.Constrained(true);
-            });
+            Id(x => x.Id);//.GeneratedBy.Guid();
+            Map(x => x.Login).Length(200);
+            Map(x => x.CustomerId);
+            References(x => x.Customer).Column("Customer").Not.Nullable();
+            //HasOne(x => x.User).Cascade.All().PropertyRef("User");
         }
     }
 }

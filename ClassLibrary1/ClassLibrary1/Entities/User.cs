@@ -1,4 +1,6 @@
-﻿using NHibernate.AspNet.Identity;
+﻿using FluentNHibernate.Mapping;
+using NHibernate.AspNet.Identity;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode.Conformist;
 using NHibernate.Mapping.ByCode;
 
@@ -9,12 +11,12 @@ namespace DAL.Entities
         //public virtual Profile Profile { get; set; }
     }
 
-    //public class UserMap : ClassMapping<User>
+    //public class UserMap : ClassMap<User>
     //{
     //    private UserMap()
     //    {
-    //        OneToOne(x => x.Profile,
-    //        c => c.Cascade(Cascade.None));
+    //        Id(x => x.Id);
+    //        References(x => x.Profile).Unique().Cascade.All();
     //    }
     //}
 }

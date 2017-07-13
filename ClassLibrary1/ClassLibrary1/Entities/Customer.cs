@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FluentNHibernate.Mapping;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -12,63 +14,22 @@ namespace DAL.Entities
         public virtual int Id { get; set; }
         public virtual string Name { get; set; }
 
-        private IList<Portfolio> _portfolios;
-        private IList<Profile> _profiles;
-        private IList<ViewForTable> _views;
-        private IList<ViewTemplate> _viewTemplates;
-
-        public virtual IList<Portfolio> Portfolios
-        {
-            get
-            {
-                return _portfolios ?? (_portfolios = new List<Portfolio>());
-            }
-            set { _portfolios = value; }
-        }
-        public virtual IList<Profile> Profiles
-        {
-            get
-            {
-                return _profiles ?? (_profiles = new List<Profile>());
-            }
-            set { _profiles = value; }
-        }
-        public virtual IList<ViewForTable> Views
-        {
-            get
-            {
-                return _views ?? (_views = new List<ViewForTable>());
-            }
-            set { _views = value; }
-        }
-        public virtual IList<ViewTemplate> ViewTemplates
-        {
-            get
-            {
-                return _viewTemplates ?? (_viewTemplates = new List<ViewTemplate>());
-            }
-            set { _viewTemplates = value; }
-        }
+        public virtual IList<Portfolio> Portfolios { get; set; }
+        public virtual IList<Profile> Profiles { get; set; }
+        public virtual IList<ViewForTable> Views { get; set; }
+        public virtual IList<ViewTemplate> ViewTemplates { get; set; }
     }
 
-    public class CustomerMap : ClassMapping<Customer>
+    public class CustomerMap : ClassMap<Customer>
     {
         public CustomerMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            Bag(x => x.Portfolios,
-            c => { c.Key(k => k.Column("Customer_Id")); c.Inverse(true); },
-            r => r.OneToMany());
-            Bag(x => x.Profiles,
-            c => { c.Key(k => k.Column("Customer_Id")); c.Inverse(true); },
-            r => r.OneToMany());
-            Bag(x => x.Views,
-            c => { c.Key(k => k.Column("Customer_Id")); c.Inverse(true); },
-            r => r.OneToMany());
-            Bag(x => x.ViewTemplates,
-            c => { c.Key(k => k.Column("Customer_Id")); c.Inverse(true); },
-            r => r.OneToMany());
+            Id(x => x.Id);
+            Map(x => x.Name).Not.Nullable().Length(200);
+            HasMany(x => x.Portfolios).Inverse().Cascade.All().KeyColumn("Customer");
+            HasMany(x => x.Profiles).Inverse().Cascade.All().KeyColumn("Customer");
+            HasMany(x => x.Views).Inverse().Cascade.All().KeyColumn("Customer");
+            HasMany(x => x.ViewTemplates).Inverse().Cascade.All().KeyColumn("Customer");
         }
     }
 }

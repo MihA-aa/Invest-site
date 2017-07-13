@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using FluentNHibernate.Mapping;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -21,44 +23,29 @@ namespace DAL.Entities
         public virtual decimal MonthAvgGain { get; set; }
         public virtual decimal PortfolioValue { get; set; }
         public virtual Customer Customer { get; set; }
-
-        private IList<Position> _positions;
-        public virtual IList<Position> Positions
-        {
-            get
-            {
-                return _positions ?? (_positions = new List<Position>());
-            }
-            set { _positions = value; }
-        }
+        
+        public virtual IList<Position> Positions { get; set; }
     }
 
-    public class PortfolioMap : ClassMapping<Portfolio>
+    public class PortfolioMap : ClassMap<Portfolio>
     {
         public PortfolioMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            Property(x => x.Notes);
-            Property(x => x.DisplayIndex);
-            Property(x => x.LastUpdateDate);
-            Property(x => x.Visibility);
-            Property(x => x.Quantity);
-            Property(x => x.PercentWins);
-            Property(x => x.BiggestWinner);
-            Property(x => x.BiggestLoser);
-            Property(x => x.AvgGain);
-            Property(x => x.MonthAvgGain);
-            Property(x => x.PortfolioValue);
-            ManyToOne(x => x.Customer,
-            c =>
-            {
-                c.Cascade(Cascade.Persist);
-                c.Column("Customer_Id");
-            });
-            Bag(x => x.Positions,
-            c => { c.Key(k => k.Column("Portfolio_Id")); c.Inverse(true); },
-            r => r.OneToMany());
+            Id(x => x.Id);
+            Map(x => x.Name).Not.Nullable().Length(200);
+            Map(x => x.Notes).Length(200);
+            Map(x => x.DisplayIndex).Not.Nullable();
+            Map(x => x.LastUpdateDate).Not.Nullable();
+            Map(x => x.Visibility).Not.Nullable();
+            Map(x => x.Quantity).Not.Nullable();
+            Map(x => x.PercentWins).Not.Nullable();
+            Map(x => x.BiggestWinner).Not.Nullable();
+            Map(x => x.BiggestLoser).Not.Nullable();
+            Map(x => x.AvgGain).Not.Nullable();
+            Map(x => x.MonthAvgGain).Not.Nullable();
+            Map(x => x.PortfolioValue).Not.Nullable();
+            References(x => x.Customer).Column("Customer").Not.Nullable();
+            HasMany(x => x.Positions).Inverse().Cascade.All().KeyColumn("Portfolio");
         }
     }
 }

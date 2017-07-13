@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using DAL.Enums;
+using FluentNHibernate.Mapping;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -16,53 +18,24 @@ namespace DAL.Entities
         public virtual Customer Customer { get; set; }
         public virtual ViewTemplateColumn SortColumn { get; set; }
 
-        private IList<ViewForTable> _views;
-        private IList<ViewTemplateColumn> _columns;
-
-        public virtual IList<ViewTemplateColumn> Columns
-        {
-            get
-            {
-                return _columns ?? (_columns = new List<ViewTemplateColumn>());
-            }
-            set { _columns = value; }
-        }
-        public virtual IList<ViewForTable> Views
-        {
-            get
-            {
-                return _views ?? (_views = new List<ViewForTable>());
-            }
-            set { _views = value; }
-        }
+        public virtual IList<ViewTemplateColumn> Columns { get; set; }
+        public virtual IList<ViewForTable> Views { get; set; }
     }
 
-    public class ViewTemplateMap : ClassMapping<ViewTemplate>
+    public class ViewTemplateMap : ClassMap<ViewTemplate>
     {
         public ViewTemplateMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            Property(x => x.Positions);
-            Property(x => x.ShowPortfolioStats);
-            Property(x => x.SortColumnId);
-            Property(x => x.SortOrder);
-            ManyToOne(x => x.Customer,
-            c => {
-                c.Cascade(Cascade.Persist);
-                c.Column("Customer_Id");
-            });
-            Bag(x => x.Views,
-            c => { c.Key(k => k.Column("ViewTemplate_Id")); c.Inverse(true); },
-            r => r.OneToMany());
-            Bag(x => x.Columns,
-            c => { c.Key(k => k.Column("ViewTemplate_Id")); c.Inverse(true); },
-            r => r.OneToMany());
-            ManyToOne(x => x.SortColumn,
-            c => {
-                c.Cascade(Cascade.Persist);
-                c.Column("SortColumn_Id");
-            });
+            Id(x => x.Id);
+            Map(x => x.Name).Not.Nullable().Length(200);
+            Map(x => x.Positions).Not.Nullable();
+            Map(x => x.ShowPortfolioStats).Not.Nullable();
+            Map(x => x.SortColumnId);
+            Map(x => x.SortOrder).Not.Nullable();
+            References(x => x.Customer).Column("Customer").Not.Nullable();
+            References(x => x.SortColumn).Column("SortColumn");
+            HasMany(x => x.Views).Inverse().Cascade.All().KeyColumn("Views");
+            HasMany(x => x.Columns).Inverse().Cascade.All().KeyColumn("Columns");
         }
     }
 }

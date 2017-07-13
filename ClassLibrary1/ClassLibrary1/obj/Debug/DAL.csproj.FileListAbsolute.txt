@@ -25,3 +25,6 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\NHibernate.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\Iesi.Collections.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\NHibernate.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\FluentNHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\FluentNHibernate.pdb
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\FluentNHibernate.xml

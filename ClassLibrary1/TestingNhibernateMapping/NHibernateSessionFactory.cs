@@ -12,6 +12,8 @@ using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
 using NHibernate.Tool.hbm2ddl;
 
 namespace TestingNhibernateMapping
@@ -25,38 +27,53 @@ namespace TestingNhibernateMapping
 
         public static ISession getSession(string connectionString)
         {
-            Configuration _configuration = new Configuration();
-            _configuration
-               .Configure()
-                .SetNamingStrategy(DefaultNamingStrategy.Instance)
-                .SetProperty(NHibernate.Cfg.Environment.UseProxyValidator, "true")
-                .DataBaseIntegration(db => {
-                    db.ConnectionString = @"Data Source=ERMOLAEVM;Initial Catalog=" + connectionString + ";Integrated Security=True;MultipleActiveResultSets=True";
-                    db.Dialect<MsSql2008Dialect>();
-                });
+            //Configuration _configuration = new Configuration();
+            //_configuration
+            //   .Configure()
+            //    .SetNamingStrategy(DefaultNamingStrategy.Instance)
+            //    .SetProperty(NHibernate.Cfg.Environment.UseProxyValidator, "true")
+            //    .DataBaseIntegration(db => {
+            //        db.ConnectionString = @"Data Source=ERMOLAEVM;Initial Catalog=" + connectionString + ";Integrated Security=True;MultipleActiveResultSets=True";
+            //        db.Dialect<MsSql2008Dialect>();
+            //    });
 
 
-            var mapper = new ModelMapper();
+            //var mapper = new ModelMapper();
 
-            var assemblyForExportTypes = Assembly.GetExecutingAssembly().GetReferencedAssemblies()
-                .FirstOrDefault(a => a.FullName == "DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            var types = Assembly.Load(assemblyForExportTypes).GetExportedTypes();
-            mapper.AddMappings(types);
-            HbmMapping mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
-            _configuration.AddMapping(mapping);
+            //var assemblyForExportTypes = Assembly.GetExecutingAssembly().GetReferencedAssemblies()
+            //    .FirstOrDefault(a => a.FullName == "DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+            //var types = Assembly.Load(assemblyForExportTypes).GetExportedTypes();
+            //mapper.AddMappings(types);
+            //HbmMapping mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
+            //_configuration.AddMapping(mapping);
+
+            //var myEntities = new[] { typeof(User) };
+            //_configuration.AddDeserializedMapping(MappingHelper.GetIdentityMappings(myEntities), null);
+
+            //foreach (PersistentClass persistentClass in _configuration.ClassMappings)
+            //{
+            //    persistentClass.DynamicUpdate = true;
+            //}
+
+            //new SchemaUpdate(_configuration).Execute(true, true);
+            //_sessionFactory = _configuration.BuildSessionFactory();
+
+            //return _sessionFactory.OpenSession();
 
             var myEntities = new[] { typeof(User) };
-            _configuration.AddDeserializedMapping(MappingHelper.GetIdentityMappings(myEntities), null);
 
-            foreach (PersistentClass persistentClass in _configuration.ClassMappings)
+            ISessionFactory sessionFactory = Fluently.Configure()
+            .Database(MsSqlConfiguration.MsSql2008.ConnectionString(@"Data Source=ERMOLAEVM;Initial Catalog=FuckingDb; Integrated Security=True;MultipleActiveResultSets=True;")
+            .ShowSql())
+            .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Position>())
+            .ExposeConfiguration(cfg =>
             {
-                persistentClass.DynamicUpdate = true;
-            }
-
-            new SchemaUpdate(_configuration).Execute(true, true);
-            _sessionFactory = _configuration.BuildSessionFactory();
-
-            return _sessionFactory.OpenSession();
+                cfg.AddDeserializedMapping(
+                       MappingHelper.GetIdentityMappings(myEntities), null);
+                new SchemaUpdate(cfg).Execute(false, true);
+            })
+            .BuildSessionFactory();
+            return sessionFactory.OpenSession();
         }
 
         public static Configuration Configuration

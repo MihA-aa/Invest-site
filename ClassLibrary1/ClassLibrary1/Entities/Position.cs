@@ -1,5 +1,7 @@
 ﻿using System;
 using DAL.Enums;
+using FluentNHibernate.Mapping;
+using NHibernate.Mapping;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
 
@@ -50,39 +52,36 @@ namespace DAL.Entities
                 AbsoluteGain = this.AbsoluteGain,
                 MaxGain = this.MaxGain,
                 LastUpdatePrice = this.LastUpdatePrice,
-                LastUpdateDate = this.LastUpdateDate
+                LastUpdateDate = this.LastUpdateDate,
+                Portfolio = this.Portfolio
             };
         }
     }
 
-    public class PositionMap : ClassMapping<Position>
+    public class PositionMap : ClassMap<Position>
     {
         public PositionMap()
         {
-            Id(x => x.Id, map => map.Generator(Generators.Native));
-            Property(x => x.Name);
-            Property(x => x.SymbolId);
-            Property(x => x.SymbolType);
-            Property(x => x.SymbolName);
-            Property(x => x.OpenDate);
-            Property(x => x.OpenPrice);
-            Property(x => x.OpenWeight);
-            Property(x => x.TradeType);
-            Property(x => x.TradeStatus);
-            Property(x => x.Dividends);
-            Property(x => x.CloseDate);
-            Property(x => x.ClosePrice);
-            Property(x => x.CurrentPrice);
-            Property(x => x.LastUpdateDate);
-            Property(x => x.LastUpdatePrice);
-            Property(x => x.Gain);
-            Property(x => x.AbsoluteGain);
-            Property(x => x.MaxGain);
-            ManyToOne(x => x.Portfolio,
-            c => {
-                c.Cascade(Cascade.Persist);
-                c.Column("Portfolio_Id");
-            });
+            Id(x => x.Id);
+            Map(x => x.Name).Not.Nullable().Length(200);
+            Map(x => x.SymbolId).Not.Nullable();
+            Map(x => x.SymbolType).Not.Nullable();
+            Map(x => x.SymbolName).Not.Nullable();
+            Map(x => x.OpenDate).Not.Nullable();
+            Map(x => x.OpenPrice).Not.Nullable();
+            Map(x => x.OpenWeight).Not.Nullable();
+            Map(x => x.TradeType).Not.Nullable();
+            Map(x => x.TradeStatus).Not.Nullable();
+            Map(x => x.Dividends).Not.Nullable();
+            Map(x => x.CloseDate);
+            Map(x => x.ClosePrice);
+            Map(x => x.CurrentPrice);
+            Map(x => x.LastUpdateDate);
+            Map(x => x.LastUpdatePrice);
+            Map(x => x.Gain).Not.Nullable();
+            Map(x => x.AbsoluteGain).Not.Nullable();
+            Map(x => x.MaxGain).Not.Nullable();
+            References(x => x.Portfolio).Column("Portfolio"); //.Not.Nullable();
         }
     }
 }
