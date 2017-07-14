@@ -41,7 +41,7 @@ namespace DALEF.Repositories
         private FormatRepository formatRepository;
         private ViewRepository viewRepository;
         private RecordRepository recordRepository;
-        private UserManager<User> userManager;
+        private UserManager<UserEntity> userManager;
         private ApplicationRoleManager roleManager;
         
         private ITransaction _transaction;
@@ -51,19 +51,18 @@ namespace DALEF.Repositories
         {
             viewDb = new DatabaseFirstContext(connectionStringForExistDB);
             Session = NHibernateSessionFactory.getSession(connectionString);
-            StoreDbInitializer.Inizialize(Session);
+            //StoreDbInitializer.Inizialize(Session);
         }
 
-        public UserManager<User> UserManager
+        public UserManager<UserEntity> UserManager
         {
             get
             {
                 if (userManager == null)
-                    userManager = new UserManager<User>(new UserStore<User>(Session));
+                    userManager = new UserManager<UserEntity>(new UserStore<UserEntity>(Session));
                 return userManager;
             }
         }
-        
         public ApplicationRoleManager RoleManager
         {
             get
@@ -73,7 +72,6 @@ namespace DALEF.Repositories
                 return roleManager;
             }
         }
-
         public IRecordRepository Records
         {
             get
@@ -83,7 +81,6 @@ namespace DALEF.Repositories
                 return recordRepository;
             }
         }
-
         public IViewRepository Views
         {
             get
@@ -93,7 +90,6 @@ namespace DALEF.Repositories
                 return viewRepository;
             }
         }
-
         public IFormatRepository Formats
         {
             get
@@ -103,7 +99,6 @@ namespace DALEF.Repositories
                 return formatRepository;
             }
         }
-
         public IColumnFormatRepository ColumnFormats
         {
             get
@@ -113,7 +108,6 @@ namespace DALEF.Repositories
                 return columnFormatRepository;
             }
         }
-
         public IColumnRepository Columns
         {
             get
@@ -123,7 +117,6 @@ namespace DALEF.Repositories
                 return columnRepository;
             }
         }
-
         public IViewTemplateColumnRepository ViewTemplateColumns
         {
             get
@@ -133,7 +126,6 @@ namespace DALEF.Repositories
                 return viewTemplateColumnRepository;
             }
         }
-
         public IViewTemplateRepository ViewTemplates
         {
             get
@@ -143,7 +135,6 @@ namespace DALEF.Repositories
                 return viewTemplateRepository;
             }
         }
-
         public ISymbolDividendRepository SymbolDividends
         {
             get
@@ -153,7 +144,6 @@ namespace DALEF.Repositories
                 return symbolDividendRepository;
             }
         }
-
         public ITradeSybolRepository TradeSybols
         {
             get
@@ -163,7 +153,6 @@ namespace DALEF.Repositories
                 return tradeSybolRepository;
             }
         }
-
         public ISymbolViewRepository SymbolViews
         {
             get
@@ -173,7 +162,6 @@ namespace DALEF.Repositories
                 return SymbolsViews;
             }
         }
-        
         public ICustomerRepository Customers
         {
             get
@@ -210,6 +198,7 @@ namespace DALEF.Repositories
                 return positionRepository;
             }
         }
+
         public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
             _transaction = Session.BeginTransaction(isolationLevel);
@@ -220,7 +209,10 @@ namespace DALEF.Repositories
             try
             {
                 if (_transaction != null && _transaction.IsActive)
+                {
                     _transaction.Commit();
+                    _transaction.Dispose();
+                }
             }
             catch
             {
@@ -234,12 +226,20 @@ namespace DALEF.Repositories
             }
         }
 
-        public void Rollback()
+        public void Save()
+        {
+            Session.Flush();
+        }
+
+        public void RollBack()
         {
             try
             {
                 if (_transaction != null && _transaction.IsActive)
+                {
                     _transaction.Rollback();
+                    _transaction.Dispose();
+                }
             }
             finally
             {

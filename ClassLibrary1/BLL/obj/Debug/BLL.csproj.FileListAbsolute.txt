@@ -74,3 +74,6 @@ D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\NHibernate.AspNet.Identit
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\NHibernate.dll
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\Iesi.Collections.xml
 D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\NHibernate.xml
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\FluentNHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\FluentNHibernate.pdb
+D:\project\git\Invest-site\ClassLibrary1\BLL\bin\Debug\FluentNHibernate.xml

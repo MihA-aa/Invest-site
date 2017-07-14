@@ -27,43 +27,10 @@ namespace TestingNhibernateMapping
 
         public static ISession getSession(string connectionString)
         {
-            //Configuration _configuration = new Configuration();
-            //_configuration
-            //   .Configure()
-            //    .SetNamingStrategy(DefaultNamingStrategy.Instance)
-            //    .SetProperty(NHibernate.Cfg.Environment.UseProxyValidator, "true")
-            //    .DataBaseIntegration(db => {
-            //        db.ConnectionString = @"Data Source=ERMOLAEVM;Initial Catalog=" + connectionString + ";Integrated Security=True;MultipleActiveResultSets=True";
-            //        db.Dialect<MsSql2008Dialect>();
-            //    });
-
-
-            //var mapper = new ModelMapper();
-
-            //var assemblyForExportTypes = Assembly.GetExecutingAssembly().GetReferencedAssemblies()
-            //    .FirstOrDefault(a => a.FullName == "DAL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-            //var types = Assembly.Load(assemblyForExportTypes).GetExportedTypes();
-            //mapper.AddMappings(types);
-            //HbmMapping mapping = mapper.CompileMappingForAllExplicitlyAddedEntities();
-            //_configuration.AddMapping(mapping);
-
-            //var myEntities = new[] { typeof(User) };
-            //_configuration.AddDeserializedMapping(MappingHelper.GetIdentityMappings(myEntities), null);
-
-            //foreach (PersistentClass persistentClass in _configuration.ClassMappings)
-            //{
-            //    persistentClass.DynamicUpdate = true;
-            //}
-
-            //new SchemaUpdate(_configuration).Execute(true, true);
-            //_sessionFactory = _configuration.BuildSessionFactory();
-
-            //return _sessionFactory.OpenSession();
-
-            var myEntities = new[] { typeof(User) };
-
+            var myEntities = new[] { typeof(UserEntity), typeof(Role) };
+            string connectionString2 = "Data Source=ERMOLAEVM;Initial Catalog=FuckingDb; Integrated Security=True;MultipleActiveResultSets=True;";
             ISessionFactory sessionFactory = Fluently.Configure()
-            .Database(MsSqlConfiguration.MsSql2008.ConnectionString(@"Data Source=ERMOLAEVM;Initial Catalog=FuckingDb; Integrated Security=True;MultipleActiveResultSets=True;")
+            .Database(MsSqlConfiguration.MsSql2008.ConnectionString(connectionString2)
             .ShowSql())
             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Position>())
             .ExposeConfiguration(cfg =>

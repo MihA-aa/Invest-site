@@ -30,6 +30,7 @@ namespace DALEF.Repositories
             customer.Profiles.Add(profile);
             profile.Customer = customer;
             profile.CustomerId = customerId;
+            Session.Flush();
         }
     }
 }

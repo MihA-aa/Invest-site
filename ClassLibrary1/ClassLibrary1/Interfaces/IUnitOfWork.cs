@@ -24,11 +24,12 @@ namespace DAL.Interfaces
         IColumnRepository Columns { get; }
         IColumnFormatRepository ColumnFormats { get; }
         IViewRepository Views { get; }
-        UserManager<User> UserManager { get; }
+        UserManager<UserEntity> UserManager { get; }
         ApplicationRoleManager RoleManager { get; }
         
         void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted);
+        void Save();
         void Commit();
-        void Rollback();
+        void RollBack();
     }
 }

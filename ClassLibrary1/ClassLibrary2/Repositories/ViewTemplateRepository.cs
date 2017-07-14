@@ -28,11 +28,23 @@ namespace DALEF.Repositories
             template.Columns.Add(column);
             column.ViewTemplate = template;
             column.ViewTemplateId = templateId;
+            Session.Flush();
         }
 
         public int GetCountColumnInTemplate(int templateId)
         {
             return Session.Get<ViewTemplate>(templateId)?.Columns.Count() ?? 0;
+        }
+
+        public ViewTemplate GetViewTemplate(int id)
+        {
+            var sd =  Session.Query<ViewTemplate>()
+                  .Where(p => p.Id == id)
+                  .FetchMany(p => p.Columns)
+                  .ToList();
+            return Session.Get<ViewTemplate>(id);
+
+            return sd.FirstOrDefault();
         }
 
         public int GetTemplateIdByColumnId(int columnId)

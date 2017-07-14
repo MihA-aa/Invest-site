@@ -86,3 +86,6 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\NHibernate.AspN
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\NHibernate.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\Iesi.Collections.xml
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\NHibernate.xml
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\FluentNHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\FluentNHibernate.pdb
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary2\bin\Debug\FluentNHibernate.xml

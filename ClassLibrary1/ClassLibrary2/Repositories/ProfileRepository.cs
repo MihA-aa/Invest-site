@@ -23,9 +23,9 @@ namespace DALEF.Repositories
         }
         public Profile Get(string id)
         {
-            var profile = Session.Query<Profile>().FirstOrDefault(p => p.Id == id);// Session.Get<Profile>(id);
-            return new Profile {Id = "2b640904-e2f1-4822-83f1-9f5e48246051", Login = "Admin", CustomerId = 1};
-            //return Session.Get<Profile>(id);
+           // var profile = Session.Query<Profile>().FirstOrDefault(p => p.Id == id);
+            //return new Profile {Id = "2b640904-e2f1-4822-83f1-9f5e48246051", Login = "Admin", CustomerId = 1};
+            return Session.Get<Profile>(id);
         }
 
         public bool ProfileAccess(string userid, int portfolioId)

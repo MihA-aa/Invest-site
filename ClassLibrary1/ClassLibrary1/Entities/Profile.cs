@@ -14,8 +14,8 @@ namespace DAL.Entities
 {
     public class Profile
     {
-        [Key]
-        [ForeignKey("User")]
+        //[Key]
+        //[ForeignKey("User")]
         public virtual string Id { get; set; }
         public virtual string Login { get; set; }
         public virtual Customer Customer { get; set; }

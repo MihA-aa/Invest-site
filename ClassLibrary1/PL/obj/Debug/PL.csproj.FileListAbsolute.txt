@@ -272,3 +272,6 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\Iesi.Collections.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\Iesi.Collections.xml
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\NHibernate.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\NHibernate.xml
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\FluentNHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\FluentNHibernate.pdb
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\FluentNHibernate.xml

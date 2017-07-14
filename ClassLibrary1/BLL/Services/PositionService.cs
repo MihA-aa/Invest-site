@@ -90,7 +90,7 @@ namespace BLL.Services
 
         public void CreatePosition(PositionDTO positionDto, int? portfolioId, string userId)
         {
-            //var transaction = db.BeginTransaction();
+            db.BeginTransaction();
             try
             {
                 if (positionDto == null)
@@ -106,25 +106,21 @@ namespace BLL.Services
                 db.Portfolios.RecalculatePortfolioValue(portfolioId.Value);
 
                 recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Create, userId, position.Id, true);
-                //db.Commit(transaction);
+                db.Commit();
             }
             catch (Exception ex)
             {
-                //db.RollBack(transaction);
+                db.RollBack();
                 recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Create, userId, 0, false);
                 throw ex;
-            }
-            finally
-            {
-                //transaction.Dispose();
             }
         }
 
         public void AddPositionToPortfolio(Position position, int? portfolioId)
         {
-            //var transaction = db.BeginTransaction();
-            //try
-            //{
+            db.BeginTransaction();
+            try
+            {
                 if (position == null)
                     throw new ValidationException(Resource.Resource.PositionNullReference, "");
                 if (portfolioId == null)
@@ -133,22 +129,18 @@ namespace BLL.Services
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
                 db.Portfolios.AddPositionToPortfolio(position, portfolioId.Value);
 
-            //    db.Commit(transaction);
-            //}
-            //catch (Exception ex)
-            //{
-            //    db.RollBack(transaction);
-            //    throw ex;
-            //}
-            //finally
-            //{
-            //    transaction.Dispose();
-            //}
+            db.Commit();
+        }
+            catch (Exception ex)
+            {
+                db.RollBack();
+                throw ex;
+            }
         }
 
         public void DeletePosition(int? id, string userId)
         {
-            //var transaction = db.BeginTransaction();
+            db.BeginTransaction();
             try
             {
                 if (id == null)
@@ -156,26 +148,22 @@ namespace BLL.Services
                 if (!db.Positions.IsExist(id.Value))
                     throw new ValidationException(Resource.Resource.PositionNotFound, "");
                 db.Positions.Delete(id.Value);
-                //db.Save();
+                db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Delete, userId, id.Value, true);
-                //db.Commit(transaction);
+                db.Commit();
             }
             catch (Exception ex)
             {
-                //db.RollBack(transaction);
+                db.RollBack();
                 recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Delete, userId, id ?? 0, false);
                 throw ex;
-            }
-            finally
-            {
-                //transaction.Dispose();
             }
         }
 
         public void UpdatePosition(PositionDTO positionDto, string userId)
         {
-            //var transaction = db.BeginTransaction();
+            db.BeginTransaction();
             try
             {
                 if (positionDto == null)
@@ -193,17 +181,13 @@ namespace BLL.Services
                     db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
 
                 recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Update, userId, positionDto.Id, true);
-                //db.Commit(transaction);
+                db.Commit();
             }
             catch (Exception ex)
             {
-                //db.RollBack(transaction);
+                db.RollBack();
                 recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Update, userId, positionDto?.Id ?? 0, false);
                 throw ex;
-            }
-            finally
-            {
-                //transaction.Dispose();
             }
         }
 
@@ -222,7 +206,7 @@ namespace BLL.Services
 
         public void UpdatePosition(int? id)
         {
-            //var transaction = db.BeginTransaction();
+            db.BeginTransaction();
             try
             {
                 UpdateOnlyPosition(id);
@@ -230,22 +214,18 @@ namespace BLL.Services
                     .FirstOrDefault(x => x.Positions.Any(p => p.Id == id));
                 db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
 
-                //db.Commit(transaction);
+                db.Commit();
             }
             catch (Exception ex)
             {
-                //db.RollBack(transaction);
+                db.RollBack();
                 throw ex;
-            }
-            finally
-            {
-                //transaction.Dispose();
             }
         }
 
         public void UpdateAllPositionAndPortfolio()
         {
-            //var transaction = db.BeginTransaction();
+            db.BeginTransaction();
             try
             {
                 var positions = IMapper.Map<IQueryable<Position>, List<PositionDTO>>(db.Positions.GetPositionsQuery());
@@ -264,12 +244,8 @@ namespace BLL.Services
             }
             catch (Exception ex)
             {
-               // db.RollBack(transaction);
+                db.RollBack();
                 throw ex;
-            }
-            finally
-            {
-                //transaction.Dispose();
             }
         }
 

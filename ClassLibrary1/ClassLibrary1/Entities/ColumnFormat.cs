@@ -17,6 +17,12 @@ namespace DAL.Entities
 
         public virtual IList<ViewTemplateColumn> ViewTemplateColumns { get; set; }//many to one
         public virtual IList<Format> Formats { get; set; }//ManyToManyPart>
+
+        public ColumnFormat()
+        {
+            ViewTemplateColumns = new List<ViewTemplateColumn>();
+            Formats = new List<Format>();
+        }
     }
 
     public class ColumnFormatMap : ClassMap<ColumnFormat>

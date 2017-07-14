@@ -21,6 +21,11 @@ namespace DAL.Entities
         public virtual ColumnFormat ColumnFormat { get; set; }
         
         public virtual IList<ViewTemplate> ViewTemplatesForSorting { get; set; }
+
+        public ViewTemplateColumn()
+        {
+            ViewTemplatesForSorting = new List<ViewTemplate>();
+        }
     }
 
     public class ViewTemplateColumnMap : ClassMap<ViewTemplateColumn>
@@ -34,7 +39,7 @@ namespace DAL.Entities
             Map(x => x.FormatId);
             Map(x => x.ColumnId);
             Map(x => x.ViewTemplateId);
-            References(x => x.ViewTemplate).Column("ViewTemplate").Not.Nullable();
+            References(x => x.ViewTemplate).Column("ViewTemplate");//.Not.Nullable();
             References(x => x.ColumnEntiy).Column("ColumnEntiy");//.Not.Nullable();
             References(x => x.ColumnFormat).Column("ColumnFormat").Not.Nullable();
             HasMany(x => x.ViewTemplatesForSorting).Inverse().Cascade.All().KeyColumn("SortColumn");

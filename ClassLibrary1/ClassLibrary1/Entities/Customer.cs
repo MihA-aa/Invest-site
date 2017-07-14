@@ -18,6 +18,14 @@ namespace DAL.Entities
         public virtual IList<Profile> Profiles { get; set; }
         public virtual IList<ViewForTable> Views { get; set; }
         public virtual IList<ViewTemplate> ViewTemplates { get; set; }
+
+        public Customer()
+        {
+            Portfolios = new List<Portfolio>();
+            Profiles = new List<Profile>();
+            Views = new List<ViewForTable>();
+            ViewTemplates = new List<ViewTemplate>();
+        }
     }
 
     public class CustomerMap : ClassMap<Customer>

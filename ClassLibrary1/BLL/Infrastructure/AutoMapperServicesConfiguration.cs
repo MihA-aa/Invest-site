@@ -28,7 +28,7 @@ namespace BLL.Infrastructure
         {
             CreateMap<ViewTemplate, ViewTemplateDTO>().ReverseMap();
             CreateMap<ViewTemplateColumn, ViewTemplateColumnDTO>()
-            .ForMember("ColumnName", opt => opt.MapFrom(src => src.Column.Name))
+            .ForMember("ColumnName", opt => opt.MapFrom(src => src.ColumnEntiy.Name))
             .ForMember("FormatName", opt => opt.MapFrom(src => src.ColumnFormat.Name));
             CreateMap<ViewTemplateColumnDTO, ViewTemplateColumn>();
             CreateMap<ColumnFormat, ColumnFormatDTO>();

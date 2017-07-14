@@ -20,11 +20,16 @@ namespace DALEF.Repositories
             var portfolio = Session.Get<Portfolio>(portfolioId);
             portfolio.Positions.Add(position);
             position.Portfolio = portfolio;
+            Session.Flush();
         }
 
         public void ChangePortfolioDisplayIndex(int id, int displayIndex)
         {
-            var portfolio = new Portfolio {Id = id, DisplayIndex = displayIndex};
+            Portfolio portfolio = Session.Get<Portfolio>(id);
+            portfolio.DisplayIndex = displayIndex;
+            Session.Update(portfolio);
+
+            //var portfolio = new Portfolio {Id = id, DisplayIndex = displayIndex};
             //dbSet.Attach(portfolio);
             //db.Entry(portfolio).Property(x => x.DisplayIndex).IsModified = true;
             //db.SaveChanges();
@@ -32,7 +37,7 @@ namespace DALEF.Repositories
 
         public void RecalculatePortfolioValue(int id)
         {
-            var portfolio = Session.Get<Portfolio>(id);
+            Portfolio portfolio = Session.Get<Portfolio>(id);
             portfolio.PortfolioValue = portfolio.Positions.Sum(p => p.AbsoluteGain);
             portfolio.Quantity = portfolio.Positions.Count();
             portfolio.LastUpdateDate = DateTime.Now;
@@ -46,7 +51,6 @@ namespace DALEF.Repositories
                 .DefaultIfEmpty()
                 .Average(p => p == null ? 0 : p.Gain);
             Update(portfolio);
-            
         }
 
         public decimal GetPercentWins(int id)
@@ -59,11 +63,10 @@ namespace DALEF.Repositories
 
         public void UpdatePortfolioNameAndNotes(Portfolio portfolio)
         {
-            //dbSet.Attach(portfolio);
-            //db.Entry(portfolio).Property(x => x.Name).IsModified = true;
-            //db.Entry(portfolio).Property(x => x.Notes).IsModified = true;
-            //db.Entry(portfolio).Property(x => x.Visibility).IsModified = true;
-            //db.Entry(portfolio).Property(x => x.LastUpdateDate).IsModified = true;
+            Portfolio portfolioForUpdate = Session.Get<Portfolio>(portfolio.Id);
+            portfolioForUpdate.Name = portfolio.Name;
+            portfolioForUpdate.Notes = portfolio.Notes;
+            Session.Update(portfolioForUpdate);
         }
 
         public bool IsExist(int id)

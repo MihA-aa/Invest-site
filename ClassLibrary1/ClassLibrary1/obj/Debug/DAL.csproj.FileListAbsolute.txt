@@ -28,3 +28,4 @@ D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\obj\Debug\DAL.csprojResol
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\FluentNHibernate.dll
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\FluentNHibernate.pdb
 D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\FluentNHibernate.xml
+D:\project\git\Invest-site\ClassLibrary1\ClassLibrary1\bin\Debug\NHibernate.Identity.dll

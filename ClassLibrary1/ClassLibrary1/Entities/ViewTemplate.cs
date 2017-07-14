@@ -35,7 +35,7 @@ namespace DAL.Entities
             References(x => x.Customer).Column("Customer").Not.Nullable();
             References(x => x.SortColumn).Column("SortColumn");
             HasMany(x => x.Views).Inverse().Cascade.All().KeyColumn("Views");
-            HasMany(x => x.Columns).Inverse().Cascade.All().KeyColumn("Columns");
+            HasMany(x => x.Columns).Inverse().Cascade.All().KeyColumn("ViewTemplate");
         }
     }
 }

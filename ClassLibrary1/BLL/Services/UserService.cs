@@ -25,10 +25,10 @@ namespace BLL.Services
         {
             db.BeginTransaction();
             validateService.Validate(userDto);
-            User user = await db.UserManager.FindByNameAsync(userDto.Login);
+            UserEntity user = await db.UserManager.FindByNameAsync(userDto.Login);
             if (user == null)
             {
-                user = new User { Email = userDto.Login, UserName = userDto.Login };
+                user = new UserEntity { Email = userDto.Login, UserName = userDto.Login };
                 var result = await db.UserManager.CreateAsync(user, userDto.Password);
                 if (result.Errors.Any())
                     throw new ValidationException(result.Errors.FirstOrDefault(), "");
@@ -75,7 +75,7 @@ namespace BLL.Services
         public async Task<ClaimsIdentity> AuthenticateAsync(UserDTO userDto)
         {
             ClaimsIdentity claim = null;
-            User user = await db.UserManager.FindAsync(userDto.Login, userDto.Password);
+            UserEntity user = await db.UserManager.FindAsync(userDto.Login, userDto.Password);
             if (user != null)
                 claim = await db.UserManager.CreateIdentityAsync(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);

@@ -8,9 +8,9 @@ using Microsoft.AspNet.Identity;
 
 namespace DAL.ApplicationManager
 {
-    public class ApplicationUserManager : UserManager<User>
+    public class ApplicationUserManager : UserManager<UserEntity>
     {
-        public ApplicationUserManager(IUserStore<User> store)
+        public ApplicationUserManager(IUserStore<UserEntity> store)
                 : base(store)
         {
         }

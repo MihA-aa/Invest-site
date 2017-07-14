@@ -35,8 +35,7 @@ namespace TestingNhibernateMapping
             Session.Save(WSD);
             Session.Save(FleetStreetPublication);
             #endregion
-
-
+            
             #region Portfolios Inizialize
             Portfolio portfolio1 = new Portfolio
             {
@@ -129,9 +128,7 @@ namespace TestingNhibernateMapping
             Session.Save(portfolio4);
             Session.Save(portfolio5);
             #endregion
-
-
-
+            
             #region Positions Inizialize
             Position position1 = new Position
             {
@@ -289,8 +286,7 @@ namespace TestingNhibernateMapping
             Session.Save(position4);
             Session.Save(position5);
             #endregion
-
-   
+            
             #region ColumnFormat Inizialize
             ColumnFormat None = new ColumnFormat
             {
@@ -372,8 +368,7 @@ namespace TestingNhibernateMapping
             Session.Save(NoneFormat);
             Session.Save(LineFormat);
             #endregion
-
-
+            
             #region ViewTemplate Inizialize
             ViewTemplate viewTemplate1 = new ViewTemplate
             {
@@ -409,25 +404,159 @@ namespace TestingNhibernateMapping
             Session.Save(viewTemplate2);
             #endregion
 
+            #region Columns Inizialize
+
+            Column Name = new Column
+            {
+                Id = 1,
+                Name = "Name",
+                Format = LineFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn1, viewTemplateColumn21 }
+            };
+            Column SymbolName = new Column
+            {
+                Id = 2,
+                Name = "Symbol Name",
+                Format = LineFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn2 }
+            };
+            Column OpenPrice = new Column
+            {
+                Id = 3,
+                Name = "Open Price",
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn3 }
+            };
+            Column OpenDate = new Column
+            {
+                Id = 4,
+                Name = "Open Date",
+                Format = DateFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn4 }
+            };
+            Column OpenWeight = new Column
+            {
+                Id = 5,
+                Name = "Open Weight",
+                Format = NoneFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn5 }
+            };
+            Column CurrentPrice = new Column
+            {
+                Id = 6,
+                Name = "Current Price",
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn6 }
+            };
+            Column ClosePrice = new Column
+            {
+                Id = 7,
+                Name = "Close Price",
+                Format = MoneyFormat,
+               //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn7 }
+            };
+            Column CloseDate = new Column
+            {
+                Id = 8,
+                Name = "Close Date",
+                Format = DateFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn8 }
+            };
+            Column TradeType = new Column
+            {
+                Id = 9,
+                Name = "Trade Type",
+                Format = NoneFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn9 }
+            };
+            Column TradeStatus = new Column
+            {
+                Id = 10,
+                Name = "Trade Status",
+                Format = NoneFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn10 }
+            };
+            Column Dividends = new Column
+            {
+                Id = 11,
+                Name = "Dividends",
+                Format = MoneyFormat,
+               // ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn11 }
+            };
+            Column Gain = new Column
+            {
+                Id = 12,
+                Name = "Gain",
+                Format = MoneyFormat,
+               // ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn12 }
+            };
+            Column AbsoluteGain = new Column
+            {
+                Id = 13,
+                Name = "Absolute Gain",
+                Format = PercentFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn13 }
+            };
+            Column MaxGain = new Column
+            {
+                Id = 14,
+                Name = "Max Gain",
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn14 }
+            };
+            Column LastUpdateDate = new Column
+            {
+                Id = 15,
+                Name = "Last Update Date",
+                Format = DateFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn15 }
+            };
+
+            Column LastUpdatePrice = new Column
+            {
+                Id = 16,
+                Name = "Last Update Price",
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn16 }
+            };
+
+            Session.Save(Name);
+            Session.Save(SymbolName);
+            Session.Save(OpenPrice);
+            Session.Save(OpenDate);
+            Session.Save(OpenWeight);
+            Session.Save(CurrentPrice);
+            Session.Save(ClosePrice);
+            Session.Save(CloseDate);
+            Session.Save(TradeType);
+            Session.Save(TradeStatus);
+            Session.Save(Dividends);
+            Session.Save(Gain);
+            Session.Save(AbsoluteGain);
+            Session.Save(MaxGain);
+            Session.Save(LastUpdateDate);
+            Session.Save(LastUpdatePrice);
+            #endregion
+
             #region ViewTemplateColumns Inizialize
             ViewTemplateColumn viewTemplateColumn1 = new ViewTemplateColumn
             {
                 Id = 1,
                 Name = "Name",
-                //Column = Name,
+                ColumnEntiy = Name,
                 ViewTemplateId = 1,
                 DisplayIndex = 1,
                 ColumnFormat = Linked,
                 ColumnId = 1,
                 ColumnFormatId = 3,
                 ViewTemplate = viewTemplate1,
-                ViewTemplatesForSorting = new List<ViewTemplate> { viewTemplate1 }
+                //ViewTemplatesForSorting = new List<ViewTemplate> { viewTemplate1 }
             };
             ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
             {
                 Id = 2,
                 Name = "Symbol",
-                //Column = SymbolName,
+                ColumnEntiy = SymbolName,
                 ViewTemplateId = 1,
                 DisplayIndex = 2,
                 ColumnFormat = None,
@@ -439,7 +568,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 4,
                 Name = "Open Price",
-                //Column = OpenPrice,
+                ColumnEntiy = OpenPrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 4,
                 ColumnFormat = Money,
@@ -451,7 +580,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 5,
                 Name = "Open Date",
-                //Column = OpenDate,
+                ColumnEntiy = OpenDate,
                 ViewTemplateId = 1,
                 DisplayIndex = 5,
                 ColumnFormat = Date,
@@ -463,7 +592,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 3,
                 Name = "Weight",
-                //Column = OpenWeight,
+                ColumnEntiy = OpenWeight,
                 ViewTemplateId = 1,
                 DisplayIndex = 3,
                 ColumnFormat = None,
@@ -475,7 +604,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 6,
                 Name = "Current Price",
-                //Column = CurrentPrice,
+                ColumnEntiy = CurrentPrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 6,
                 ColumnFormat = Linked,
@@ -487,7 +616,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 7,
                 Name = "Close Price",
-                //Column = ClosePrice,
+                ColumnEntiy = ClosePrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 7,
                 ColumnFormat = None,
@@ -499,7 +628,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 8,
                 Name = "Close Date",
-                //Column = CloseDate,
+                ColumnEntiy = CloseDate,
                 ViewTemplateId = 1,
                 DisplayIndex = 8,
                 ColumnFormat = DateAndTime,
@@ -511,7 +640,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 9,
                 Name = "Trade Type",
-                //Column = TradeType,
+                ColumnEntiy = TradeType,
                 ViewTemplateId = 1,
                 DisplayIndex = 9,
                 ColumnFormat = None,
@@ -523,7 +652,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 10,
                 Name = "Trade Status",
-               // Column = TradeStatus,
+                ColumnEntiy = TradeStatus,
                 ViewTemplateId = 1,
                 DisplayIndex = 10,
                 ColumnFormat = None,
@@ -535,7 +664,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 11,
                 Name = "Dividends",
-                //Column = Dividends,
+                ColumnEntiy = Dividends,
                 ViewTemplateId = 1,
                 DisplayIndex = 11,
                 ColumnFormat = Money,
@@ -547,7 +676,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 12,
                 Name = "Absolute Gain",
-                //Column = AbsoluteGain,
+                ColumnEntiy = AbsoluteGain,
                 ViewTemplateId = 1,
                 DisplayIndex = 12,
                 ColumnFormat = Percent,
@@ -559,7 +688,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 13,
                 Name = "Max Gain",
-                //Column = MaxGain,
+                ColumnEntiy = MaxGain,
                 ViewTemplateId = 1,
                 DisplayIndex = 13,
                 ColumnFormat = Money,
@@ -571,7 +700,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 14,
                 Name = "Gain",
-                //Column = Gain,
+                ColumnEntiy = Gain,
                 ViewTemplateId = 1,
                 DisplayIndex = 14,
                 ColumnFormat = Linked,
@@ -583,7 +712,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 15,
                 Name = "Last Update Date",
-               // Column = LastUpdateDate,
+                ColumnEntiy = LastUpdateDate,
                 ViewTemplateId = 1,
                 DisplayIndex = 15,
                 ColumnFormat = DateAndTime,
@@ -596,7 +725,7 @@ namespace TestingNhibernateMapping
             {
                 Id = 16,
                 Name = "Last Update Price",
-                //Column = LastUpdatePrice,
+                ColumnEntiy = LastUpdatePrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 16,
                 ColumnFormat = Linked,
@@ -608,14 +737,14 @@ namespace TestingNhibernateMapping
             {
                 Id = 17,
                 Name = "Name",
-                //Column = Name,
+                ColumnEntiy = Name,
                 ViewTemplateId = 2,
                 DisplayIndex = 1,
                 ColumnFormat = None,
                 ColumnId = 1,
                 ColumnFormatId = 1,
                 ViewTemplate = viewTemplate2,
-                ViewTemplatesForSorting = new List<ViewTemplate> { viewTemplate2 }
+                //ViewTemplatesForSorting = new List<ViewTemplate> { viewTemplate2 }
             };
             Session.Save(viewTemplateColumn1);
             Session.Save(viewTemplateColumn2);
@@ -637,142 +766,26 @@ namespace TestingNhibernateMapping
             Session.Save(viewTemplateColumn21);
             #endregion
 
+            //viewTemplate1.Columns.Add(viewTemplateColumn1);
+            //viewTemplate1.Columns.Add(viewTemplateColumn2);
+            //viewTemplate1.Columns.Add(viewTemplateColumn3);
+            //viewTemplate1.Columns.Add(viewTemplateColumn4);
+            //viewTemplate1.Columns.Add(viewTemplateColumn5);
+            //viewTemplate1.Columns.Add(viewTemplateColumn6);
+            //viewTemplate1.Columns.Add(viewTemplateColumn7);
+            //viewTemplate1.Columns.Add(viewTemplateColumn8);
+            //viewTemplate1.Columns.Add(viewTemplateColumn9);
+            //viewTemplate1.Columns.Add(viewTemplateColumn10);
+            //viewTemplate1.Columns.Add(viewTemplateColumn11);
+            //viewTemplate1.Columns.Add(viewTemplateColumn12);
+            //viewTemplate1.Columns.Add(viewTemplateColumn13);
+            //viewTemplate1.Columns.Add(viewTemplateColumn14);
+            //viewTemplate1.Columns.Add(viewTemplateColumn15);
+            //viewTemplate1.Columns.Add(viewTemplateColumn16);
+            //viewTemplate2.Columns.Add(viewTemplateColumn21);
 
-            #region Columns Inizialize
-
-            Column Name = new Column
-            {
-                Id = 1,
-                Name = "Name",
-                Format = LineFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn1, viewTemplateColumn21 }
-            };
-            Column SymbolName = new Column
-            {
-                Id = 2,
-                Name = "Symbol Name",
-                Format = LineFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn2 }
-            };
-            Column OpenPrice = new Column
-            {
-                Id = 3,
-                Name = "Open Price",
-                Format = MoneyFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn3 }
-            };
-            Column OpenDate = new Column
-            {
-                Id = 4,
-                Name = "Open Date",
-                Format = DateFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn4 }
-            };
-            Column OpenWeight = new Column
-            {
-                Id = 5,
-                Name = "Open Weight",
-                Format = NoneFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn5 }
-            };
-            Column CurrentPrice = new Column
-            {
-                Id = 6,
-                Name = "Current Price",
-                Format = MoneyFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn6 }
-            };
-            Column ClosePrice = new Column
-            {
-                Id = 7,
-                Name = "Close Price",
-                Format = MoneyFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn7 }
-            };
-            Column CloseDate = new Column
-            {
-                Id = 8,
-                Name = "Close Date",
-                Format = DateFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn8 }
-            };
-            Column TradeType = new Column
-            {
-                Id = 9,
-                Name = "Trade Type",
-                Format = NoneFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn9 }
-            };
-            Column TradeStatus = new Column
-            {
-                Id = 10,
-                Name = "Trade Status",
-                Format = NoneFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn10 }
-            };
-            Column Dividends = new Column
-            {
-                Id = 11,
-                Name = "Dividends",
-                Format = MoneyFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn11 }
-            };
-            Column Gain = new Column
-            {
-                Id = 12,
-                Name = "Gain",
-                Format = MoneyFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn12 }
-            };
-            Column AbsoluteGain = new Column
-            {
-                Id = 13,
-                Name = "Absolute Gain",
-                Format = PercentFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn13 }
-            };
-            Column MaxGain = new Column
-            {
-                Id = 14,
-                Name = "Max Gain",
-                Format = MoneyFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn14 }
-            };
-            Column LastUpdateDate = new Column
-            {
-                Id = 15,
-                Name = "Last Update Date",
-                Format = DateFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn15 }
-            };
-
-            Column LastUpdatePrice = new Column
-            {
-                Id = 16,
-                Name = "Last Update Price",
-                Format = MoneyFormat,
-                ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn16 }
-            };
-
-            Session.Save(Name);
-            Session.Save(SymbolName);
-            Session.Save(OpenPrice);
-            Session.Save(OpenDate);
-            Session.Save(OpenWeight);
-            Session.Save(CurrentPrice);
-            Session.Save(ClosePrice);
-            Session.Save(CloseDate);
-            Session.Save(TradeType);
-            Session.Save(TradeStatus);
-            Session.Save(Dividends);
-            Session.Save(Gain);
-            Session.Save(AbsoluteGain);
-            Session.Save(MaxGain);
-            Session.Save(LastUpdateDate);
-            Session.Save(LastUpdatePrice);
-            #endregion
-
-
+            Session.Flush();
+            
             #region View Inizialize
 
             ViewForTable previewAllView = new ViewForTable
@@ -803,36 +816,34 @@ namespace TestingNhibernateMapping
             Session.Save(defaultView);
             #endregion
 
+            #region User Inizialize
+            var userManager = new ApplicationUserManager(new UserStore<UserEntity>(Session));
+            var roleManager = new ApplicationRoleManager(new RoleStore<Role>(Session));
+            List<Role> identityRoles = new List<Role>
+            {
+                new Role() {Name = "Admin"},
+                new Role() {Name = "User"},
+                new Role() {Name = "Employee"}
+            };
 
+            foreach (Role role in identityRoles)
+            {
+                roleManager.Create(role);
+            }
+            UserEntity admin = new UserEntity { Email = "Admin", UserName = "Admin" };
+            userManager.Create(admin, "Password");
+            userManager.AddToRole(admin.Id, "Admin");
+            userManager.AddToRole(admin.Id, "Employee");
 
-            //#region User Inizialize
-            //var userManager = new ApplicationUserManager(new UserStore<User>(Session));
-            //var roleManager = new ApplicationRoleManager(new RoleStore<Role>(Session));
-            //List<Role> identityRoles = new List<Role>
-            //{
-            //    new Role() {Name = "Admin"},
-            //    new Role() {Name = "User"},
-            //    new Role() {Name = "Employee"}
-            //};
-
-            //foreach (Role role in identityRoles)
-            //{
-            //    roleManager.Create(role);
-            //}
-            //User admin = new User { Email = "Admin", UserName = "Admin" };
-            //userManager.Create(admin, "Password");
-            //userManager.AddToRole(admin.Id, "Admin");
-            //userManager.AddToRole(admin.Id, "Employee");
-
-            //var clientProfile = new Profile
-            //{
-            //    Id = admin.Id,
-            //    Login = admin.UserName,
-            //    Customer = WallStreetDaily,
-            //    CustomerId = WallStreetDaily.Id
-            //};
-            //WallStreetDaily.Profiles.Add(clientProfile);
-            //#endregion
+            var clientProfile = new Profile
+            {
+                Id = admin.Id,
+                Login = admin.UserName,
+                Customer = WallStreetDaily,
+                CustomerId = WallStreetDaily.Id
+            };
+            WallStreetDaily.Profiles.Add(clientProfile);
+            #endregion
 
             #region Records Inizialize
             Record record1 = new Record
@@ -866,6 +877,8 @@ namespace TestingNhibernateMapping
             Session.Save(record2);
             Session.Save(record3);
             #endregion
+
+            Session.Flush();
         }
     }
 }

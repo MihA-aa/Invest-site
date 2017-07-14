@@ -15,6 +15,12 @@ namespace DAL.Entities
         public virtual string Name { get; set; }
         public virtual Format Format { get; set; }
         public virtual IList<ViewTemplateColumn> ViewTemplateColumns { get; set; }
+
+
+        public Column ()
+        {
+            ViewTemplateColumns = new List<ViewTemplateColumn>();
+        }
     }
 
     public class ColumnMap : ClassMap<Column>

@@ -11,36 +11,123 @@ using NHibernate.AspNet.Identity;
 
 namespace DALEF.EF
 {
-    //public class ApplicationContext : IdentityDbContext<User>, IDbContextFactory<ApplicationContext>
-    //{
-    //    public ApplicationContext(/*string connectionString*/) : base(/*connectionString*/"DefaultConnection") { }
-    //    static ApplicationContext()
-    //    {
-    //        Database.SetInitializer(new StoreDbInitializer());
-    //    }
-
-    //    public ApplicationContext Create()
-    //    {
-    //        return new ApplicationContext();
-    //    }
-
-    //    public virtual DbSet<Customer> Customers { get; set; }
-    //    public virtual DbSet<Profile> Profiles { get; set; }
-    //    public virtual DbSet<Portfolio> Portfolios { get; set; }
-    //    public virtual DbSet<Position> Positions { get; set; }
-    //    public virtual DbSet<Format> Formats { get; set; }
-    //    public virtual DbSet<ColumnFormat> ColumnFormats { get; set; }
-    //    public virtual DbSet<ViewTemplate> ViewTemplates { get; set; }
-    //    public virtual DbSet<View> Views { get; set; }
-    //    public virtual DbSet<ViewTemplateColumn> ViewTemplateColumns { get; set; }
-    //    public virtual DbSet<Column> Columns { get; set; }
-    //    public virtual DbSet<Record> Records { get; set; }
-    //}
-
     public static class StoreDbInitializer
     {
         public static void Inizialize(ISession Session)
         {
+            #region Customer Inizialize
+            Customer WallStreetDaily = new Customer
+            {
+                Id = 1,
+                Name = "Wall Street Daily"
+            };
+            Customer FleetStreetPublication = new Customer { Id = 2, Name = "Fleet Street Publication" };
+            Customer DailyEdge = new Customer { Id = 3, Name = "Daily Edge" };
+            Customer HeidiShubert = new Customer { Id = 6, Name = "Heidi Shubert" };
+            Customer WeissResearch = new Customer { Id = 4, Name = "Weiss Research" };
+            Customer WSD = new Customer { Id = 5, Name = "WSD Custom Strategy" };
+
+            Session.Save(DailyEdge);
+            Session.Save(HeidiShubert);
+            Session.Save(WallStreetDaily);
+            Session.Save(WeissResearch);
+            Session.Save(WSD);
+            Session.Save(FleetStreetPublication);
+            #endregion
+
+            #region Portfolios Inizialize
+            Portfolio portfolio1 = new Portfolio
+            {
+                Id = 1,
+                Name = "Strategic Investment Open Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 1,
+                LastUpdateDate = new DateTime(2017, 4, 28),
+                Visibility = false,
+                Quantity = 2,
+                PercentWins = 73.23m,
+                BiggestWinner = 234.32m,
+                BiggestLoser = 12.65m,
+                AvgGain = 186.65m,
+                MonthAvgGain = 99.436m,
+                PortfolioValue = 1532.42m,
+                Customer = WallStreetDaily
+            };
+
+            Portfolio portfolio2 = new Portfolio
+            {
+                Id = 2,
+                Name = "Strategic Investment Income Portfolio",
+                Notes = "A portfolio is a grouping of financial assets such as stocks,",
+                DisplayIndex = 2,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+                Customer = WallStreetDaily
+                //Positions = new List<Position> { position3, position4, position5 }
+            };
+            Portfolio portfolio3 = new Portfolio
+            {
+                Id = 3,
+                Name = "HDFC Bank",
+                DisplayIndex = 4,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+                Customer = WallStreetDaily
+            };
+            Portfolio portfolio4 = new Portfolio
+            {
+                Id = 4,
+                Name = "IndusInd Bank",
+                DisplayIndex = 5,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+                Customer = FleetStreetPublication
+            };
+            Portfolio portfolio5 = new Portfolio
+            {
+                Id = 5,
+                Name = "UltraTechCement",
+                DisplayIndex = 3,
+                LastUpdateDate = new DateTime(2017, 3, 12),
+                Visibility = true,
+                Quantity = 3,
+                PercentWins = 93.23m,
+                BiggestWinner = 534.32m,
+                BiggestLoser = 123.46m,
+                AvgGain = 316.65m,
+                MonthAvgGain = 341.436m,
+                PortfolioValue = 5532.42m,
+                Customer = FleetStreetPublication
+            };
+
+            Session.Save(portfolio1);
+            Session.Save(portfolio2);
+            Session.Save(portfolio3);
+            Session.Save(portfolio4);
+            Session.Save(portfolio5);
+            #endregion
+
             #region Positions Inizialize
             Position position1 = new Position
             {
@@ -60,7 +147,8 @@ namespace DALEF.EF
                 AbsoluteGain = 110.34m,
                 MaxGain = 154.34m,
                 LastUpdateDate = new DateTime(2016, 1, 1),
-                LastUpdatePrice = 218.32m
+                LastUpdatePrice = 218.32m,
+                Portfolio = portfolio1
             };
             Position position2 = new Position
             {
@@ -80,7 +168,8 @@ namespace DALEF.EF
                 AbsoluteGain = 1.60m,
                 MaxGain = 1.60m,
                 LastUpdateDate = new DateTime(2016, 1, 1),
-                LastUpdatePrice = 218.32m
+                LastUpdatePrice = 218.32m,
+                Portfolio = portfolio1
             };
             Position position3 = new Position
             {
@@ -101,7 +190,8 @@ namespace DALEF.EF
                 AbsoluteGain = 9.45m,
                 MaxGain = 14.34m,
                 LastUpdateDate = new DateTime(2016, 5, 1),
-                LastUpdatePrice = 53.32m
+                LastUpdatePrice = 53.32m,
+                Portfolio = portfolio2
             };
             Position position4 = new Position
             {
@@ -122,7 +212,8 @@ namespace DALEF.EF
                 AbsoluteGain = 3.65m,
                 MaxGain = 3.65m,
                 LastUpdateDate = new DateTime(2011, 10, 11),
-                LastUpdatePrice = 53.32m
+                LastUpdatePrice = 53.32m,
+                Portfolio = portfolio2
             };
             Position position5 = new Position
             {
@@ -142,7 +233,8 @@ namespace DALEF.EF
                 CurrentPrice = 12.56m,
                 Gain = 14.39m,
                 AbsoluteGain = 11.34m,
-                MaxGain = 13.34m
+                MaxGain = 13.34m,
+                Portfolio = portfolio2
             };
 
             var position10 = (Position)position1.Clone();
@@ -194,109 +286,6 @@ namespace DALEF.EF
             Session.Save(position5);
             #endregion
 
-            #region Portfolios Inizialize
-            Portfolio portfolio1 = new Portfolio
-            {
-                Id = 1,
-                Name = "Strategic Investment Open Portfolio",
-                Notes = "A portfolio is a grouping of financial assets such as stocks," +
-                "bonds and cash equivalents, as well as their funds counterparts, " +
-                "including mutual, exchange-traded and closed funds. Portfolios are held" +
-                "directly by investors and/or managed by financial professionals. ",
-                DisplayIndex = 1,
-                //LastUpdateDate = new DateTime(2017, 4, 28),
-                Visibility = false,
-                Quantity = 2,
-                PercentWins = 73.23m,
-                BiggestWinner = 234.32m,
-                BiggestLoser = 12.65m,
-                AvgGain = 186.65m,
-                MonthAvgGain = 99.436m,
-                PortfolioValue = 1532.42m,
-                //Positions = new List<Position>
-                //{
-                //    position1, position10, position11, position12,
-                //    position13, position14, position15, position16,
-                //    position17, position18, position19, position2,
-                //    position20, position21, position22,
-                //    position23, position24, position25, position26,
-                //    position27, position28, position29,
-                //}
-            };
-
-            Portfolio portfolio2 = new Portfolio
-            {
-                Id = 2,
-                Name = "Strategic Investment Income Portfolio",
-                Notes = "A portfolio is a grouping of financial assets such as stocks," +
-                "bonds and cash equivalents, as well as their funds counterparts, " +
-                "including mutual, exchange-traded and closed funds. Portfolios are held" +
-                "directly by investors and/or managed by financial professionals. ",
-                DisplayIndex = 2,
-                //LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-                //Positions = new List<Position> { position3, position4, position5 }
-            };
-            Portfolio portfolio3 = new Portfolio
-            {
-                Id = 3,
-                Name = "HDFC Bank",
-                DisplayIndex = 4,
-               // LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-            };
-            Portfolio portfolio4 = new Portfolio
-            {
-                Id = 4,
-                Name = "IndusInd Bank",
-                DisplayIndex = 5,
-                //LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-            };
-            Portfolio portfolio5 = new Portfolio
-            {
-                Id = 5,
-                Name = "UltraTechCement",
-                DisplayIndex = 3,
-                //LastUpdateDate = new DateTime(2017, 3, 12),
-                Visibility = true,
-                Quantity = 3,
-                PercentWins = 93.23m,
-                BiggestWinner = 534.32m,
-                BiggestLoser = 123.46m,
-                AvgGain = 316.65m,
-                MonthAvgGain = 341.436m,
-                PortfolioValue = 5532.42m,
-            };
-
-            Session.Save(portfolio1);
-            Session.Save(portfolio2);
-            Session.Save(portfolio3);
-            Session.Save(portfolio4);
-            Session.Save(portfolio5);
-            #endregion
-
             #region ColumnFormat Inizialize
             ColumnFormat None = new ColumnFormat
             {
@@ -345,31 +334,31 @@ namespace DALEF.EF
             {
                 Id = 1,
                 Name = "Date Format",
-                ColumnFormats = new HashSet<ColumnFormat> { Date, Linked, DateAndTime }
+                ColumnFormats = new List<ColumnFormat> { Date, Linked, DateAndTime }
             };
             Format MoneyFormat = new Format
             {
                 Id = 2,
                 Name = "Money Format",
-                ColumnFormats = new HashSet<ColumnFormat> { None, Money, Linked }
+                ColumnFormats = new List<ColumnFormat> { None, Money, Linked }
             };
             Format PercentFormat = new Format
             {
                 Id = 3,
                 Name = "Percent Format",
-                ColumnFormats = new HashSet<ColumnFormat> { None, Percent }
+                ColumnFormats = new List<ColumnFormat> { None, Percent }
             };
             Format NoneFormat = new Format
             {
                 Id = 4,
                 Name = "None Format",
-                ColumnFormats = new HashSet<ColumnFormat> { None }
+                ColumnFormats = new List<ColumnFormat> { None }
             };
             Format LineFormat = new Format
             {
                 Id = 5,
                 Name = "Line Format",
-                ColumnFormats = new HashSet<ColumnFormat> { None, Linked }
+                ColumnFormats = new List<ColumnFormat> { None, Linked }
             };
 
             Session.Save(DateFormat);
@@ -379,104 +368,145 @@ namespace DALEF.EF
             Session.Save(LineFormat);
             #endregion
 
+            #region ViewTemplate Inizialize
+            ViewTemplate viewTemplate1 = new ViewTemplate
+            {
+                Id = 1,
+                Name = "Preview all",
+                Positions = TemplatePositions.All,
+                ShowPortfolioStats = true,
+                SortOrder = Sorting.ASC,
+                Customer = WallStreetDaily
+            };
+
+            ViewTemplate viewTemplate2 = new ViewTemplate
+            {
+                Id = 2,
+                Name = "Default",
+                Positions = TemplatePositions.OpenOnly,
+                ShowPortfolioStats = false,
+                SortOrder = Sorting.DESC,
+                Customer = WallStreetDaily
+            };
+
+            Session.Save(viewTemplate1);
+            Session.Save(viewTemplate2);
+            #endregion
+            
             #region Columns Inizialize
 
             Column Name = new Column
             {
                 Id = 1,
                 Name = "Name",
-                Format = LineFormat
+                Format = LineFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn1, viewTemplateColumn21 }
             };
             Column SymbolName = new Column
             {
                 Id = 2,
                 Name = "Symbol Name",
-                Format = LineFormat
+                Format = LineFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn2 }
             };
             Column OpenPrice = new Column
             {
                 Id = 3,
                 Name = "Open Price",
-                Format = MoneyFormat
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn3 }
             };
             Column OpenDate = new Column
             {
                 Id = 4,
                 Name = "Open Date",
-                Format = DateFormat
+                Format = DateFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn4 }
             };
             Column OpenWeight = new Column
             {
                 Id = 5,
                 Name = "Open Weight",
-                Format = NoneFormat
+                Format = NoneFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn5 }
             };
             Column CurrentPrice = new Column
             {
                 Id = 6,
                 Name = "Current Price",
-                Format = MoneyFormat
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn6 }
             };
             Column ClosePrice = new Column
             {
                 Id = 7,
                 Name = "Close Price",
-                Format = MoneyFormat
+                Format = MoneyFormat,
+               // ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn7 }
             };
             Column CloseDate = new Column
             {
                 Id = 8,
                 Name = "Close Date",
-                Format = DateFormat
+                Format = DateFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn8 }
             };
             Column TradeType = new Column
             {
                 Id = 9,
                 Name = "Trade Type",
-                Format = NoneFormat
+                Format = NoneFormat,
+               // ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn9 }
             };
             Column TradeStatus = new Column
             {
                 Id = 10,
                 Name = "Trade Status",
-                Format = NoneFormat
+                Format = NoneFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn10 }
             };
             Column Dividends = new Column
             {
                 Id = 11,
                 Name = "Dividends",
-                Format = MoneyFormat
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn11 }
             };
             Column Gain = new Column
             {
                 Id = 12,
                 Name = "Gain",
-                Format = MoneyFormat
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn12 }
             };
             Column AbsoluteGain = new Column
             {
                 Id = 13,
                 Name = "Absolute Gain",
-                Format = PercentFormat
+                Format = PercentFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn13 }
             };
             Column MaxGain = new Column
             {
                 Id = 14,
                 Name = "Max Gain",
-                Format = MoneyFormat
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn14 }
             };
             Column LastUpdateDate = new Column
             {
                 Id = 15,
                 Name = "Last Update Date",
-                Format = DateFormat
+                Format = DateFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn15 }
             };
 
             Column LastUpdatePrice = new Column
             {
                 Id = 16,
                 Name = "Last Update Price",
-                Format = MoneyFormat
+                Format = MoneyFormat,
+                //ViewTemplateColumns = new List<ViewTemplateColumn> { viewTemplateColumn16 }
             };
 
             Session.Save(Name);
@@ -496,195 +526,214 @@ namespace DALEF.EF
             Session.Save(LastUpdateDate);
             Session.Save(LastUpdatePrice);
             #endregion
-
+            
             #region ViewTemplateColumns Inizialize
             ViewTemplateColumn viewTemplateColumn1 = new ViewTemplateColumn
             {
                 Id = 1,
                 Name = "Name",
-                Column = Name,
+                ColumnEntiy = Name,
                 ViewTemplateId = 1,
                 DisplayIndex = 1,
                 ColumnFormat = Linked,
                 ColumnId = 1,
-                ColumnFormatId = 3
+                ColumnFormatId = 3,
+                ViewTemplate = viewTemplate1,
+                //ViewTemplatesForSorting = new List<ViewTemplate> { viewTemplate1 }
             };
             ViewTemplateColumn viewTemplateColumn2 = new ViewTemplateColumn
             {
                 Id = 2,
                 Name = "Symbol",
-                Column = SymbolName,
+                ColumnEntiy = SymbolName,
                 ViewTemplateId = 1,
                 DisplayIndex = 2,
                 ColumnFormat = None,
                 ColumnId = 2,
-                ColumnFormatId = 1
+                ColumnFormatId = 1,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn3 = new ViewTemplateColumn
             {
                 Id = 4,
                 Name = "Open Price",
-                Column = OpenPrice,
+                ColumnEntiy = OpenPrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 4,
                 ColumnFormat = Money,
                 ColumnId = 3,
                 ColumnFormatId = 2,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn4 = new ViewTemplateColumn
             {
                 Id = 5,
                 Name = "Open Date",
-                Column = OpenDate,
+                ColumnEntiy = OpenDate,
                 ViewTemplateId = 1,
                 DisplayIndex = 5,
                 ColumnFormat = Date,
                 ColumnId = 4,
                 ColumnFormatId = 4,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn5 = new ViewTemplateColumn
             {
                 Id = 3,
                 Name = "Weight",
-                Column = OpenWeight,
+                ColumnEntiy = OpenWeight,
                 ViewTemplateId = 1,
                 DisplayIndex = 3,
                 ColumnFormat = None,
                 ColumnId = 5,
                 ColumnFormatId = 1,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn6 = new ViewTemplateColumn
             {
                 Id = 6,
                 Name = "Current Price",
-                Column = CurrentPrice,
+                ColumnEntiy = CurrentPrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 6,
                 ColumnFormat = Linked,
                 ColumnId = 6,
                 ColumnFormatId = 3,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn7 = new ViewTemplateColumn
             {
                 Id = 7,
                 Name = "Close Price",
-                Column = ClosePrice,
+                ColumnEntiy = ClosePrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 7,
                 ColumnFormat = None,
                 ColumnId = 7,
                 ColumnFormatId = 1,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn8 = new ViewTemplateColumn
             {
                 Id = 8,
                 Name = "Close Date",
-                Column = CloseDate,
+                ColumnEntiy = CloseDate,
                 ViewTemplateId = 1,
                 DisplayIndex = 8,
                 ColumnFormat = DateAndTime,
                 ColumnId = 8,
                 ColumnFormatId = 6,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn9 = new ViewTemplateColumn
             {
                 Id = 9,
                 Name = "Trade Type",
-                Column = TradeType,
+                ColumnEntiy = TradeType,
                 ViewTemplateId = 1,
                 DisplayIndex = 9,
                 ColumnFormat = None,
                 ColumnId = 9,
                 ColumnFormatId = 1,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn10 = new ViewTemplateColumn
             {
                 Id = 10,
                 Name = "Trade Status",
-                Column = TradeStatus,
+                ColumnEntiy = TradeStatus,
                 ViewTemplateId = 1,
                 DisplayIndex = 10,
                 ColumnFormat = None,
                 ColumnId = 10,
                 ColumnFormatId = 1,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn11 = new ViewTemplateColumn
             {
                 Id = 11,
                 Name = "Dividends",
-                Column = Dividends,
+                ColumnEntiy = Dividends,
                 ViewTemplateId = 1,
                 DisplayIndex = 11,
                 ColumnFormat = Money,
                 ColumnId = 11,
                 ColumnFormatId = 2,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn12 = new ViewTemplateColumn
             {
                 Id = 12,
                 Name = "Absolute Gain",
-                Column = AbsoluteGain,
+                ColumnEntiy = AbsoluteGain,
                 ViewTemplateId = 1,
                 DisplayIndex = 12,
                 ColumnFormat = Percent,
                 ColumnId = 13,
                 ColumnFormatId = 7,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn13 = new ViewTemplateColumn
             {
                 Id = 13,
                 Name = "Max Gain",
-                Column = MaxGain,
+                ColumnEntiy = MaxGain,
                 ViewTemplateId = 1,
                 DisplayIndex = 13,
                 ColumnFormat = Money,
                 ColumnId = 14,
                 ColumnFormatId = 2,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn14 = new ViewTemplateColumn
             {
                 Id = 14,
                 Name = "Gain",
-                Column = Gain,
+                ColumnEntiy = Gain,
                 ViewTemplateId = 1,
                 DisplayIndex = 14,
                 ColumnFormat = Linked,
                 ColumnId = 12,
                 ColumnFormatId = 3,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn15 = new ViewTemplateColumn
             {
                 Id = 15,
                 Name = "Last Update Date",
-                Column = LastUpdateDate,
+                ColumnEntiy = LastUpdateDate,
                 ViewTemplateId = 1,
                 DisplayIndex = 15,
                 ColumnFormat = DateAndTime,
                 ColumnId = 15,
                 ColumnFormatId = 6,
+                ViewTemplate = viewTemplate1
             };
 
             ViewTemplateColumn viewTemplateColumn16 = new ViewTemplateColumn
             {
                 Id = 16,
                 Name = "Last Update Price",
-                Column = LastUpdatePrice,
+                ColumnEntiy = LastUpdatePrice,
                 ViewTemplateId = 1,
                 DisplayIndex = 16,
                 ColumnFormat = Linked,
                 ColumnId = 16,
                 ColumnFormatId = 2,
+                ViewTemplate = viewTemplate1
             };
             ViewTemplateColumn viewTemplateColumn21 = new ViewTemplateColumn
             {
                 Id = 17,
                 Name = "Name",
-                Column = Name,
+                ColumnEntiy = Name,
                 ViewTemplateId = 2,
                 DisplayIndex = 1,
                 ColumnFormat = None,
                 ColumnId = 1,
                 ColumnFormatId = 1,
+                ViewTemplate = viewTemplate2,
+                //ViewTemplatesForSorting = new List<ViewTemplate> { viewTemplate2 }
             };
             Session.Save(viewTemplateColumn1);
             Session.Save(viewTemplateColumn2);
@@ -706,38 +755,6 @@ namespace DALEF.EF
             Session.Save(viewTemplateColumn21);
             #endregion
 
-            #region ViewTemplate Inizialize
-            ViewTemplate viewTemplate1 = new ViewTemplate
-            {
-                Id = 1,
-                Name = "Preview all",
-                Positions = TemplatePositions.All,
-                ShowPortfolioStats = true,
-                SortOrder = Sorting.ASC,
-                Columns = new List<ViewTemplateColumn>
-                {
-                    viewTemplateColumn1, viewTemplateColumn2, viewTemplateColumn3, viewTemplateColumn4,
-                    viewTemplateColumn5, viewTemplateColumn6, viewTemplateColumn6, viewTemplateColumn7,
-                    viewTemplateColumn8, viewTemplateColumn9, viewTemplateColumn10, viewTemplateColumn11,
-                    viewTemplateColumn12, viewTemplateColumn13, viewTemplateColumn13, viewTemplateColumn14,
-                    viewTemplateColumn15, viewTemplateColumn16
-                }
-            };
-
-            ViewTemplate viewTemplate2 = new ViewTemplate
-            {
-                Id = 2,
-                Name = "Default",
-                Positions = TemplatePositions.OpenOnly,
-                ShowPortfolioStats = false,
-                SortOrder = Sorting.DESC,
-                Columns = new List<ViewTemplateColumn>
-                {viewTemplateColumn21}
-            };
-
-            Session.Save(viewTemplate1);
-            Session.Save(viewTemplate2);
-            #endregion
 
             #region View Inizialize
 
@@ -749,7 +766,9 @@ namespace DALEF.EF
                 DateFormat = DateFormats.MonthDayYear,
                 MoneyPrecision = 2,
                 PercentyPrecision = 4,
-                ViewTemplate = viewTemplate1
+                ViewTemplate = viewTemplate1,
+                ViewTemplateId = viewTemplate1.Id,
+                Customer = WallStreetDaily
             };
 
             ViewForTable defaultView = new ViewForTable
@@ -760,38 +779,17 @@ namespace DALEF.EF
                 DateFormat = DateFormats.DayMonthNameYear,
                 MoneyPrecision = 1,
                 PercentyPrecision = 2,
-                ViewTemplate = viewTemplate2
+                ViewTemplate = viewTemplate2,
+                ViewTemplateId = viewTemplate2.Id,
+                Customer = WallStreetDaily
             };
 
             Session.Save(previewAllView);
             Session.Save(defaultView);
             #endregion
 
-            #region Customer Inizialize
-            Customer WallStreetDaily = new Customer
-            {
-                Id = 1,
-                Name = "Wall Street Daily",
-                Portfolios = new List<Portfolio> { portfolio1, portfolio2, portfolio3 },
-                Views = new List<ViewForTable> { previewAllView, defaultView },
-                ViewTemplates = new List<ViewTemplate> { viewTemplate1, viewTemplate2 }
-            };
-            Customer FleetStreetPublication = new Customer { Id = 2, Name = "Fleet Street Publication", Portfolios = new List<Portfolio> { portfolio4, portfolio5 } };
-            Customer DailyEdge = new Customer { Id = 3, Name = "Daily Edge" };
-            Customer HeidiShubert = new Customer { Id = 6, Name = "Heidi Shubert" };
-            Customer WeissResearch = new Customer { Id = 4, Name = "Weiss Research" };
-            Customer WSD = new Customer { Id = 5, Name = "WSD Custom Strategy" };
-
-            Session.Save(DailyEdge);
-            Session.Save(HeidiShubert);
-            Session.Save(WallStreetDaily);
-            Session.Save(WeissResearch);
-            Session.Save(WSD);
-            Session.Save(FleetStreetPublication);
-            #endregion
-
             #region User Inizialize
-            var userManager = new ApplicationUserManager(new UserStore<User>(Session));
+            var userManager = new ApplicationUserManager(new UserStore<UserEntity>(Session));
             var roleManager = new ApplicationRoleManager(new RoleStore<Role>(Session));
             List<Role> identityRoles = new List<Role>
             {
@@ -804,7 +802,7 @@ namespace DALEF.EF
             {
                 roleManager.Create(role);
             }
-            User admin = new User { Email = "Admin", UserName = "Admin" };
+            UserEntity admin = new UserEntity { Email = "Admin", UserName = "Admin" };
             userManager.Create(admin, "Password");
             userManager.AddToRole(admin.Id, "Admin");
             userManager.AddToRole(admin.Id, "Employee");
@@ -851,6 +849,8 @@ namespace DALEF.EF
             Session.Save(record2);
             Session.Save(record3);
             #endregion
+
+            Session.Flush();
         }
     }
 }
