@@ -20,7 +20,10 @@ namespace PL.Controllers
         private IViewService viewService;
         private IViewTemplateService viewTemplateService;
 
-        public ViewController(IViewService viewService, IViewTemplateService viewTemplateService)
+        public static ITransactionService tsss;
+        
+        public ViewController(IViewService viewService, IViewTemplateService viewTemplateService
+            , ITransactionService ts) : base(ts)
         {
             this.viewService = viewService;
             this.viewTemplateService = viewTemplateService;
@@ -45,7 +48,7 @@ namespace PL.Controllers
             return PartialView(view);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public ActionResult Save(ViewModel view)
         {
             bool status = true;
@@ -59,6 +62,7 @@ namespace PL.Controllers
                 catch (ValidationException ex)
                 {
                     logger.Error(ex.ToString());
+                    ModelState.AddModelError("", ex.Message);
                     status = false;
                     property = ex.Property;
                     message = ex.Message;

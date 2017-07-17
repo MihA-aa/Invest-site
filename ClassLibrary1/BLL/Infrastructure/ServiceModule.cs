@@ -60,13 +60,10 @@ namespace BLL.Infrastructure
                 InstancePerRequest();
             builder.RegisterType<RecordService>().As<IRecordService>().
                 InstancePerRequest();
-            builder.Register(_ => new AutoMapperConfiguration().Configure().CreateMapper()).As<IMapper>().SingleInstance();
-            
-
-            //builder.RegisterType<RoleStore<Role>>()
-            //       .As<IRoleStore<IdentityRole>>().InstancePerRequest();
-            //builder.RegisterType<UserStore<User>>()
-            //       .As<IUserStore<User>>().InstancePerRequest();
+            builder.RegisterType<TransactionService>().As<ITransactionService>().
+                InstancePerRequest();
+            builder.Register(_ => new AutoMapperConfiguration().Configure().CreateMapper())
+                .As<IMapper>().SingleInstance();
             base.Load(builder);
         }
     }

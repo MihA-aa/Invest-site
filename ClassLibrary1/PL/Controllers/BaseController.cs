@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using BLL.Interfaces;
+using BLL.Services;
 using log4net;
 
 namespace PL.Controllers
@@ -11,9 +13,10 @@ namespace PL.Controllers
     public class BaseController : Controller
     {
         private IMapper _mapper = null;
+        public ITransactionService tttss;
 
         protected ILog logger;
-        public BaseController()
+        public BaseController(ITransactionService ts)
         {
             try
             {
@@ -23,6 +26,7 @@ namespace PL.Controllers
             {
                 logger = LogManager.GetLogger("Unit test");
             }
+            tttss = ts;
         }
         public  virtual IMapper Mapper
         {

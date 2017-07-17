@@ -280,6 +280,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\AutofacConfig.cs" />
     <Compile Include="Util\HelperService.cs" />
+    <Compile Include="Util\TransactionAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
@@ -830,6 +831,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{6cb2a215-bfc7-4b82-b68e-679c21d4d98e}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClassLibrary2\DALEF.csproj">
+      <Project>{257c9a9d-5143-4752-8fd3-cf729ded20e3}</Project>
+      <Name>DALEF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -52,7 +52,8 @@ namespace DALEF.Repositories
         {
             this.connectionString = connectionString;
             viewDb = new DatabaseFirstContext(connectionStringForExistDB);
-            Session = NHibernateSessionFactory.getSession(connectionString);
+            if(Session == null)
+                Session = NHibernateSessionFactory.getSession(connectionString);
             //StoreDbInitializer.Inizialize(Session);
         }
 
@@ -203,7 +204,7 @@ namespace DALEF.Repositories
 
         public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
-            if(!Session.IsOpen)
+            if(Session == null || !Session.IsOpen)
                 Session = NHibernateSessionFactory.getSession(connectionString);
             _transaction = Session.BeginTransaction(isolationLevel);
         }
@@ -227,7 +228,7 @@ namespace DALEF.Repositories
             finally
             {
                 //Session.Close();
-                Session.Dispose();
+                //Session.Dispose();
             }
         }
 
@@ -254,7 +255,7 @@ namespace DALEF.Repositories
             finally
             {
                 //Session.Close();
-                Session.Dispose();
+                //Session.Dispose();
             }
         }
 
@@ -267,14 +268,14 @@ namespace DALEF.Repositories
                 {
                     if (this._transaction != null)
                     {
-                        this._transaction.Dispose();
-                        this._transaction = null;
+                        //this._transaction.Dispose();
+                        //this._transaction = null;
                     }
 
                     if (this.Session != null)
                     {
-                        this.Session.Dispose();
-                        Session = null;
+                        //this.Session.Dispose();
+                        //Session = null;
                     }
                 }
                 this.disposed = true;
@@ -283,8 +284,8 @@ namespace DALEF.Repositories
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            //Dispose(true);
+            //GC.SuppressFinalize(this);
         }
     }
 }

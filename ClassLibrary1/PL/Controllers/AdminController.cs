@@ -20,7 +20,7 @@ namespace PL.Controllers
         private IUserService userService;
         private IRecordService recordService;
 
-        public AdminController(ICustomerService cs, IProfileService ps, IUserService us, IRecordService rs)
+        public AdminController(ICustomerService cs, IProfileService ps, IUserService us, IRecordService rs, ITransactionService ts) : base(ts)
         {
             customerService = cs;
             profileService = ps;

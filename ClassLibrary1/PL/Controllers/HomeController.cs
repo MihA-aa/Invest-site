@@ -14,7 +14,7 @@ namespace PL.Controllers
     {
         private IUserService userService;
 
-        public HomeController(IUserService userService)
+        public HomeController(IUserService userService, ITransactionService ts) : base(ts)
         {
             this.userService = userService;
         }

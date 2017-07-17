@@ -22,18 +22,5 @@ namespace DALEF.Repositories
                 .Query<ViewForTable>()
                 .Any(p => p.Id == id);
         }
-
-        //public void UpdateView(ViewForTable view)
-        //{
-        //    ViewForTable viewForUpdate = Session.Get<ViewForTable>(view.Id);
-        //    viewForUpdate.Name = view.Name;
-        //    viewForUpdate.ShowName = view.ShowName;
-        //    viewForUpdate.DateFormat = view.DateFormat;
-        //    viewForUpdate.MoneyPrecision = view.MoneyPrecision;
-        //    viewForUpdate.PercentyPrecision = view.PercentyPrecision;
-        //    viewForUpdate.ViewTemplate = view.ViewTemplate;
-        //    viewForUpdate.ViewTemplateId = view.ViewTemplateId;
-        //    Session.SaveOrUpdate(viewForUpdate);
-        //}
     }
 }

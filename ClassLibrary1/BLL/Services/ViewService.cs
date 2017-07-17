@@ -17,12 +17,14 @@ namespace BLL.Services
     {
         ICustomerService customerService { get; }
         IRecordService recordService { get; }
+        ITransactionService transactionService { get; }
 
         public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs,
-                           IRecordService rs) : base(uow, vd, map)
+                           IRecordService rs, ITransactionService ts) : base(uow, vd, map)
         {
             customerService = cs;
             recordService = rs;
+            transactionService = ts;
         }
 
         public IEnumerable<ViewDTO> GetViews()
@@ -74,7 +76,8 @@ namespace BLL.Services
 
         public void CreateView(ViewDTO viewDto, string userId)
         {
-            db.BeginTransaction();
+            //db.BeginTransaction();
+            
             try
             {
                 if (viewDto == null)
@@ -88,20 +91,23 @@ namespace BLL.Services
                 customer.Views.Add(view);
                 db.Views.Create(view);
 
-                recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId, view.Id, true);
-                db.Commit();
+                //recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId, view.Id, true);
+                //db.Commit();
+                
             }
             catch (Exception ex)
             {
-                db.RollBack();
-                recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId, 0, false);
+                //db.RollBack();
+                //recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId, 0, false);
+                
                 throw ex;
             }
         }
 
         public void UpdateView(ViewDTO viewDto, string userId)
         {
-            db.BeginTransaction();
+            //db.BeginTransaction();
+           // transactionService.BeginTransaction();
             try
             {
                 if (viewDto == null)
@@ -116,14 +122,15 @@ namespace BLL.Services
                 AddViewTemplateToView(view, view.ViewTemplateId);
 
                 db.Views.Update(view);
-
-                recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId, view.Id, true);
-                db.Commit();
+                //transactionService.Commit();
+                //recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId, view.Id, true);
+                //db.Commit();
             }
             catch (Exception ex)
             {
-                db.RollBack();
-                recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId, viewDto?.Id ?? 0, false);
+                //transactionService.RollBack();
+                //db.RollBack();
+                //recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId, viewDto?.Id ?? 0, false);
                 throw ex;
             }
         }

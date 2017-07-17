@@ -5,12 +5,13 @@ using System.Web;
 using log4net;
 using System.Web.Mvc;
 using AutoMapper;
+using BLL.Interfaces;
 
 namespace PL.Controllers
 {
     public class ErrorController :BaseController
     {
-        public ErrorController()
+        public ErrorController(ITransactionService ts) : base(ts)
         {
             LogManager.GetLogger(Type.GetType("PL.Controllers." + this.GetType().Name));
         }

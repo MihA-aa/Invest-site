@@ -26,7 +26,7 @@ namespace PL.Controllers
 
         public NavController(IPortfolioService portfolioService, ISymbolViewService symbolViewService,
             ITradeSybolService tradeSybolService, IViewTemplateService viewTemplateService, 
-            IViewTemplateColumnService viewTemplateColumnService, IViewService viewService)
+            IViewTemplateColumnService viewTemplateColumnService, IViewService viewService, ITransactionService ts) : base(ts)
         {
             this.portfolioService = portfolioService;
             this.symbolViewService = symbolViewService;

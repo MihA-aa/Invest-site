@@ -112,6 +112,7 @@
     <Compile Include="Interfaces\IRecordService.cs" />
     <Compile Include="Interfaces\ISymbolViewService.cs" />
     <Compile Include="Interfaces\ITradeSybolService.cs" />
+    <Compile Include="Interfaces\ITransactionService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Interfaces\IValidateService.cs" />
     <Compile Include="Interfaces\IViewService.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Services\RecordService.cs" />
     <Compile Include="Services\SymbolViewService.cs" />
     <Compile Include="Services\TradeSybolService.cs" />
+    <Compile Include="Services\TransactionService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidateService.cs" />
     <Compile Include="Services\ViewService.cs" />

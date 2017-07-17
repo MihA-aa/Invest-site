@@ -17,7 +17,7 @@ namespace PL.Controllers
     {
         private IPortfolioService portfolioService;
 
-        public PortfolioController(IPortfolioService PortfolioService)
+        public PortfolioController(IPortfolioService PortfolioService, ITransactionService ts) : base(ts)
         {
             this.portfolioService = PortfolioService;
         }

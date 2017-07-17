@@ -22,7 +22,7 @@ namespace PL.Controllers
     {
         private IPositionService positionService;
 
-        public PositionController(IPositionService positionService)
+        public PositionController(IPositionService positionService, ITransactionService ts) : base(ts)
         {
             this.positionService = positionService;
         }

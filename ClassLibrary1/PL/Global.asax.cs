@@ -51,10 +51,10 @@ namespace PL
                 }
             }
             Response.TrySkipIisCustomErrors = true;
-            IController errorsController = new ErrorController();
-            HttpContextWrapper wrapper = new HttpContextWrapper(Context);
-            var rc = new RequestContext(wrapper, routeData);
-            errorsController.Execute(rc);
+            //IController errorsController = new ErrorController();
+            //HttpContextWrapper wrapper = new HttpContextWrapper(Context);
+            //var rc = new RequestContext(wrapper, routeData);
+            //errorsController.Execute(rc);
         }
     }
 }
