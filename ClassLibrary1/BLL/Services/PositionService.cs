@@ -8,7 +8,6 @@ using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
-using Position = DAL.Entities.Position;
 
 namespace BLL.Services
 {
@@ -56,9 +55,8 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
             var profile = db.Profiles.Get(userId);
             var positions = profile?.Customer?.Portfolios?.SelectMany(p => p.Positions);
-            if (positions?.FirstOrDefault(p => p.Id == positionId) != null)
-                return true;
-            return false;
+            bool access = positions?.FirstOrDefault(p => p.Id == positionId) != null;
+            return access;
         }
 
         public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId, string userId)
@@ -75,16 +73,16 @@ namespace BLL.Services
         {
             if (id == null)
                 throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
-            var position = IMapper.Map<Position, PositionDTO>(db.Positions.Get(id.Value));
+            var position = db.Positions.Get(id.Value);
             if (position == null)
                 throw new ValidationException(Resource.Resource.PositionNotFound, "");
+
             var tradeInfo = tradeSybolService.GetDateForSymbolInDateInterval(position.OpenDate, position.CloseDate ?? DateTime.Now,
                 position.SymbolId);
             var dates = tradeInfo.Select(d => HelperService.ConvertToUnixTimestamp(d.TradeDate)*1000);
             var gains = tradeInfo.Select(d => calculationService.GetGain(d.Price, position.ClosePrice,
-                             position.OpenPrice, position.OpenWeight, d.Dividends, position.TradeType));
-            var dic = dates.Zip(gains, (k, v) => new { k, v })
-              .ToDictionary(x => x.k, x => x.v);
+                             position.OpenPrice, position.OpenWeight, d.Dividends, (TradeTypesDTO)position.TradeType));
+            var dic = dates.Zip(gains, (k, v) => new { k, v }).ToDictionary(x => x.k, x => x.v);
             return dic;
         }
 
@@ -102,7 +100,6 @@ namespace BLL.Services
                 var position = IMapper.Map<PositionDTO, Position>(positionDto);
                 db.Positions.Create(position);
                 AddPositionToPortfolio(position, portfolioId);
-                //db.Save();
                 db.Portfolios.RecalculatePortfolioValue(portfolioId.Value);
 
                 recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Create, userId, position.Id, true);
@@ -129,8 +126,8 @@ namespace BLL.Services
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
                 db.Portfolios.AddPositionToPortfolio(position, portfolioId.Value);
 
-            db.Commit();
-        }
+                db.Commit();
+            }
             catch (Exception ex)
             {
                 db.RollBack();
@@ -171,10 +168,14 @@ namespace BLL.Services
                 if (!db.Positions.IsExist(positionDto.Id))
                     throw new ValidationException(Resource.Resource.PositionNotFound, "");
                 validateService.Validate(positionDto);
+
                 positionDto = CalculateAllParams(positionDto);
+                var positionFromDb = db.Positions.Get(positionDto.Id);
                 var position = IMapper.Map<PositionDTO, Position>(positionDto);
+                position.Portfolio = positionFromDb.Portfolio;
+
                 db.Positions.Update(position);
-                //db.Save();
+
                 Portfolio portfolio = db.Portfolios.GetAll()
                     .FirstOrDefault(x => x.Positions.Any(p => p.Id == positionDto.Id));
                 if (portfolio != null)
@@ -201,7 +202,6 @@ namespace BLL.Services
             var positionDto = CalculateAllParams(IMapper.Map<Position, PositionDTO>(position));
             var newposition = IMapper.Map<PositionDTO, Position>(positionDto);
             db.Positions.Update(newposition);
-            //db.Save();
         }
 
         public void UpdatePosition(int? id)
@@ -210,7 +210,7 @@ namespace BLL.Services
             try
             {
                 UpdateOnlyPosition(id);
-                Portfolio portfolio = db.Portfolios.GetAll()
+                var portfolio = db.Portfolios.GetAll()
                     .FirstOrDefault(x => x.Positions.Any(p => p.Id == id));
                 db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
 
@@ -235,7 +235,6 @@ namespace BLL.Services
                     var position = IMapper.Map<PositionDTO, Position>(positions[i]);
                     db.Positions.Update(position);
                 }
-                //db.Save();
                 var portfoliosId = db.Portfolios.GetAll().Select(p => p.Id);
                 foreach (var id in portfoliosId)
                 {

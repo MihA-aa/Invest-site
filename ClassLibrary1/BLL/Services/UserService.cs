@@ -32,15 +32,16 @@ namespace BLL.Services
                 var result = await db.UserManager.CreateAsync(user, userDto.Password);
                 if (result.Errors.Any())
                     throw new ValidationException(result.Errors.FirstOrDefault(), "");
+
                 await db.UserManager.AddToRoleAsync(user.Id, userDto.Role);
                 var clientProfile = new Entity.Profile { Id = user.Id, Login = userDto.Login };
+
                 if (customerId != 0)
                 {
                     AddProfileToCustomer(clientProfile, customerId);
                     await db.UserManager.AddToRoleAsync(user.Id, "Employee");
                 }
                 db.Profiles.Create(clientProfile);
-                //await db.SaveAsync();
             }
             else
             {
@@ -51,8 +52,14 @@ namespace BLL.Services
 
         public async Task ChangeUserData(UserDTO userDto, int? customerId)
         {
-            if (db.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)== null
-                || db.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login)?.Id == userDto.Id)
+            if(userDto == null)
+                throw new ValidationException(Resource.Resource.UserNullReference, "");
+            if (customerId == null)
+                throw new ValidationException(Resource.Resource.CustomerIdNotSet, "");
+
+            UserEntity userForCheck = db.UserManager.Users.FirstOrDefault(x => x.UserName == userDto.Login);
+
+            if (userForCheck == null || userForCheck?.Id == userDto.Id)
             {
                 var user = db.UserManager.FindById(userDto.Id);
                 validateService.ValidateOnlyLogin(userDto);
@@ -60,11 +67,11 @@ namespace BLL.Services
                 var updateResult = await db.UserManager.UpdateAsync(user);
                 if (updateResult.Errors.Any())
                     throw new ValidationException(updateResult.Errors.FirstOrDefault(), "");
+
                 var profile = db.Profiles.Get(userDto.Id);
                 profile.Login = userDto.Login;
                 AddProfileToCustomer(profile, customerId);
                 await db.UserManager.AddToRoleAsync(user.Id, "Employee");
-                //await db.SaveAsync();
             }
             else
             {
@@ -77,16 +84,16 @@ namespace BLL.Services
             ClaimsIdentity claim = null;
             UserEntity user = await db.UserManager.FindAsync(userDto.Login, userDto.Password);
             if (user != null)
-                claim = await db.UserManager.CreateIdentityAsync(user,
-                                            DefaultAuthenticationTypes.ApplicationCookie);
+                claim = await db.UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             return claim;
         }
 
         public void DeleteUser(string userId)
         {
             var user = db.UserManager.FindById(userId);
-            if(user!=null)
-                db.UserManager.Delete(user);
+            if (user == null)
+                throw new ValidationException(Resource.Resource.UserNotFound, "");
+            db.UserManager.Delete(user);
         }
 
         public void AddProfileToCustomer(Entity.Profile profile, int? customerId)

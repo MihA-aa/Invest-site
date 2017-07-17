@@ -15,8 +15,6 @@ namespace DALEF.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-        //protected ApplicationContext db;
-        //protected DbSet<T> dbSet;
         protected readonly ISession Session;
 
         public GenericRepository(ISession session)
@@ -53,7 +51,7 @@ namespace DALEF.Repositories
 
         public void Update(T item)
         {
-            Session.Update(item);
+            Session.Merge(item);
         }
 
         public int Count()

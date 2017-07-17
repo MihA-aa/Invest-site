@@ -30,7 +30,7 @@ namespace DAL.Entities
             Id(x => x.Id);//.GeneratedBy.Guid();
             Map(x => x.Login).Length(200);
             Map(x => x.CustomerId);
-            References(x => x.Customer).Column("Customer").Not.Nullable();
+            References(x => x.Customer).Column("Customer");
             //HasOne(x => x.User).Cascade.All().PropertyRef("User");
         }
     }

@@ -50,6 +50,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
             if (!db.Portfolios.IsExist(portfolioId.Value))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
             return db.Profiles.ProfileAccess(userId, portfolioId.Value);
         }
 
@@ -60,6 +61,7 @@ namespace BLL.Services
             var portfolio = db.Portfolios.Get(portfolioId.Value);
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
             return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());
         }
 
@@ -71,6 +73,7 @@ namespace BLL.Services
             var portfolio = portfolios?.FirstOrDefault(p => p.Id == portfolioId.Value);
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
             return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());
         }
 
@@ -81,6 +84,7 @@ namespace BLL.Services
             var portfolio = db.Portfolios.Get(id.Value);
             if (portfolio == null)
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
             return IMapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
 
@@ -108,6 +112,7 @@ namespace BLL.Services
             {
                 if (portfolioDto == null)
                     throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
+
                 Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                         .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now))
                         .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.Portfolios.Count() + 1)));
@@ -116,7 +121,7 @@ namespace BLL.Services
                 portfolio.Customer = customer;
                 customer.Portfolios.Add(portfolio);
                 db.Portfolios.Create(portfolio);
-                //db.Save();
+
                 portfolioId = portfolio.Id;
 
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Create, userId, portfolioId, true);
@@ -140,11 +145,12 @@ namespace BLL.Services
                     throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
                 if (!db.Portfolios.IsExist(portfolioDto.Id))
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
+                var portfolioFromDb = db.Portfolios.Get(portfolioDto.Id);
                 Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
+                        .ForMember("Customer", opt => opt.MapFrom(src => portfolioFromDb.Customer))
                         .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
-                var portfolio = db.Portfolios.Get(portfolioDto.Id);
-                portfolio.Name = portfolioDto.Name;
-                portfolio.Notes = portfolio.Notes;
+                var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
                 db.Portfolios.Update(portfolio);
 
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id, true);
@@ -168,11 +174,11 @@ namespace BLL.Services
                 if (!db.Portfolios.IsExist(portfolioDto.Id))
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
                 validateService.Validate(portfolioDto);
+
                 Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                         .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));
                 var portfolio = Mapper.Map<PortfolioDTO, Portfolio>(portfolioDto);
                 db.Portfolios.Update(portfolio);
-                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, portfolioDto.Id, true);
                 db.Commit();
@@ -195,6 +201,7 @@ namespace BLL.Services
                 var portfolio = db.Portfolios.GetPortfolioQuery(id.Value).FirstOrDefault();
                 if (portfolio == null)
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
                 foreach (var Id in portfolio.Positions.Select(p => p.Id))
                 {
                     positionService.UpdateOnlyPosition(Id);
@@ -219,8 +226,8 @@ namespace BLL.Services
                     throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
                 if (!db.Portfolios.IsExist(id.Value))
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
                 db.Portfolios.Delete(id.Value);
-                //db.Save();
                 recordService.CreateRecord(EntitiesDTO.Portfolio, OperationsDTO.Update, userId, id.Value, true);
                 db.Commit();
             }
@@ -256,10 +263,11 @@ namespace BLL.Services
             try
             {
                 if (id == null)
-                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+                    throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
                 var portfolio = db.Portfolios.Get(id.Value);
                 if (portfolio == null)
                     throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+
                 db.Portfolios.RecalculatePortfolioValue(id.Value);
                 db.Commit();
             }

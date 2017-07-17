@@ -25,18 +25,8 @@ namespace BLL.Services
         {
             return IMapper.Map<IEnumerable<Record>, List<RecordDTO>>(db.Records.GetAll().Where(r=>r.UserId == userId));
         }
-
-        public RecordDTO GetRecord(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("Record Id Not Set", "");
-            var record = db.Records.Get(id.Value);
-            if (record == null)
-                throw new ValidationException("Record Not Found", "");
-            return IMapper.Map<Record, RecordDTO>(record);
-        }
-
-        public int CreateRecord(EntitiesDTO entity, OperationsDTO operation, string userId, int entityId = 0, bool success = false)
+        
+        public void CreateRecord(EntitiesDTO entity, OperationsDTO operation, string userId, int entityId, bool success)
         {
             var record = new RecordDTO
             {
@@ -47,54 +37,37 @@ namespace BLL.Services
                 EntityId = entityId,
                 DateTime = DateTime.Now
             };
-            int recordId = CreateRecord(record);
-            return recordId;
+            CreateRecord(record);
         }
 
-        public int CreateRecord(RecordDTO recordDTO)
+        public void CreateRecord(RecordDTO recordDTO)
         {
-            if (recordDTO == null)
-                throw new ValidationException("Record Null Reference", "");
-            var record = IMapper.Map<RecordDTO, Record>(recordDTO);
-            db.Records.Create(record);
-            //db.Save();
-            return record.Id;
-        }
-
-        public void DeleteRecord(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("Record Id Not Set", "");
-            if (!db.Records.IsExist(id.Value))
-                throw new ValidationException("Record Not Found", "");
-            db.Records.Delete(id.Value);
-            //db.Save();
-        }
-
-        public void EstablishSuccess(int? id)
-        {
-            if (id == null)
-                throw new ValidationException("Record Id Not Set", "");
-            var record = db.Records.Get(id.Value);
-            if (record == null)
-                throw new ValidationException("Record Not Found", "");
-            record.Successfully = true;
-            db.Records.Update(record);
-            //db.Save();
-        }
-
-        public void SetEntityId(int? entityId, int? recordId)
-        {
-            if (entityId == null)
-                throw new ValidationException("Entity Id Not Set", "");
-            if (recordId == null)
-                throw new ValidationException("Record Id Not Set", "");
-            var record = db.Records.Get(recordId.Value);
-            if (record == null)
-                throw new ValidationException("Record Not Found", "");
-            record.EntityId = entityId.Value;
-            db.Records.Update(record);
-            //db.Save();
+            if (db.SessionIsOpen())
+            {
+                if (recordDTO == null)
+                    throw new ValidationException("Record Null Reference", "");
+                var record = IMapper.Map<RecordDTO, Record>(recordDTO);
+                db.Records.Create(record);
+            }
+            else
+            {
+                db.BeginTransaction();
+                try
+                {
+                    if (recordDTO == null)
+                        throw new ValidationException("Record Null Reference", "");
+                    var record = IMapper.Map<RecordDTO, Record>(recordDTO);
+                    db.Records.Create(record);
+                    
+                    db.Commit();
+                }
+                catch (Exception ex)
+                {
+                    db.RollBack();
+                    throw ex;
+                }
+            }
+            
         }
     }
 }

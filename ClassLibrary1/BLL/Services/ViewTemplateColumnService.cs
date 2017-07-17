@@ -55,10 +55,10 @@ namespace BLL.Services
                 .ForMember("DisplayIndex", opt => opt.MapFrom(src => db.ViewTemplates.GetCountColumnInTemplate(templateId.Value) + 1)));
                 var viewTemplateColumn = Mapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
 
-                db.ViewTemplateColumns.Create(viewTemplateColumn);
                 AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
                 AddColumnToTemplate(viewTemplateColumn, templateId);
                 ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
+                db.ViewTemplateColumns.Create(viewTemplateColumn);
                 //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.ViewTemplateColumn, OperationsDTO.Create, userId, viewTemplateColumn.Id, true);
@@ -82,9 +82,11 @@ namespace BLL.Services
                 if (!db.ViewTemplateColumns.IsExist(viewTemplateColumnDto.Id))
                     throw new ValidationException(Resource.Resource.ViewTemplateColumnNotFound, "");
 
+                var viewTemplateColumnFromDb = db.ViewTemplateColumns.Get(viewTemplateColumnDto.Id);
                 var viewTemplateColumn = IMapper.Map<ViewTemplateColumnDTO, ViewTemplateColumn>(viewTemplateColumnDto);
                 AddColumnToViewTemplateColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnName);
                 ApplyFormatToColumn(viewTemplateColumn, viewTemplateColumnDto.ColumnFormatId);
+                viewTemplateColumn.ViewTemplate = viewTemplateColumnFromDb.ViewTemplate;
                 db.ViewTemplateColumns.Update(viewTemplateColumn);
                 //db.Save();
 

@@ -31,5 +31,6 @@ namespace DAL.Interfaces
         void Save();
         void Commit();
         void RollBack();
+        bool SessionIsOpen();
     }
 }

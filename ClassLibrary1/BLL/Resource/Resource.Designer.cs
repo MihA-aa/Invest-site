@@ -286,6 +286,15 @@ namespace BLL.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User is null reference.
+        /// </summary>
+        internal static string UserNullReference {
+            get {
+                return ResourceManager.GetString("UserNullReference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not set id of view.
         /// </summary>
         internal static string ViewIdNotSet {

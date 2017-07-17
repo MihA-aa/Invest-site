@@ -43,12 +43,14 @@ namespace DALEF.Repositories
         private RecordRepository recordRepository;
         private UserManager<UserEntity> userManager;
         private ApplicationRoleManager roleManager;
-        
+        private readonly string connectionString;
+
         private ITransaction _transaction;
         public ISession Session { get; private set; }
 
         public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
         {
+            this.connectionString = connectionString;
             viewDb = new DatabaseFirstContext(connectionStringForExistDB);
             Session = NHibernateSessionFactory.getSession(connectionString);
             //StoreDbInitializer.Inizialize(Session);
@@ -201,6 +203,8 @@ namespace DALEF.Repositories
 
         public void BeginTransaction(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
         {
+            if(!Session.IsOpen)
+                Session = NHibernateSessionFactory.getSession(connectionString);
             _transaction = Session.BeginTransaction(isolationLevel);
         }
 
@@ -222,6 +226,7 @@ namespace DALEF.Repositories
             }
             finally
             {
+                //Session.Close();
                 Session.Dispose();
             }
         }
@@ -231,6 +236,11 @@ namespace DALEF.Repositories
             Session.Flush();
         }
 
+        public bool SessionIsOpen()
+        {
+            return Session.IsOpen;
+        }
+        
         public void RollBack()
         {
             try
@@ -243,6 +253,7 @@ namespace DALEF.Repositories
             }
             finally
             {
+                //Session.Close();
                 Session.Dispose();
             }
         }

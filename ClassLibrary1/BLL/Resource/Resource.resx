@@ -225,4 +225,7 @@
   <data name="ViewTemplateNullReference" xml:space="preserve">
     <value>ViewTemplate is null reference</value>
   </data>
+  <data name="UserNullReference" xml:space="preserve">
+    <value>User is null reference</value>
+  </data>
 </root>

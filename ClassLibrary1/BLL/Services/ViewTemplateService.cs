@@ -43,6 +43,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ViewTemplateIdNotSet, "");
             if (userId == null)
                 throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
+
             var profile = db.Profiles.Get(userId);
             var viewTemplates = profile?.Customer?.ViewTemplates;
             if (viewTemplates?.FirstOrDefault(p => p.Id == viewTemplateId) != null)
@@ -97,12 +98,12 @@ namespace BLL.Services
             {
                 if (viewTemplateDto == null)
                     throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
+
                 var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
                 var customer = customerService.GetCustomerByProfileId(userId);
                 viewTemplate.Customer = customer;
                 customer.ViewTemplates.Add(viewTemplate);
                 db.ViewTemplates.Create(viewTemplate);
-                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Create, userId, viewTemplate.Id, true);
                 db.Commit();
@@ -124,10 +125,13 @@ namespace BLL.Services
                     throw new ValidationException(Resource.Resource.ViewTemplateNullReference, "");
                 if (!db.ViewTemplates.IsExist(viewTemplateDto.Id))
                     throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
+
+                var viewTemplateFromDb = db.ViewTemplates.Get(viewTemplateDto.Id);
                 var viewTemplate = IMapper.Map<ViewTemplateDTO, ViewTemplate>(viewTemplateDto);
                 AddSortColumnToTemplate(viewTemplate, viewTemplate.SortColumnId);
+                viewTemplate.Customer = viewTemplateFromDb.Customer;
+
                 db.ViewTemplates.Update(viewTemplate);
-                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Update, userId, viewTemplate.Id, true);
                 db.Commit();
@@ -162,7 +166,6 @@ namespace BLL.Services
                 if (!db.ViewTemplates.IsExist(id.Value))
                     throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
                 db.ViewTemplates.Delete(id.Value);
-                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.ViewTemplate, OperationsDTO.Delete, userId, id.Value, true);
                 db.Commit();

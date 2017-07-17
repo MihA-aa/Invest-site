@@ -44,6 +44,7 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ViewIdNotSet, "");
             if (userId == null)
                 throw new ValidationException(Resource.Resource.ProfileIdNotSet, "");
+
             var profile = db.Profiles.Get(userId);
             var views = profile?.Customer?.Views;
             if (views?.FirstOrDefault(p => p.Id == viewId) != null)
@@ -79,13 +80,13 @@ namespace BLL.Services
                 if (viewDto == null)
                     throw new ValidationException(Resource.Resource.ViewNullReference, "");
                 validateService.Validate(viewDto);
+
                 var view = IMapper.Map<ViewDTO, ViewForTable>(viewDto);
                 AddViewTemplateToView(view, view.ViewTemplateId);
                 var customer = customerService.GetCustomerByProfileId(userId);
                 view.Customer = customer;
                 customer.Views.Add(view);
                 db.Views.Create(view);
-                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Create, userId, view.Id, true);
                 db.Commit();
@@ -108,10 +109,13 @@ namespace BLL.Services
                 if (!db.Views.IsExist(viewDto.Id))
                     throw new ValidationException(Resource.Resource.ViewNotFound, "");
                 validateService.Validate(viewDto);
+
+                var viewFromDb = db.Views.Get(viewDto.Id);
                 var view = IMapper.Map<ViewDTO, ViewForTable>(viewDto);
+                view.Customer = viewFromDb.Customer;
                 AddViewTemplateToView(view, view.ViewTemplateId);
+
                 db.Views.Update(view);
-                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Update, userId, view.Id, true);
                 db.Commit();
@@ -134,7 +138,6 @@ namespace BLL.Services
                 if (!db.Views.IsExist(id.Value))
                     throw new ValidationException(Resource.Resource.ViewNotFound, "");
                 db.Views.Delete(id.Value);
-                //db.Save();
 
                 recordService.CreateRecord(EntitiesDTO.View, OperationsDTO.Delete, userId, id.Value, true);
                 db.Commit();
@@ -158,18 +161,5 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.ViewTemplateNotFound, "");
             view.ViewTemplate = viewTemplate;
         }
-
-        //public void AddPortfolioToView(View view, int? PortfolioId)
-        //{
-        //    if (view == null)
-        //        throw new ValidationException(Resource.Resource.ViewNullReference, "");
-        //    if (PortfolioId == null)
-        //        throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-        //    var portfolio = db.Portfolios.Get(PortfolioId.Value);
-        //    if (portfolio == null)
-        //        throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-        //    view.Portfolio = portfolio;
-        //}
-
     }
 }
