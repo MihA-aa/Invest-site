@@ -222,13 +222,11 @@ namespace DALEF.Repositories
             catch
             {
                 if (_transaction != null && _transaction.IsActive)
+                {
                     _transaction.Rollback();
+                    _transaction.Dispose();
+                }
                 throw;
-            }
-            finally
-            {
-                //Session.Close();
-                //Session.Dispose();
             }
         }
 
@@ -244,18 +242,10 @@ namespace DALEF.Repositories
         
         public void RollBack()
         {
-            try
+            if (_transaction != null && _transaction.IsActive)
             {
-                if (_transaction != null && _transaction.IsActive)
-                {
-                    _transaction.Rollback();
-                    _transaction.Dispose();
-                }
-            }
-            finally
-            {
-                //Session.Close();
-                //Session.Dispose();
+                _transaction.Rollback();
+                _transaction.Dispose();
             }
         }
 
@@ -268,14 +258,15 @@ namespace DALEF.Repositories
                 {
                     if (this._transaction != null)
                     {
-                        //this._transaction.Dispose();
-                        //this._transaction = null;
+                        this._transaction.Dispose();
+                        this._transaction = null;
                     }
 
                     if (this.Session != null)
                     {
-                        //this.Session.Dispose();
-                        //Session = null;
+                        this.Session.Close();
+                        this.Session.Dispose();
+                        Session = null;
                     }
                 }
                 this.disposed = true;
@@ -284,8 +275,8 @@ namespace DALEF.Repositories
 
         public void Dispose()
         {
-            //Dispose(true);
-            //GC.SuppressFinalize(this);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

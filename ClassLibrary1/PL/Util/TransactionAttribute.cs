@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using BLL.Interfaces;
-using BLL.Services;
-using NHibernate;
-using NHibernate.Cache;
-using NHibernate.Cfg;
-using System.Runtime.Remoting.Messaging;
-using DALEF.NHibernateHelp;
+using Microsoft.AspNet.Identity;
 
 namespace PL.Util
 {
@@ -17,18 +9,15 @@ namespace PL.Util
     {
         private ITransactionService transactionService;
         private IRecordService recordService;
-        //private readonly ITransaction _currentTransaction;
-
-        public TransactionAttribute()
-        {
-            //transactionService = DependencyResolver.Current.GetService<ITransactionService>();
-             //recordService = DependencyResolver.Current.GetService<IRecordService>();
-            //_currentTransaction = NHibernateSessionFactory.getSession("Data Source=ERMOLAEVM;Initial Catalog=FuckingDb; Integrated Security=True;MultipleActiveResultSets=True;").Transaction;
-        }
+        private string userId;
+        private string queryPath;
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            //_currentTransaction.Begin();
+            userId = HttpContext.Current.User.Identity.GetUserId();
+            recordService = DependencyResolver.Current.GetService<IRecordService>();
+            queryPath = HttpContext.Current.Request.Url.AbsolutePath;
+            
             transactionService = DependencyResolver.Current.GetService<ITransactionService>();
             if (filterContext.Controller.ViewData.ModelState.IsValid && filterContext.HttpContext.Error == null)
                 transactionService.BeginTransaction();
@@ -38,22 +27,19 @@ namespace PL.Util
 
         public override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            //if (_currentTransaction.IsActive)
-            //{
-            //    if (filterContext.Exception == null)
-            //    {
-            //        _currentTransaction.Commit();
-            //    }
-            //    else
-            //    {
-            //        _currentTransaction.Rollback();
-            //    }
-            //}
-
+            bool success;
             if (filterContext.Controller.ViewData.ModelState.IsValid && filterContext.HttpContext.Error == null)
+            {
+                success = true;
                 transactionService.Commit();
+            }
             else
+            {
+                success = false;
                 transactionService.RollBack();
+            }
+
+            recordService.CreateRecord(queryPath, userId, success);
 
             base.OnActionExecuted(filterContext);
         }

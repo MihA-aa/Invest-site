@@ -20,11 +20,11 @@ namespace PL.Controllers
         }
         public ActionResult Index()
         {
-            //if (!userService.UserIsInRole("Employee", User.Identity.GetUserId()))
-            //{
-            //    TempData["Message"] = "You were not assigned to any сustomer";
-            //    return RedirectToAction("UnassignedUser", "Account");
-            //}
+            if (!userService.UserIsInRole("Employee", User.Identity.GetUserId()))
+            {
+                TempData["Message"] = "You were not assigned to any сustomer";
+                return RedirectToAction("UnassignedUser", "Account");
+            }
             return View();
         }
         

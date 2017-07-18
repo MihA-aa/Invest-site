@@ -69,7 +69,7 @@ namespace PL.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterModel model)
         {

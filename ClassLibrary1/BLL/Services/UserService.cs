@@ -23,7 +23,6 @@ namespace BLL.Services
 
         public async Task CreateAsync(UserDTO userDto, int? customerId = 0)
         {
-            db.BeginTransaction();
             validateService.Validate(userDto);
             UserEntity user = await db.UserManager.FindByNameAsync(userDto.Login);
             if (user == null)
@@ -47,7 +46,6 @@ namespace BLL.Services
             {
                 throw new ValidationException(Resource.Resource.UserAlreadyExists, "Login");
             }
-            db.Commit();
         }
 
         public async Task ChangeUserData(UserDTO userDto, int? customerId)

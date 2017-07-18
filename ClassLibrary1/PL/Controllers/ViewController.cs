@@ -87,16 +87,17 @@ namespace PL.Controllers
         }
 
         [HttpPost]
-        [ActionName("Delete")]
+        [ActionName("Delete"), Transaction]
         public ActionResult DeleteView(int? id)
         {
             bool status = true;
             try
             {
-                viewService.DeleteView(id, User.Identity.GetUserId());
+                viewService.DeleteView(id);
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 status = false;
             }

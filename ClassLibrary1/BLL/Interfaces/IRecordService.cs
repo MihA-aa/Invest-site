@@ -13,6 +13,7 @@ namespace BLL.Interfaces
         IEnumerable<RecordDTO> GeRecords();
         IEnumerable<RecordDTO> GetRecordsByUserId(string userId);
         void CreateRecord(RecordDTO recordDTO);
+        void CreateRecord(string queryPath, string userId, bool success);
         void CreateRecord(EntitiesDTO entity, OperationsDTO operation, string userId, int entityId, bool success);
     }
 }

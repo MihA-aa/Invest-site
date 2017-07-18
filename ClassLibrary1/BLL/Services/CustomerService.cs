@@ -48,63 +48,30 @@ namespace BLL.Services
 
         public void CreateCustomer(CustomerDTO customerDto)
         {
-            db.BeginTransaction();
-            try
-            {
-                if (customerDto == null)
-                    throw new ValidationException(Resource.Resource.CustomerNullReference, "");
-                db.Customers.Create(IMapper.Map<CustomerDTO, Customer>(customerDto));
-
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                throw ex;
-            }
+            if (customerDto == null)
+                throw new ValidationException(Resource.Resource.CustomerNullReference, "");
+            db.Customers.Create(IMapper.Map<CustomerDTO, Customer>(customerDto));
         }
 
         public void UpdateCustomer(CustomerDTO customerDto)
         {
-            db.BeginTransaction();
-            try
-            {
-                if (customerDto == null)
-                    throw new ValidationException(Resource.Resource.CustomerNullReference, "");
-                if (!db.Customers.IsExist(customerDto.Id))
-                    throw new ValidationException(Resource.Resource.CustomerNotFound, "");
+            if (customerDto == null)
+                throw new ValidationException(Resource.Resource.CustomerNullReference, "");
+            if (!db.Customers.IsExist(customerDto.Id))
+                throw new ValidationException(Resource.Resource.CustomerNotFound, "");
 
-                var customerFromDb = db.Customers.Get(customerDto.Id);
-                customerFromDb.Name = customerDto.Name;
-                db.Customers.Update(customerFromDb);
-
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                throw ex;
-            }
+            var customerFromDb = db.Customers.Get(customerDto.Id);
+            customerFromDb.Name = customerDto.Name;
+            db.Customers.Update(customerFromDb);
         }
 
         public void DeleteCustomer(int? id)
         {
-            db.BeginTransaction();
-            try
-            {
-                if (id == null)
-                    throw new ValidationException(Resource.Resource.CustomerIdNotSet, "");
-                if (!db.Customers.IsExist(id.Value))
-                    throw new ValidationException(Resource.Resource.CustomerNotFound, "");
-                db.Customers.Delete(id.Value);
-
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                throw ex;
-            }
+            if (id == null)
+                throw new ValidationException(Resource.Resource.CustomerIdNotSet, "");
+            if (!db.Customers.IsExist(id.Value))
+                throw new ValidationException(Resource.Resource.CustomerNotFound, "");
+            db.Customers.Delete(id.Value);
         }
     }
 }

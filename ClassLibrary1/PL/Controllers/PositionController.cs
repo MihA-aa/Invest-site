@@ -45,7 +45,7 @@ namespace PL.Controllers
             return PartialView(position);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public ActionResult Save(PositionModel position, int? portfolioId)
         {
             bool status = false;
@@ -55,11 +55,11 @@ namespace PL.Controllers
                 status = true;
                 try
                 {
-                    positionService.CreateOrUpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position),
-                                                            portfolioId, User.Identity.GetUserId());
+                    positionService.CreateOrUpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId);
                 }
                 catch (ValidationException ex)
                 {
+                    ModelState.AddModelError("", ex.Message);
                     logger.Error(ex.ToString());
                     status = false;
                     property = ex.Property;
@@ -85,17 +85,18 @@ namespace PL.Controllers
             return PartialView();
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         [ActionName("Delete")]
         public ActionResult DeletePosition(int? id)
         {
             bool status = true;
             try
             {
-               positionService.DeletePosition(id, User.Identity.GetUserId());
+               positionService.DeletePosition(id);
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 status = false;
             }

@@ -10,6 +10,7 @@ using BLL.Interfaces;
 using PL.Models;
 using BLL.Helpers;
 using log4net;
+using PL.Util;
 
 namespace PL.Controllers
 {
@@ -43,7 +44,7 @@ namespace PL.Controllers
             return PartialView(profile);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public async Task<ActionResult> Save(ProfileModel profile)
         {
             bool status = true;
@@ -56,6 +57,7 @@ namespace PL.Controllers
                 }
                 catch (ValidationException ex)
                 {
+                    ModelState.AddModelError("", ex.Message);
                     logger.Error(ex.ToString());
                     status = false;
                     property = ex.Property;
@@ -80,7 +82,7 @@ namespace PL.Controllers
             return PartialView();
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         [ActionName("Delete")]
         public ActionResult DeleteProfile(string id)
         {
@@ -91,6 +93,7 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 status = false;
             }

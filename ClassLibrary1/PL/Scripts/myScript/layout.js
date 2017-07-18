@@ -138,7 +138,7 @@ $(document).ready(function(){
           $.ajax({
               type : "POST",
               url : url,
-              data: $('#popupForm').serialize()+ "&portfolioId=" + tradeManagementIndex,
+              data: $('#popupForm').serialize()+ "&id=" + tradeManagementIndex,
               success: function (data) {
                   if (data.status) {
                       $dialog.dialog('close');
@@ -352,7 +352,7 @@ function cleanActiveClass(id){
 function deletePortfolio(portfolioId,item) {
 	$("#loader").show();
     $.ajax({
-        url: '/Portfolio/DeletePortfolio',
+        url: '/Portfolio/Delete/' + portfolioId,
         type: "POST",
         data: { "id": portfolioId},
         success: function (data) {

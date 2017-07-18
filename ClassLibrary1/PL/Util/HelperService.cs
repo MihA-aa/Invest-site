@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using BLL.Helpers;
 using System.Web.Mvc;
+using BLL.DTO.Enums;
 
 namespace PL.Util
 {

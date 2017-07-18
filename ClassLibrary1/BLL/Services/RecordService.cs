@@ -40,34 +40,61 @@ namespace BLL.Services
             CreateRecord(record);
         }
 
+        public void CreateRecord(string queryPath, string userId, bool success)
+        {
+            OperationsDTO operation;
+            EntitiesDTO entity;
+            int entityId = 0;
+            try
+            {
+                var parameters = queryPath.Split('/');
+                if (parameters[2] == "Save")
+                {
+                    if (parameters.Length == 4 && parameters[3] != "0")
+                        parameters[2] = "Update";
+                    else
+                        parameters[2] = "Create";
+                }
+                operation = parameters[2].ToEnum<OperationsDTO>();
+                entity = parameters[1].ToEnum<EntitiesDTO>();
+                if(parameters.Length == 4)
+                    entityId = Convert.ToInt32(parameters[3]);
+            }
+            catch (Exception ex)
+            {
+                //throw new ValidationException("Incorrect Path" + ex.Message, "");
+                return;
+            }
+
+            var record = new RecordDTO
+            {
+                UserId = userId,
+                Entity = entity,
+                Operation = operation,
+                Successfully = success,
+                EntityId = entityId,
+                DateTime = DateTime.Now
+            };
+            CreateRecord(record);
+        }
+
         public void CreateRecord(RecordDTO recordDTO)
         {
-            if (db.SessionIsOpen())
+            db.BeginTransaction();
+            try
             {
                 if (recordDTO == null)
                     throw new ValidationException("Record Null Reference", "");
                 var record = IMapper.Map<RecordDTO, Record>(recordDTO);
                 db.Records.Create(record);
+
+                db.Commit();
             }
-            else
+            catch (Exception ex)
             {
-                db.BeginTransaction();
-                try
-                {
-                    if (recordDTO == null)
-                        throw new ValidationException("Record Null Reference", "");
-                    var record = IMapper.Map<RecordDTO, Record>(recordDTO);
-                    db.Records.Create(record);
-                    
-                    db.Commit();
-                }
-                catch (Exception ex)
-                {
-                    db.RollBack();
-                    throw ex;
-                }
+                db.RollBack();
+                throw ex;
             }
-            
         }
     }
 }

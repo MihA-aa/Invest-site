@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
+using PL.Util;
 using PL.Models;
 using BLL.Helpers;
-using log4net;
-using Microsoft.AspNet.Identity;
 
 namespace PL.Controllers
 {
@@ -54,8 +50,7 @@ namespace PL.Controllers
             }
             return PartialView(viewTemplateColumn);
         }
-
-        [HttpPost]
+        [HttpPost, Transaction]
         public ActionResult Save(ViewTemplateColumnModel viewTemplateColumn, int? templateId)
         {
             bool status = true;
@@ -65,10 +60,11 @@ namespace PL.Controllers
                 try
                 {
                     var viewTemplateColumnDTO = Mapper.Map<ViewTemplateColumnModel, ViewTemplateColumnDTO>(viewTemplateColumn);
-                    viewTemplateColumnService.CreateOrUpdateViewTemplateColumn(viewTemplateColumnDTO, templateId, User.Identity.GetUserId());
+                    viewTemplateColumnService.CreateOrUpdateViewTemplateColumn(viewTemplateColumnDTO, templateId);
                 }
                 catch (ValidationException ex)
                 {
+                    ModelState.AddModelError("", ex.Message);
                     logger.Error(ex.ToString());
                     status = false;
                     property = ex.Property;
@@ -93,17 +89,18 @@ namespace PL.Controllers
             return PartialView();
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         [ActionName("Delete")]
         public ActionResult DeleteViewTemplateColumn(int? id)
         {
             bool status = true;
             try
             {
-                viewTemplateColumnService.DeleteViewTemplateColumn(id, User.Identity.GetUserId());
+                viewTemplateColumnService.DeleteViewTemplateColumn(id);
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 status = false;
             }

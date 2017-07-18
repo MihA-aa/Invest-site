@@ -10,10 +10,10 @@ namespace BLL.Interfaces
 {
     public interface IViewTemplateColumnService
     {
-        void CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, int? templateId, string userId);
-        void CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, int? templateId, string userId);
-        void UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, string userId);
-        void DeleteViewTemplateColumn(int? id, string userId);
+        void CreateOrUpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumn, int? templateId);
+        void CreateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto, int? templateId);
+        void UpdateViewTemplateColumn(ViewTemplateColumnDTO viewTemplateColumnDto);
+        void DeleteViewTemplateColumn(int? id);
         ViewTemplateColumnDTO GetViewTemplateColumn(int? id);
         IEnumerable<ColumnFormatDTO> GetFormatsByColumnName(string column);
         void UpdateColumnOrder(int id, int fromPosition, int toPosition, string direction);

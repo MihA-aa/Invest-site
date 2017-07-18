@@ -44,7 +44,7 @@ namespace PL.Controllers
             return PartialView(viewTemplate);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public ActionResult Save(ViewTemplateModel viewTemplate)
         {
             bool status = true;
@@ -57,6 +57,7 @@ namespace PL.Controllers
                 }
                 catch (ValidationException ex)
                 {
+                    ModelState.AddModelError("", ex.Message);
                     logger.Error(ex.ToString());
                     status = false;
                     property = ex.Property;
@@ -75,23 +76,25 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return HttpNotFound();
             }
             return PartialView();
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         [ActionName("Delete")]
         public ActionResult DeleteViewTemplate(int? id)
         {
             bool status = true;
             try
             {
-                viewTemplateService.DeleteViewTemplate(id, User.Identity.GetUserId());
+                viewTemplateService.DeleteViewTemplate(id);
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 status = false;
             }

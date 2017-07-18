@@ -40,7 +40,7 @@ namespace PL.Controllers
             return PartialView(customer);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public ActionResult Save(CustomerModel customer)
         {
             bool status = true;
@@ -77,7 +77,7 @@ namespace PL.Controllers
             return PartialView();
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         [ActionName("Delete")]
         public ActionResult DeleteCustomer(int? id)
         {

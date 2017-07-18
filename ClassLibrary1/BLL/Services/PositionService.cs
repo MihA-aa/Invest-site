@@ -15,14 +15,12 @@ namespace BLL.Services
     {
         ITradeSybolService tradeSybolService { get; }
         ICalculationService calculationService { get; }
-        IRecordService recordService { get; }
 
         public PositionService(IUnitOfWork uow, IValidateService vd, ITradeSybolService tss, 
-                               ICalculationService cs, IMapper map, IRecordService rs) : base(uow, vd, map)
+                               ICalculationService cs, IMapper map) : base(uow, vd, map)
         {
             tradeSybolService = tss;
             calculationService = cs;
-            recordService = rs;
         }
 
         public PositionDTO GetPosition(int? id)
@@ -59,14 +57,14 @@ namespace BLL.Services
             return access;
         }
 
-        public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId, string userId)
+        public void CreateOrUpdatePosition(PositionDTO position, int? portfolioId)
         {
             if (position == null)
                 throw new ValidationException(Resource.Resource.PositionNullReference, "");
             if (db.Positions.IsExist(position.Id))
-                UpdatePosition(position, userId);
+                UpdatePosition(position);
             else
-                CreatePosition(position, portfolioId, userId);
+                CreatePosition(position, portfolioId);
         }
         
         public Dictionary<double, decimal> GetChartForPosition(int? id)
@@ -86,110 +84,59 @@ namespace BLL.Services
             return dic;
         }
 
-        public void CreatePosition(PositionDTO positionDto, int? portfolioId, string userId)
+        public void CreatePosition(PositionDTO positionDto, int? portfolioId)
         {
-            db.BeginTransaction();
-            try
-            {
-                if (positionDto == null)
-                    throw new ValidationException(Resource.Resource.PositionNullReference, "");
-                if (portfolioId == null)
-                    throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-                validateService.Validate(positionDto);
-                positionDto = CalculateAllParams(positionDto);
-                var position = IMapper.Map<PositionDTO, Position>(positionDto);
-                db.Positions.Create(position);
-                AddPositionToPortfolio(position, portfolioId);
-                db.Portfolios.RecalculatePortfolioValue(portfolioId.Value);
-
-                recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Create, userId, position.Id, true);
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Create, userId, 0, false);
-                throw ex;
-            }
+            if (positionDto == null)
+                throw new ValidationException(Resource.Resource.PositionNullReference, "");
+            if (portfolioId == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+            validateService.Validate(positionDto);
+            positionDto = CalculateAllParams(positionDto);
+            var position = IMapper.Map<PositionDTO, Position>(positionDto);
+            db.Positions.Create(position);
+            AddPositionToPortfolio(position, portfolioId);
+            db.Portfolios.RecalculatePortfolioValue(portfolioId.Value);
         }
 
         public void AddPositionToPortfolio(Position position, int? portfolioId)
         {
-            db.BeginTransaction();
-            try
-            {
-                if (position == null)
-                    throw new ValidationException(Resource.Resource.PositionNullReference, "");
-                if (portfolioId == null)
-                    throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-                if (!db.Portfolios.IsExist(portfolioId.Value))
-                    throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-                db.Portfolios.AddPositionToPortfolio(position, portfolioId.Value);
-
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                throw ex;
-            }
+            if (position == null)
+                throw new ValidationException(Resource.Resource.PositionNullReference, "");
+            if (portfolioId == null)
+                throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
+            if (!db.Portfolios.IsExist(portfolioId.Value))
+                throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            db.Portfolios.AddPositionToPortfolio(position, portfolioId.Value);
         }
 
-        public void DeletePosition(int? id, string userId)
+        public void DeletePosition(int? id)
         {
-            db.BeginTransaction();
-            try
-            {
-                if (id == null)
-                    throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
-                if (!db.Positions.IsExist(id.Value))
-                    throw new ValidationException(Resource.Resource.PositionNotFound, "");
-                db.Positions.Delete(id.Value);
-                db.Save();
-
-                recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Delete, userId, id.Value, true);
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Delete, userId, id ?? 0, false);
-                throw ex;
-            }
+            if (id == null)
+                throw new ValidationException(Resource.Resource.PositionIdNotSet, "");
+            if (!db.Positions.IsExist(id.Value))
+                throw new ValidationException(Resource.Resource.PositionNotFound, "");
+            db.Positions.Delete(id.Value);
         }
 
-        public void UpdatePosition(PositionDTO positionDto, string userId)
+        public void UpdatePosition(PositionDTO positionDto)
         {
-            db.BeginTransaction();
-            try
-            {
-                if (positionDto == null)
-                    throw new ValidationException(Resource.Resource.PositionNullReference, "");
-                if (!db.Positions.IsExist(positionDto.Id))
-                    throw new ValidationException(Resource.Resource.PositionNotFound, "");
-                validateService.Validate(positionDto);
+            if (positionDto == null)
+                throw new ValidationException(Resource.Resource.PositionNullReference, "");
+            if (!db.Positions.IsExist(positionDto.Id))
+                throw new ValidationException(Resource.Resource.PositionNotFound, "");
+            validateService.Validate(positionDto);
 
-                positionDto = CalculateAllParams(positionDto);
-                var positionFromDb = db.Positions.Get(positionDto.Id);
-                var position = IMapper.Map<PositionDTO, Position>(positionDto);
-                position.Portfolio = positionFromDb.Portfolio;
+            positionDto = CalculateAllParams(positionDto);
+            var positionFromDb = db.Positions.Get(positionDto.Id);
+            var position = IMapper.Map<PositionDTO, Position>(positionDto);
+            position.Portfolio = positionFromDb.Portfolio;
 
-                db.Positions.Update(position);
+            db.Positions.Update(position);
 
-                Portfolio portfolio = db.Portfolios.GetAll()
-                    .FirstOrDefault(x => x.Positions.Any(p => p.Id == positionDto.Id));
-                if (portfolio != null)
-                    db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
-
-                recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Update, userId, positionDto.Id, true);
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                recordService.CreateRecord(EntitiesDTO.Position, OperationsDTO.Update, userId, positionDto?.Id ?? 0, false);
-                throw ex;
-            }
+            Portfolio portfolio = db.Portfolios.GetAll()
+                .FirstOrDefault(x => x.Positions.Any(p => p.Id == positionDto.Id));
+            if (portfolio != null)
+                db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
         }
 
         public void UpdateOnlyPosition(int? id)
@@ -206,28 +153,14 @@ namespace BLL.Services
 
         public void UpdatePosition(int? id)
         {
-            db.BeginTransaction();
-            try
-            {
-                UpdateOnlyPosition(id);
-                var portfolio = db.Portfolios.GetAll()
-                    .FirstOrDefault(x => x.Positions.Any(p => p.Id == id));
-                db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
-
-                db.Commit();
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                throw ex;
-            }
+            UpdateOnlyPosition(id);
+            var portfolio = db.Portfolios.GetAll()
+                .FirstOrDefault(x => x.Positions.Any(p => p.Id == id));
+            db.Portfolios.RecalculatePortfolioValue(portfolio.Id);
         }
 
         public void UpdateAllPositionAndPortfolio()
         {
-            db.BeginTransaction();
-            try
-            {
                 var positions = IMapper.Map<IQueryable<Position>, List<PositionDTO>>(db.Positions.GetPositionsQuery());
                 for (int i = 0; i < positions.Count(); i++)
                 {
@@ -240,12 +173,6 @@ namespace BLL.Services
                 {
                     db.Portfolios.RecalculatePortfolioValue(id);
                 }
-            }
-            catch (Exception ex)
-            {
-                db.RollBack();
-                throw ex;
-            }
         }
 
         public PositionDTO CalculateAllParams(PositionDTO position)

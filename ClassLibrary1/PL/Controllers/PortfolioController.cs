@@ -9,6 +9,7 @@ using BLL.Interfaces;
 using BLL.Helpers;
 using Microsoft.AspNet.Identity;
 using PL.Models;
+using PL.Util;
 using log4net;
 
 namespace PL.Controllers
@@ -26,8 +27,8 @@ namespace PL.Controllers
             return PartialView("_General");
         }
 
-        [HttpPost]
-        public ActionResult CreateUpdatePortfolio(PortfolioModel portfolioModel)
+        [HttpPost, Transaction]
+        public ActionResult Save(PortfolioModel portfolioModel)
         {
             try
             { 
@@ -36,23 +37,28 @@ namespace PL.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
             }
             return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
-        public JsonResult DeletePortfolio(int id)
+        [HttpPost, Transaction]
+        [ActionName("Delete")]
+        public ActionResult Delete(int? id)
         {
+            bool status = true;
             try
             {
-                portfolioService.DeletePortfolio(id, User.Identity.GetUserId());
+                portfolioService.DeletePortfolio(id);
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
+                status = false;
             }
-            return Json("Response from Delete");
+            return new JsonResult { Data = new { status = status } };
         }
     }
 }
