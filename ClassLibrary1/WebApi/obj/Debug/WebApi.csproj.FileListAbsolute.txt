@@ -102,4 +102,7 @@ D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\DAL.pdb
 D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\DALEF.pdb
 D:\project\git\Invest-site\ClassLibrary1\WebApi\obj\Debug\WebApi.dll
 D:\project\git\Invest-site\ClassLibrary1\WebApi\obj\Debug\WebApi.pdb
-D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\DotNet.Highcharts.dll
+D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\NHibernate.AspNet.Identity.dll
+D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\FluentNHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\FluentNHibernate.pdb
+D:\project\git\Invest-site\ClassLibrary1\WebApi\bin\FluentNHibernate.xml

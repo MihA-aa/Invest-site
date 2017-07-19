@@ -754,8 +754,7 @@ namespace DALEF.EF
             Session.Save(viewTemplateColumn16);
             Session.Save(viewTemplateColumn21);
             #endregion
-
-
+            
             #region View Inizialize
 
             ViewForTable previewAllView = new ViewForTable
@@ -851,6 +850,77 @@ namespace DALEF.EF
             #endregion
 
             Session.Flush();
+
+            #region View and function inizialize
+
+            ISQLQuery createSymbolView = Session.CreateSQLQuery(
+                "CREATE VIEW SymbolView AS " +
+                "SELECT S.SymbolID, S.Symbol, S.Name, C.Symbol AS CurrencySymbol " +
+                "FROM  HistoricalDataNew.dbo.Symbol AS S INNER JOIN " +
+                "HistoricalDataNew.dbo.Currencies AS C ON S.CurrencyId = C.CurrencyId");
+
+            ISQLQuery createSymbolDividends = Session.CreateSQLQuery(
+                "CREATE VIEW SymbolDividends AS " +
+                "SELECT    DividendAmount, SymbolID, TradeDate " +
+                "FROM   HistoricalDataNew.dbo.Dividend");
+
+            ISQLQuery createTradeSybolInformation = Session.CreateSQLQuery(
+                "CREATE VIEW TradeSybolInformation AS " +
+                "SELECT SymbolID, TradeDate, TradeIndex "+
+                "FROM   HistoricalDataNew.dbo.IndexData " +
+                "UNION " +
+                "SELECT SymbolID, TradeDate, CAST(TradeOpen AS money) AS TradeIndex " +
+                "FROM   HistoricalDataNew.dbo.StockData");
+
+            ISQLQuery createGetPriceInDateInterval = Session.CreateSQLQuery(
+
+                "CREATE FUNCTION[dbo].[getPriceDividendForSymbolInDateInterval](@dateFrom datetime, @dateTo datetime, @symbolId int) "+
+                "RETURNS "+
+                "@report TABLE(TradeDate datetime, Price MONEY, Dividends MONEY) "+
+                "AS BEGIN "+
+                    "INSERT INTO @report SELECT DISTINCT tr.TradeDate, tr.TradeIndex AS Price, ISNULL(( "+
+                                                    "SELECT SUM(d.DividendAmount) "+
+
+                                                    "FROM SymbolDividends d "+
+
+                                                       "WHERE d.SymbolId = tr.SymbolId AND d.SymbolID = @symbolId AND "+
+
+                                                       "d.TradeDate = tr.TradeDate),0) AS Dividends "+
+
+                        "FROM TradeSybolInformation tr "+
+                        "WHERE tr.SymbolID = @symbolId  AND tr.TradeDate >= @dateFrom AND tr.TradeDate <= @dateTo "+
+
+                        "ORDER BY tr.TradeDate "+
+
+                    "RETURN "+
+                "END ");
+
+            ISQLQuery creategetMaxMinGain = Session.CreateSQLQuery(
+                "CREATE FUNCTION[dbo].[getMaxMinGainForSymbolInDateInterval](@dateFrom datetime, @dateTo datetime, @symbolId int) "+
+                "RETURNS "+
+                "@report TABLE(TradeDate datetime, Price MONEY, Dividends MONEY) "+
+                "AS BEGIN "+
+                        "DECLARE @tab TABLE(TradeDate datetime, Price MONEY, Dividends MONEY) "+
+        
+                        "INSERT INTO @tab SELECT *FROM getPriceDividendForSymbolInDateInterval(@dateFrom, @dateTo, @symbolId) "+
+        
+                        "INSERT INTO @report SELECT TOP 1 * FROM @tab "+
+                        "WHERE Price + Dividends = (SELECT MAX(Price + Dividends) FROM @tab) "+
+
+		                "INSERT INTO @report SELECT TOP 1 * FROM @tab "+
+                        "WHERE Price + Dividends = (SELECT MIN(Price + Dividends) FROM @tab) "+
+
+	                "RETURN "+
+                "END");
+
+
+            createSymbolView.ExecuteUpdate();
+            createSymbolDividends.ExecuteUpdate();
+            createTradeSybolInformation.ExecuteUpdate();
+            createGetPriceInDateInterval.ExecuteUpdate();
+            creategetMaxMinGain.ExecuteUpdate();
+
+            #endregion
         }
     }
 }

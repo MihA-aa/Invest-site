@@ -21,6 +21,7 @@ using Microsoft.Owin.Security.OAuth;
 using WebApi.Models;
 using WebApi.Providers;
 using WebApi.Results;
+using WebApi.Util;
 
 namespace WebApi.Controllers
 {
@@ -58,7 +59,7 @@ namespace WebApi.Controllers
             };
         }
         
-        [AllowAnonymous]
+        [AllowAnonymous, Transaction]
         [Route("api/Account/Register")]
         public async Task<IHttpActionResult> Register(RegisterModel model)
         {

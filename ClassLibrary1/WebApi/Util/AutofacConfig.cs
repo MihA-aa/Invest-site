@@ -19,7 +19,7 @@ namespace WebApi.Util
             var builder = new ContainerBuilder();
 
             builder.RegisterApiControllers(typeof(WebApiApplication).Assembly);
-            builder.RegisterModule(new ServiceModule(/*"DefaultConnection", "test"*/));
+            builder.RegisterModule(new ServiceModule("Data Source=ERMOLAEVM;Initial Catalog=FuckingDb; Integrated Security=True;MultipleActiveResultSets=True;", "test"));
             builder.Register(c => HttpContext.Current.GetOwinContext().Authentication)
                 .As<IAuthenticationManager>();
 

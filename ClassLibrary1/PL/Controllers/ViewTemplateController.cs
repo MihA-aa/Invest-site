@@ -19,7 +19,7 @@ namespace PL.Controllers
     {
         private IViewTemplateService viewTemplateService;
 
-        public ViewTemplateController(IViewTemplateService viewTemplateService, ITransactionService ts) : base(ts)
+        public ViewTemplateController(IViewTemplateService viewTemplateService)
         {
             this.viewTemplateService = viewTemplateService;
         }

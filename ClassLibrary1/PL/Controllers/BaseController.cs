@@ -13,10 +13,9 @@ namespace PL.Controllers
     public class BaseController : Controller
     {
         private IMapper _mapper = null;
-        public ITransactionService tttss;
 
         protected ILog logger;
-        public BaseController(ITransactionService ts)
+        public BaseController()
         {
             try
             {
@@ -26,7 +25,6 @@ namespace PL.Controllers
             {
                 logger = LogManager.GetLogger("Unit test");
             }
-            tttss = ts;
         }
         public  virtual IMapper Mapper
         {

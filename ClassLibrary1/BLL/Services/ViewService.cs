@@ -16,13 +16,10 @@ namespace BLL.Services
     public class ViewService: BaseService, IViewService
     {
         ICustomerService customerService { get; }
-        ITransactionService transactionService { get; }
 
-        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs,
-                           ITransactionService ts) : base(uow, vd, map)
+        public ViewService(IUnitOfWork uow, IValidateService vd, IMapper map, ICustomerService cs) : base(uow, vd, map)
         {
             customerService = cs;
-            transactionService = ts;
         }
 
         public IEnumerable<ViewDTO> GetViews()

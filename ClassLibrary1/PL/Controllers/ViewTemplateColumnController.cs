@@ -14,8 +14,7 @@ namespace PL.Controllers
         private IViewTemplateColumnService viewTemplateColumnService;
         private IColumnService columnService;
 
-        public ViewTemplateColumnController(IViewTemplateColumnService viewTemplateColumnService, IColumnService columnService
-            , ITransactionService ts) : base(ts)
+        public ViewTemplateColumnController(IViewTemplateColumnService viewTemplateColumnService, IColumnService columnService)
         {
             this.viewTemplateColumnService = viewTemplateColumnService;
             this.columnService = columnService;

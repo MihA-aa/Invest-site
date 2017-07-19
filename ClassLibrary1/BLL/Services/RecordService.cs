@@ -60,9 +60,8 @@ namespace BLL.Services
                 if(parameters.Length == 4)
                     entityId = Convert.ToInt32(parameters[3]);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //throw new ValidationException("Incorrect Path" + ex.Message, "");
                 return;
             }
 

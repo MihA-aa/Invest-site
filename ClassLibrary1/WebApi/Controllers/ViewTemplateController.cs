@@ -8,6 +8,7 @@ using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNet.Identity;
 using WebApi.Models;
+using WebApi.Util;
 
 namespace WebApi.Controllers
 {
@@ -23,8 +24,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            var viewTemplates = viewTemplateService.GetViewTemplatesForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf"
-                /*RequestContext.Principal.Identity.GetUserId()*/);
+            var viewTemplates = viewTemplateService.GetViewTemplatesForUser(RequestContext.Principal.Identity.GetUserId());
             return Ok(Mapper.Map<IEnumerable<ViewTemplateDTO>, List<ViewTemplateModel>>(viewTemplates));
         }
 
@@ -34,7 +34,7 @@ namespace WebApi.Controllers
             ViewTemplateModel viewTemplate;
             try
             {
-                if (viewTemplateService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (viewTemplateService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     viewTemplate = Mapper.Map<ViewTemplateDTO, ViewTemplateModel>(viewTemplateService.GetViewTemplate(id));
                 }
@@ -45,13 +45,14 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok(viewTemplate);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public IHttpActionResult Post([FromBody]ViewTemplateModel viewTemplate)
         {
             if (!ModelState.IsValid)
@@ -60,17 +61,18 @@ namespace WebApi.Controllers
             }
             try
             {
-                viewTemplateService.CreateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate), "1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
+                viewTemplateService.CreateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate), RequestContext.Principal.Identity.GetUserId());
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Transaction]
         public IHttpActionResult Update([FromBody]ViewTemplateModel viewTemplate)
         {
             if (!ModelState.IsValid)
@@ -79,9 +81,9 @@ namespace WebApi.Controllers
             }
             try
             {
-                if (viewTemplateService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", viewTemplate.Id))
+                if (viewTemplateService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), viewTemplate.Id))
                 {
-                    viewTemplateService.UpdateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate), RequestContext.Principal.Identity.GetUserId());
+                    viewTemplateService.UpdateViewTemplate(Mapper.Map<ViewTemplateModel, ViewTemplateDTO>(viewTemplate));
                 }
                 else
                 {
@@ -90,20 +92,21 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Transaction]
         public IHttpActionResult Delete(int id)
         {
             try
             {
-                if (viewTemplateService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (viewTemplateService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
-                    viewTemplateService.DeleteViewTemplate(id, RequestContext.Principal.Identity.GetUserId());
+                    viewTemplateService.DeleteViewTemplate(id);
                 }
                 else
                 {
@@ -112,6 +115,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }

@@ -19,8 +19,7 @@ namespace PL.Controllers
         private IProfileService profileService;
         private ICustomerService customerService;
 
-        public ProfileController(IProfileService profileService, ICustomerService customerService,
-                                ITransactionService ts) : base(ts)
+        public ProfileController(IProfileService profileService, ICustomerService customerService)
         {
             this.profileService = profileService;
             this.customerService = customerService;

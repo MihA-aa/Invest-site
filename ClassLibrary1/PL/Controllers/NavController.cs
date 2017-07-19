@@ -7,6 +7,7 @@ using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
 using PL.Models;
+using PL.Util;
 using System.Linq.Dynamic;
 using System.Web.WebPages;
 using BLL.DTO.Enums;
@@ -26,7 +27,7 @@ namespace PL.Controllers
 
         public NavController(IPortfolioService portfolioService, ISymbolViewService symbolViewService,
             ITradeSybolService tradeSybolService, IViewTemplateService viewTemplateService, 
-            IViewTemplateColumnService viewTemplateColumnService, IViewService viewService, ITransactionService ts) : base(ts)
+            IViewTemplateColumnService viewTemplateColumnService, IViewService viewService)
         {
             this.portfolioService = portfolioService;
             this.symbolViewService = symbolViewService;
@@ -310,13 +311,13 @@ namespace PL.Controllers
             return Json(new { success = true, price = symbolprice});
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public void RefreshPortfolioDisplayIndex(Dictionary<string, string> portfolios)
         {
             portfolioService.UpdatePortfoliosDisplayIndex(portfolios);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public void UpdateColumnOrder(int id, int fromPosition, int toPosition, string direction)
         {
             viewTemplateColumnService.UpdateColumnOrder(id, fromPosition, toPosition, direction);

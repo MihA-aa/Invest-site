@@ -21,16 +21,11 @@ namespace TestingNhibernateMapping
 
     public class NHibernateSessionFactory
     {
-        private static ISessionFactory _sessionFactory;
-
-        private static readonly Configuration _configuration;
-
         public static ISession getSession(string connectionString)
         {
             var myEntities = new[] { typeof(UserEntity), typeof(Role) };
-            string connectionString2 = "Data Source=ERMOLAEVM;Initial Catalog=FuckingDb; Integrated Security=True;MultipleActiveResultSets=True;";
             ISessionFactory sessionFactory = Fluently.Configure()
-            .Database(MsSqlConfiguration.MsSql2008.ConnectionString(connectionString2)
+            .Database(MsSqlConfiguration.MsSql2008.ConnectionString(connectionString)
             .ShowSql())
             .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Position>())
             .ExposeConfiguration(cfg =>
@@ -41,22 +36,6 @@ namespace TestingNhibernateMapping
             })
             .BuildSessionFactory();
             return sessionFactory.OpenSession();
-        }
-
-        public static Configuration Configuration
-        {
-            get
-            {
-                return _configuration;
-            }
-        }
-
-        public static ISessionFactory SessionFactory
-        {
-            get
-            {
-                return _sessionFactory;
-            }
         }
     }
 }

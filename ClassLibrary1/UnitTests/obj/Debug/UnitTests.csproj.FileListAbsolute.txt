@@ -164,3 +164,6 @@ D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Highstock.Web.Mvc.d
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Iesi.Collections.dll
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\NHibernate.xml
 D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\Iesi.Collections.xml
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\FluentNHibernate.dll
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\FluentNHibernate.pdb
+D:\project\git\Invest-site\ClassLibrary1\UnitTests\bin\Debug\FluentNHibernate.xml

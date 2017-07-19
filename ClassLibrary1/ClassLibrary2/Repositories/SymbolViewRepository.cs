@@ -29,7 +29,7 @@ namespace DALEF.Repositories
 
         public SymbolView Get(int id)
         {
-            return new SymbolView {CurrencySymbol = "$"};
+            //return new SymbolView {CurrencySymbol = "$"};
             return dbSet.Find(id);
         }
 

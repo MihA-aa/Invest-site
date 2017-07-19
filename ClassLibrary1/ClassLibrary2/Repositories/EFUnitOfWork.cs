@@ -21,6 +21,7 @@ using NHibernate.Cfg.MappingSchema;
 using NHibernate.Dialect;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Tool.hbm2ddl;
+using NHibernate.Transform;
 
 namespace DALEF.Repositories
 {

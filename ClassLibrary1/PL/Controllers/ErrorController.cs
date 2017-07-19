@@ -11,7 +11,7 @@ namespace PL.Controllers
 {
     public class ErrorController :BaseController
     {
-        public ErrorController(ITransactionService ts) : base(ts)
+        public ErrorController()
         {
             LogManager.GetLogger(Type.GetType("PL.Controllers." + this.GetType().Name));
         }

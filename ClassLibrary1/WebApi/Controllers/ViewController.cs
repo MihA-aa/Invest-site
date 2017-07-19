@@ -9,6 +9,7 @@ using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNet.Identity;
 using WebApi.Models;
+using WebApi.Util;
 
 namespace WebApi.Controllers
 {
@@ -24,8 +25,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            var views = viewService.GetViewsForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf"
-                /*RequestContext.Principal.Identity.GetUserId()*/);
+            var views = viewService.GetViewsForUser(RequestContext.Principal.Identity.GetUserId());
             return Ok(Mapper.Map<IEnumerable<ViewDTO>, List<ViewModel>>(views));
         }
 
@@ -35,7 +35,7 @@ namespace WebApi.Controllers
             ViewModel view;
             try
             {
-                if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (viewService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     view = Mapper.Map<ViewDTO, ViewModel>(viewService.GetView(id));
                 }
@@ -46,13 +46,14 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok(view);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public IHttpActionResult Post([FromBody]ViewModel view)
         {
             if (!ModelState.IsValid)
@@ -61,17 +62,18 @@ namespace WebApi.Controllers
             }
             try
             {
-                viewService.CreateView(Mapper.Map<ViewModel, ViewDTO>(view), "1aaa023d-e950-47fc-9c3f-54fbffcc99cf");
+                viewService.CreateView(Mapper.Map<ViewModel, ViewDTO>(view), RequestContext.Principal.Identity.GetUserId());
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Transaction]
         public IHttpActionResult Update([FromBody]ViewModel view)
         {
             if (!ModelState.IsValid)
@@ -80,9 +82,9 @@ namespace WebApi.Controllers
             }
             try
             {
-                if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", view.Id))
+                if (viewService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), view.Id))
                 {
-                    viewService.UpdateView(Mapper.Map<ViewModel, ViewDTO>(view), RequestContext.Principal.Identity.GetUserId());
+                    viewService.UpdateView(Mapper.Map<ViewModel, ViewDTO>(view));
                 }
                 else
                 {
@@ -91,20 +93,21 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Transaction]
         public IHttpActionResult Delete(int id)
         {
             try
             {
-                if (viewService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (viewService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
-                    viewService.DeleteView(id, RequestContext.Principal.Identity.GetUserId());
+                    viewService.DeleteView(id);
                 }
                 else
                 {
@@ -113,6 +116,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }

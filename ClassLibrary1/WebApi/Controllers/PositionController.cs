@@ -9,6 +9,7 @@ using BLL.DTO;
 using BLL.Interfaces;
 using Microsoft.AspNet.Identity;
 using WebApi.Models;
+using WebApi.Util;
 
 namespace WebApi.Controllers
 {
@@ -45,13 +46,14 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok(position);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public IHttpActionResult Post([FromBody]PositionModel position, int portfolioId)
         {
             if (!ModelState.IsValid)
@@ -60,17 +62,18 @@ namespace WebApi.Controllers
             }
             try
             {
-                PositionService.CreatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId, RequestContext.Principal.Identity.GetUserId());
+                PositionService.CreatePosition(Mapper.Map<PositionModel, PositionDTO>(position), portfolioId);
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Transaction]
         public IHttpActionResult Update([FromBody]PositionModel position)
         {
             if (!ModelState.IsValid)
@@ -81,7 +84,7 @@ namespace WebApi.Controllers
             {
                 if (PositionService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), position.Id))
                 {
-                    PositionService.UpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position), RequestContext.Principal.Identity.GetUserId());
+                    PositionService.UpdatePosition(Mapper.Map<PositionModel, PositionDTO>(position));
                 }
                 else
                 {
@@ -90,6 +93,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
@@ -97,7 +101,7 @@ namespace WebApi.Controllers
         }
 
         [Route("api/Position/Update")]
-        [HttpPut]
+        [HttpPut, Transaction]
         public IHttpActionResult Update([FromBody]int? id)
         {
             try
@@ -106,6 +110,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
@@ -113,7 +118,7 @@ namespace WebApi.Controllers
         }
 
         [Route("api/position/AllUpdate")]
-        [HttpPut]
+        [HttpPut, Transaction]
         public IHttpActionResult Update()
         {
             try
@@ -122,20 +127,21 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Transaction]
         public IHttpActionResult Delete(int id)
         {
             try
             {
                 if (PositionService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
-                    PositionService.DeletePosition(id, RequestContext.Principal.Identity.GetUserId());
+                    PositionService.DeletePosition(id);
                 }
                 else
                 {
@@ -144,6 +150,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }

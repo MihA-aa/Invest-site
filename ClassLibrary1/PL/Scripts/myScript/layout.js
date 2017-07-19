@@ -1,4 +1,3 @@
-
 $(function () {
     $('#panelList').sortable({
         stop: function (event, ui) {
@@ -138,7 +137,7 @@ $(document).ready(function(){
           $.ajax({
               type : "POST",
               url : url,
-              data: $('#popupForm').serialize()+ "&id=" + tradeManagementIndex,
+              data: $('#popupForm').serialize()+ "&portfolioId=" + tradeManagementIndex,
               success: function (data) {
                   if (data.status) {
                       $dialog.dialog('close');
@@ -350,30 +349,30 @@ function cleanActiveClass(id){
     }
 
 function deletePortfolio(portfolioId,item) {
-	$("#loader").show();
+  $("#loader").show();
     $.ajax({
-        url: '/Portfolio/Delete/' + portfolioId,
+        url: '/Portfolio/DeletePortfolio/' + portfolioId,
         type: "POST",
         data: { "id": portfolioId},
         success: function (data) {
-        	deletePortfolioInView(item)
-         	$("#loader").hide();
+          deletePortfolioInView(item)
+          $("#loader").hide();
          },
          error: function (xhr) {
             MyAlert(xhr.statusText);
-         	$("#loader").hide();
+          $("#loader").hide();
          }
     });
 }
 
 function deletePortfolioInView(item){
-    	var flag = false; 
+      var flag = false; 
          if(item.hasClass("active")){
-         	flag = true;
+          flag = true;
          }
          item.remove();
          if(flag){
-         	$("#panelList").children(":first").addClass("active");
+          $("#panelList").children(":first").addClass("active");
             var id = $("#panelList").children(":first").find('.PositionId').attr('value');
             loadGeneralForInput(id)
          }
@@ -381,7 +380,7 @@ function deletePortfolioInView(item){
     }
 
 function portfolioAllRefresh(){
-    	portfolioInputRefresh();
+      portfolioInputRefresh();
         loadPortfolioRefresh(getPortfoliosIndex());
     }
 

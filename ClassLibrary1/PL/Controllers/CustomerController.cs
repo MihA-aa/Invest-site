@@ -18,7 +18,7 @@ namespace PL.Controllers
     {
         private ICustomerService customerService;
 
-        public CustomerController(ICustomerService customerService, ITransactionService ts) : base(ts)
+        public CustomerController(ICustomerService customerService)
         {
             this.customerService = customerService;
         }

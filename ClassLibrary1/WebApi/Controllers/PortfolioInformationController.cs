@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using BLL.DTO;
 using BLL.Interfaces;
+using Microsoft.AspNet.Identity;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -22,8 +23,7 @@ namespace WebApi.Controllers
         [HttpGet]
         public IHttpActionResult Get()
         {
-            var portfolios = portfolioService.GetPortfoliosForUser("1aaa023d-e950-47fc-9c3f-54fbffcc99cf"
-                /*RequestContext.Principal.Identity.GetUserId()*/);
+            var portfolios = portfolioService.GetPortfoliosForUser(RequestContext.Principal.Identity.GetUserId());
             return Ok(Mapper.Map<IEnumerable<PortfolioDTO>, List<PortfolioInformationModel>>(portfolios));
         }
 
@@ -33,7 +33,7 @@ namespace WebApi.Controllers
             PortfolioInformationModel portfolio;
             try
             {
-                if (portfolioService.CheckAccess("1aaa023d-e950-47fc-9c3f-54fbffcc99cf", id))
+                if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
                     portfolio = Mapper.Map<PortfolioDTO, PortfolioInformationModel>(portfolioService.GetPortfolio(id));
                 }

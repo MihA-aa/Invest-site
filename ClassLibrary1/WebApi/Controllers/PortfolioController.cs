@@ -10,6 +10,7 @@ using BLL.Interfaces;
 using log4net;
 using WebApi.Models;
 using Microsoft.AspNet.Identity;
+using WebApi.Util;
 
 namespace WebApi.Controllers
 {
@@ -46,13 +47,14 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok(portfolio);
         }
 
-        [HttpPost]
+        [HttpPost, Transaction]
         public IHttpActionResult Post([FromBody]PortfolioModel portfolio)
         {
             if (!ModelState.IsValid)
@@ -65,13 +67,14 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut, Transaction]
         public IHttpActionResult Update([FromBody]PortfolioModel portfolio)
         {
             if (!ModelState.IsValid)
@@ -82,7 +85,7 @@ namespace WebApi.Controllers
             {
                 if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), portfolio.Id))
                 {
-                    portfolioService.UpdatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio), RequestContext.Principal.Identity.GetUserId());
+                    portfolioService.UpdatePortfolio(Mapper.Map<PortfolioModel, PortfolioDTO>(portfolio));
                 }
                 else
                 {
@@ -91,6 +94,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
@@ -98,7 +102,7 @@ namespace WebApi.Controllers
         }
 
         [Route("api/Portfolio/Update")]
-        [HttpPut]
+        [HttpPut, Transaction]
         public IHttpActionResult Update([FromBody]int? id)
         {
             try
@@ -107,20 +111,21 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete, Transaction]
         public IHttpActionResult Delete(int id)
         {
             try
             {
                 if (portfolioService.CheckAccess(RequestContext.Principal.Identity.GetUserId(), id))
                 {
-                    portfolioService.DeletePortfolio(id, RequestContext.Principal.Identity.GetUserId());
+                    portfolioService.DeletePortfolio(id);
                 }
                 else
                 {
@@ -129,6 +134,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }
@@ -153,6 +159,7 @@ namespace WebApi.Controllers
             }
             catch (Exception ex)
             {
+                ModelState.AddModelError("", ex.Message);
                 logger.Error(ex.ToString());
                 return BadRequest(ex.ToString());
             }

@@ -22,8 +22,7 @@ namespace PL.Controllers
 
         public static ITransactionService tsss;
         
-        public ViewController(IViewService viewService, IViewTemplateService viewTemplateService
-            , ITransactionService ts) : base(ts)
+        public ViewController(IViewService viewService, IViewTemplateService viewTemplateService)
         {
             this.viewService = viewService;
             this.viewTemplateService = viewTemplateService;
