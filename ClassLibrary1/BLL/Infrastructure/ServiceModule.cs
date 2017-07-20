@@ -20,17 +20,14 @@ namespace BLL.Infrastructure
     public class ServiceModule : Module
     {
         private readonly string _connectionString;
-        private readonly string _connectionStringForExistDb;
-        public ServiceModule(string connection, string connectionForExistDB)
+        public ServiceModule(string connection)
         {
             _connectionString = connection;
-            _connectionStringForExistDb = connectionForExistDB;
         }
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<EFUnitOfWork>().As<IUnitOfWork>()
-                .WithParameters(new List<Parameter> { new NamedParameter("connectionString", _connectionString),
-            new NamedParameter("connectionStringForExistDB", _connectionStringForExistDb) }).
+                .WithParameters(new List<Parameter> { new NamedParameter("connectionString", _connectionString)}).
                 InstancePerRequest();
             builder.RegisterType<PortfolioService>().As<IPortfolioService>().
                 InstancePerRequest();

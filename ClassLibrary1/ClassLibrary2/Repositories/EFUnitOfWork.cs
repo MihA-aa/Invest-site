@@ -1,33 +1,19 @@
 ﻿using System;
 using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices;
-//using System.Data.Entity;
 using DAL.ApplicationManager;
 using DAL.Entities;
 using DAL.Interfaces;
-//using DALEF.EF;
+using DALEF.Dapper;
 using NHibernate.AspNet.Identity;
-using System.Threading.Tasks;
-using DAL.Enums;
 using DALEF.EF;
 using DALEF.NHibernateHelp;
 using Microsoft.AspNet.Identity;
 using NHibernate;
-using NHibernate.AspNet.Identity.Helpers;
-using NHibernate.Cfg;
-using NHibernate.Cfg.MappingSchema;
-using NHibernate.Dialect;
-using NHibernate.Mapping.ByCode;
-using NHibernate.Tool.hbm2ddl;
-using NHibernate.Transform;
 
 namespace DALEF.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {
-        private DatabaseFirstContext viewDb;
         private SymbolViewRepository SymbolsViews;
         private CustomerRepository customerRepository;
         private PortfolioRepository portfolioRepository;
@@ -42,19 +28,22 @@ namespace DALEF.Repositories
         private FormatRepository formatRepository;
         private ViewRepository viewRepository;
         private RecordRepository recordRepository;
+        private OptimisationRepository optimisationRepository;
         private UserManager<UserEntity> userManager;
         private ApplicationRoleManager roleManager;
         private readonly string connectionString;
 
         private ITransaction _transaction;
         public ISession Session { get; private set; }
+        public IDbConnection DapperConnection { get; private set; }
+        
 
-        public EFUnitOfWork(string connectionString, string connectionStringForExistDB)
+        public EFUnitOfWork(string connectionString)
         {
             this.connectionString = connectionString;
-            viewDb = new DatabaseFirstContext(connectionStringForExistDB);
             if(Session == null)
                 Session = NHibernateSessionFactory.getSession(connectionString);
+            DapperConnection = ConnectionFactory.Create(connectionString);
             //StoreDbInitializer.Inizialize(Session);
         }
 
@@ -144,7 +133,7 @@ namespace DALEF.Repositories
             get
             {
                 if (symbolDividendRepository == null)
-                    symbolDividendRepository = new SymbolDividendRepository(viewDb);
+                    symbolDividendRepository = new SymbolDividendRepository(DapperConnection);
                 return symbolDividendRepository;
             }
         }
@@ -153,7 +142,7 @@ namespace DALEF.Repositories
             get
             {
                 if (tradeSybolRepository == null)
-                    tradeSybolRepository = new TradeSybolRepository(viewDb);
+                    tradeSybolRepository = new TradeSybolRepository(DapperConnection);
                 return tradeSybolRepository;
             }
         }
@@ -162,7 +151,7 @@ namespace DALEF.Repositories
             get
             {
                 if (SymbolsViews == null)
-                    SymbolsViews = new SymbolViewRepository(viewDb);
+                    SymbolsViews = new SymbolViewRepository(DapperConnection);
                 return SymbolsViews;
             }
         }
@@ -200,6 +189,15 @@ namespace DALEF.Repositories
                 if (positionRepository == null)
                     positionRepository = new PositionRepository(Session);
                 return positionRepository;
+            }
+        }
+        public IOptimisationRepository Optimisation
+        {
+            get
+            {
+                if (optimisationRepository == null)
+                    optimisationRepository = new OptimisationRepository(DapperConnection);
+                return optimisationRepository;
             }
         }
 
@@ -268,6 +266,12 @@ namespace DALEF.Repositories
                         this.Session.Close();
                         this.Session.Dispose();
                         Session = null;
+                    }
+                    if (this.DapperConnection != null)
+                    {
+                        this.DapperConnection.Close();
+                        this.DapperConnection.Dispose();
+                        DapperConnection = null;
                     }
                 }
                 this.disposed = true;

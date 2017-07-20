@@ -9,9 +9,7 @@ namespace DAL.Interfaces
 {
     public interface ISymbolViewRepository
     {
-        IEnumerable<SymbolView> Find(Func<SymbolView, bool> predicate);
         SymbolView Get(int id);
-        Task<SymbolView> GetAsync(int id);
         IEnumerable<string> SearchSymbolsViewByName(string name);
         SymbolView GetSymbolViewByName(string name);
     }

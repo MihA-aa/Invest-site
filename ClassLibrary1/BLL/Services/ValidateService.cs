@@ -20,12 +20,6 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PositionOpenWeightValidate, HelperService.GetMemberName((PositionDTO c) => c.OpenWeight));
         }
 
-        public void Validate(PortfolioDTO portfolio)
-        {
-            if (portfolio.PercentWins < 0)
-                throw new ValidationException(Resource.Resource.PortfolioPercentWinsValidate, HelperService.GetMemberName((PortfolioDTO c) => c.PercentWins));
-        }
-
         public void Validate(ViewDTO view)
         {
             var exceptionList = new List<ValidationException>();

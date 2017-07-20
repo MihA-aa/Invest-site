@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 using DAL.Entities.Views;
 using DAL.Interfaces;
 using DALEF.EF;
@@ -13,44 +15,39 @@ namespace DALEF.Repositories
 {
     public class TradeSybolRepository: ITradeSybolRepository
     {
-        protected DatabaseFirstContext db;
-        protected DbSet<TradeSybolView> dbSet;
-        public TradeSybolRepository(DatabaseFirstContext context)
+        private readonly IDbConnection DapperConnection;
+
+        private const string getPriceForDate = "SELECT TOP 1 TradeIndex FROM TradeSybolInformation WHERE SymbolID = @symbolId AND TradeDate <= @date ORDER BY TradeDate DESC";
+        private const string getPriceAndDateLastUpdate = "SELECT TOP 1 * FROM TradeSybolInformation WHERE SymbolID = @symbolId AND TradeDate <= GETDATE() ORDER BY TradeDate DESC";
+        private const string getMaxDateForGainForSymbol = "SELECT * FROM getMaxMinGainForSymbolInDateInterval(@dateFrom, @dateTo, @symbolId)";
+        private const string getDateForSymbolInDateInterval = "SELECT * FROM getPriceDividendForSymbolInDateInterval(@datefrom, @dateto, @symbolId)";
+
+        public TradeSybolRepository(IDbConnection dapperConnection)
         {
-            db = context;
-            dbSet = context.Set<TradeSybolView>();
+            DapperConnection = dapperConnection;
         }
 
         public decimal GetPriceForDate(DateTime date, int symbolId)
         {
-            return dbSet
-                .Where(a => DbFunctions.TruncateTime(a.TradeDate) <= date.Date)
-                .Where(a => a.SymbolID == symbolId)
-                .OrderByDescending(a => a.TradeDate)
-                .Select(a => a.TradeIndex)
-                .FirstOrDefault();
+            return DapperConnection.Query<decimal>(getPriceForDate, new { symbolId, date }).SingleOrDefault();
         }
 
         public TradeSybolView GetPriceAndDateLastUpdate(int symbolId)
         {
-            return dbSet
-                .Where(a => DbFunctions.TruncateTime(a.TradeDate) <= DbFunctions.TruncateTime(DateTime.Now))
-                .Where(a => a.SymbolID == symbolId)
-                .OrderByDescending(a => a.TradeDate)
-                .FirstOrDefault();
+            return DapperConnection.Query<TradeSybolView>(getPriceAndDateLastUpdate, new { symbolId}).SingleOrDefault();
         }
 
         public IEnumerable<TradeInforamation> GetMaxDateForGainForSymbol(DateTime dateFrom, DateTime dateTo, int symbolId)
         {
-            var myQuery2 = String.Format("SELECT * FROM dbo.[getMaxMinGainForSymbolInDateInterval] ('{0}', '{1}', {2})",
-                                            dateFrom.ToString("yyyy-MM-dd"), dateTo.ToString("yyyy-MM-dd"), symbolId);
-            return db.Database.SqlQuery<TradeInforamation>(myQuery2).ToList();
+            string datefrom = dateFrom.ToString("yyyy-MM-dd");
+            string dateto = dateTo.ToString("yyyy-MM-dd");
+            return DapperConnection.Query<TradeInforamation>(getMaxDateForGainForSymbol, new { datefrom, dateto, symbolId }).ToList();
         }
         public IEnumerable<TradeInforamation> GetDateForSymbolInDateInterval(DateTime dateFrom, DateTime dateTo, int symbolId)
         {
-            var myQuery2 = String.Format("SELECT * FROM getPriceDividendForSymbolInDateInterval ('{0}', '{1}', {2})",
-                                            dateFrom.ToString("yyyy-MM-dd"), dateTo.ToString("yyyy-MM-dd"), symbolId);
-            return db.Database.SqlQuery<TradeInforamation>(myQuery2).ToList();
+            string datefrom = dateFrom.ToString("yyyy-MM-dd");
+            string dateto = dateTo.ToString("yyyy-MM-dd");
+            return DapperConnection.Query<TradeInforamation>(getDateForSymbolInDateInterval, new { datefrom, dateto, symbolId }).ToList();
         }
         
     }

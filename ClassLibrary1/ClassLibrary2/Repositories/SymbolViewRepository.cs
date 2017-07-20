@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Data.Entity.Core.Objects;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 using DAL.Entities.Views;
 using DAL.Interfaces;
 using DALEF.EF;
@@ -15,42 +19,29 @@ namespace DALEF.Repositories
 {
     public class SymbolViewRepository: ISymbolViewRepository
     {
-        protected DatabaseFirstContext db;
-        protected DbSet<SymbolView> dbSet;
-        public SymbolViewRepository(DatabaseFirstContext context)
+        private IDbConnection DapperConnection;
+
+        private const string getSymbolViewByName = "SELECT * FROM SymbolView WHERE Symbol = @symbol";
+        private const string getSymbolViewById = "SELECT * FROM SymbolView WHERE SymbolID = @Id";
+        private const string searchSymbolsViewByName = "SELECT DISTINCT TOP(20) Symbol FROM SymbolView WHERE Symbol LIKE @symbol + '%' ORDER BY Symbol";
+
+        public SymbolViewRepository(IDbConnection dapperConnection)
         {
-            db = context;
-            dbSet = context.Set<SymbolView>();
-        }
-        public IEnumerable<SymbolView> Find(Func<SymbolView, bool> predicate)
-        {
-            return db.SymbolViews.Where(predicate).ToList();
+            DapperConnection = dapperConnection;
         }
 
         public SymbolView Get(int id)
         {
-            //return new SymbolView {CurrencySymbol = "$"};
-            return dbSet.Find(id);
-        }
-
-        public async Task<SymbolView> GetAsync(int id)
-        {
-            return await dbSet.FindAsync(id);
+            return DapperConnection.Query<SymbolView>(getSymbolViewById, new { id }).SingleOrDefault();
         }
         
-        public IEnumerable<string> SearchSymbolsViewByName(string name)
+        public IEnumerable<string> SearchSymbolsViewByName(string symbol)
         {
-            return dbSet
-                .Where(a => a.Symbol.StartsWith(name))
-                .Select(a => a.Symbol)
-                .Distinct()
-                .Take(20)
-                .ToList();
+            return DapperConnection.Query<string>(searchSymbolsViewByName, new { symbol }).ToList();
         }
-        public SymbolView GetSymbolViewByName(string name)
+        public SymbolView GetSymbolViewByName(string symbol)
         {
-            var symbolView = dbSet.FirstOrDefault(a => a.Symbol == name);
-            return symbolView;
+            return DapperConnection.Query<SymbolView>(getSymbolViewByName, new { symbol }).SingleOrDefault();
         }
     }
 }

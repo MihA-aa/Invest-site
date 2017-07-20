@@ -56,11 +56,11 @@ namespace BLL.Services
         {
             if (portfolioId == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            var portfolio = db.Portfolios.Get(portfolioId.Value);
-            if (portfolio == null)
+            if (!db.Portfolios.IsExist(portfolioId.Value))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            var portfolio = db.Portfolios.Get(portfolioId.Value);
 
-            return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions.ToList());
+            return IMapper.Map<IEnumerable<Position>, List<PositionDTO>>(portfolio.Positions);
         }
 
         public IEnumerable<PositionDTO> GetPortfolioPositionsForUser(int? portfolioId, string id)
@@ -79,9 +79,9 @@ namespace BLL.Services
         {
             if (id == null)
                 throw new ValidationException(Resource.Resource.PortfolioIdNotSet, "");
-            var portfolio = db.Portfolios.Get(id.Value);
-            if (portfolio == null)
+            if (!db.Portfolios.IsExist(id.Value))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
+            var portfolio = db.Portfolios.Get(id.Value);
 
             return IMapper.Map<Portfolio, PortfolioDTO>(portfolio);
         }
@@ -141,7 +141,6 @@ namespace BLL.Services
                 throw new ValidationException(Resource.Resource.PortfolioNullReference, "");
             if (!db.Portfolios.IsExist(portfolioDto.Id))
                 throw new ValidationException(Resource.Resource.PortfolioNotFound, "");
-            validateService.Validate(portfolioDto);
 
             Mapper.Initialize(cfg => cfg.CreateMap<PortfolioDTO, Portfolio>()
                     .ForMember("LastUpdateDate", opt => opt.MapFrom(src => DateTime.Now)));

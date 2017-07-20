@@ -275,3 +275,5 @@ D:\project\git\Invest-site\ClassLibrary1\PL\bin\NHibernate.xml
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\FluentNHibernate.dll
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\FluentNHibernate.pdb
 D:\project\git\Invest-site\ClassLibrary1\PL\bin\FluentNHibernate.xml
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Dapper.dll
+D:\project\git\Invest-site\ClassLibrary1\PL\bin\Dapper.xml

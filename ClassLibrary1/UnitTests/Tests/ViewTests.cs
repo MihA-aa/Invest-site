@@ -145,6 +145,8 @@ namespace UnitTests.Tests
         [TestMethod]
         public void CanGetViewById()
         {
+            viewRepository.Setup(c => c.IsExist(It.IsAny<int>()))
+                .Returns((int i) => ListViews.Any(c => c.Id == i));
             viewRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViews.FirstOrDefault(c => c.Id == i));
             UnitOfWork.Setup(m => m.Views).Returns(viewRepository.Object);
@@ -339,6 +341,8 @@ namespace UnitTests.Tests
                 int index = ListViews.IndexOf(ListViews.FirstOrDefault(c => c.Id == p.Id));
                 ListViews[index] = p;
             });
+            viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
+                .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             viewTemplateRepository.Setup(c => c.Get(It.IsAny<int>()))
                 .Returns((int i) => ListViewTemplates.FirstOrDefault(c => c.Id == i));
             customerService.Setup(m => m.GetCustomerByProfileId(It.IsAny<string>()))
